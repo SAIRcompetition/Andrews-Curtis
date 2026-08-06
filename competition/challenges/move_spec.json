@@ -1,0 +1,273 @@
+{
+ "move_spec_version": "ac-r2-v1",
+ "move_spec_hash": "sha256:e13f57d82b5db1a79c1bd9d5ee1f6665ac4d96a634a3656ea20c0ada82e07643",
+ "hash_covers": "moves",
+ "generators": [
+  "x",
+  "y"
+ ],
+ "letter_encoding": {
+  "x": 1,
+  "x^-1": -1,
+  "y": 2,
+  "y^-1": -2
+ },
+ "target_relators": [
+  [
+   1
+  ],
+  [
+   2
+  ]
+ ],
+ "moves": [
+  {
+   "id": 0,
+   "category": "inversion",
+   "relator": 0,
+   "inverse": 0
+  },
+  {
+   "id": 1,
+   "category": "inversion",
+   "relator": 1,
+   "inverse": 1
+  },
+  {
+   "id": 2,
+   "category": "multiplication",
+   "relator": 0,
+   "other": 1,
+   "invert_other": false,
+   "inverse": 3
+  },
+  {
+   "id": 3,
+   "category": "multiplication",
+   "relator": 0,
+   "other": 1,
+   "invert_other": true,
+   "inverse": 2
+  },
+  {
+   "id": 4,
+   "category": "multiplication",
+   "relator": 1,
+   "other": 0,
+   "invert_other": false,
+   "inverse": 5
+  },
+  {
+   "id": 5,
+   "category": "multiplication",
+   "relator": 1,
+   "other": 0,
+   "invert_other": true,
+   "inverse": 4
+  },
+  {
+   "id": 6,
+   "category": "conjugation",
+   "relator": 0,
+   "conjugator": 1,
+   "inverse": 7
+  },
+  {
+   "id": 7,
+   "category": "conjugation",
+   "relator": 0,
+   "conjugator": -1,
+   "inverse": 6
+  },
+  {
+   "id": 8,
+   "category": "conjugation",
+   "relator": 0,
+   "conjugator": 2,
+   "inverse": 9
+  },
+  {
+   "id": 9,
+   "category": "conjugation",
+   "relator": 0,
+   "conjugator": -2,
+   "inverse": 8
+  },
+  {
+   "id": 10,
+   "category": "conjugation",
+   "relator": 1,
+   "conjugator": 1,
+   "inverse": 11
+  },
+  {
+   "id": 11,
+   "category": "conjugation",
+   "relator": 1,
+   "conjugator": -1,
+   "inverse": 10
+  },
+  {
+   "id": 12,
+   "category": "conjugation",
+   "relator": 1,
+   "conjugator": 2,
+   "inverse": 13
+  },
+  {
+   "id": 13,
+   "category": "conjugation",
+   "relator": 1,
+   "conjugator": -2,
+   "inverse": 12
+  }
+ ],
+ "descriptions": {
+  "0": "r0 <- r0^-1",
+  "1": "r1 <- r1^-1",
+  "2": "r0 <- r0 r1",
+  "3": "r0 <- r0 r1^-1",
+  "4": "r1 <- r1 r0",
+  "5": "r1 <- r1 r0^-1",
+  "6": "r0 <- x r0 x^-1",
+  "7": "r0 <- x^-1 r0 x",
+  "8": "r0 <- y r0 y^-1",
+  "9": "r0 <- y^-1 r0 y",
+  "10": "r1 <- x r1 x^-1",
+  "11": "r1 <- x^-1 r1 x",
+  "12": "r1 <- y r1 y^-1",
+  "13": "r1 <- y^-1 r1 y"
+ },
+ "canonicalization_table": [
+  {
+   "final_state": [
+    [
+     1
+    ],
+    [
+     2
+    ]
+   ],
+   "cost": 0,
+   "path": []
+  },
+  {
+   "final_state": [
+    [
+     -1
+    ],
+    [
+     2
+    ]
+   ],
+   "cost": 1,
+   "path": [
+    0
+   ]
+  },
+  {
+   "final_state": [
+    [
+     1
+    ],
+    [
+     -2
+    ]
+   ],
+   "cost": 1,
+   "path": [
+    1
+   ]
+  },
+  {
+   "final_state": [
+    [
+     -1
+    ],
+    [
+     -2
+    ]
+   ],
+   "cost": 2,
+   "path": [
+    0,
+    1
+   ]
+  },
+  {
+   "final_state": [
+    [
+     -2
+    ],
+    [
+     -1
+    ]
+   ],
+   "cost": 4,
+   "path": [
+    2,
+    0,
+    4,
+    3
+   ]
+  },
+  {
+   "final_state": [
+    [
+     -2
+    ],
+    [
+     1
+    ]
+   ],
+   "cost": 4,
+   "path": [
+    2,
+    5,
+    2,
+    8
+   ]
+  },
+  {
+   "final_state": [
+    [
+     2
+    ],
+    [
+     -1
+    ]
+   ],
+   "cost": 4,
+   "path": [
+    3,
+    4,
+    3,
+    10
+   ]
+  },
+  {
+   "final_state": [
+    [
+     2
+    ],
+    [
+     1
+    ]
+   ],
+   "cost": 5,
+   "path": [
+    0,
+    2,
+    5,
+    2,
+    8
+   ]
+  }
+ ],
+ "notes": [
+  "Words are freely reduced after every move (single left-fold stack cancellation).",
+  "The move set is closed under inversion: the 'inverse' column is an involution, so AC-reachability is symmetric.",
+  "The target is the EXACT ordered pair (x, y) = [[1],[2]].  The canonicalization_table shows the (exhaustively verified) shortest suffixes from every loose trivial state; the exact-target rule adds at most 5 moves to any path.",
+  "move_spec_hash = sha256 of the canonical JSON (RFC 8785 compatible: sorted keys, no whitespace, ASCII) of the 'moves' array only."
+ ]
+}

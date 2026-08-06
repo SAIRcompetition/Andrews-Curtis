@@ -1,0 +1,535 @@
+#!/usr/bin/env python3
+"""Generate the frozen ACMS data artifacts from reference/index.html.
+
+Outputs, all inside the IGP24-aligned public tree (DESIGN.md §3, §9.2, §10.1):
+  competition/challenges/manifest.json        550 open challenges + hashes + limits
+  competition/challenges/move_spec.json       ac-r2-v1 machine-readable move spec
+  competition/challenges/ms1190_metadata.csv  all 1190 MS instances (the "denominator")
+  competition/challenges/training_424.json    424 known paths converted to ac-r2-v1
+  competition/challenges/golden_vectors.json  conformance vectors (pass + every error code)
+  competition/competition.yaml                machine-readable metadata (§9.4)
+
+The builder hard-asserts every [Verified] figure from DESIGN.md (§1.5,
+§2.1, §2.3) so that any drift in the prototype data or the conversion
+recipe fails generation loudly instead of silently changing the frozen
+artifacts.
+
+Deterministic: no timestamps, no randomness; identical inputs give
+byte-identical outputs.
+"""
+
+import collections
+import csv
+import json
+import sys
+from pathlib import Path
+
+REPO = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(REPO / "competition" / "tools" / "verifier"))
+
+from acms_verify import __version__, canon, core  # noqa: E402
+
+MANIFEST_VERSION = "acms-ms-v1"
+COMPETITION = "acms"
+GENERATORS = ["x", "y"]
+TARGET = [[1], [2]]
+# D-9 pending: placeholder per DESIGN.md §3.1 example.  freeze_date is
+# deliberately outside instance_hash (§3.2), so fixing D-9 later does
+# not invalidate certificates.
+FREEZE_DATE = "2026-09-01T00:00:00Z"
+LIMITS = {"max_path_length": 100000,
+          "max_total_relator_length": 10000,
+          "max_work": 5000000}
+SOURCE_PRESENTATION_SET = "Shehper et al. 2025, MS-1190"
+SOURCE_STATUS = "Fagan et al., The Two-Hump Problem, ICML 2026"
+
+# Prototype 12-move id -> ac-r2-v1 id (DESIGN.md §1.5).
+REMAP = {0: 0, 1: 1, 2: 2, 3: 4, 4: 6, 5: 7, 6: 8, 7: 9,
+         8: 10, 9: 11, 10: 12, 11: 13}
+# Loose-trivial final state -> canonicalization suffix (DESIGN.md §1.2).
+CANON_SUFFIX = {
+    ((1,), (2,)): [], ((1,), (-2,)): [1],
+    ((-1,), (2,)): [0], ((-1,), (-2,)): [0, 1],
+    ((-2,), (1,)): [2, 5, 2, 8], ((2,), (-1,)): [3, 4, 3, 10],
+    ((-2,), (-1,)): [2, 0, 4, 3], ((2,), (1,)): [0, 2, 5, 2, 8],
+}
+
+# [Verified] figures from DESIGN.md, asserted after conversion.
+EXPECTED_STATUS_COUNTS = {("trivial", True): 424, ("trivial", False): 216,
+                          ("unsolved", False): 550}
+EXPECTED_LEN_STATS = (7, 26, 159, 33.6)
+EXPECTED_PEAK_STATS = (7, 14, 25, 14.7)
+EXPECTED_WORK_STATS = (43, 229, 2161, 347.0)
+EXPECTED_SUFFIX_COUNTS = {0: 38, 1: 80, 2: 43, 4: 187, 5: 76}
+EXPECTED_CLASS_HISTOGRAM = {1: 193, 2: 16, 3: 19, 4: 10, 5: 8, 6: 5,
+                            8: 4, 9: 2, 16: 1, 22: 1, 34: 1, 36: 1}
+
+MOVE_DESCRIPTIONS = {
+    0: "r0 <- r0^-1", 1: "r1 <- r1^-1",
+    2: "r0 <- r0 r1", 3: "r0 <- r0 r1^-1",
+    4: "r1 <- r1 r0", 5: "r1 <- r1 r0^-1",
+    6: "r0 <- x r0 x^-1", 7: "r0 <- x^-1 r0 x",
+    8: "r0 <- y r0 y^-1", 9: "r0 <- y^-1 r0 y",
+    10: "r1 <- x r1 x^-1", 11: "r1 <- x^-1 r1 x",
+    12: "r1 <- y r1 y^-1", 13: "r1 <- y^-1 r1 y",
+}
+
+
+def load_items():
+    src = REPO / "reference" / "index.html"
+    line = [l for l in src.read_text().split("\n")
+            if l.startswith("const DATA")][0]
+    return json.loads(line[len("const DATA = "):].rstrip(";"))["items"]
+
+
+def ms_initial(n, wv):
+    """MS(n, w) initial relators under the frozen D-2 convention
+    r1 = x w^-1 (DESIGN.md §1.1)."""
+    r0 = core.free_reduce([-1] + [2] * n + [1] + [-2] * (n + 1))
+    r1 = core.free_reduce((1,) + core.invert(tuple(wv)))
+    return [list(r0), list(r1)]
+
+
+def stats(values):
+    xs = sorted(values)
+    return xs[0], xs[len(xs) // 2], xs[-1], round(sum(xs) / len(xs), 1)
+
+
+def replay(initial, moves):
+    state = (tuple(initial[0]), tuple(initial[1]))
+    tot = len(state[0]) + len(state[1])
+    peak = work = tot
+    for m in moves:
+        state = core.apply_move(state, m)
+        tot = len(state[0]) + len(state[1])
+        peak = max(peak, tot)
+        work += tot
+    return state, peak, work
+
+
+def build_training(items, move_spec_hash):
+    entries = []
+    lens, peaks, works = [], [], []
+    suffix_counts = collections.Counter()
+    seq = 0
+    for it in items:
+        proto_path = it.get("path")
+        if not proto_path:
+            continue
+        seq += 1
+        tid = "ms-train-%04d" % seq
+        initial = ms_initial(it["n"], it["wv"])
+        mid = [REMAP[m] for m in proto_path]
+        state, _, _ = replay(initial, mid)
+        suffix = CANON_SUFFIX[state]
+        suffix_counts[len(suffix)] += 1
+        moves = mid + suffix
+        state, peak, work = replay(initial, moves)
+        assert state == ((1,), (2,)), tid
+        lens.append(len(moves)); peaks.append(peak); works.append(work)
+        entries.append({
+            "training_id": tid,
+            "family": "miller-schupp",
+            "n": it["n"], "w": it["w"], "w_vector": it["wv"],
+            "generators": GENERATORS,
+            "initial_relators": initial,
+            "target_relators": TARGET,
+            "move_spec_version": core.MOVE_SPEC_VERSION,
+            "moves": moves,
+            "length": len(moves),
+            "peak_total_relator_length": peak,
+            "work": work,
+            "certificate_hash": canon.certificate_hash(
+                tid, core.MOVE_SPEC_VERSION, moves),
+            "prototype_path_length": len(proto_path),
+        })
+    assert len(entries) == 424, len(entries)
+    assert stats(lens) == EXPECTED_LEN_STATS, stats(lens)
+    assert stats(peaks) == EXPECTED_PEAK_STATS, stats(peaks)
+    assert stats(works) == EXPECTED_WORK_STATS, stats(works)
+    assert dict(suffix_counts) == EXPECTED_SUFFIX_COUNTS, dict(suffix_counts)
+    return {
+        "format": "acms-training-v1",
+        "move_spec_version": core.MOVE_SPEC_VERSION,
+        "move_spec_hash": move_spec_hash,
+        "note": ("424 known trivializations of MS instances, converted from "
+                 "the prototype 12-move ids to ac-r2-v1 and canonicalized to "
+                 "the exact ordered target (x, y).  These instances are NOT "
+                 "scored challenges; they are published training data "
+                 "(DESIGN.md §1.5, O-2)."),
+        "length_stats": dict(zip(("min", "median", "max", "mean"), EXPECTED_LEN_STATS)),
+        "instances": entries,
+    }
+
+
+def build_manifest(items, move_spec_hash):
+    open_items = [it for it in items if it["status"] == "unsolved"]
+    assert len(open_items) == 550, len(open_items)
+    class_sizes = collections.Counter(it["cls"] for it in open_items)
+    hist = collections.Counter(class_sizes.values())
+    assert dict(hist) == EXPECTED_CLASS_HISTOGRAM, dict(hist)
+
+    challenges = []
+    for seq, it in enumerate(open_items, 1):
+        cid = "ms-v1-%04d" % seq
+        wv = it["wv"]
+        assert sum(1 if a == 1 else -1 for a in wv if abs(a) == 1) == 0, \
+            "sigma_x(w) != 0 for %s" % cid
+        initial = ms_initial(it["n"], wv)
+        for r in initial:
+            assert list(core.free_reduce(r)) == r, cid
+        challenges.append({
+            "challenge_id": cid,
+            "family": "miller-schupp",
+            "n": it["n"], "w": it["w"], "w_vector": wv,
+            "generators": GENERATORS,
+            "initial_relators": initial,
+            "target_relators": TARGET,
+            "move_spec_version": core.MOVE_SPEC_VERSION,
+            "status_at_freeze": "open",
+            "scored": True,
+            "base_score": 1,
+            "instance_hash": canon.instance_hash(
+                cid, GENERATORS, initial, TARGET,
+                core.MOVE_SPEC_VERSION, move_spec_hash),
+            "source": {
+                "presentation_set": SOURCE_PRESENTATION_SET,
+                "status_source": SOURCE_STATUS,
+                "reported_class": it["cls"],
+                "reported_class_size": class_sizes[it["cls"]],
+                "reported_class_normative": False,
+            },
+            "freeze_date": FREEZE_DATE,
+        })
+    return {
+        "manifest_version": MANIFEST_VERSION,
+        "competition": COMPETITION,
+        "move_spec_version": core.MOVE_SPEC_VERSION,
+        "move_spec_hash": move_spec_hash,
+        "manifest_hash": canon.manifest_hash(
+            [c["instance_hash"] for c in challenges]),
+        "freeze_date": FREEZE_DATE,
+        "generators": GENERATORS,
+        "target_relators": TARGET,
+        "limits": LIMITS,
+        "challenges": challenges,
+    }
+
+
+def build_move_spec(move_spec_hash):
+    canon_rows = []
+    for st, suffix in CANON_SUFFIX.items():
+        state, _, _ = replay([list(st[0]), list(st[1])], suffix)
+        assert state == ((1,), (2,))
+        canon_rows.append({"final_state": [list(st[0]), list(st[1])],
+                           "cost": len(suffix), "path": suffix})
+    canon_rows.sort(key=lambda r: (r["cost"], r["final_state"]))
+    return {
+        "move_spec_version": core.MOVE_SPEC_VERSION,
+        "move_spec_hash": move_spec_hash,
+        "hash_covers": "moves",
+        "generators": GENERATORS,
+        "letter_encoding": {"x": 1, "x^-1": -1, "y": 2, "y^-1": -2},
+        "target_relators": TARGET,
+        "moves": list(core.MOVE_TABLE),
+        "descriptions": {str(k): v for k, v in MOVE_DESCRIPTIONS.items()},
+        "canonicalization_table": canon_rows,
+        "notes": [
+            "Words are freely reduced after every move (single left-fold "
+            "stack cancellation).",
+            "The move set is closed under inversion: the 'inverse' column "
+            "is an involution, so AC-reachability is symmetric.",
+            "The target is the EXACT ordered pair (x, y) = [[1],[2]].  The "
+            "canonicalization_table shows the (exhaustively verified) "
+            "shortest suffixes from every loose trivial state; the exact-"
+            "target rule adds at most 5 moves to any path.",
+            "move_spec_hash = sha256 of the canonical JSON (RFC 8785 "
+            "compatible: sorted keys, no whitespace, ASCII) of the "
+            "'moves' array only.",
+        ],
+    }
+
+
+def build_metadata_rows(items, challenge_ids, training_ids):
+    rows = []
+    for seq, it in enumerate(items, 1):
+        has_path = bool(it.get("path"))
+        status = {("trivial", True): "certified",
+                  ("trivial", False): "uncertified",
+                  ("unsolved", False): "open"}[(it["status"], has_path)]
+        rows.append({
+            "seq": seq, "n": it["n"], "w": it["w"],
+            "w_vector": " ".join(str(a) for a in it["wv"]),
+            "status_at_freeze": status,
+            "reported_class": it.get("cls", ""),
+            "scored": "true" if status == "open" else "false",
+            "challenge_id": challenge_ids.get(seq, ""),
+            "training_id": training_ids.get(seq, ""),
+            "prototype_path_length": len(it["path"]) if has_path else "",
+        })
+    return rows
+
+
+def build_golden(manifest, training, move_spec_hash):
+    tr = training["instances"]
+    by_len = sorted(tr, key=lambda e: (e["length"], e["training_id"]))
+    picks = [by_len[0], by_len[len(by_len) // 2], by_len[-1]]
+
+    def as_challenge(entry):
+        return {"challenge_id": entry["training_id"],
+                "move_spec_version": entry["move_spec_version"],
+                "generators": GENERATORS,
+                "initial_relators": entry["initial_relators"],
+                "target_relators": entry["target_relators"]}
+
+    challenges = {e["training_id"]: as_challenge(e) for e in picks}
+    challenges["golden-yx"] = {
+        "challenge_id": "golden-yx",
+        "move_spec_version": core.MOVE_SPEC_VERSION,
+        "generators": GENERATORS,
+        "initial_relators": [[2], [1]],
+        "target_relators": TARGET,
+    }
+    challenges["golden-pump"] = {
+        "challenge_id": "golden-pump",
+        "move_spec_version": core.MOVE_SPEC_VERSION,
+        "generators": GENERATORS,
+        "initial_relators": [[1, 2], [1, 1, 2]],
+        "target_relators": TARGET,
+    }
+
+    vectors = []
+
+    def ok_expected(entry):
+        return {"ok": True, "length": entry["length"],
+                "peak_total_relator_length": entry["peak_total_relator_length"],
+                "work": entry["work"],
+                "certificate_hash": entry["certificate_hash"]}
+
+    for tag, entry in zip(("shortest", "median", "longest"), picks):
+        vectors.append({"name": "accept-%s-%s" % (tag, entry["training_id"]),
+                        "challenge_id": entry["training_id"],
+                        "moves": entry["moves"],
+                        "expected": ok_expected(entry)})
+
+    short = picks[0]
+    vectors += [
+        {"name": "spec-mismatch", "challenge_id": short["training_id"],
+         "move_spec_version": "ac-r1-v0", "moves": short["moves"],
+         "expected": {"ok": False, "code": "E_SPEC_MISMATCH",
+                      "move_index": None}},
+        {"name": "bad-move-id-negative", "challenge_id": short["training_id"],
+         "moves": [0, -1],
+         "expected": {"ok": False, "code": "E_BAD_MOVE_ID", "move_index": 1,
+                      "move": -1}},
+        {"name": "bad-move-id-14", "challenge_id": short["training_id"],
+         "moves": [14],
+         "expected": {"ok": False, "code": "E_BAD_MOVE_ID", "move_index": 0}},
+        {"name": "bad-move-id-float", "challenge_id": short["training_id"],
+         "moves": [0, 1.5],
+         "expected": {"ok": False, "code": "E_BAD_MOVE_ID", "move_index": 1}},
+        {"name": "bad-move-id-string", "challenge_id": short["training_id"],
+         "moves": ["3"],
+         "expected": {"ok": False, "code": "E_BAD_MOVE_ID", "move_index": 0}},
+        {"name": "bad-move-id-null", "challenge_id": short["training_id"],
+         "moves": [None],
+         "expected": {"ok": False, "code": "E_BAD_MOVE_ID", "move_index": 0}},
+        {"name": "bad-move-id-bool", "challenge_id": short["training_id"],
+         "moves": [True],
+         "expected": {"ok": False, "code": "E_BAD_MOVE_ID", "move_index": 0}},
+        {"name": "path-too-long", "challenge_id": short["training_id"],
+         "moves": [6, 7, 6, 7, 6],
+         "limits": dict(LIMITS, max_path_length=4),
+         "expected": {"ok": False, "code": "E_PATH_TOO_LONG",
+                      "move_index": None, "path_length": 5}},
+        {"name": "not-target-truncated", "challenge_id": short["training_id"],
+         "moves": short["moves"][:-1],
+         "expected": {"ok": False, "code": "E_NOT_TARGET",
+                      "move_index": None}},
+        {"name": "not-target-empty-path", "challenge_id": short["training_id"],
+         "moves": [],
+         "expected": {"ok": False, "code": "E_NOT_TARGET",
+                      "move_index": None}},
+        {"name": "not-target-wrong-order", "challenge_id": "golden-yx",
+         "moves": [],
+         "expected": {"ok": False, "code": "E_NOT_TARGET", "move_index": None,
+                      "final_shape": [1, 1]}},
+    ]
+
+    pump = challenges["golden-pump"]
+    lim_len = dict(LIMITS, max_total_relator_length=20)
+    verdict = core.verify(pump, [2] * 10, core.MOVE_SPEC_VERSION, lim_len)
+    assert verdict["code"] == "E_LENGTH_LIMIT", verdict
+    vectors.append({"name": "length-limit", "challenge_id": "golden-pump",
+                    "moves": [2] * 10, "limits": lim_len,
+                    "expected": {"ok": False, "code": "E_LENGTH_LIMIT",
+                                 "move_index": verdict["move_index"]}})
+    lim_work = dict(LIMITS, max_work=200)
+    verdict = core.verify(pump, [6, 7] * 20, core.MOVE_SPEC_VERSION, lim_work)
+    assert verdict["code"] == "E_WORK_BUDGET", verdict
+    vectors.append({"name": "work-budget", "challenge_id": "golden-pump",
+                    "moves": [6, 7] * 20, "limits": lim_work,
+                    "expected": {"ok": False, "code": "E_WORK_BUDGET",
+                                 "move_index": verdict["move_index"]}})
+
+    sid = short["training_id"]
+    sol = {"challenge_id": sid,
+           "move_spec_version": core.MOVE_SPEC_VERSION,
+           "moves": short["moves"]}
+    submission_vectors = [
+        {"name": "sub-accept-one",
+         "raw": json.dumps({"solutions": [sol]}),
+         "expected": {"accepted": True,
+                      "results": [{"ok": True, "challenge_id": sid,
+                                   "certificate_hash": short["certificate_hash"]}]}},
+        {"name": "sub-malformed-truncated",
+         "raw": '{"solutions": [{"challenge_id": "ms-tr',
+         "expected": {"accepted": False, "code": "E_MALFORMED",
+                      "detail": "bad_json"}},
+        {"name": "sub-missing-moves",
+         "raw": json.dumps({"solutions": [
+             {"challenge_id": sid,
+              "move_spec_version": core.MOVE_SPEC_VERSION}]}),
+         "expected": {"accepted": False, "code": "E_MALFORMED",
+                      "detail": "solution_missing_key", "key": "moves"}},
+        {"name": "sub-moves-not-array",
+         "raw": json.dumps({"solutions": [dict(sol, moves="0,1,2")]}),
+         "expected": {"accepted": False, "code": "E_MALFORMED",
+                      "detail": "moves_not_array"}},
+        {"name": "sub-duplicate-challenge",
+         "raw": json.dumps({"solutions": [sol, dict(sol, moves=[])]}),
+         "expected": {"accepted": False, "code": "E_DUPLICATE_CHALLENGE",
+                      "challenge_id": sid}},
+        {"name": "sub-client-asserted-top",
+         "raw": json.dumps({"solutions": [sol], "score": 100}),
+         "expected": {"accepted": False, "code": "E_CLIENT_ASSERTED_RESULT",
+                      "key_path": "score"}},
+        {"name": "sub-client-asserted-nested",
+         "raw": json.dumps({"solutions": [dict(sol, length=7)]}),
+         "expected": {"accepted": False, "code": "E_CLIENT_ASSERTED_RESULT",
+                      "key_path": "solutions[0].length"}},
+        {"name": "sub-unknown-challenge",
+         "raw": json.dumps({"solutions": [dict(sol, challenge_id="ms-v1-9999")]}),
+         "expected": {"accepted": True,
+                      "results": [{"ok": False,
+                                   "code": "E_UNKNOWN_CHALLENGE"}]}},
+        {"name": "sub-spec-mismatch-per-item",
+         "raw": json.dumps({"solutions": [
+             dict(sol, move_spec_version="ac-r1-v0")]}),
+         "expected": {"accepted": True,
+                      "results": [{"ok": False,
+                                   "code": "E_SPEC_MISMATCH"}]}},
+        {"name": "sub-too-many-solutions",
+         "raw": json.dumps({"solutions": [
+             {"challenge_id": "ms-v1-%04d" % (i + 1),
+              "move_spec_version": core.MOVE_SPEC_VERSION, "moves": []}
+             for i in range(501)]}),
+         "expected": {"accepted": False, "code": "E_MALFORMED",
+                      "detail": "too_many_solutions"}},
+        {"name": "sub-notes-too-long",
+         "raw": json.dumps({"notes": "a" * 2001, "solutions": [sol]}),
+         "expected": {"accepted": False, "code": "E_MALFORMED",
+                      "detail": "notes_too_long"}},
+        {"name": "sub-unknown-top-key",
+         "raw": json.dumps({"solutions": [sol], "team": "foo"}),
+         "expected": {"accepted": False, "code": "E_MALFORMED",
+                      "detail": "unknown_key", "key": "team"}},
+    ]
+
+    return {
+        "format": "acms-golden-v1",
+        "move_spec_version": core.MOVE_SPEC_VERSION,
+        "move_spec_hash": move_spec_hash,
+        "manifest_hash": manifest["manifest_hash"],
+        "default_limits": LIMITS,
+        "note": ("Self-contained conformance vectors.  'expected' is a "
+                 "subset: every key it contains must match the verifier "
+                 "output exactly.  Run with: "
+                 "python3 -m acms_verify --golden golden_vectors.json"),
+        "challenges": challenges,
+        "verify_vectors": vectors,
+        "submission_vectors": submission_vectors,
+    }
+
+
+def dump(path, obj):
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with open(path, "w", encoding="utf-8") as fh:
+        json.dump(obj, fh, indent=1)
+        fh.write("\n")
+    print("wrote %s (%d bytes)" % (path.relative_to(REPO), path.stat().st_size))
+
+
+def main():
+    items = load_items()
+    counts = collections.Counter(
+        (it["status"], bool(it.get("path"))) for it in items)
+    assert dict(counts) == EXPECTED_STATUS_COUNTS, dict(counts)
+
+    move_spec_hash = canon.move_spec_hash(core.MOVE_TABLE)
+    move_spec = build_move_spec(move_spec_hash)
+    manifest = build_manifest(items, move_spec_hash)
+    training = build_training(items, move_spec_hash)
+    golden = build_golden(manifest, training, move_spec_hash)
+
+    open_seq = {}
+    train_seq = {}
+    ci = ti = 0
+    for seq, it in enumerate(items, 1):
+        if it["status"] == "unsolved":
+            ci += 1
+            open_seq[seq] = "ms-v1-%04d" % ci
+        if it.get("path"):
+            ti += 1
+            train_seq[seq] = "ms-train-%04d" % ti
+    rows = build_metadata_rows(items, open_seq, train_seq)
+
+    challenges_dir = REPO / "competition" / "challenges"
+    dump(challenges_dir / "manifest.json", manifest)
+    dump(challenges_dir / "move_spec.json", move_spec)
+    dump(challenges_dir / "training_424.json", training)
+    dump(challenges_dir / "golden_vectors.json", golden)
+
+    csv_path = challenges_dir / "ms1190_metadata.csv"
+    with open(csv_path, "w", encoding="utf-8", newline="") as fh:
+        writer = csv.DictWriter(fh, fieldnames=list(rows[0].keys()))
+        writer.writeheader()
+        writer.writerows(rows)
+    print("wrote %s (%d rows)" % (csv_path.relative_to(REPO), len(rows)))
+
+    yaml_path = REPO / "competition" / "competition.yaml"
+    yaml_path.write_text(f"""\
+id: acms
+name: "ACMS: Andrews–Curtis, Miller–Schupp Phase"
+organizer: sairmath
+status: active
+task_type: mathematical_discovery
+submission_artifact: submission.json
+submission_format: "JSON; solutions[] of {{challenge_id, move_spec_version, moves[]}} where moves are atomic AC move ids 0-13"
+verifier: "Python, competition/tools/verifier (standard library only), acms-verify {__version__}"
+counterexample_verifier: "Lean 4 in a frozen offline container, see rules/evaluation.md"
+primary_metric: leaderboard_score
+scoring_unit: team_challenge
+scoring_formula: "V_i * 2^(1-k_i) for teams at the current shortest length, 0 otherwise"
+move_spec_version: {core.MOVE_SPEC_VERSION}
+move_spec_hash: "{move_spec_hash}"
+manifest_hash: "{manifest['manifest_hash']}"
+freeze_date: "{manifest['freeze_date']}"  # D-9 placeholder until the timeline decision lands
+freeze_commit: "TBD — freeze manifest.json and move_spec.json in git before public launch"
+challenge_count: {len(manifest['challenges'])}
+challenge_policy: "MS-1190 instances with no publicly known replayable trivialization certificate at freeze date; 'unresolved' does NOT mean counterexample"
+overview: rules/overview.md
+evaluation: rules/evaluation.md
+manifest: challenges/manifest.json
+move_spec: challenges/move_spec.json
+""")
+    print("wrote %s" % yaml_path.relative_to(REPO))
+
+    print("move_spec_hash =", move_spec_hash)
+    print("manifest_hash  =", manifest["manifest_hash"])
+    print("challenges: %d open, all scored, base_score 1"
+          % len(manifest["challenges"]))
+
+
+if __name__ == "__main__":
+    main()

@@ -1,0 +1,1191 @@
+seq,n,w,w_vector,status_at_freeze,reported_class,scored,challenge_id,training_id,prototype_path_length
+1,1,y^{-1},-2,certified,,false,,ms-train-0001,7
+2,2,y^{-1},-2,certified,,false,,ms-train-0002,8
+3,3,y^{-1},-2,certified,,false,,ms-train-0003,9
+4,4,y^{-1},-2,certified,,false,,ms-train-0004,10
+5,5,y^{-1},-2,certified,,false,,ms-train-0005,11
+6,6,y^{-1},-2,certified,,false,,ms-train-0006,12
+7,7,y^{-1},-2,certified,,false,,ms-train-0007,13
+8,1,y,2,certified,,false,,ms-train-0008,6
+9,2,y,2,certified,,false,,ms-train-0009,7
+10,3,y,2,certified,,false,,ms-train-0010,8
+11,4,y,2,certified,,false,,ms-train-0011,9
+12,5,y,2,certified,,false,,ms-train-0012,10
+13,6,y,2,certified,,false,,ms-train-0013,11
+14,7,y,2,certified,,false,,ms-train-0014,12
+15,1,y^{2},2 2,certified,,false,,ms-train-0015,11
+16,2,y^{2},2 2,certified,,false,,ms-train-0016,12
+17,3,y^{2},2 2,certified,,false,,ms-train-0017,12
+18,4,y^{2},2 2,certified,,false,,ms-train-0018,15
+19,5,y^{2},2 2,certified,,false,,ms-train-0019,14
+20,6,y^{2},2 2,certified,,false,,ms-train-0020,19
+21,7,y^{2},2 2,certified,,false,,ms-train-0021,23
+22,1,y^{-2},-2 -2,certified,,false,,ms-train-0022,8
+23,2,y^{-2},-2 -2,certified,,false,,ms-train-0023,9
+24,3,y^{-2},-2 -2,certified,,false,,ms-train-0024,10
+25,4,y^{-2},-2 -2,certified,,false,,ms-train-0025,11
+26,5,y^{-2},-2 -2,certified,,false,,ms-train-0026,12
+27,6,y^{-2},-2 -2,certified,,false,,ms-train-0027,13
+28,7,y^{-2},-2 -2,certified,,false,,ms-train-0028,14
+29,1,y^{3},2 2 2,certified,,false,,ms-train-0029,18
+30,2,y^{3},2 2 2,certified,,false,,ms-train-0030,9
+31,3,y^{3},2 2 2,certified,,false,,ms-train-0031,11
+32,4,y^{3},2 2 2,certified,,false,,ms-train-0032,13
+33,5,y^{3},2 2 2,certified,,false,,ms-train-0033,13
+34,6,y^{3},2 2 2,certified,,false,,ms-train-0034,16
+35,7,y^{3},2 2 2,certified,,false,,ms-train-0035,23
+36,1,y^{-3},-2 -2 -2,certified,,false,,ms-train-0036,9
+37,2,y^{-3},-2 -2 -2,certified,,false,,ms-train-0037,9
+38,3,y^{-3},-2 -2 -2,certified,,false,,ms-train-0038,10
+39,4,y^{-3},-2 -2 -2,certified,,false,,ms-train-0039,11
+40,5,y^{-3},-2 -2 -2,certified,,false,,ms-train-0040,14
+41,6,y^{-3},-2 -2 -2,certified,,false,,ms-train-0041,13
+42,7,y^{-3},-2 -2 -2,certified,,false,,ms-train-0042,12
+43,1,y^{-4},-2 -2 -2 -2,certified,,false,,ms-train-0043,10
+44,2,y^{-4},-2 -2 -2 -2,certified,,false,,ms-train-0044,12
+45,3,y^{-4},-2 -2 -2 -2,certified,,false,,ms-train-0045,10
+46,4,y^{-4},-2 -2 -2 -2,certified,,false,,ms-train-0046,11
+47,5,y^{-4},-2 -2 -2 -2,certified,,false,,ms-train-0047,12
+48,6,y^{-4},-2 -2 -2 -2,certified,,false,,ms-train-0048,15
+49,7,y^{-4},-2 -2 -2 -2,certified,,false,,ms-train-0049,14
+50,1,x^{-1}y^{-1}xy,-1 -2 1 2,certified,,false,,ms-train-0050,10
+51,2,x^{-1}y^{-1}xy,-1 -2 1 2,certified,,false,,ms-train-0051,28
+52,3,x^{-1}y^{-1}xy,-1 -2 1 2,certified,,false,,ms-train-0052,63
+53,4,x^{-1}y^{-1}xy,-1 -2 1 2,certified,,false,,ms-train-0053,138
+54,5,x^{-1}y^{-1}xy,-1 -2 1 2,uncertified,,false,,,
+55,6,x^{-1}y^{-1}xy,-1 -2 1 2,uncertified,,false,,,
+56,7,x^{-1}y^{-1}xy,-1 -2 1 2,uncertified,,false,,,
+57,1,x^{-1}y^{-1}xy^{-1},-1 -2 1 -2,certified,,false,,ms-train-0054,19
+58,2,x^{-1}y^{-1}xy^{-1},-1 -2 1 -2,uncertified,,false,,,
+59,3,x^{-1}y^{-1}xy^{-1},-1 -2 1 -2,open,13_1,true,ms-v1-0001,,
+60,4,x^{-1}y^{-1}xy^{-1},-1 -2 1 -2,open,15_1,true,ms-v1-0002,,
+61,5,x^{-1}y^{-1}xy^{-1},-1 -2 1 -2,open,16_1,true,ms-v1-0003,,
+62,6,x^{-1}y^{-1}xy^{-1},-1 -2 1 -2,open,20_9,true,ms-v1-0004,,
+63,7,x^{-1}y^{-1}xy^{-1},-1 -2 1 -2,open,22_{14},true,ms-v1-0005,,
+64,1,yxyx^{-1},2 1 2 -1,certified,,false,,ms-train-0055,15
+65,2,yxyx^{-1},2 1 2 -1,uncertified,,false,,,
+66,3,yxyx^{-1},2 1 2 -1,open,13_1,true,ms-v1-0006,,
+67,4,yxyx^{-1},2 1 2 -1,open,15_1,true,ms-v1-0007,,
+68,5,yxyx^{-1},2 1 2 -1,open,16_1,true,ms-v1-0008,,
+69,6,yxyx^{-1},2 1 2 -1,open,20_8,true,ms-v1-0009,,
+70,7,yxyx^{-1},2 1 2 -1,open,22_{13},true,ms-v1-0010,,
+71,1,y^{4},2 2 2 2,certified,,false,,ms-train-0056,18
+72,2,y^{4},2 2 2 2,certified,,false,,ms-train-0057,24
+73,3,y^{4},2 2 2 2,certified,,false,,ms-train-0058,10
+74,4,y^{4},2 2 2 2,certified,,false,,ms-train-0059,28
+75,5,y^{4},2 2 2 2,certified,,false,,ms-train-0060,19
+76,6,y^{4},2 2 2 2,certified,,false,,ms-train-0061,29
+77,7,y^{4},2 2 2 2,certified,,false,,ms-train-0062,14
+78,1,yxy^{-1}x^{-1},2 1 -2 -1,certified,,false,,ms-train-0063,8
+79,2,yxy^{-1}x^{-1},2 1 -2 -1,certified,,false,,ms-train-0064,27
+80,3,yxy^{-1}x^{-1},2 1 -2 -1,certified,,false,,ms-train-0065,64
+81,4,yxy^{-1}x^{-1},2 1 -2 -1,certified,,false,,ms-train-0066,155
+82,5,yxy^{-1}x^{-1},2 1 -2 -1,uncertified,,false,,,
+83,6,yxy^{-1}x^{-1},2 1 -2 -1,uncertified,,false,,,
+84,7,yxy^{-1}x^{-1},2 1 -2 -1,uncertified,,false,,,
+85,1,x^{-1}y^{-1}xy^{2},-1 -2 1 2 2,certified,,false,,ms-train-0067,9
+86,2,x^{-1}y^{-1}xy^{2},-1 -2 1 2 2,certified,,false,,ms-train-0068,27
+87,3,x^{-1}y^{-1}xy^{2},-1 -2 1 2 2,certified,,false,,ms-train-0069,45
+88,4,x^{-1}y^{-1}xy^{2},-1 -2 1 2 2,open,14_1,true,ms-v1-0011,,
+89,5,x^{-1}y^{-1}xy^{2},-1 -2 1 2 2,uncertified,,false,,,
+90,6,x^{-1}y^{-1}xy^{2},-1 -2 1 2 2,open,19_{34},true,ms-v1-0012,,
+91,7,x^{-1}y^{-1}xy^{2},-1 -2 1 2 2,open,19_{38},true,ms-v1-0013,,
+92,1,yx^{-1}y^{-1}xy,2 -1 -2 1 2,certified,,false,,ms-train-0070,9
+93,2,yx^{-1}y^{-1}xy,2 -1 -2 1 2,certified,,false,,ms-train-0071,33
+94,3,yx^{-1}y^{-1}xy,2 -1 -2 1 2,certified,,false,,ms-train-0072,86
+95,4,yx^{-1}y^{-1}xy,2 -1 -2 1 2,uncertified,,false,,,
+96,5,yx^{-1}y^{-1}xy,2 -1 -2 1 2,uncertified,,false,,,
+97,6,yx^{-1}y^{-1}xy,2 -1 -2 1 2,uncertified,,false,,,
+98,7,yx^{-1}y^{-1}xy,2 -1 -2 1 2,uncertified,,false,,,
+99,1,yxyx^{-1}y^{-1},2 1 2 -1 -2,certified,,false,,ms-train-0073,11
+100,2,yxyx^{-1}y^{-1},2 1 2 -1 -2,certified,,false,,ms-train-0074,73
+101,3,yxyx^{-1}y^{-1},2 1 2 -1 -2,open,13_1,true,ms-v1-0014,,
+102,4,yxyx^{-1}y^{-1},2 1 2 -1 -2,open,15_1,true,ms-v1-0015,,
+103,5,yxyx^{-1}y^{-1},2 1 2 -1 -2,open,16_1,true,ms-v1-0016,,
+104,6,yxyx^{-1}y^{-1},2 1 2 -1 -2,open,17_1,true,ms-v1-0017,,
+105,7,yxyx^{-1}y^{-1},2 1 2 -1 -2,open,21_1,true,ms-v1-0018,,
+106,1,yxyx^{-1}y,2 1 2 -1 2,certified,,false,,ms-train-0075,16
+107,2,yxyx^{-1}y,2 1 2 -1 2,uncertified,,false,,,
+108,3,yxyx^{-1}y,2 1 2 -1 2,open,13_1,true,ms-v1-0019,,
+109,4,yxyx^{-1}y,2 1 2 -1 2,open,15_1,true,ms-v1-0020,,
+110,5,yxyx^{-1}y,2 1 2 -1 2,open,16_1,true,ms-v1-0021,,
+111,6,yxyx^{-1}y,2 1 2 -1 2,open,20_8,true,ms-v1-0022,,
+112,7,yxyx^{-1}y,2 1 2 -1 2,open,23_{21},true,ms-v1-0023,,
+113,1,x^{-1}y^{-1}xy^{-2},-1 -2 1 -2 -2,certified,,false,,ms-train-0076,14
+114,2,x^{-1}y^{-1}xy^{-2},-1 -2 1 -2 -2,certified,,false,,ms-train-0077,61
+115,3,x^{-1}y^{-1}xy^{-2},-1 -2 1 -2 -2,uncertified,,false,,,
+116,4,x^{-1}y^{-1}xy^{-2},-1 -2 1 -2 -2,open,15_{11},true,ms-v1-0024,,
+117,5,x^{-1}y^{-1}xy^{-2},-1 -2 1 -2 -2,open,14_1,true,ms-v1-0025,,
+118,6,x^{-1}y^{-1}xy^{-2},-1 -2 1 -2 -2,open,17_{36},true,ms-v1-0026,,
+119,7,x^{-1}y^{-1}xy^{-2},-1 -2 1 -2 -2,open,21_{37},true,ms-v1-0027,,
+120,1,yxy^{-1}x^{-1}y,2 1 -2 -1 2,certified,,false,,ms-train-0078,10
+121,2,yxy^{-1}x^{-1}y,2 1 -2 -1 2,certified,,false,,ms-train-0079,64
+122,3,yxy^{-1}x^{-1}y,2 1 -2 -1 2,uncertified,,false,,,
+123,4,yxy^{-1}x^{-1}y,2 1 -2 -1 2,uncertified,,false,,,
+124,5,yxy^{-1}x^{-1}y,2 1 -2 -1 2,uncertified,,false,,,
+125,6,yxy^{-1}x^{-1}y,2 1 -2 -1 2,uncertified,,false,,,
+126,7,yxy^{-1}x^{-1}y,2 1 -2 -1 2,uncertified,,false,,,
+127,1,y^{-1}xy^{-1}x^{-1}y^{-1},-2 1 -2 -1 -2,certified,,false,,ms-train-0080,23
+128,2,y^{-1}xy^{-1}x^{-1}y^{-1},-2 1 -2 -1 -2,uncertified,,false,,,
+129,3,y^{-1}xy^{-1}x^{-1}y^{-1},-2 1 -2 -1 -2,open,13_1,true,ms-v1-0028,,
+130,4,y^{-1}xy^{-1}x^{-1}y^{-1},-2 1 -2 -1 -2,open,15_1,true,ms-v1-0029,,
+131,5,y^{-1}xy^{-1}x^{-1}y^{-1},-2 1 -2 -1 -2,open,16_1,true,ms-v1-0030,,
+132,6,y^{-1}xy^{-1}x^{-1}y^{-1},-2 1 -2 -1 -2,open,17_1,true,ms-v1-0031,,
+133,7,y^{-1}xy^{-1}x^{-1}y^{-1},-2 1 -2 -1 -2,open,23_{24},true,ms-v1-0032,,
+134,1,yxy^{-2}x^{-1},2 1 -2 -2 -1,certified,,false,,ms-train-0081,6
+135,2,yxy^{-2}x^{-1},2 1 -2 -2 -1,certified,,false,,ms-train-0082,26
+136,3,yxy^{-2}x^{-1},2 1 -2 -2 -1,certified,,false,,ms-train-0083,34
+137,4,yxy^{-2}x^{-1},2 1 -2 -2 -1,open,14_1,true,ms-v1-0033,,
+138,5,yxy^{-2}x^{-1},2 1 -2 -2 -1,uncertified,,false,,,
+139,6,yxy^{-2}x^{-1},2 1 -2 -2 -1,open,19_{33},true,ms-v1-0034,,
+140,7,yxy^{-2}x^{-1},2 1 -2 -2 -1,open,19_{37},true,ms-v1-0035,,
+141,1,y^{-1}xyx^{-1}y^{-1},-2 1 2 -1 -2,certified,,false,,ms-train-0084,18
+142,2,y^{-1}xyx^{-1}y^{-1},-2 1 2 -1 -2,certified,,false,,ms-train-0085,38
+143,3,y^{-1}xyx^{-1}y^{-1},-2 1 2 -1 -2,uncertified,,false,,,
+144,4,y^{-1}xyx^{-1}y^{-1},-2 1 2 -1 -2,uncertified,,false,,,
+145,5,y^{-1}xyx^{-1}y^{-1},-2 1 2 -1 -2,uncertified,,false,,,
+146,6,y^{-1}xyx^{-1}y^{-1},-2 1 2 -1 -2,uncertified,,false,,,
+147,7,y^{-1}xyx^{-1}y^{-1},-2 1 2 -1 -2,uncertified,,false,,,
+148,1,y^{2}xyx^{-1},2 2 1 2 -1,certified,,false,,ms-train-0086,27
+149,2,y^{2}xyx^{-1},2 2 1 2 -1,certified,,false,,ms-train-0087,19
+150,3,y^{2}xyx^{-1},2 2 1 2 -1,uncertified,,false,,,
+151,4,y^{2}xyx^{-1},2 2 1 2 -1,uncertified,,false,,,
+152,5,y^{2}xyx^{-1},2 2 1 2 -1,open,17_{30},true,ms-v1-0036,,
+153,6,y^{2}xyx^{-1},2 2 1 2 -1,open,16_6,true,ms-v1-0037,,
+154,7,y^{2}xyx^{-1},2 2 1 2 -1,open,23_{22},true,ms-v1-0038,,
+155,1,y^{2}xy^{-1}x^{-1},2 2 1 -2 -1,certified,,false,,ms-train-0088,22
+156,2,y^{2}xy^{-1}x^{-1},2 2 1 -2 -1,certified,,false,,ms-train-0089,13
+157,3,y^{2}xy^{-1}x^{-1},2 2 1 -2 -1,open,13_1,true,ms-v1-0039,,
+158,4,y^{2}xy^{-1}x^{-1},2 2 1 -2 -1,uncertified,,false,,,
+159,5,y^{2}xy^{-1}x^{-1},2 2 1 -2 -1,open,17_{31},true,ms-v1-0040,,
+160,6,y^{2}xy^{-1}x^{-1},2 2 1 -2 -1,open,16_7,true,ms-v1-0041,,
+161,7,y^{2}xy^{-1}x^{-1},2 2 1 -2 -1,open,21_{35},true,ms-v1-0042,,
+162,1,x^{-1}y^{-2}xy^{-1},-1 -2 -2 1 -2,certified,,false,,ms-train-0090,28
+163,2,x^{-1}y^{-2}xy^{-1},-1 -2 -2 1 -2,certified,,false,,ms-train-0091,27
+164,3,x^{-1}y^{-2}xy^{-1},-1 -2 -2 1 -2,uncertified,,false,,,
+165,4,x^{-1}y^{-2}xy^{-1},-1 -2 -2 1 -2,uncertified,,false,,,
+166,5,x^{-1}y^{-2}xy^{-1},-1 -2 -2 1 -2,open,17_{33},true,ms-v1-0043,,
+167,6,x^{-1}y^{-2}xy^{-1},-1 -2 -2 1 -2,open,16_9,true,ms-v1-0044,,
+168,7,x^{-1}y^{-2}xy^{-1},-1 -2 -2 1 -2,open,23_{23},true,ms-v1-0045,,
+169,1,yxy^{2}x^{-1},2 1 2 2 -1,certified,,false,,ms-train-0092,14
+170,2,yxy^{2}x^{-1},2 1 2 2 -1,certified,,false,,ms-train-0093,47
+171,3,yxy^{2}x^{-1},2 1 2 2 -1,uncertified,,false,,,
+172,4,yxy^{2}x^{-1},2 1 2 2 -1,open,15_{10},true,ms-v1-0046,,
+173,5,yxy^{2}x^{-1},2 1 2 2 -1,open,14_1,true,ms-v1-0047,,
+174,6,yxy^{2}x^{-1},2 1 2 2 -1,open,17_{34},true,ms-v1-0048,,
+175,7,yxy^{2}x^{-1},2 1 2 2 -1,open,21_{34},true,ms-v1-0049,,
+176,1,yxy^{-1}x^{-1}y^{-1},2 1 -2 -1 -2,certified,,false,,ms-train-0094,8
+177,2,yxy^{-1}x^{-1}y^{-1},2 1 -2 -1 -2,certified,,false,,ms-train-0095,37
+178,3,yxy^{-1}x^{-1}y^{-1},2 1 -2 -1 -2,uncertified,,false,,,
+179,4,yxy^{-1}x^{-1}y^{-1},2 1 -2 -1 -2,uncertified,,false,,,
+180,5,yxy^{-1}x^{-1}y^{-1},2 1 -2 -1 -2,uncertified,,false,,,
+181,6,yxy^{-1}x^{-1}y^{-1},2 1 -2 -1 -2,uncertified,,false,,,
+182,7,yxy^{-1}x^{-1}y^{-1},2 1 -2 -1 -2,uncertified,,false,,,
+183,1,y^{5},2 2 2 2 2,certified,,false,,ms-train-0096,21
+184,2,y^{5},2 2 2 2 2,certified,,false,,ms-train-0097,19
+185,3,y^{5},2 2 2 2 2,certified,,false,,ms-train-0098,30
+186,4,y^{5},2 2 2 2 2,certified,,false,,ms-train-0099,11
+187,5,y^{5},2 2 2 2 2,certified,,false,,ms-train-0100,39
+188,6,y^{5},2 2 2 2 2,certified,,false,,ms-train-0101,36
+189,7,y^{5},2 2 2 2 2,certified,,false,,ms-train-0102,25
+190,1,y^{-5},-2 -2 -2 -2 -2,certified,,false,,ms-train-0103,19
+191,2,y^{-5},-2 -2 -2 -2 -2,certified,,false,,ms-train-0104,16
+192,3,y^{-5},-2 -2 -2 -2 -2,certified,,false,,ms-train-0105,16
+193,4,y^{-5},-2 -2 -2 -2 -2,certified,,false,,ms-train-0106,11
+194,5,y^{-5},-2 -2 -2 -2 -2,certified,,false,,ms-train-0107,12
+195,6,y^{-5},-2 -2 -2 -2 -2,certified,,false,,ms-train-0108,13
+196,7,y^{-5},-2 -2 -2 -2 -2,certified,,false,,ms-train-0109,22
+197,1,yx^{-1}y^{-1}xy^{-1},2 -1 -2 1 -2,certified,,false,,ms-train-0110,14
+198,2,yx^{-1}y^{-1}xy^{-1},2 -1 -2 1 -2,certified,,false,,ms-train-0111,44
+199,3,yx^{-1}y^{-1}xy^{-1},2 -1 -2 1 -2,open,13_1,true,ms-v1-0050,,
+200,4,yx^{-1}y^{-1}xy^{-1},2 -1 -2 1 -2,open,15_1,true,ms-v1-0051,,
+201,5,yx^{-1}y^{-1}xy^{-1},2 -1 -2 1 -2,open,16_1,true,ms-v1-0052,,
+202,6,yx^{-1}y^{-1}xy^{-1},2 -1 -2 1 -2,open,17_{35},true,ms-v1-0053,,
+203,7,yx^{-1}y^{-1}xy^{-1},2 -1 -2 1 -2,open,21_{36},true,ms-v1-0054,,
+204,1,x^{-1}y^{-2}xy,-1 -2 -2 1 2,certified,,false,,ms-train-0112,16
+205,2,x^{-1}y^{-2}xy,-1 -2 -2 1 2,certified,,false,,ms-train-0113,13
+206,3,x^{-1}y^{-2}xy,-1 -2 -2 1 2,open,13_1,true,ms-v1-0055,,
+207,4,x^{-1}y^{-2}xy,-1 -2 -2 1 2,uncertified,,false,,,
+208,5,x^{-1}y^{-2}xy,-1 -2 -2 1 2,open,17_{32},true,ms-v1-0056,,
+209,6,x^{-1}y^{-2}xy,-1 -2 -2 1 2,open,16_8,true,ms-v1-0057,,
+210,7,x^{-1}y^{-2}xy,-1 -2 -2 1 2,open,21_{38},true,ms-v1-0058,,
+211,1,yx^{-1}y^{-1}xy^{2},2 -1 -2 1 2 2,certified,,false,,ms-train-0114,11
+212,2,yx^{-1}y^{-1}xy^{2},2 -1 -2 1 2 2,certified,,false,,ms-train-0115,56
+213,3,yx^{-1}y^{-1}xy^{2},2 -1 -2 1 2 2,certified,,false,,ms-train-0116,87
+214,4,yx^{-1}y^{-1}xy^{2},2 -1 -2 1 2 2,open,14_1,true,ms-v1-0059,,
+215,5,yx^{-1}y^{-1}xy^{2},2 -1 -2 1 2 2,uncertified,,false,,,
+216,6,yx^{-1}y^{-1}xy^{2},2 -1 -2 1 2 2,open,19_{34},true,ms-v1-0060,,
+217,7,yx^{-1}y^{-1}xy^{2},2 -1 -2 1 2 2,open,17_{42},true,ms-v1-0061,,
+218,1,yxy^{-2}x^{-1}y,2 1 -2 -2 -1 2,certified,,false,,ms-train-0117,8
+219,2,yxy^{-2}x^{-1}y,2 1 -2 -2 -1 2,certified,,false,,ms-train-0118,38
+220,3,yxy^{-2}x^{-1}y,2 1 -2 -2 -1 2,certified,,false,,ms-train-0119,42
+221,4,yxy^{-2}x^{-1}y,2 1 -2 -2 -1 2,open,14_1,true,ms-v1-0062,,
+222,5,yxy^{-2}x^{-1}y,2 1 -2 -2 -1 2,uncertified,,false,,,
+223,6,yxy^{-2}x^{-1}y,2 1 -2 -2 -1 2,open,19_{33},true,ms-v1-0063,,
+224,7,yxy^{-2}x^{-1}y,2 1 -2 -2 -1 2,open,19_{37},true,ms-v1-0064,,
+225,1,y^{-1}xy^{-2}x^{-1}y^{-1},-2 1 -2 -2 -1 -2,certified,,false,,ms-train-0120,21
+226,2,y^{-1}xy^{-2}x^{-1}y^{-1},-2 1 -2 -2 -1 -2,certified,,false,,ms-train-0121,86
+227,3,y^{-1}xy^{-2}x^{-1}y^{-1},-2 1 -2 -2 -1 -2,uncertified,,false,,,
+228,4,y^{-1}xy^{-2}x^{-1}y^{-1},-2 1 -2 -2 -1 -2,open,15_{11},true,ms-v1-0065,,
+229,5,y^{-1}xy^{-2}x^{-1}y^{-1},-2 1 -2 -2 -1 -2,open,14_1,true,ms-v1-0066,,
+230,6,y^{-1}xy^{-2}x^{-1}y^{-1},-2 1 -2 -2 -1 -2,open,17_{36},true,ms-v1-0067,,
+231,7,y^{-1}xy^{-2}x^{-1}y^{-1},-2 1 -2 -2 -1 -2,open,21_{37},true,ms-v1-0068,,
+232,1,y^{-1}xy^{-1}x^{-1}y^{-2},-2 1 -2 -1 -2 -2,certified,,false,,ms-train-0122,26
+233,2,y^{-1}xy^{-1}x^{-1}y^{-2},-2 1 -2 -1 -2 -2,uncertified,,false,,,
+234,3,y^{-1}xy^{-1}x^{-1}y^{-2},-2 1 -2 -1 -2 -2,open,13_1,true,ms-v1-0069,,
+235,4,y^{-1}xy^{-1}x^{-1}y^{-2},-2 1 -2 -1 -2 -2,open,15_1,true,ms-v1-0070,,
+236,5,y^{-1}xy^{-1}x^{-1}y^{-2},-2 1 -2 -1 -2 -2,open,16_1,true,ms-v1-0071,,
+237,6,y^{-1}xy^{-1}x^{-1}y^{-2},-2 1 -2 -1 -2 -2,open,17_1,true,ms-v1-0072,,
+238,7,y^{-1}xy^{-1}x^{-1}y^{-2},-2 1 -2 -1 -2 -2,open,18_7,true,ms-v1-0073,,
+239,1,yx^{-1}y^{-1}xy^{-2},2 -1 -2 1 -2 -2,certified,,false,,ms-train-0123,15
+240,2,yx^{-1}y^{-1}xy^{-2},2 -1 -2 1 -2 -2,certified,,false,,ms-train-0124,95
+241,3,yx^{-1}y^{-1}xy^{-2},2 -1 -2 1 -2 -2,certified,,false,,ms-train-0125,79
+242,4,yx^{-1}y^{-1}xy^{-2},2 -1 -2 1 -2 -2,open,15_{11},true,ms-v1-0074,,
+243,5,yx^{-1}y^{-1}xy^{-2},2 -1 -2 1 -2 -2,open,14_1,true,ms-v1-0075,,
+244,6,yx^{-1}y^{-1}xy^{-2},2 -1 -2 1 -2 -2,open,17_{36},true,ms-v1-0076,,
+245,7,yx^{-1}y^{-1}xy^{-2},2 -1 -2 1 -2 -2,open,15_{13},true,ms-v1-0077,,
+246,1,y^{2}xy^{-2}x^{-1},2 2 1 -2 -2 -1,certified,,false,,ms-train-0126,14
+247,2,y^{2}xy^{-2}x^{-1},2 2 1 -2 -2 -1,certified,,false,,ms-train-0127,9
+248,3,y^{2}xy^{-2}x^{-1},2 2 1 -2 -2 -1,certified,,false,,ms-train-0128,38
+249,4,y^{2}xy^{-2}x^{-1},2 2 1 -2 -2 -1,certified,,false,,ms-train-0129,46
+250,5,y^{2}xy^{-2}x^{-1},2 2 1 -2 -2 -1,certified,,false,,ms-train-0130,80
+251,6,y^{2}xy^{-2}x^{-1},2 2 1 -2 -2 -1,certified,,false,,ms-train-0131,105
+252,7,y^{2}xy^{-2}x^{-1},2 2 1 -2 -2 -1,uncertified,,false,,,
+253,1,y^{-1}xy^{2}x^{-1}y^{-1},-2 1 2 2 -1 -2,certified,,false,,ms-train-0132,11
+254,2,y^{-1}xy^{2}x^{-1}y^{-1},-2 1 2 2 -1 -2,certified,,false,,ms-train-0133,54
+255,3,y^{-1}xy^{2}x^{-1}y^{-1},-2 1 2 2 -1 -2,certified,,false,,ms-train-0134,38
+256,4,y^{-1}xy^{2}x^{-1}y^{-1},-2 1 2 2 -1 -2,open,14_1,true,ms-v1-0078,,
+257,5,y^{-1}xy^{2}x^{-1}y^{-1},-2 1 2 2 -1 -2,uncertified,,false,,,
+258,6,y^{-1}xy^{2}x^{-1}y^{-1},-2 1 2 2 -1 -2,open,19_{34},true,ms-v1-0079,,
+259,7,y^{-1}xy^{2}x^{-1}y^{-1},-2 1 2 2 -1 -2,open,20_{12},true,ms-v1-0080,,
+260,1,y^{2}x^{-1}y^{-1}xy^{-1},2 2 -1 -2 1 -2,certified,,false,,ms-train-0135,8
+261,2,y^{2}x^{-1}y^{-1}xy^{-1},2 2 -1 -2 1 -2,certified,,false,,ms-train-0136,41
+262,3,y^{2}x^{-1}y^{-1}xy^{-1},2 2 -1 -2 1 -2,open,13_1,true,ms-v1-0081,,
+263,4,y^{2}x^{-1}y^{-1}xy^{-1},2 2 -1 -2 1 -2,open,15_1,true,ms-v1-0082,,
+264,5,y^{2}x^{-1}y^{-1}xy^{-1},2 2 -1 -2 1 -2,open,16_1,true,ms-v1-0083,,
+265,6,y^{2}x^{-1}y^{-1}xy^{-1},2 2 -1 -2 1 -2,open,17_{35},true,ms-v1-0084,,
+266,7,y^{2}x^{-1}y^{-1}xy^{-1},2 2 -1 -2 1 -2,open,18_6,true,ms-v1-0085,,
+267,1,y^{2}xy^{-1}x^{-1}y,2 2 1 -2 -1 2,certified,,false,,ms-train-0137,29
+268,2,y^{2}xy^{-1}x^{-1}y,2 2 1 -2 -1 2,certified,,false,,ms-train-0138,14
+269,3,y^{2}xy^{-1}x^{-1}y,2 2 1 -2 -1 2,open,13_1,true,ms-v1-0086,,
+270,4,y^{2}xy^{-1}x^{-1}y,2 2 1 -2 -1 2,uncertified,,false,,,
+271,5,y^{2}xy^{-1}x^{-1}y,2 2 1 -2 -1 2,open,17_{31},true,ms-v1-0087,,
+272,6,y^{2}xy^{-1}x^{-1}y,2 2 1 -2 -1 2,open,16_7,true,ms-v1-0088,,
+273,7,y^{2}xy^{-1}x^{-1}y,2 2 1 -2 -1 2,open,21_{35},true,ms-v1-0089,,
+274,1,y^{2}xy^{-1}x^{-1}y^{-1},2 2 1 -2 -1 -2,certified,,false,,ms-train-0139,16
+275,2,y^{2}xy^{-1}x^{-1}y^{-1},2 2 1 -2 -1 -2,certified,,false,,ms-train-0140,10
+276,3,y^{2}xy^{-1}x^{-1}y^{-1},2 2 1 -2 -1 -2,open,13_1,true,ms-v1-0090,,
+277,4,y^{2}xy^{-1}x^{-1}y^{-1},2 2 1 -2 -1 -2,certified,,false,,ms-train-0141,79
+278,5,y^{2}xy^{-1}x^{-1}y^{-1},2 2 1 -2 -1 -2,open,17_{31},true,ms-v1-0091,,
+279,6,y^{2}xy^{-1}x^{-1}y^{-1},2 2 1 -2 -1 -2,open,16_7,true,ms-v1-0092,,
+280,7,y^{2}xy^{-1}x^{-1}y^{-1},2 2 1 -2 -1 -2,open,21_{35},true,ms-v1-0093,,
+281,1,y^{6},2 2 2 2 2 2,certified,,false,,ms-train-0142,20
+282,2,y^{6},2 2 2 2 2 2,certified,,false,,ms-train-0143,34
+283,3,y^{6},2 2 2 2 2 2,certified,,false,,ms-train-0144,41
+284,4,y^{6},2 2 2 2 2 2,certified,,false,,ms-train-0145,29
+285,5,y^{6},2 2 2 2 2 2,certified,,false,,ms-train-0146,12
+286,6,y^{6},2 2 2 2 2 2,certified,,false,,ms-train-0147,52
+287,7,y^{6},2 2 2 2 2 2,certified,,false,,ms-train-0148,43
+288,1,yx^{-1}y^{-2}xy^{-1},2 -1 -2 -2 1 -2,certified,,false,,ms-train-0149,26
+289,2,yx^{-1}y^{-2}xy^{-1},2 -1 -2 -2 1 -2,certified,,false,,ms-train-0150,23
+290,3,yx^{-1}y^{-2}xy^{-1},2 -1 -2 -2 1 -2,uncertified,,false,,,
+291,4,yx^{-1}y^{-2}xy^{-1},2 -1 -2 -2 1 -2,uncertified,,false,,,
+292,5,yx^{-1}y^{-2}xy^{-1},2 -1 -2 -2 1 -2,open,17_{33},true,ms-v1-0094,,
+293,6,yx^{-1}y^{-2}xy^{-1},2 -1 -2 -2 1 -2,open,16_9,true,ms-v1-0095,,
+294,7,yx^{-1}y^{-2}xy^{-1},2 -1 -2 -2 1 -2,open,23_{23},true,ms-v1-0096,,
+295,1,y^{2}x^{-1}y^{-1}xy,2 2 -1 -2 1 2,certified,,false,,ms-train-0151,12
+296,2,y^{2}x^{-1}y^{-1}xy,2 2 -1 -2 1 2,certified,,false,,ms-train-0152,42
+297,3,y^{2}x^{-1}y^{-1}xy,2 2 -1 -2 1 2,uncertified,,false,,,
+298,4,y^{2}x^{-1}y^{-1}xy,2 2 -1 -2 1 2,uncertified,,false,,,
+299,5,y^{2}x^{-1}y^{-1}xy,2 2 -1 -2 1 2,uncertified,,false,,,
+300,6,y^{2}x^{-1}y^{-1}xy,2 2 -1 -2 1 2,uncertified,,false,,,
+301,7,y^{2}x^{-1}y^{-1}xy,2 2 -1 -2 1 2,uncertified,,false,,,
+302,1,yx^{-1}y^{-2}xy,2 -1 -2 -2 1 2,certified,,false,,ms-train-0153,22
+303,2,yx^{-1}y^{-2}xy,2 -1 -2 -2 1 2,certified,,false,,ms-train-0154,12
+304,3,yx^{-1}y^{-2}xy,2 -1 -2 -2 1 2,open,13_1,true,ms-v1-0097,,
+305,4,yx^{-1}y^{-2}xy,2 -1 -2 -2 1 2,certified,,false,,ms-train-0155,52
+306,5,yx^{-1}y^{-2}xy,2 -1 -2 -2 1 2,open,17_{32},true,ms-v1-0098,,
+307,6,yx^{-1}y^{-2}xy,2 -1 -2 -2 1 2,open,16_8,true,ms-v1-0099,,
+308,7,yx^{-1}y^{-2}xy,2 -1 -2 -2 1 2,open,21_{38},true,ms-v1-0100,,
+309,1,yxy^{-1}x^{-1}y^{2},2 1 -2 -1 2 2,certified,,false,,ms-train-0156,15
+310,2,yxy^{-1}x^{-1}y^{2},2 1 -2 -1 2 2,certified,,false,,ms-train-0157,53
+311,3,yxy^{-1}x^{-1}y^{2},2 1 -2 -1 2 2,uncertified,,false,,,
+312,4,yxy^{-1}x^{-1}y^{2},2 1 -2 -1 2 2,uncertified,,false,,,
+313,5,yxy^{-1}x^{-1}y^{2},2 1 -2 -1 2 2,uncertified,,false,,,
+314,6,yxy^{-1}x^{-1}y^{2},2 1 -2 -1 2 2,uncertified,,false,,,
+315,7,yxy^{-1}x^{-1}y^{2},2 1 -2 -1 2 2,uncertified,,false,,,
+316,1,y^{-1}xyx^{-1}y^{-2},-2 1 2 -1 -2 -2,certified,,false,,ms-train-0158,22
+317,2,y^{-1}xyx^{-1}y^{-2},-2 1 2 -1 -2 -2,certified,,false,,ms-train-0159,66
+318,3,y^{-1}xyx^{-1}y^{-2},-2 1 2 -1 -2 -2,uncertified,,false,,,
+319,4,y^{-1}xyx^{-1}y^{-2},-2 1 2 -1 -2 -2,uncertified,,false,,,
+320,5,y^{-1}xyx^{-1}y^{-2},-2 1 2 -1 -2 -2,uncertified,,false,,,
+321,6,y^{-1}xyx^{-1}y^{-2},-2 1 2 -1 -2 -2,uncertified,,false,,,
+322,7,y^{-1}xyx^{-1}y^{-2},-2 1 2 -1 -2 -2,uncertified,,false,,,
+323,1,yxy^{-2}x^{-1}y^{-1},2 1 -2 -2 -1 -2,certified,,false,,ms-train-0160,6
+324,2,yxy^{-2}x^{-1}y^{-1},2 1 -2 -2 -1 -2,certified,,false,,ms-train-0161,46
+325,3,yxy^{-2}x^{-1}y^{-1},2 1 -2 -2 -1 -2,certified,,false,,ms-train-0162,39
+326,4,yxy^{-2}x^{-1}y^{-1},2 1 -2 -2 -1 -2,open,14_1,true,ms-v1-0101,,
+327,5,yxy^{-2}x^{-1}y^{-1},2 1 -2 -2 -1 -2,uncertified,,false,,,
+328,6,yxy^{-2}x^{-1}y^{-1},2 1 -2 -2 -1 -2,open,19_{33},true,ms-v1-0102,,
+329,7,yxy^{-2}x^{-1}y^{-1},2 1 -2 -2 -1 -2,open,17_{41},true,ms-v1-0103,,
+330,1,y^{2}xyx^{-1}y^{-1},2 2 1 2 -1 -2,certified,,false,,ms-train-0163,25
+331,2,y^{2}xyx^{-1}y^{-1},2 2 1 2 -1 -2,certified,,false,,ms-train-0164,12
+332,3,y^{2}xyx^{-1}y^{-1},2 2 1 2 -1 -2,uncertified,,false,,,
+333,4,y^{2}xyx^{-1}y^{-1},2 2 1 2 -1 -2,uncertified,,false,,,
+334,5,y^{2}xyx^{-1}y^{-1},2 2 1 2 -1 -2,open,17_{30},true,ms-v1-0104,,
+335,6,y^{2}xyx^{-1}y^{-1},2 2 1 2 -1 -2,open,16_6,true,ms-v1-0105,,
+336,7,y^{2}xyx^{-1}y^{-1},2 2 1 2 -1 -2,open,23_{22},true,ms-v1-0106,,
+337,1,x^{-1}y^{-2}xy^{-2},-1 -2 -2 1 -2 -2,certified,,false,,ms-train-0165,15
+338,2,x^{-1}y^{-2}xy^{-2},-1 -2 -2 1 -2 -2,certified,,false,,ms-train-0166,34
+339,3,x^{-1}y^{-2}xy^{-2},-1 -2 -2 1 -2 -2,uncertified,,false,,,
+340,4,x^{-1}y^{-2}xy^{-2},-1 -2 -2 1 -2 -2,uncertified,,false,,,
+341,5,x^{-1}y^{-2}xy^{-2},-1 -2 -2 1 -2 -2,open,16_5,true,ms-v1-0107,,
+342,6,x^{-1}y^{-2}xy^{-2},-1 -2 -2 1 -2 -2,open,19_{36},true,ms-v1-0108,,
+343,7,x^{-1}y^{-2}xy^{-2},-1 -2 -2 1 -2 -2,open,20_{11},true,ms-v1-0109,,
+344,1,yxyx^{-1}y^{-2},2 1 2 -1 -2 -2,certified,,false,,ms-train-0167,12
+345,2,yxyx^{-1}y^{-2},2 1 2 -1 -2 -2,certified,,false,,ms-train-0168,38
+346,3,yxyx^{-1}y^{-2},2 1 2 -1 -2 -2,open,13_1,true,ms-v1-0110,,
+347,4,yxyx^{-1}y^{-2},2 1 2 -1 -2 -2,open,15_1,true,ms-v1-0111,,
+348,5,yxyx^{-1}y^{-2},2 1 2 -1 -2 -2,open,16_1,true,ms-v1-0112,,
+349,6,yxyx^{-1}y^{-2},2 1 2 -1 -2 -2,open,17_1,true,ms-v1-0113,,
+350,7,yxyx^{-1}y^{-2},2 1 2 -1 -2 -2,open,18_7,true,ms-v1-0114,,
+351,1,x^{-2}y^{-1}x^{2}y^{-1},-1 -1 -2 1 1 -2,certified,,false,,ms-train-0169,38
+352,2,x^{-2}y^{-1}x^{2}y^{-1},-1 -1 -2 1 1 -2,open,14_1,true,ms-v1-0115,,
+353,3,x^{-2}y^{-1}x^{2}y^{-1},-1 -1 -2 1 1 -2,open,16_2,true,ms-v1-0116,,
+354,4,x^{-2}y^{-1}x^{2}y^{-1},-1 -1 -2 1 1 -2,open,18_3,true,ms-v1-0117,,
+355,5,x^{-2}y^{-1}x^{2}y^{-1},-1 -1 -2 1 1 -2,open,20_3,true,ms-v1-0118,,
+356,6,x^{-2}y^{-1}x^{2}y^{-1},-1 -1 -2 1 1 -2,open,22_4,true,ms-v1-0119,,
+357,7,x^{-2}y^{-1}x^{2}y^{-1},-1 -1 -2 1 1 -2,open,24_4,true,ms-v1-0120,,
+358,1,x^{-2}y^{-1}x^{2}y,-1 -1 -2 1 1 2,certified,,false,,ms-train-0170,31
+359,2,x^{-2}y^{-1}x^{2}y,-1 -1 -2 1 1 2,open,14_2,true,ms-v1-0121,,
+360,3,x^{-2}y^{-1}x^{2}y,-1 -1 -2 1 1 2,open,16_3,true,ms-v1-0122,,
+361,4,x^{-2}y^{-1}x^{2}y,-1 -1 -2 1 1 2,open,18_2,true,ms-v1-0123,,
+362,5,x^{-2}y^{-1}x^{2}y,-1 -1 -2 1 1 2,open,20_2,true,ms-v1-0124,,
+363,6,x^{-2}y^{-1}x^{2}y,-1 -1 -2 1 1 2,open,22_3,true,ms-v1-0125,,
+364,7,x^{-2}y^{-1}x^{2}y,-1 -1 -2 1 1 2,open,24_3,true,ms-v1-0126,,
+365,1,yx^{2}yx^{-2},2 1 1 2 -1 -1,certified,,false,,ms-train-0171,28
+366,2,yx^{2}yx^{-2},2 1 1 2 -1 -1,open,14_1,true,ms-v1-0127,,
+367,3,yx^{2}yx^{-2},2 1 1 2 -1 -1,open,16_2,true,ms-v1-0128,,
+368,4,yx^{2}yx^{-2},2 1 1 2 -1 -1,open,18_1,true,ms-v1-0129,,
+369,5,yx^{2}yx^{-2},2 1 1 2 -1 -1,open,20_1,true,ms-v1-0130,,
+370,6,yx^{2}yx^{-2},2 1 1 2 -1 -1,open,22_1,true,ms-v1-0131,,
+371,7,yx^{2}yx^{-2},2 1 1 2 -1 -1,open,24_1,true,ms-v1-0132,,
+372,1,yxyx^{-1}y^{2},2 1 2 -1 2 2,certified,,false,,ms-train-0172,17
+373,2,yxyx^{-1}y^{2},2 1 2 -1 2 2,uncertified,,false,,,
+374,3,yxyx^{-1}y^{2},2 1 2 -1 2 2,open,13_1,true,ms-v1-0133,,
+375,4,yxyx^{-1}y^{2},2 1 2 -1 2 2,open,15_1,true,ms-v1-0134,,
+376,5,yxyx^{-1}y^{2},2 1 2 -1 2 2,open,16_1,true,ms-v1-0135,,
+377,6,yxyx^{-1}y^{2},2 1 2 -1 2 2,open,17_{35},true,ms-v1-0136,,
+378,7,yxyx^{-1}y^{2},2 1 2 -1 2 2,open,18_6,true,ms-v1-0137,,
+379,1,y^{3}xyx^{-1},2 2 2 1 2 -1,certified,,false,,ms-train-0173,54
+380,2,y^{3}xyx^{-1},2 2 2 1 2 -1,uncertified,,false,,,
+381,3,y^{3}xyx^{-1},2 2 2 1 2 -1,certified,,false,,ms-train-0174,26
+382,4,y^{3}xyx^{-1},2 2 2 1 2 -1,uncertified,,false,,,
+383,5,y^{3}xyx^{-1},2 2 2 1 2 -1,open,17_{32},true,ms-v1-0138,,
+384,6,y^{3}xyx^{-1},2 2 2 1 2 -1,uncertified,,false,,,
+385,7,y^{3}xyx^{-1},2 2 2 1 2 -1,open,19_{40},true,ms-v1-0139,,
+386,1,x^{-1}y^{-3}xy^{-1},-1 -2 -2 -2 1 -2,certified,,false,,ms-train-0175,44
+387,2,x^{-1}y^{-3}xy^{-1},-1 -2 -2 -2 1 -2,uncertified,,false,,,
+388,3,x^{-1}y^{-3}xy^{-1},-1 -2 -2 -2 1 -2,certified,,false,,ms-train-0176,29
+389,4,x^{-1}y^{-3}xy^{-1},-1 -2 -2 -2 1 -2,uncertified,,false,,,
+390,5,x^{-1}y^{-3}xy^{-1},-1 -2 -2 -2 1 -2,open,17_{31},true,ms-v1-0140,,
+391,6,x^{-1}y^{-3}xy^{-1},-1 -2 -2 -2 1 -2,uncertified,,false,,,
+392,7,x^{-1}y^{-3}xy^{-1},-1 -2 -2 -2 1 -2,open,19_{42},true,ms-v1-0141,,
+393,1,y^{3}xy^{-1}x^{-1},2 2 2 1 -2 -1,certified,,false,,ms-train-0177,30
+394,2,y^{3}xy^{-1}x^{-1},2 2 2 1 -2 -1,uncertified,,false,,,
+395,3,y^{3}xy^{-1}x^{-1},2 2 2 1 -2 -1,certified,,false,,ms-train-0178,14
+396,4,y^{3}xy^{-1}x^{-1},2 2 2 1 -2 -1,open,15_1,true,ms-v1-0142,,
+397,5,y^{3}xy^{-1}x^{-1},2 2 2 1 -2 -1,open,17_{33},true,ms-v1-0143,,
+398,6,y^{3}xy^{-1}x^{-1},2 2 2 1 -2 -1,uncertified,,false,,,
+399,7,y^{3}xy^{-1}x^{-1},2 2 2 1 -2 -1,open,18_9,true,ms-v1-0144,,
+400,1,x^{-1}y^{-3}xy,-1 -2 -2 -2 1 2,certified,,false,,ms-train-0179,39
+401,2,x^{-1}y^{-3}xy,-1 -2 -2 -2 1 2,uncertified,,false,,,
+402,3,x^{-1}y^{-3}xy,-1 -2 -2 -2 1 2,certified,,false,,ms-train-0180,18
+403,4,x^{-1}y^{-3}xy,-1 -2 -2 -2 1 2,open,15_1,true,ms-v1-0145,,
+404,5,x^{-1}y^{-3}xy,-1 -2 -2 -2 1 2,open,17_{30},true,ms-v1-0146,,
+405,6,x^{-1}y^{-3}xy,-1 -2 -2 -2 1 2,uncertified,,false,,,
+406,7,x^{-1}y^{-3}xy,-1 -2 -2 -2 1 2,open,18_{11},true,ms-v1-0147,,
+407,1,yxy^{-3}x^{-1},2 1 -2 -2 -2 -1,certified,,false,,ms-train-0181,7
+408,2,yxy^{-3}x^{-1},2 1 -2 -2 -2 -1,certified,,false,,ms-train-0182,15
+409,3,yxy^{-3}x^{-1},2 1 -2 -2 -2 -1,open,13_1,true,ms-v1-0148,,
+410,4,yxy^{-3}x^{-1},2 1 -2 -2 -2 -1,open,15_{10},true,ms-v1-0149,,
+411,5,yxy^{-3}x^{-1},2 1 -2 -2 -2 -1,uncertified,,false,,,
+412,6,yxy^{-3}x^{-1},2 1 -2 -2 -2 -1,open,17_{38},true,ms-v1-0150,,
+413,7,yxy^{-3}x^{-1},2 1 -2 -2 -2 -1,open,18_8,true,ms-v1-0151,,
+414,1,yx^{2}y^{-1}x^{-2},2 1 1 -2 -1 -1,certified,,false,,ms-train-0183,26
+415,2,yx^{2}y^{-1}x^{-2},2 1 1 -2 -1 -1,open,14_2,true,ms-v1-0152,,
+416,3,yx^{2}y^{-1}x^{-2},2 1 1 -2 -1 -1,open,16_3,true,ms-v1-0153,,
+417,4,yx^{2}y^{-1}x^{-2},2 1 1 -2 -1 -1,open,18_2,true,ms-v1-0154,,
+418,5,yx^{2}y^{-1}x^{-2},2 1 1 -2 -1 -1,open,20_2,true,ms-v1-0155,,
+419,6,yx^{2}y^{-1}x^{-2},2 1 1 -2 -1 -1,open,22_2,true,ms-v1-0156,,
+420,7,yx^{2}y^{-1}x^{-2},2 1 1 -2 -1 -1,open,24_2,true,ms-v1-0157,,
+421,1,x^{-1}y^{-2}xy^{2},-1 -2 -2 1 2 2,certified,,false,,ms-train-0184,13
+422,2,x^{-1}y^{-2}xy^{2},-1 -2 -2 1 2 2,certified,,false,,ms-train-0185,13
+423,3,x^{-1}y^{-2}xy^{2},-1 -2 -2 1 2 2,certified,,false,,ms-train-0186,35
+424,4,x^{-1}y^{-2}xy^{2},-1 -2 -2 1 2 2,certified,,false,,ms-train-0187,36
+425,5,x^{-1}y^{-2}xy^{2},-1 -2 -2 1 2 2,certified,,false,,ms-train-0188,77
+426,6,x^{-1}y^{-2}xy^{2},-1 -2 -2 1 2 2,certified,,false,,ms-train-0189,101
+427,7,x^{-1}y^{-2}xy^{2},-1 -2 -2 1 2 2,uncertified,,false,,,
+428,1,yxy^{-1}x^{-1}y^{-2},2 1 -2 -1 -2 -2,certified,,false,,ms-train-0190,14
+429,2,yxy^{-1}x^{-1}y^{-2},2 1 -2 -1 -2 -2,certified,,false,,ms-train-0191,49
+430,3,yxy^{-1}x^{-1}y^{-2},2 1 -2 -1 -2 -2,uncertified,,false,,,
+431,4,yxy^{-1}x^{-1}y^{-2},2 1 -2 -1 -2 -2,uncertified,,false,,,
+432,5,yxy^{-1}x^{-1}y^{-2},2 1 -2 -1 -2 -2,uncertified,,false,,,
+433,6,yxy^{-1}x^{-1}y^{-2},2 1 -2 -1 -2 -2,uncertified,,false,,,
+434,7,yxy^{-1}x^{-1}y^{-2},2 1 -2 -1 -2 -2,uncertified,,false,,,
+435,1,yxy^{2}x^{-1}y^{-1},2 1 2 2 -1 -2,certified,,false,,ms-train-0192,18
+436,2,yxy^{2}x^{-1}y^{-1},2 1 2 2 -1 -2,certified,,false,,ms-train-0193,43
+437,3,yxy^{2}x^{-1}y^{-1},2 1 2 2 -1 -2,certified,,false,,ms-train-0194,41
+438,4,yxy^{2}x^{-1}y^{-1},2 1 2 2 -1 -2,open,15_{10},true,ms-v1-0158,,
+439,5,yxy^{2}x^{-1}y^{-1},2 1 2 2 -1 -2,open,14_1,true,ms-v1-0159,,
+440,6,yxy^{2}x^{-1}y^{-1},2 1 2 2 -1 -2,open,17_{34},true,ms-v1-0160,,
+441,7,yxy^{2}x^{-1}y^{-1},2 1 2 2 -1 -2,open,15_{12},true,ms-v1-0161,,
+442,1,y^{-6},-2 -2 -2 -2 -2 -2,certified,,false,,ms-train-0195,24
+443,2,y^{-6},-2 -2 -2 -2 -2 -2,certified,,false,,ms-train-0196,20
+444,3,y^{-6},-2 -2 -2 -2 -2 -2,certified,,false,,ms-train-0197,21
+445,4,y^{-6},-2 -2 -2 -2 -2 -2,certified,,false,,ms-train-0198,21
+446,5,y^{-6},-2 -2 -2 -2 -2 -2,certified,,false,,ms-train-0199,12
+447,6,y^{-6},-2 -2 -2 -2 -2 -2,certified,,false,,ms-train-0200,13
+448,7,y^{-6},-2 -2 -2 -2 -2 -2,certified,,false,,ms-train-0201,14
+449,1,yxy^{2}x^{-1}y,2 1 2 2 -1 2,certified,,false,,ms-train-0202,22
+450,2,yxy^{2}x^{-1}y,2 1 2 2 -1 2,certified,,false,,ms-train-0203,67
+451,3,yxy^{2}x^{-1}y,2 1 2 2 -1 2,uncertified,,false,,,
+452,4,yxy^{2}x^{-1}y,2 1 2 2 -1 2,open,15_{10},true,ms-v1-0162,,
+453,5,yxy^{2}x^{-1}y,2 1 2 2 -1 2,open,14_1,true,ms-v1-0163,,
+454,6,yxy^{2}x^{-1}y,2 1 2 2 -1 2,open,17_{34},true,ms-v1-0164,,
+455,7,yxy^{2}x^{-1}y,2 1 2 2 -1 2,open,21_{34},true,ms-v1-0165,,
+456,1,x^{-1}y^{-1}xy^{3},-1 -2 1 2 2 2,certified,,false,,ms-train-0204,11
+457,2,x^{-1}y^{-1}xy^{3},-1 -2 1 2 2 2,certified,,false,,ms-train-0205,14
+458,3,x^{-1}y^{-1}xy^{3},-1 -2 1 2 2 2,open,13_1,true,ms-v1-0166,,
+459,4,x^{-1}y^{-1}xy^{3},-1 -2 1 2 2 2,open,15_{11},true,ms-v1-0167,,
+460,5,x^{-1}y^{-1}xy^{3},-1 -2 1 2 2 2,uncertified,,false,,,
+461,6,x^{-1}y^{-1}xy^{3},-1 -2 1 2 2 2,open,17_{39},true,ms-v1-0168,,
+462,7,x^{-1}y^{-1}xy^{3},-1 -2 1 2 2 2,open,18_{10},true,ms-v1-0169,,
+463,1,y^{2}xy^{2}x^{-1},2 2 1 2 2 -1,certified,,false,,ms-train-0206,18
+464,2,y^{2}xy^{2}x^{-1},2 2 1 2 2 -1,certified,,false,,ms-train-0207,22
+465,3,y^{2}xy^{2}x^{-1},2 2 1 2 2 -1,uncertified,,false,,,
+466,4,y^{2}xy^{2}x^{-1},2 2 1 2 2 -1,uncertified,,false,,,
+467,5,y^{2}xy^{2}x^{-1},2 2 1 2 2 -1,open,16_4,true,ms-v1-0170,,
+468,6,y^{2}xy^{2}x^{-1},2 2 1 2 2 -1,open,19_{35},true,ms-v1-0171,,
+469,7,y^{2}xy^{2}x^{-1},2 2 1 2 2 -1,open,20_{10},true,ms-v1-0172,,
+470,1,y^{-1}x^{-1}y^{-2}xy,-2 -1 -2 -2 1 2,certified,,false,,ms-train-0208,23
+471,2,y^{-1}x^{-1}y^{-2}xy,-2 -1 -2 -2 1 2,certified,,false,,ms-train-0209,16
+472,3,y^{-1}x^{-1}y^{-2}xy,-2 -1 -2 -2 1 2,open,13_1,true,ms-v1-0173,,
+473,4,y^{-1}x^{-1}y^{-2}xy,-2 -1 -2 -2 1 2,uncertified,,false,,,
+474,5,y^{-1}x^{-1}y^{-2}xy,-2 -1 -2 -2 1 2,open,17_{32},true,ms-v1-0174,,
+475,6,y^{-1}x^{-1}y^{-2}xy,-2 -1 -2 -2 1 2,open,16_8,true,ms-v1-0175,,
+476,7,y^{-1}x^{-1}y^{-2}xy,-2 -1 -2 -2 1 2,open,21_{38},true,ms-v1-0176,,
+477,1,yxy^{3}x^{-1},2 1 2 2 2 -1,certified,,false,,ms-train-0210,21
+478,2,yxy^{3}x^{-1},2 1 2 2 2 -1,certified,,false,,ms-train-0211,17
+479,3,yxy^{3}x^{-1},2 1 2 2 2 -1,uncertified,,false,,,
+480,4,yxy^{3}x^{-1},2 1 2 2 2 -1,open,14_1,true,ms-v1-0177,,
+481,5,yxy^{3}x^{-1},2 1 2 2 2 -1,uncertified,,false,,,
+482,6,yxy^{3}x^{-1},2 1 2 2 2 -1,open,17_{37},true,ms-v1-0178,,
+483,7,yxy^{3}x^{-1},2 1 2 2 2 -1,open,19_{39},true,ms-v1-0179,,
+484,1,x^{-1}y^{-1}xy^{-3},-1 -2 1 -2 -2 -2,certified,,false,,ms-train-0212,20
+485,2,x^{-1}y^{-1}xy^{-3},-1 -2 1 -2 -2 -2,certified,,false,,ms-train-0213,15
+486,3,x^{-1}y^{-1}xy^{-3},-1 -2 1 -2 -2 -2,uncertified,,false,,,
+487,4,x^{-1}y^{-1}xy^{-3},-1 -2 1 -2 -2 -2,open,14_1,true,ms-v1-0180,,
+488,5,x^{-1}y^{-1}xy^{-3},-1 -2 1 -2 -2 -2,uncertified,,false,,,
+489,6,x^{-1}y^{-1}xy^{-3},-1 -2 1 -2 -2 -2,open,17_{40},true,ms-v1-0181,,
+490,7,x^{-1}y^{-1}xy^{-3},-1 -2 1 -2 -2 -2,open,19_{41},true,ms-v1-0182,,
+491,1,y^{2}xyx^{-1}y,2 2 1 2 -1 2,certified,,false,,ms-train-0214,43
+492,2,y^{2}xyx^{-1}y,2 2 1 2 -1 2,certified,,false,,ms-train-0215,26
+493,3,y^{2}xyx^{-1}y,2 2 1 2 -1 2,uncertified,,false,,,
+494,4,y^{2}xyx^{-1}y,2 2 1 2 -1 2,uncertified,,false,,,
+495,5,y^{2}xyx^{-1}y,2 2 1 2 -1 2,open,17_{30},true,ms-v1-0183,,
+496,6,y^{2}xyx^{-1}y,2 2 1 2 -1 2,open,16_6,true,ms-v1-0184,,
+497,7,y^{2}xyx^{-1}y,2 2 1 2 -1 2,open,23_{22},true,ms-v1-0185,,
+498,1,y^{-1}x^{-1}y^{-2}xy^{-1},-2 -1 -2 -2 1 -2,certified,,false,,ms-train-0216,39
+499,2,y^{-1}x^{-1}y^{-2}xy^{-1},-2 -1 -2 -2 1 -2,certified,,false,,ms-train-0217,33
+500,3,y^{-1}x^{-1}y^{-2}xy^{-1},-2 -1 -2 -2 1 -2,uncertified,,false,,,
+501,4,y^{-1}x^{-1}y^{-2}xy^{-1},-2 -1 -2 -2 1 -2,uncertified,,false,,,
+502,5,y^{-1}x^{-1}y^{-2}xy^{-1},-2 -1 -2 -2 1 -2,open,17_{33},true,ms-v1-0186,,
+503,6,y^{-1}x^{-1}y^{-2}xy^{-1},-2 -1 -2 -2 1 -2,open,16_9,true,ms-v1-0187,,
+504,7,y^{-1}x^{-1}y^{-2}xy^{-1},-2 -1 -2 -2 1 -2,open,23_{23},true,ms-v1-0188,,
+505,1,yxyx^{-1}y^{-3},2 1 2 -1 -2 -2 -2,certified,,false,,ms-train-0218,12
+506,2,yxyx^{-1}y^{-3},2 1 2 -1 -2 -2 -2,certified,,false,,ms-train-0219,63
+507,3,yxyx^{-1}y^{-3},2 1 2 -1 -2 -2 -2,open,13_1,true,ms-v1-0189,,
+508,4,yxyx^{-1}y^{-3},2 1 2 -1 -2 -2 -2,open,15_1,true,ms-v1-0190,,
+509,5,yxyx^{-1}y^{-3},2 1 2 -1 -2 -2 -2,open,16_1,true,ms-v1-0191,,
+510,6,yxyx^{-1}y^{-3},2 1 2 -1 -2 -2 -2,open,17_1,true,ms-v1-0192,,
+511,7,yxyx^{-1}y^{-3},2 1 2 -1 -2 -2 -2,open,18_7,true,ms-v1-0193,,
+512,1,yxy^{4}x^{-1},2 1 2 2 2 2 -1,certified,,false,,ms-train-0220,24
+513,2,yxy^{4}x^{-1},2 1 2 2 2 2 -1,uncertified,,false,,,
+514,3,yxy^{4}x^{-1},2 1 2 2 2 2 -1,certified,,false,,ms-train-0221,21
+515,4,yxy^{4}x^{-1},2 1 2 2 2 2 -1,uncertified,,false,,,
+516,5,yxy^{4}x^{-1},2 1 2 2 2 2 -1,uncertified,,false,,,
+517,6,yxy^{4}x^{-1},2 1 2 2 2 2 -1,open,17_{38},true,ms-v1-0194,,
+518,7,yxy^{4}x^{-1},2 1 2 2 2 2 -1,uncertified,,false,,,
+519,1,yxy^{3}x^{-1}y,2 1 2 2 2 -1 2,certified,,false,,ms-train-0222,21
+520,2,yxy^{3}x^{-1}y,2 1 2 2 2 -1 2,certified,,false,,ms-train-0223,15
+521,3,yxy^{3}x^{-1}y,2 1 2 2 2 -1 2,uncertified,,false,,,
+522,4,yxy^{3}x^{-1}y,2 1 2 2 2 -1 2,open,14_1,true,ms-v1-0195,,
+523,5,yxy^{3}x^{-1}y,2 1 2 2 2 -1 2,uncertified,,false,,,
+524,6,yxy^{3}x^{-1}y,2 1 2 2 2 -1 2,open,17_{37},true,ms-v1-0196,,
+525,7,yxy^{3}x^{-1}y,2 1 2 2 2 -1 2,open,19_{39},true,ms-v1-0197,,
+526,1,yxyxy^{-1}x^{-2},2 1 2 1 -2 -1 -1,certified,,false,,ms-train-0224,37
+527,2,yxyxy^{-1}x^{-2},2 1 2 1 -2 -1 -1,open,15_7,true,ms-v1-0198,,
+528,3,yxyxy^{-1}x^{-2},2 1 2 1 -2 -1 -1,open,17_{13},true,ms-v1-0199,,
+529,4,yxyxy^{-1}x^{-2},2 1 2 1 -2 -1 -1,open,19_{12},true,ms-v1-0200,,
+530,5,yxyxy^{-1}x^{-2},2 1 2 1 -2 -1 -1,open,21_{11},true,ms-v1-0201,,
+531,6,yxyxy^{-1}x^{-2},2 1 2 1 -2 -1 -1,open,23_6,true,ms-v1-0202,,
+532,7,yxyxy^{-1}x^{-2},2 1 2 1 -2 -1 -1,open,25_{12},true,ms-v1-0203,,
+533,1,yxyxyx^{-2},2 1 2 1 2 -1 -1,certified,,false,,ms-train-0225,55
+534,2,yxyxyx^{-2},2 1 2 1 2 -1 -1,open,15_6,true,ms-v1-0204,,
+535,3,yxyxyx^{-2},2 1 2 1 2 -1 -1,open,17_{12},true,ms-v1-0205,,
+536,4,yxyxyx^{-2},2 1 2 1 2 -1 -1,open,19_{11},true,ms-v1-0206,,
+537,5,yxyxyx^{-2},2 1 2 1 2 -1 -1,open,21_{10},true,ms-v1-0207,,
+538,6,yxyxyx^{-2},2 1 2 1 2 -1 -1,open,23_5,true,ms-v1-0208,,
+539,7,yxyxyx^{-2},2 1 2 1 2 -1 -1,open,25_{11},true,ms-v1-0209,,
+540,1,yxy^{2}x^{-1}y^{2},2 1 2 2 -1 2 2,certified,,false,,ms-train-0226,21
+541,2,yxy^{2}x^{-1}y^{2},2 1 2 2 -1 2 2,uncertified,,false,,,
+542,3,yxy^{2}x^{-1}y^{2},2 1 2 2 -1 2 2,uncertified,,false,,,
+543,4,yxy^{2}x^{-1}y^{2},2 1 2 2 -1 2 2,open,15_{10},true,ms-v1-0210,,
+544,5,yxy^{2}x^{-1}y^{2},2 1 2 2 -1 2 2,open,14_1,true,ms-v1-0211,,
+545,6,yxy^{2}x^{-1}y^{2},2 1 2 2 -1 2 2,open,17_{34},true,ms-v1-0212,,
+546,7,yxy^{2}x^{-1}y^{2},2 1 2 2 -1 2 2,open,21_{34},true,ms-v1-0213,,
+547,1,yxy^{2}x^{-1}y^{-2},2 1 2 2 -1 -2 -2,certified,,false,,ms-train-0227,14
+548,2,yxy^{2}x^{-1}y^{-2},2 1 2 2 -1 -2 -2,certified,,false,,ms-train-0228,33
+549,3,yxy^{2}x^{-1}y^{-2},2 1 2 2 -1 -2 -2,certified,,false,,ms-train-0229,52
+550,4,yxy^{2}x^{-1}y^{-2},2 1 2 2 -1 -2 -2,open,15_{10},true,ms-v1-0214,,
+551,5,yxy^{2}x^{-1}y^{-2},2 1 2 2 -1 -2 -2,open,14_1,true,ms-v1-0215,,
+552,6,yxy^{2}x^{-1}y^{-2},2 1 2 2 -1 -2 -2,open,17_{34},true,ms-v1-0216,,
+553,7,yxy^{2}x^{-1}y^{-2},2 1 2 2 -1 -2 -2,open,15_{14},true,ms-v1-0217,,
+554,1,yxyx^{-1}y^{3},2 1 2 -1 2 2 2,certified,,false,,ms-train-0230,32
+555,2,yxyx^{-1}y^{3},2 1 2 -1 2 2 2,uncertified,,false,,,
+556,3,yxyx^{-1}y^{3},2 1 2 -1 2 2 2,open,13_1,true,ms-v1-0218,,
+557,4,yxyx^{-1}y^{3},2 1 2 -1 2 2 2,open,15_1,true,ms-v1-0219,,
+558,5,yxyx^{-1}y^{3},2 1 2 -1 2 2 2,open,16_1,true,ms-v1-0220,,
+559,6,yxyx^{-1}y^{3},2 1 2 -1 2 2 2,open,17_{35},true,ms-v1-0221,,
+560,7,yxyx^{-1}y^{3},2 1 2 -1 2 2 2,open,18_6,true,ms-v1-0222,,
+561,1,yxy^{3}x^{-1}y^{-1},2 1 2 2 2 -1 -2,certified,,false,,ms-train-0231,16
+562,2,yxy^{3}x^{-1}y^{-1},2 1 2 2 2 -1 -2,certified,,false,,ms-train-0232,18
+563,3,yxy^{3}x^{-1}y^{-1},2 1 2 2 2 -1 -2,uncertified,,false,,,
+564,4,yxy^{3}x^{-1}y^{-1},2 1 2 2 2 -1 -2,open,14_1,true,ms-v1-0223,,
+565,5,yxy^{3}x^{-1}y^{-1},2 1 2 2 2 -1 -2,uncertified,,false,,,
+566,6,yxy^{3}x^{-1}y^{-1},2 1 2 2 2 -1 -2,open,17_{37},true,ms-v1-0224,,
+567,7,yxy^{3}x^{-1}y^{-1},2 1 2 2 2 -1 -2,open,19_{39},true,ms-v1-0225,,
+568,1,x^{-2}y^{-2}x^{2}y^{-1},-1 -1 -2 -2 1 1 -2,certified,,false,,ms-train-0233,75
+569,2,x^{-2}y^{-2}x^{2}y^{-1},-1 -1 -2 -2 1 1 -2,uncertified,,false,,,
+570,3,x^{-2}y^{-2}x^{2}y^{-1},-1 -1 -2 -2 1 1 -2,open,17_9,true,ms-v1-0226,,
+571,4,x^{-2}y^{-2}x^{2}y^{-1},-1 -1 -2 -2 1 1 -2,open,19_{28},true,ms-v1-0227,,
+572,5,x^{-2}y^{-2}x^{2}y^{-1},-1 -1 -2 -2 1 1 -2,open,21_{26},true,ms-v1-0228,,
+573,6,x^{-2}y^{-2}x^{2}y^{-1},-1 -1 -2 -2 1 1 -2,open,23_{19},true,ms-v1-0229,,
+574,7,x^{-2}y^{-2}x^{2}y^{-1},-1 -1 -2 -2 1 1 -2,open,25_{28},true,ms-v1-0230,,
+575,1,y^{2}x^{-1}y^{-2}xy,2 2 -1 -2 -2 1 2,certified,,false,,ms-train-0234,15
+576,2,y^{2}x^{-1}y^{-2}xy,2 2 -1 -2 -2 1 2,certified,,false,,ms-train-0235,10
+577,3,y^{2}x^{-1}y^{-2}xy,2 2 -1 -2 -2 1 2,open,13_1,true,ms-v1-0231,,
+578,4,y^{2}x^{-1}y^{-2}xy,2 2 -1 -2 -2 1 2,certified,,false,,ms-train-0236,47
+579,5,y^{2}x^{-1}y^{-2}xy,2 2 -1 -2 -2 1 2,open,17_{32},true,ms-v1-0232,,
+580,6,y^{2}x^{-1}y^{-2}xy,2 2 -1 -2 -2 1 2,open,16_8,true,ms-v1-0233,,
+581,7,y^{2}x^{-1}y^{-2}xy,2 2 -1 -2 -2 1 2,open,21_{38},true,ms-v1-0234,,
+582,1,y^{4}xyx^{-1},2 2 2 2 1 2 -1,certified,,false,,ms-train-0237,70
+583,2,y^{4}xyx^{-1},2 2 2 2 1 2 -1,certified,,false,,ms-train-0238,52
+584,3,y^{4}xyx^{-1},2 2 2 2 1 2 -1,open,13_1,true,ms-v1-0235,,
+585,4,y^{4}xyx^{-1},2 2 2 2 1 2 -1,certified,,false,,ms-train-0239,30
+586,5,y^{4}xyx^{-1},2 2 2 2 1 2 -1,uncertified,,false,,,
+587,6,y^{4}xyx^{-1},2 2 2 2 1 2 -1,open,16_8,true,ms-v1-0236,,
+588,7,y^{4}xyx^{-1},2 2 2 2 1 2 -1,open,19_{46},true,ms-v1-0237,,
+589,1,y^{4}xy^{-1}x^{-1},2 2 2 2 1 -2 -1,certified,,false,,ms-train-0240,57
+590,2,y^{4}xy^{-1}x^{-1},2 2 2 2 1 -2 -1,certified,,false,,ms-train-0241,38
+591,3,y^{4}xy^{-1}x^{-1},2 2 2 2 1 -2 -1,uncertified,,false,,,
+592,4,y^{4}xy^{-1}x^{-1},2 2 2 2 1 -2 -1,certified,,false,,ms-train-0242,15
+593,5,y^{4}xy^{-1}x^{-1},2 2 2 2 1 -2 -1,open,16_1,true,ms-v1-0238,,
+594,6,y^{4}xy^{-1}x^{-1},2 2 2 2 1 -2 -1,open,16_9,true,ms-v1-0239,,
+595,7,y^{4}xy^{-1}x^{-1},2 2 2 2 1 -2 -1,open,19_{47},true,ms-v1-0240,,
+596,1,y^{3}xy^{2}x^{-1},2 2 2 1 2 2 -1,certified,,false,,ms-train-0243,20
+597,2,y^{3}xy^{2}x^{-1},2 2 2 1 2 2 -1,uncertified,,false,,,
+598,3,y^{3}xy^{2}x^{-1},2 2 2 1 2 2 -1,certified,,false,,ms-train-0244,34
+599,4,y^{3}xy^{2}x^{-1},2 2 2 1 2 2 -1,open,14_1,true,ms-v1-0241,,
+600,5,y^{3}xy^{2}x^{-1},2 2 2 1 2 2 -1,uncertified,,false,,,
+601,6,y^{3}xy^{2}x^{-1},2 2 2 1 2 2 -1,uncertified,,false,,,
+602,7,y^{3}xy^{2}x^{-1},2 2 2 1 2 2 -1,open,21_{40},true,ms-v1-0242,,
+603,1,y^{3}xyx^{-1}y,2 2 2 1 2 -1 2,certified,,false,,ms-train-0245,58
+604,2,y^{3}xyx^{-1}y,2 2 2 1 2 -1 2,uncertified,,false,,,
+605,3,y^{3}xyx^{-1}y,2 2 2 1 2 -1 2,certified,,false,,ms-train-0246,44
+606,4,y^{3}xyx^{-1}y,2 2 2 1 2 -1 2,uncertified,,false,,,
+607,5,y^{3}xyx^{-1}y,2 2 2 1 2 -1 2,open,17_{32},true,ms-v1-0243,,
+608,6,y^{3}xyx^{-1}y,2 2 2 1 2 -1 2,uncertified,,false,,,
+609,7,y^{3}xyx^{-1}y,2 2 2 1 2 -1 2,open,19_{40},true,ms-v1-0244,,
+610,1,y^{3}xyx^{-1}y^{-1},2 2 2 1 2 -1 -2,certified,,false,,ms-train-0247,43
+611,2,y^{3}xyx^{-1}y^{-1},2 2 2 1 2 -1 -2,uncertified,,false,,,
+612,3,y^{3}xyx^{-1}y^{-1},2 2 2 1 2 -1 -2,certified,,false,,ms-train-0248,33
+613,4,y^{3}xyx^{-1}y^{-1},2 2 2 1 2 -1 -2,uncertified,,false,,,
+614,5,y^{3}xyx^{-1}y^{-1},2 2 2 1 2 -1 -2,open,17_{32},true,ms-v1-0245,,
+615,6,y^{3}xyx^{-1}y^{-1},2 2 2 1 2 -1 -2,uncertified,,false,,,
+616,7,y^{3}xyx^{-1}y^{-1},2 2 2 1 2 -1 -2,open,19_{40},true,ms-v1-0246,,
+617,1,y^{3}xy^{-2}x^{-1},2 2 2 1 -2 -2 -1,certified,,false,,ms-train-0249,15
+618,2,y^{3}xy^{-2}x^{-1},2 2 2 1 -2 -2 -1,uncertified,,false,,,
+619,3,y^{3}xy^{-2}x^{-1},2 2 2 1 -2 -2 -1,certified,,false,,ms-train-0250,14
+620,4,y^{3}xy^{-2}x^{-1},2 2 2 1 -2 -2 -1,open,15_{11},true,ms-v1-0247,,
+621,5,y^{3}xy^{-2}x^{-1},2 2 2 1 -2 -2 -1,open,16_5,true,ms-v1-0248,,
+622,6,y^{3}xy^{-2}x^{-1},2 2 2 1 -2 -2 -1,certified,,false,,ms-train-0251,96
+623,7,y^{3}xy^{-2}x^{-1},2 2 2 1 -2 -2 -1,open,19_{45},true,ms-v1-0249,,
+624,1,y^{3}xy^{-1}x^{-1}y,2 2 2 1 -2 -1 2,certified,,false,,ms-train-0252,49
+625,2,y^{3}xy^{-1}x^{-1}y,2 2 2 1 -2 -1 2,certified,,false,,ms-train-0253,95
+626,3,y^{3}xy^{-1}x^{-1}y,2 2 2 1 -2 -1 2,certified,,false,,ms-train-0254,19
+627,4,y^{3}xy^{-1}x^{-1}y,2 2 2 1 -2 -1 2,open,15_1,true,ms-v1-0250,,
+628,5,y^{3}xy^{-1}x^{-1}y,2 2 2 1 -2 -1 2,open,17_{33},true,ms-v1-0251,,
+629,6,y^{3}xy^{-1}x^{-1}y,2 2 2 1 -2 -1 2,uncertified,,false,,,
+630,7,y^{3}xy^{-1}x^{-1}y,2 2 2 1 -2 -1 2,open,18_9,true,ms-v1-0252,,
+631,1,y^{3}xy^{-1}x^{-1}y^{-1},2 2 2 1 -2 -1 -2,certified,,false,,ms-train-0255,27
+632,2,y^{3}xy^{-1}x^{-1}y^{-1},2 2 2 1 -2 -1 -2,certified,,false,,ms-train-0256,33
+633,3,y^{3}xy^{-1}x^{-1}y^{-1},2 2 2 1 -2 -1 -2,certified,,false,,ms-train-0257,15
+634,4,y^{3}xy^{-1}x^{-1}y^{-1},2 2 2 1 -2 -1 -2,open,15_1,true,ms-v1-0253,,
+635,5,y^{3}xy^{-1}x^{-1}y^{-1},2 2 2 1 -2 -1 -2,open,17_{33},true,ms-v1-0254,,
+636,6,y^{3}xy^{-1}x^{-1}y^{-1},2 2 2 1 -2 -1 -2,uncertified,,false,,,
+637,7,y^{3}xy^{-1}x^{-1}y^{-1},2 2 2 1 -2 -1 -2,open,18_9,true,ms-v1-0255,,
+638,1,y^{3}x^{-1}y^{-1}xy,2 2 2 -1 -2 1 2,certified,,false,,ms-train-0258,11
+639,2,y^{3}x^{-1}y^{-1}xy,2 2 2 -1 -2 1 2,uncertified,,false,,,
+640,3,y^{3}x^{-1}y^{-1}xy,2 2 2 -1 -2 1 2,uncertified,,false,,,
+641,4,y^{3}x^{-1}y^{-1}xy,2 2 2 -1 -2 1 2,uncertified,,false,,,
+642,5,y^{3}x^{-1}y^{-1}xy,2 2 2 -1 -2 1 2,uncertified,,false,,,
+643,6,y^{3}x^{-1}y^{-1}xy,2 2 2 -1 -2 1 2,uncertified,,false,,,
+644,7,y^{3}x^{-1}y^{-1}xy,2 2 2 -1 -2 1 2,uncertified,,false,,,
+645,1,y^{3}x^{-1}y^{-1}xy^{-1},2 2 2 -1 -2 1 -2,certified,,false,,ms-train-0259,14
+646,2,y^{3}x^{-1}y^{-1}xy^{-1},2 2 2 -1 -2 1 -2,certified,,false,,ms-train-0260,28
+647,3,y^{3}x^{-1}y^{-1}xy^{-1},2 2 2 -1 -2 1 -2,open,13_1,true,ms-v1-0256,,
+648,4,y^{3}x^{-1}y^{-1}xy^{-1},2 2 2 -1 -2 1 -2,open,15_1,true,ms-v1-0257,,
+649,5,y^{3}x^{-1}y^{-1}xy^{-1},2 2 2 -1 -2 1 -2,open,16_1,true,ms-v1-0258,,
+650,6,y^{3}x^{-1}y^{-1}xy^{-1},2 2 2 -1 -2 1 -2,open,17_{35},true,ms-v1-0259,,
+651,7,y^{3}x^{-1}y^{-1}xy^{-1},2 2 2 -1 -2 1 -2,open,18_6,true,ms-v1-0260,,
+652,1,y^{2}xy^{3}x^{-1},2 2 1 2 2 2 -1,certified,,false,,ms-train-0261,35
+653,2,y^{2}xy^{3}x^{-1},2 2 1 2 2 2 -1,certified,,false,,ms-train-0262,25
+654,3,y^{2}xy^{3}x^{-1},2 2 1 2 2 2 -1,open,13_1,true,ms-v1-0261,,
+655,4,y^{2}xy^{3}x^{-1},2 2 1 2 2 2 -1,uncertified,,false,,,
+656,5,y^{2}xy^{3}x^{-1},2 2 1 2 2 2 -1,uncertified,,false,,,
+657,6,y^{2}xy^{3}x^{-1},2 2 1 2 2 2 -1,open,18_4,true,ms-v1-0262,,
+658,7,y^{2}xy^{3}x^{-1},2 2 1 2 2 2 -1,open,21_{39},true,ms-v1-0263,,
+659,1,y^{2}xy^{2}x^{-1}y,2 2 1 2 2 -1 2,certified,,false,,ms-train-0263,22
+660,2,y^{2}xy^{2}x^{-1}y,2 2 1 2 2 -1 2,certified,,false,,ms-train-0264,20
+661,3,y^{2}xy^{2}x^{-1}y,2 2 1 2 2 -1 2,uncertified,,false,,,
+662,4,y^{2}xy^{2}x^{-1}y,2 2 1 2 2 -1 2,uncertified,,false,,,
+663,5,y^{2}xy^{2}x^{-1}y,2 2 1 2 2 -1 2,open,16_4,true,ms-v1-0264,,
+664,6,y^{2}xy^{2}x^{-1}y,2 2 1 2 2 -1 2,open,19_{35},true,ms-v1-0265,,
+665,7,y^{2}xy^{2}x^{-1}y,2 2 1 2 2 -1 2,open,20_{10},true,ms-v1-0266,,
+666,1,y^{2}xy^{2}x^{-1}y^{-1},2 2 1 2 2 -1 -2,certified,,false,,ms-train-0265,20
+667,2,y^{2}xy^{2}x^{-1}y^{-1},2 2 1 2 2 -1 -2,certified,,false,,ms-train-0266,22
+668,3,y^{2}xy^{2}x^{-1}y^{-1},2 2 1 2 2 -1 -2,certified,,false,,ms-train-0267,92
+669,4,y^{2}xy^{2}x^{-1}y^{-1},2 2 1 2 2 -1 -2,uncertified,,false,,,
+670,5,y^{2}xy^{2}x^{-1}y^{-1},2 2 1 2 2 -1 -2,open,16_4,true,ms-v1-0267,,
+671,6,y^{2}xy^{2}x^{-1}y^{-1},2 2 1 2 2 -1 -2,open,19_{35},true,ms-v1-0268,,
+672,7,y^{2}xy^{2}x^{-1}y^{-1},2 2 1 2 2 -1 -2,open,20_{10},true,ms-v1-0269,,
+673,1,y^{2}xyx^{-1}y^{2},2 2 1 2 -1 2 2,certified,,false,,ms-train-0268,44
+674,2,y^{2}xyx^{-1}y^{2},2 2 1 2 -1 2 2,certified,,false,,ms-train-0269,31
+675,3,y^{2}xyx^{-1}y^{2},2 2 1 2 -1 2 2,uncertified,,false,,,
+676,4,y^{2}xyx^{-1}y^{2},2 2 1 2 -1 2 2,uncertified,,false,,,
+677,5,y^{2}xyx^{-1}y^{2},2 2 1 2 -1 2 2,open,17_{30},true,ms-v1-0270,,
+678,6,y^{2}xyx^{-1}y^{2},2 2 1 2 -1 2 2,open,16_{10},true,ms-v1-0271,,
+679,7,y^{2}xyx^{-1}y^{2},2 2 1 2 -1 2 2,open,23_{22},true,ms-v1-0272,,
+680,1,y^{2}xyx^{-1}y^{-2},2 2 1 2 -1 -2 -2,certified,,false,,ms-train-0270,20
+681,2,y^{2}xyx^{-1}y^{-2},2 2 1 2 -1 -2 -2,certified,,false,,ms-train-0271,18
+682,3,y^{2}xyx^{-1}y^{-2},2 2 1 2 -1 -2 -2,uncertified,,false,,,
+683,4,y^{2}xyx^{-1}y^{-2},2 2 1 2 -1 -2 -2,uncertified,,false,,,
+684,5,y^{2}xyx^{-1}y^{-2},2 2 1 2 -1 -2 -2,open,17_{30},true,ms-v1-0273,,
+685,6,y^{2}xyx^{-1}y^{-2},2 2 1 2 -1 -2 -2,open,16_6,true,ms-v1-0274,,
+686,7,y^{2}xyx^{-1}y^{-2},2 2 1 2 -1 -2 -2,open,19_{43},true,ms-v1-0275,,
+687,1,y^{2}x^{2}yx^{-2},2 2 1 1 2 -1 -1,certified,,false,,ms-train-0272,71
+688,2,y^{2}x^{2}yx^{-2},2 2 1 1 2 -1 -1,uncertified,,false,,,
+689,3,y^{2}x^{2}yx^{-2},2 2 1 1 2 -1 -1,open,17_{16},true,ms-v1-0276,,
+690,4,y^{2}x^{2}yx^{-2},2 2 1 1 2 -1 -1,open,19_{15},true,ms-v1-0277,,
+691,5,y^{2}x^{2}yx^{-2},2 2 1 1 2 -1 -1,open,21_{14},true,ms-v1-0278,,
+692,6,y^{2}x^{2}yx^{-2},2 2 1 1 2 -1 -1,open,23_9,true,ms-v1-0279,,
+693,7,y^{2}x^{2}yx^{-2},2 2 1 1 2 -1 -1,open,25_{15},true,ms-v1-0280,,
+694,1,y^{2}x^{2}y^{-1}x^{-2},2 2 1 1 -2 -1 -1,certified,,false,,ms-train-0273,50
+695,2,y^{2}x^{2}y^{-1}x^{-2},2 2 1 1 -2 -1 -1,certified,,false,,ms-train-0274,69
+696,3,y^{2}x^{2}y^{-1}x^{-2},2 2 1 1 -2 -1 -1,open,17_{17},true,ms-v1-0281,,
+697,4,y^{2}x^{2}y^{-1}x^{-2},2 2 1 1 -2 -1 -1,open,19_{16},true,ms-v1-0282,,
+698,5,y^{2}x^{2}y^{-1}x^{-2},2 2 1 1 -2 -1 -1,open,21_{15},true,ms-v1-0283,,
+699,6,y^{2}x^{2}y^{-1}x^{-2},2 2 1 1 -2 -1 -1,open,23_{10},true,ms-v1-0284,,
+700,7,y^{2}x^{2}y^{-1}x^{-2},2 2 1 1 -2 -1 -1,open,25_{16},true,ms-v1-0285,,
+701,1,y^{2}xy^{-3}x^{-1},2 2 1 -2 -2 -2 -1,certified,,false,,ms-train-0275,27
+702,2,y^{2}xy^{-3}x^{-1},2 2 1 -2 -2 -2 -1,certified,,false,,ms-train-0276,7
+703,3,y^{2}xy^{-3}x^{-1},2 2 1 -2 -2 -2 -1,certified,,false,,ms-train-0277,62
+704,4,y^{2}xy^{-3}x^{-1},2 2 1 -2 -2 -2 -1,certified,,false,,ms-train-0278,47
+705,5,y^{2}xy^{-3}x^{-1},2 2 1 -2 -2 -2 -1,certified,,false,,ms-train-0279,51
+706,6,y^{2}xy^{-3}x^{-1},2 2 1 -2 -2 -2 -1,uncertified,,false,,,
+707,7,y^{2}xy^{-3}x^{-1},2 2 1 -2 -2 -2 -1,open,19_{44},true,ms-v1-0286,,
+708,1,y^{2}xy^{-2}x^{-1}y^{-1},2 2 1 -2 -2 -1 -2,certified,,false,,ms-train-0280,16
+709,2,y^{2}xy^{-2}x^{-1}y^{-1},2 2 1 -2 -2 -1 -2,certified,,false,,ms-train-0281,9
+710,3,y^{2}xy^{-2}x^{-1}y^{-1},2 2 1 -2 -2 -1 -2,certified,,false,,ms-train-0282,33
+711,4,y^{2}xy^{-2}x^{-1}y^{-1},2 2 1 -2 -2 -1 -2,certified,,false,,ms-train-0283,61
+712,5,y^{2}xy^{-2}x^{-1}y^{-1},2 2 1 -2 -2 -1 -2,uncertified,,false,,,
+713,6,y^{2}xy^{-2}x^{-1}y^{-1},2 2 1 -2 -2 -1 -2,uncertified,,false,,,
+714,7,y^{2}xy^{-2}x^{-1}y^{-1},2 2 1 -2 -2 -1 -2,uncertified,,false,,,
+715,1,y^{2}xy^{-1}x^{-1}y^{2},2 2 1 -2 -1 2 2,certified,,false,,ms-train-0284,39
+716,2,y^{2}xy^{-1}x^{-1}y^{2},2 2 1 -2 -1 2 2,certified,,false,,ms-train-0285,16
+717,3,y^{2}xy^{-1}x^{-1}y^{2},2 2 1 -2 -1 2 2,open,13_1,true,ms-v1-0287,,
+718,4,y^{2}xy^{-1}x^{-1}y^{2},2 2 1 -2 -1 2 2,uncertified,,false,,,
+719,5,y^{2}xy^{-1}x^{-1}y^{2},2 2 1 -2 -1 2 2,open,17_{31},true,ms-v1-0288,,
+720,6,y^{2}xy^{-1}x^{-1}y^{2},2 2 1 -2 -1 2 2,open,16_7,true,ms-v1-0289,,
+721,7,y^{2}xy^{-1}x^{-1}y^{2},2 2 1 -2 -1 2 2,open,21_{35},true,ms-v1-0290,,
+722,1,y^{2}xy^{-1}x^{-1}y^{-2},2 2 1 -2 -1 -2 -2,certified,,false,,ms-train-0286,13
+723,2,y^{2}xy^{-1}x^{-1}y^{-2},2 2 1 -2 -1 -2 -2,certified,,false,,ms-train-0287,10
+724,3,y^{2}xy^{-1}x^{-1}y^{-2},2 2 1 -2 -1 -2 -2,open,13_1,true,ms-v1-0291,,
+725,4,y^{2}xy^{-1}x^{-1}y^{-2},2 2 1 -2 -1 -2 -2,certified,,false,,ms-train-0288,57
+726,5,y^{2}xy^{-1}x^{-1}y^{-2},2 2 1 -2 -1 -2 -2,open,17_{31},true,ms-v1-0292,,
+727,6,y^{2}xy^{-1}x^{-1}y^{-2},2 2 1 -2 -1 -2 -2,open,16_7,true,ms-v1-0293,,
+728,7,y^{2}xy^{-1}x^{-1}y^{-2},2 2 1 -2 -1 -2 -2,open,21_{35},true,ms-v1-0294,,
+729,1,y^{2}x^{-1}y^{-1}xy^{2},2 2 -1 -2 1 2 2,certified,,false,,ms-train-0289,9
+730,2,y^{2}x^{-1}y^{-1}xy^{2},2 2 -1 -2 1 2 2,certified,,false,,ms-train-0290,38
+731,3,y^{2}x^{-1}y^{-1}xy^{2},2 2 -1 -2 1 2 2,certified,,false,,ms-train-0291,76
+732,4,y^{2}x^{-1}y^{-1}xy^{2},2 2 -1 -2 1 2 2,open,14_1,true,ms-v1-0295,,
+733,5,y^{2}x^{-1}y^{-1}xy^{2},2 2 -1 -2 1 2 2,uncertified,,false,,,
+734,6,y^{2}x^{-1}y^{-1}xy^{2},2 2 -1 -2 1 2 2,open,19_{34},true,ms-v1-0296,,
+735,7,y^{2}x^{-1}y^{-1}xy^{2},2 2 -1 -2 1 2 2,open,17_{42},true,ms-v1-0297,,
+736,1,y^{2}x^{-1}y^{-1}xy^{-2},2 2 -1 -2 1 -2 -2,certified,,false,,ms-train-0292,11
+737,2,y^{2}x^{-1}y^{-1}xy^{-2},2 2 -1 -2 1 -2 -2,certified,,false,,ms-train-0293,45
+738,3,y^{2}x^{-1}y^{-1}xy^{-2},2 2 -1 -2 1 -2 -2,certified,,false,,ms-train-0294,40
+739,4,y^{2}x^{-1}y^{-1}xy^{-2},2 2 -1 -2 1 -2 -2,open,15_{11},true,ms-v1-0298,,
+740,5,y^{2}x^{-1}y^{-1}xy^{-2},2 2 -1 -2 1 -2 -2,open,14_1,true,ms-v1-0299,,
+741,6,y^{2}x^{-1}y^{-1}xy^{-2},2 2 -1 -2 1 -2 -2,open,17_{36},true,ms-v1-0300,,
+742,7,y^{2}x^{-1}y^{-1}xy^{-2},2 2 -1 -2 1 -2 -2,open,15_{15},true,ms-v1-0301,,
+743,1,y^{2}x^{-1}y^{-2}xy^{-1},2 2 -1 -2 -2 1 -2,certified,,false,,ms-train-0295,21
+744,2,y^{2}x^{-1}y^{-2}xy^{-1},2 2 -1 -2 -2 1 -2,certified,,false,,ms-train-0296,14
+745,3,y^{2}x^{-1}y^{-2}xy^{-1},2 2 -1 -2 -2 1 -2,uncertified,,false,,,
+746,4,y^{2}x^{-1}y^{-2}xy^{-1},2 2 -1 -2 -2 1 -2,certified,,false,,ms-train-0297,82
+747,5,y^{2}x^{-1}y^{-2}xy^{-1},2 2 -1 -2 -2 1 -2,open,17_{33},true,ms-v1-0302,,
+748,6,y^{2}x^{-1}y^{-2}xy^{-1},2 2 -1 -2 -2 1 -2,open,16_9,true,ms-v1-0303,,
+749,7,y^{2}x^{-1}y^{-2}xy^{-1},2 2 -1 -2 -2 1 -2,open,19_{48},true,ms-v1-0304,,
+750,1,y^{2}xy^{-2}x^{-1}y,2 2 1 -2 -2 -1 2,certified,,false,,ms-train-0298,17
+751,2,y^{2}xy^{-2}x^{-1}y,2 2 1 -2 -2 -1 2,certified,,false,,ms-train-0299,12
+752,3,y^{2}xy^{-2}x^{-1}y,2 2 1 -2 -2 -1 2,certified,,false,,ms-train-0300,44
+753,4,y^{2}xy^{-2}x^{-1}y,2 2 1 -2 -2 -1 2,certified,,false,,ms-train-0301,53
+754,5,y^{2}xy^{-2}x^{-1}y,2 2 1 -2 -2 -1 2,uncertified,,false,,,
+755,6,y^{2}xy^{-2}x^{-1}y,2 2 1 -2 -2 -1 2,uncertified,,false,,,
+756,7,y^{2}xy^{-2}x^{-1}y,2 2 1 -2 -2 -1 2,uncertified,,false,,,
+757,1,yxy^{-1}x^{-1}y^{3},2 1 -2 -1 2 2 2,certified,,false,,ms-train-0302,20
+758,2,yxy^{-1}x^{-1}y^{3},2 1 -2 -1 2 2 2,certified,,false,,ms-train-0303,88
+759,3,yxy^{-1}x^{-1}y^{3},2 1 -2 -1 2 2 2,uncertified,,false,,,
+760,4,yxy^{-1}x^{-1}y^{3},2 1 -2 -1 2 2 2,uncertified,,false,,,
+761,5,yxy^{-1}x^{-1}y^{3},2 1 -2 -1 2 2 2,uncertified,,false,,,
+762,6,yxy^{-1}x^{-1}y^{3},2 1 -2 -1 2 2 2,uncertified,,false,,,
+763,7,yxy^{-1}x^{-1}y^{3},2 1 -2 -1 2 2 2,uncertified,,false,,,
+764,1,yx^{2}yx^{-1}yx^{-1},2 1 1 2 -1 2 -1,certified,,false,,ms-train-0304,41
+765,2,yx^{2}yx^{-1}yx^{-1},2 1 1 2 -1 2 -1,open,15_3,true,ms-v1-0305,,
+766,3,yx^{2}yx^{-1}yx^{-1},2 1 1 2 -1 2 -1,open,17_3,true,ms-v1-0306,,
+767,4,yx^{2}yx^{-1}yx^{-1},2 1 1 2 -1 2 -1,open,19_2,true,ms-v1-0307,,
+768,5,yx^{2}yx^{-1}yx^{-1},2 1 1 2 -1 2 -1,open,20_4,true,ms-v1-0308,,
+769,6,yx^{2}yx^{-1}yx^{-1},2 1 1 2 -1 2 -1,open,21_{30},true,ms-v1-0309,,
+770,7,yx^{2}yx^{-1}yx^{-1},2 1 1 2 -1 2 -1,open,25_2,true,ms-v1-0310,,
+771,1,y^{-1}xy^{-1}x^{-1}y^{-3},-2 1 -2 -1 -2 -2 -2,certified,,false,,ms-train-0305,29
+772,2,y^{-1}xy^{-1}x^{-1}y^{-3},-2 1 -2 -1 -2 -2 -2,uncertified,,false,,,
+773,3,y^{-1}xy^{-1}x^{-1}y^{-3},-2 1 -2 -1 -2 -2 -2,open,13_1,true,ms-v1-0311,,
+774,4,y^{-1}xy^{-1}x^{-1}y^{-3},-2 1 -2 -1 -2 -2 -2,open,15_1,true,ms-v1-0312,,
+775,5,y^{-1}xy^{-1}x^{-1}y^{-3},-2 1 -2 -1 -2 -2 -2,open,16_1,true,ms-v1-0313,,
+776,6,y^{-1}xy^{-1}x^{-1}y^{-3},-2 1 -2 -1 -2 -2 -2,open,17_1,true,ms-v1-0314,,
+777,7,y^{-1}xy^{-1}x^{-1}y^{-3},-2 1 -2 -1 -2 -2 -2,open,18_7,true,ms-v1-0315,,
+778,1,y^{-2}xyx^{-1}y^{-2},-2 -2 1 2 -1 -2 -2,certified,,false,,ms-train-0306,39
+779,2,y^{-2}xyx^{-1}y^{-2},-2 -2 1 2 -1 -2 -2,certified,,false,,ms-train-0307,19
+780,3,y^{-2}xyx^{-1}y^{-2},-2 -2 1 2 -1 -2 -2,open,13_1,true,ms-v1-0316,,
+781,4,y^{-2}xyx^{-1}y^{-2},-2 -2 1 2 -1 -2 -2,uncertified,,false,,,
+782,5,y^{-2}xyx^{-1}y^{-2},-2 -2 1 2 -1 -2 -2,open,17_{32},true,ms-v1-0317,,
+783,6,y^{-2}xyx^{-1}y^{-2},-2 -2 1 2 -1 -2 -2,open,16_8,true,ms-v1-0318,,
+784,7,y^{-2}xyx^{-1}y^{-2},-2 -2 1 2 -1 -2 -2,open,21_{38},true,ms-v1-0319,,
+785,1,y^{-2}xy^{-1}x^{-1}y^{-2},-2 -2 1 -2 -1 -2 -2,certified,,false,,ms-train-0308,55
+786,2,y^{-2}xy^{-1}x^{-1}y^{-2},-2 -2 1 -2 -1 -2 -2,certified,,false,,ms-train-0309,36
+787,3,y^{-2}xy^{-1}x^{-1}y^{-2},-2 -2 1 -2 -1 -2 -2,uncertified,,false,,,
+788,4,y^{-2}xy^{-1}x^{-1}y^{-2},-2 -2 1 -2 -1 -2 -2,uncertified,,false,,,
+789,5,y^{-2}xy^{-1}x^{-1}y^{-2},-2 -2 1 -2 -1 -2 -2,open,17_{33},true,ms-v1-0320,,
+790,6,y^{-2}xy^{-1}x^{-1}y^{-2},-2 -2 1 -2 -1 -2 -2,open,16_9,true,ms-v1-0321,,
+791,7,y^{-2}xy^{-1}x^{-1}y^{-2},-2 -2 1 -2 -1 -2 -2,open,23_{23},true,ms-v1-0322,,
+792,1,y^{-7},-2 -2 -2 -2 -2 -2 -2,certified,,false,,ms-train-0310,23
+793,2,y^{-7},-2 -2 -2 -2 -2 -2 -2,certified,,false,,ms-train-0311,42
+794,3,y^{-7},-2 -2 -2 -2 -2 -2 -2,certified,,false,,ms-train-0312,30
+795,4,y^{-7},-2 -2 -2 -2 -2 -2 -2,certified,,false,,ms-train-0313,29
+796,5,y^{-7},-2 -2 -2 -2 -2 -2 -2,certified,,false,,ms-train-0314,23
+797,6,y^{-7},-2 -2 -2 -2 -2 -2 -2,certified,,false,,ms-train-0315,13
+798,7,y^{-7},-2 -2 -2 -2 -2 -2 -2,certified,,false,,ms-train-0316,14
+799,1,y^{-1}x^{-1}y^{-2}xy^{2},-2 -1 -2 -2 1 2 2,certified,,false,,ms-train-0317,18
+800,2,y^{-1}x^{-1}y^{-2}xy^{2},-2 -1 -2 -2 1 2 2,certified,,false,,ms-train-0318,17
+801,3,y^{-1}x^{-1}y^{-2}xy^{2},-2 -1 -2 -2 1 2 2,certified,,false,,ms-train-0319,49
+802,4,y^{-1}x^{-1}y^{-2}xy^{2},-2 -1 -2 -2 1 2 2,certified,,false,,ms-train-0320,91
+803,5,y^{-1}x^{-1}y^{-2}xy^{2},-2 -1 -2 -2 1 2 2,uncertified,,false,,,
+804,6,y^{-1}x^{-1}y^{-2}xy^{2},-2 -1 -2 -2 1 2 2,uncertified,,false,,,
+805,7,y^{-1}x^{-1}y^{-2}xy^{2},-2 -1 -2 -2 1 2 2,uncertified,,false,,,
+806,1,y^{-1}x^{-1}y^{-2}xy^{-2},-2 -1 -2 -2 1 -2 -2,certified,,false,,ms-train-0321,19
+807,2,y^{-1}x^{-1}y^{-2}xy^{-2},-2 -1 -2 -2 1 -2 -2,certified,,false,,ms-train-0322,31
+808,3,y^{-1}x^{-1}y^{-2}xy^{-2},-2 -1 -2 -2 1 -2 -2,uncertified,,false,,,
+809,4,y^{-1}x^{-1}y^{-2}xy^{-2},-2 -1 -2 -2 1 -2 -2,uncertified,,false,,,
+810,5,y^{-1}x^{-1}y^{-2}xy^{-2},-2 -1 -2 -2 1 -2 -2,open,16_5,true,ms-v1-0323,,
+811,6,y^{-1}x^{-1}y^{-2}xy^{-2},-2 -1 -2 -2 1 -2 -2,open,19_{36},true,ms-v1-0324,,
+812,7,y^{-1}x^{-1}y^{-2}xy^{-2},-2 -1 -2 -2 1 -2 -2,open,20_{11},true,ms-v1-0325,,
+813,1,y^{-1}x^{-1}y^{-3}xy,-2 -1 -2 -2 -2 1 2,certified,,false,,ms-train-0323,34
+814,2,y^{-1}x^{-1}y^{-3}xy,-2 -1 -2 -2 -2 1 2,certified,,false,,ms-train-0324,96
+815,3,y^{-1}x^{-1}y^{-3}xy,-2 -1 -2 -2 -2 1 2,certified,,false,,ms-train-0325,20
+816,4,y^{-1}x^{-1}y^{-3}xy,-2 -1 -2 -2 -2 1 2,open,15_1,true,ms-v1-0326,,
+817,5,y^{-1}x^{-1}y^{-3}xy,-2 -1 -2 -2 -2 1 2,open,17_{30},true,ms-v1-0327,,
+818,6,y^{-1}x^{-1}y^{-3}xy,-2 -1 -2 -2 -2 1 2,uncertified,,false,,,
+819,7,y^{-1}x^{-1}y^{-3}xy,-2 -1 -2 -2 -2 1 2,open,18_{11},true,ms-v1-0328,,
+820,1,y^{-1}x^{-1}y^{-3}xy^{-1},-2 -1 -2 -2 -2 1 -2,certified,,false,,ms-train-0326,53
+821,2,y^{-1}x^{-1}y^{-3}xy^{-1},-2 -1 -2 -2 -2 1 -2,uncertified,,false,,,
+822,3,y^{-1}x^{-1}y^{-3}xy^{-1},-2 -1 -2 -2 -2 1 -2,certified,,false,,ms-train-0327,30
+823,4,y^{-1}x^{-1}y^{-3}xy^{-1},-2 -1 -2 -2 -2 1 -2,uncertified,,false,,,
+824,5,y^{-1}x^{-1}y^{-3}xy^{-1},-2 -1 -2 -2 -2 1 -2,open,17_{31},true,ms-v1-0329,,
+825,6,y^{-1}x^{-1}y^{-3}xy^{-1},-2 -1 -2 -2 -2 1 -2,uncertified,,false,,,
+826,7,y^{-1}x^{-1}y^{-3}xy^{-1},-2 -1 -2 -2 -2 1 -2,open,19_{42},true,ms-v1-0330,,
+827,1,x^{-1}y^{-1}xy^{4},-1 -2 1 2 2 2 2,certified,,false,,ms-train-0328,14
+828,2,x^{-1}y^{-1}xy^{4},-1 -2 1 2 2 2 2,uncertified,,false,,,
+829,3,x^{-1}y^{-1}xy^{4},-1 -2 1 2 2 2 2,certified,,false,,ms-train-0329,18
+830,4,x^{-1}y^{-1}xy^{4},-1 -2 1 2 2 2 2,open,15_1,true,ms-v1-0331,,
+831,5,x^{-1}y^{-1}xy^{4},-1 -2 1 2 2 2 2,open,14_1,true,ms-v1-0332,,
+832,6,x^{-1}y^{-1}xy^{4},-1 -2 1 2 2 2 2,open,17_{40},true,ms-v1-0333,,
+833,7,x^{-1}y^{-1}xy^{4},-1 -2 1 2 2 2 2,uncertified,,false,,,
+834,1,x^{-1}y^{-1}x^{2}yx^{-1}y^{-1},-1 -2 1 1 2 -1 -2,certified,,false,,ms-train-0330,39
+835,2,x^{-1}y^{-1}x^{2}yx^{-1}y^{-1},-1 -2 1 1 2 -1 -2,open,15_8,true,ms-v1-0334,,
+836,3,x^{-1}y^{-1}x^{2}yx^{-1}y^{-1},-1 -2 1 1 2 -1 -2,open,17_{26},true,ms-v1-0335,,
+837,4,x^{-1}y^{-1}x^{2}yx^{-1}y^{-1},-1 -2 1 1 2 -1 -2,open,19_{29},true,ms-v1-0336,,
+838,5,x^{-1}y^{-1}x^{2}yx^{-1}y^{-1},-1 -2 1 1 2 -1 -2,open,21_{27},true,ms-v1-0337,,
+839,6,x^{-1}y^{-1}x^{2}yx^{-1}y^{-1},-1 -2 1 1 2 -1 -2,open,23_{20},true,ms-v1-0338,,
+840,7,x^{-1}y^{-1}x^{2}yx^{-1}y^{-1},-1 -2 1 1 2 -1 -2,open,25_{29},true,ms-v1-0339,,
+841,1,x^{-1}y^{-1}x^{2}y^{-1}x^{-1}y^{-1},-1 -2 1 1 -2 -1 -2,certified,,false,,ms-train-0331,33
+842,2,x^{-1}y^{-1}x^{2}y^{-1}x^{-1}y^{-1},-1 -2 1 1 -2 -1 -2,open,15_9,true,ms-v1-0340,,
+843,3,x^{-1}y^{-1}x^{2}y^{-1}x^{-1}y^{-1},-1 -2 1 1 -2 -1 -2,open,17_{27},true,ms-v1-0341,,
+844,4,x^{-1}y^{-1}x^{2}y^{-1}x^{-1}y^{-1},-1 -2 1 1 -2 -1 -2,open,19_{30},true,ms-v1-0342,,
+845,5,x^{-1}y^{-1}x^{2}y^{-1}x^{-1}y^{-1},-1 -2 1 1 -2 -1 -2,open,20_7,true,ms-v1-0343,,
+846,6,x^{-1}y^{-1}x^{2}y^{-1}x^{-1}y^{-1},-1 -2 1 1 -2 -1 -2,open,21_{33},true,ms-v1-0344,,
+847,7,x^{-1}y^{-1}x^{2}y^{-1}x^{-1}y^{-1},-1 -2 1 1 -2 -1 -2,open,25_{30},true,ms-v1-0345,,
+848,1,x^{-1}y^{-1}xy^{-4},-1 -2 1 -2 -2 -2 -2,certified,,false,,ms-train-0332,23
+849,2,x^{-1}y^{-1}xy^{-4},-1 -2 1 -2 -2 -2 -2,uncertified,,false,,,
+850,3,x^{-1}y^{-1}xy^{-4},-1 -2 1 -2 -2 -2 -2,certified,,false,,ms-train-0333,19
+851,4,x^{-1}y^{-1}xy^{-4},-1 -2 1 -2 -2 -2 -2,uncertified,,false,,,
+852,5,x^{-1}y^{-1}xy^{-4},-1 -2 1 -2 -2 -2 -2,uncertified,,false,,,
+853,6,x^{-1}y^{-1}xy^{-4},-1 -2 1 -2 -2 -2 -2,open,17_{39},true,ms-v1-0346,,
+854,7,x^{-1}y^{-1}xy^{-4},-1 -2 1 -2 -2 -2 -2,uncertified,,false,,,
+855,1,x^{-1}y^{-2}xy^{3},-1 -2 -2 1 2 2 2,certified,,false,,ms-train-0334,17
+856,2,x^{-1}y^{-2}xy^{3},-1 -2 -2 1 2 2 2,certified,,false,,ms-train-0335,11
+857,3,x^{-1}y^{-2}xy^{3},-1 -2 -2 1 2 2 2,certified,,false,,ms-train-0336,72
+858,4,x^{-1}y^{-2}xy^{3},-1 -2 -2 1 2 2 2,certified,,false,,ms-train-0337,50
+859,5,x^{-1}y^{-2}xy^{3},-1 -2 -2 1 2 2 2,certified,,false,,ms-train-0338,37
+860,6,x^{-1}y^{-2}xy^{3},-1 -2 -2 1 2 2 2,uncertified,,false,,,
+861,7,x^{-1}y^{-2}xy^{3},-1 -2 -2 1 2 2 2,open,19_{49},true,ms-v1-0347,,
+862,1,x^{-1}y^{-2}xy^{-3},-1 -2 -2 1 -2 -2 -2,certified,,false,,ms-train-0339,40
+863,2,x^{-1}y^{-2}xy^{-3},-1 -2 -2 1 -2 -2 -2,certified,,false,,ms-train-0340,18
+864,3,x^{-1}y^{-2}xy^{-3},-1 -2 -2 1 -2 -2 -2,open,13_1,true,ms-v1-0348,,
+865,4,x^{-1}y^{-2}xy^{-3},-1 -2 -2 1 -2 -2 -2,uncertified,,false,,,
+866,5,x^{-1}y^{-2}xy^{-3},-1 -2 -2 1 -2 -2 -2,uncertified,,false,,,
+867,6,x^{-1}y^{-2}xy^{-3},-1 -2 -2 1 -2 -2 -2,open,18_5,true,ms-v1-0349,,
+868,7,x^{-1}y^{-2}xy^{-3},-1 -2 -2 1 -2 -2 -2,open,21_{41},true,ms-v1-0350,,
+869,1,x^{-1}y^{-3}xy^{2},-1 -2 -2 -2 1 2 2,certified,,false,,ms-train-0341,17
+870,2,x^{-1}y^{-3}xy^{2},-1 -2 -2 -2 1 2 2,certified,,false,,ms-train-0342,82
+871,3,x^{-1}y^{-3}xy^{2},-1 -2 -2 -2 1 2 2,certified,,false,,ms-train-0343,20
+872,4,x^{-1}y^{-3}xy^{2},-1 -2 -2 -2 1 2 2,open,15_{10},true,ms-v1-0351,,
+873,5,x^{-1}y^{-3}xy^{2},-1 -2 -2 -2 1 2 2,open,16_4,true,ms-v1-0352,,
+874,6,x^{-1}y^{-3}xy^{2},-1 -2 -2 -2 1 2 2,certified,,false,,ms-train-0344,59
+875,7,x^{-1}y^{-3}xy^{2},-1 -2 -2 -2 1 2 2,open,19_{50},true,ms-v1-0353,,
+876,1,x^{-1}y^{-3}xy^{-2},-1 -2 -2 -2 1 -2 -2,certified,,false,,ms-train-0345,17
+877,2,x^{-1}y^{-3}xy^{-2},-1 -2 -2 -2 1 -2 -2,uncertified,,false,,,
+878,3,x^{-1}y^{-3}xy^{-2},-1 -2 -2 -2 1 -2 -2,certified,,false,,ms-train-0346,40
+879,4,x^{-1}y^{-3}xy^{-2},-1 -2 -2 -2 1 -2 -2,open,14_1,true,ms-v1-0354,,
+880,5,x^{-1}y^{-3}xy^{-2},-1 -2 -2 -2 1 -2 -2,uncertified,,false,,,
+881,6,x^{-1}y^{-3}xy^{-2},-1 -2 -2 -2 1 -2 -2,uncertified,,false,,,
+882,7,x^{-1}y^{-3}xy^{-2},-1 -2 -2 -2 1 -2 -2,open,21_{42},true,ms-v1-0355,,
+883,1,x^{-1}y^{-4}xy,-1 -2 -2 -2 -2 1 2,certified,,false,,ms-train-0347,62
+884,2,x^{-1}y^{-4}xy,-1 -2 -2 -2 -2 1 2,certified,,false,,ms-train-0348,34
+885,3,x^{-1}y^{-4}xy,-1 -2 -2 -2 -2 1 2,uncertified,,false,,,
+886,4,x^{-1}y^{-4}xy,-1 -2 -2 -2 -2 1 2,certified,,false,,ms-train-0349,19
+887,5,x^{-1}y^{-4}xy,-1 -2 -2 -2 -2 1 2,open,16_1,true,ms-v1-0356,,
+888,6,x^{-1}y^{-4}xy,-1 -2 -2 -2 -2 1 2,open,16_6,true,ms-v1-0357,,
+889,7,x^{-1}y^{-4}xy,-1 -2 -2 -2 -2 1 2,open,19_{51},true,ms-v1-0358,,
+890,1,x^{-1}y^{-4}xy^{-1},-1 -2 -2 -2 -2 1 -2,certified,,false,,ms-train-0350,76
+891,2,x^{-1}y^{-4}xy^{-1},-1 -2 -2 -2 -2 1 -2,certified,,false,,ms-train-0351,43
+892,3,x^{-1}y^{-4}xy^{-1},-1 -2 -2 -2 -2 1 -2,open,13_1,true,ms-v1-0359,,
+893,4,x^{-1}y^{-4}xy^{-1},-1 -2 -2 -2 -2 1 -2,certified,,false,,ms-train-0352,34
+894,5,x^{-1}y^{-4}xy^{-1},-1 -2 -2 -2 -2 1 -2,uncertified,,false,,,
+895,6,x^{-1}y^{-4}xy^{-1},-1 -2 -2 -2 -2 1 -2,open,16_7,true,ms-v1-0360,,
+896,7,x^{-1}y^{-4}xy^{-1},-1 -2 -2 -2 -2 1 -2,open,19_{52},true,ms-v1-0361,,
+897,1,x^{-1}y^{-1}x^{-1}y^{-1}x^{2}y,-1 -2 -1 -2 1 1 2,certified,,false,,ms-train-0353,48
+898,2,x^{-1}y^{-1}x^{-1}y^{-1}x^{2}y,-1 -2 -1 -2 1 1 2,open,14_1,true,ms-v1-0362,,
+899,3,x^{-1}y^{-1}x^{-1}y^{-1}x^{2}y,-1 -2 -1 -2 1 1 2,open,17_{28},true,ms-v1-0363,,
+900,4,x^{-1}y^{-1}x^{-1}y^{-1}x^{2}y,-1 -2 -1 -2 1 1 2,open,19_{31},true,ms-v1-0364,,
+901,5,x^{-1}y^{-1}x^{-1}y^{-1}x^{2}y,-1 -2 -1 -2 1 1 2,open,21_{28},true,ms-v1-0365,,
+902,6,x^{-1}y^{-1}x^{-1}y^{-1}x^{2}y,-1 -2 -1 -2 1 1 2,open,22_{11},true,ms-v1-0366,,
+903,7,x^{-1}y^{-1}x^{-1}y^{-1}x^{2}y,-1 -2 -1 -2 1 1 2,open,25_{31},true,ms-v1-0367,,
+904,1,x^{-1}y^{-1}x^{-1}y^{-1}x^{2}y^{-1},-1 -2 -1 -2 1 1 -2,certified,,false,,ms-train-0354,49
+905,2,x^{-1}y^{-1}x^{-1}y^{-1}x^{2}y^{-1},-1 -2 -1 -2 1 1 -2,open,14_2,true,ms-v1-0368,,
+906,3,x^{-1}y^{-1}x^{-1}y^{-1}x^{2}y^{-1},-1 -2 -1 -2 1 1 -2,open,17_{29},true,ms-v1-0369,,
+907,4,x^{-1}y^{-1}x^{-1}y^{-1}x^{2}y^{-1},-1 -2 -1 -2 1 1 -2,open,19_{32},true,ms-v1-0370,,
+908,5,x^{-1}y^{-1}x^{-1}y^{-1}x^{2}y^{-1},-1 -2 -1 -2 1 1 -2,open,21_{29},true,ms-v1-0371,,
+909,6,x^{-1}y^{-1}x^{-1}y^{-1}x^{2}y^{-1},-1 -2 -1 -2 1 1 -2,open,22_{12},true,ms-v1-0372,,
+910,7,x^{-1}y^{-1}x^{-1}y^{-1}x^{2}y^{-1},-1 -2 -1 -2 1 1 -2,open,25_{32},true,ms-v1-0373,,
+911,1,x^{-2}y^{-1}xyxy,-1 -1 -2 1 2 1 2,certified,,false,,ms-train-0355,19
+912,2,x^{-2}y^{-1}xyxy,-1 -1 -2 1 2 1 2,open,15_3,true,ms-v1-0374,,
+913,3,x^{-2}y^{-1}xyxy,-1 -1 -2 1 2 1 2,open,17_{22},true,ms-v1-0375,,
+914,4,x^{-2}y^{-1}xyxy,-1 -1 -2 1 2 1 2,open,19_{23},true,ms-v1-0376,,
+915,5,x^{-2}y^{-1}xyxy,-1 -1 -2 1 2 1 2,open,21_{21},true,ms-v1-0377,,
+916,6,x^{-2}y^{-1}xyxy,-1 -1 -2 1 2 1 2,open,23_{14},true,ms-v1-0378,,
+917,7,x^{-2}y^{-1}xyxy,-1 -1 -2 1 2 1 2,open,25_{23},true,ms-v1-0379,,
+918,1,x^{-2}y^{-1}xyxy^{-1},-1 -1 -2 1 2 1 -2,certified,,false,,ms-train-0356,30
+919,2,x^{-2}y^{-1}xyxy^{-1},-1 -1 -2 1 2 1 -2,open,15_5,true,ms-v1-0380,,
+920,3,x^{-2}y^{-1}xyxy^{-1},-1 -1 -2 1 2 1 -2,open,17_{23},true,ms-v1-0381,,
+921,4,x^{-2}y^{-1}xyxy^{-1},-1 -1 -2 1 2 1 -2,open,19_{24},true,ms-v1-0382,,
+922,5,x^{-2}y^{-1}xyxy^{-1},-1 -1 -2 1 2 1 -2,open,21_{22},true,ms-v1-0383,,
+923,6,x^{-2}y^{-1}xyxy^{-1},-1 -1 -2 1 2 1 -2,open,23_{15},true,ms-v1-0384,,
+924,7,x^{-2}y^{-1}xyxy^{-1},-1 -1 -2 1 2 1 -2,open,25_{24},true,ms-v1-0385,,
+925,1,x^{-2}y^{-1}x^{2}y^{2},-1 -1 -2 1 1 2 2,certified,,false,,ms-train-0357,20
+926,2,x^{-2}y^{-1}x^{2}y^{2},-1 -1 -2 1 1 2 2,open,15_9,true,ms-v1-0386,,
+927,3,x^{-2}y^{-1}x^{2}y^{2},-1 -1 -2 1 1 2 2,open,17_{20},true,ms-v1-0387,,
+928,4,x^{-2}y^{-1}x^{2}y^{2},-1 -1 -2 1 1 2 2,open,19_{21},true,ms-v1-0388,,
+929,5,x^{-2}y^{-1}x^{2}y^{2},-1 -1 -2 1 1 2 2,open,21_{19},true,ms-v1-0389,,
+930,6,x^{-2}y^{-1}x^{2}y^{2},-1 -1 -2 1 1 2 2,open,23_{12},true,ms-v1-0390,,
+931,7,x^{-2}y^{-1}x^{2}y^{2},-1 -1 -2 1 1 2 2,open,25_{21},true,ms-v1-0391,,
+932,1,x^{-2}y^{-1}x^{2}y^{-2},-1 -1 -2 1 1 -2 -2,certified,,false,,ms-train-0358,26
+933,2,x^{-2}y^{-1}x^{2}y^{-2},-1 -1 -2 1 1 -2 -2,open,15_6,true,ms-v1-0392,,
+934,3,x^{-2}y^{-1}x^{2}y^{-2},-1 -1 -2 1 1 -2 -2,open,17_{21},true,ms-v1-0393,,
+935,4,x^{-2}y^{-1}x^{2}y^{-2},-1 -1 -2 1 1 -2 -2,open,19_{22},true,ms-v1-0394,,
+936,5,x^{-2}y^{-1}x^{2}y^{-2},-1 -1 -2 1 1 -2 -2,open,21_{20},true,ms-v1-0395,,
+937,6,x^{-2}y^{-1}x^{2}y^{-2},-1 -1 -2 1 1 -2 -2,open,23_{13},true,ms-v1-0396,,
+938,7,x^{-2}y^{-1}x^{2}y^{-2},-1 -1 -2 1 1 -2 -2,open,25_{22},true,ms-v1-0397,,
+939,1,x^{-2}y^{-1}xy^{-1}xy,-1 -1 -2 1 -2 1 2,certified,,false,,ms-train-0359,34
+940,2,x^{-2}y^{-1}xy^{-1}xy,-1 -1 -2 1 -2 1 2,open,15_4,true,ms-v1-0398,,
+941,3,x^{-2}y^{-1}xy^{-1}xy,-1 -1 -2 1 -2 1 2,open,17_{24},true,ms-v1-0399,,
+942,4,x^{-2}y^{-1}xy^{-1}xy,-1 -1 -2 1 -2 1 2,open,19_{25},true,ms-v1-0400,,
+943,5,x^{-2}y^{-1}xy^{-1}xy,-1 -1 -2 1 -2 1 2,open,21_{23},true,ms-v1-0401,,
+944,6,x^{-2}y^{-1}xy^{-1}xy,-1 -1 -2 1 -2 1 2,open,23_{16},true,ms-v1-0402,,
+945,7,x^{-2}y^{-1}xy^{-1}xy,-1 -1 -2 1 -2 1 2,open,25_{25},true,ms-v1-0403,,
+946,1,x^{-2}y^{-1}xy^{-1}xy^{-1},-1 -1 -2 1 -2 1 -2,certified,,false,,ms-train-0360,61
+947,2,x^{-2}y^{-1}xy^{-1}xy^{-1},-1 -1 -2 1 -2 1 -2,open,15_2,true,ms-v1-0404,,
+948,3,x^{-2}y^{-1}xy^{-1}xy^{-1},-1 -1 -2 1 -2 1 -2,open,17_{25},true,ms-v1-0405,,
+949,4,x^{-2}y^{-1}xy^{-1}xy^{-1},-1 -1 -2 1 -2 1 -2,open,19_{26},true,ms-v1-0406,,
+950,5,x^{-2}y^{-1}xy^{-1}xy^{-1},-1 -1 -2 1 -2 1 -2,open,21_{24},true,ms-v1-0407,,
+951,6,x^{-2}y^{-1}xy^{-1}xy^{-1},-1 -1 -2 1 -2 1 -2,open,23_{17},true,ms-v1-0408,,
+952,7,x^{-2}y^{-1}xy^{-1}xy^{-1},-1 -1 -2 1 -2 1 -2,open,25_{26},true,ms-v1-0409,,
+953,1,x^{-2}y^{-2}x^{2}y,-1 -1 -2 -2 1 1 2,certified,,false,,ms-train-0361,65
+954,2,x^{-2}y^{-2}x^{2}y,-1 -1 -2 -2 1 1 2,certified,,false,,ms-train-0362,66
+955,3,x^{-2}y^{-2}x^{2}y,-1 -1 -2 -2 1 1 2,open,17_5,true,ms-v1-0410,,
+956,4,x^{-2}y^{-2}x^{2}y,-1 -1 -2 -2 1 1 2,open,19_{27},true,ms-v1-0411,,
+957,5,x^{-2}y^{-2}x^{2}y,-1 -1 -2 -2 1 1 2,open,21_{25},true,ms-v1-0412,,
+958,6,x^{-2}y^{-2}x^{2}y,-1 -1 -2 -2 1 1 2,open,23_{18},true,ms-v1-0413,,
+959,7,x^{-2}y^{-2}x^{2}y,-1 -1 -2 -2 1 1 2,open,25_{27},true,ms-v1-0414,,
+960,1,y^{-1}xy^{-2}x^{-1}y^{-2},-2 1 -2 -2 -1 -2 -2,certified,,false,,ms-train-0363,25
+961,2,y^{-1}xy^{-2}x^{-1}y^{-2},-2 1 -2 -2 -1 -2 -2,certified,,false,,ms-train-0364,108
+962,3,y^{-1}xy^{-2}x^{-1}y^{-2},-2 1 -2 -2 -1 -2 -2,uncertified,,false,,,
+963,4,y^{-1}xy^{-2}x^{-1}y^{-2},-2 1 -2 -2 -1 -2 -2,open,15_{11},true,ms-v1-0415,,
+964,5,y^{-1}xy^{-2}x^{-1}y^{-2},-2 1 -2 -2 -1 -2 -2,open,14_1,true,ms-v1-0416,,
+965,6,y^{-1}xy^{-2}x^{-1}y^{-2},-2 1 -2 -2 -1 -2 -2,open,17_{36},true,ms-v1-0417,,
+966,7,y^{-1}xy^{-2}x^{-1}y^{-2},-2 1 -2 -2 -1 -2 -2,open,21_{37},true,ms-v1-0418,,
+967,1,yx^{2}y^{2}x^{-2},2 1 1 2 2 -1 -1,certified,,false,,ms-train-0365,20
+968,2,yx^{2}y^{2}x^{-2},2 1 1 2 2 -1 -1,open,15_2,true,ms-v1-0419,,
+969,3,yx^{2}y^{2}x^{-2},2 1 1 2 2 -1 -1,open,17_2,true,ms-v1-0420,,
+970,4,yx^{2}y^{2}x^{-2},2 1 1 2 2 -1 -1,open,19_1,true,ms-v1-0421,,
+971,5,yx^{2}y^{2}x^{-2},2 1 1 2 2 -1 -1,open,21_2,true,ms-v1-0422,,
+972,6,yx^{2}y^{2}x^{-2},2 1 1 2 2 -1 -1,open,23_1,true,ms-v1-0423,,
+973,7,yx^{2}y^{2}x^{-2},2 1 1 2 2 -1 -1,open,25_1,true,ms-v1-0424,,
+974,1,y^{-1}xy^{-3}x^{-1}y^{-1},-2 1 -2 -2 -2 -1 -2,certified,,false,,ms-train-0366,33
+975,2,y^{-1}xy^{-3}x^{-1}y^{-1},-2 1 -2 -2 -2 -1 -2,certified,,false,,ms-train-0367,27
+976,3,y^{-1}xy^{-3}x^{-1}y^{-1},-2 1 -2 -2 -2 -1 -2,uncertified,,false,,,
+977,4,y^{-1}xy^{-3}x^{-1}y^{-1},-2 1 -2 -2 -2 -1 -2,open,14_1,true,ms-v1-0425,,
+978,5,y^{-1}xy^{-3}x^{-1}y^{-1},-2 1 -2 -2 -2 -1 -2,uncertified,,false,,,
+979,6,y^{-1}xy^{-3}x^{-1}y^{-1},-2 1 -2 -2 -2 -1 -2,open,17_{40},true,ms-v1-0426,,
+980,7,y^{-1}xy^{-3}x^{-1}y^{-1},-2 1 -2 -2 -2 -1 -2,open,19_{41},true,ms-v1-0427,,
+981,1,y^{-1}xy^{2}x^{-1}y^{-2},-2 1 2 2 -1 -2 -2,certified,,false,,ms-train-0368,14
+982,2,y^{-1}xy^{2}x^{-1}y^{-2},-2 1 2 2 -1 -2 -2,uncertified,,false,,,
+983,3,y^{-1}xy^{2}x^{-1}y^{-2},-2 1 2 2 -1 -2 -2,certified,,false,,ms-train-0369,47
+984,4,y^{-1}xy^{2}x^{-1}y^{-2},-2 1 2 2 -1 -2 -2,open,14_1,true,ms-v1-0428,,
+985,5,y^{-1}xy^{2}x^{-1}y^{-2},-2 1 2 2 -1 -2 -2,uncertified,,false,,,
+986,6,y^{-1}xy^{2}x^{-1}y^{-2},-2 1 2 2 -1 -2 -2,open,19_{34},true,ms-v1-0429,,
+987,7,y^{-1}xy^{2}x^{-1}y^{-2},-2 1 2 2 -1 -2 -2,open,20_{12},true,ms-v1-0430,,
+988,1,yx^{2}yx^{-1}y^{-1}x^{-1},2 1 1 2 -1 -2 -1,certified,,false,,ms-train-0370,28
+989,2,yx^{2}yx^{-1}y^{-1}x^{-1},2 1 1 2 -1 -2 -1,open,15_4,true,ms-v1-0431,,
+990,3,yx^{2}yx^{-1}y^{-1}x^{-1},2 1 1 2 -1 -2 -1,open,17_6,true,ms-v1-0432,,
+991,4,yx^{2}yx^{-1}y^{-1}x^{-1},2 1 1 2 -1 -2 -1,open,19_5,true,ms-v1-0433,,
+992,5,yx^{2}yx^{-1}y^{-1}x^{-1},2 1 1 2 -1 -2 -1,open,21_5,true,ms-v1-0434,,
+993,6,yx^{2}yx^{-1}y^{-1}x^{-1},2 1 1 2 -1 -2 -1,open,23_2,true,ms-v1-0435,,
+994,7,yx^{2}yx^{-1}y^{-1}x^{-1},2 1 1 2 -1 -2 -1,open,25_5,true,ms-v1-0436,,
+995,1,yx^{2}yx^{-2}y,2 1 1 2 -1 -1 2,certified,,false,,ms-train-0371,51
+996,2,yx^{2}yx^{-2}y,2 1 1 2 -1 -1 2,open,14_2,true,ms-v1-0437,,
+997,3,yx^{2}yx^{-2}y,2 1 1 2 -1 -1 2,open,17_4,true,ms-v1-0438,,
+998,4,yx^{2}yx^{-2}y,2 1 1 2 -1 -1 2,open,19_3,true,ms-v1-0439,,
+999,5,yx^{2}yx^{-2}y,2 1 1 2 -1 -1 2,open,21_3,true,ms-v1-0440,,
+1000,6,yx^{2}yx^{-2}y,2 1 1 2 -1 -1 2,open,22_5,true,ms-v1-0441,,
+1001,7,yx^{2}yx^{-2}y,2 1 1 2 -1 -1 2,open,25_3,true,ms-v1-0442,,
+1002,1,yx^{2}yx^{-2}y^{-1},2 1 1 2 -1 -1 -2,certified,,false,,ms-train-0372,21
+1003,2,yx^{2}yx^{-2}y^{-1},2 1 1 2 -1 -1 -2,open,14_2,true,ms-v1-0443,,
+1004,3,yx^{2}yx^{-2}y^{-1},2 1 1 2 -1 -1 -2,open,17_5,true,ms-v1-0444,,
+1005,4,yx^{2}yx^{-2}y^{-1},2 1 1 2 -1 -1 -2,open,19_4,true,ms-v1-0445,,
+1006,5,yx^{2}yx^{-2}y^{-1},2 1 1 2 -1 -1 -2,open,21_4,true,ms-v1-0446,,
+1007,6,yx^{2}yx^{-2}y^{-1},2 1 1 2 -1 -1 -2,open,22_6,true,ms-v1-0447,,
+1008,7,yx^{2}yx^{-2}y^{-1},2 1 1 2 -1 -1 -2,open,25_4,true,ms-v1-0448,,
+1009,1,yx^{2}y^{-2}x^{-2},2 1 1 -2 -2 -1 -1,certified,,false,,ms-train-0373,13
+1010,2,yx^{2}y^{-2}x^{-2},2 1 1 -2 -2 -1 -1,open,15_3,true,ms-v1-0449,,
+1011,3,yx^{2}y^{-2}x^{-2},2 1 1 -2 -2 -1 -1,open,17_{11},true,ms-v1-0450,,
+1012,4,yx^{2}y^{-2}x^{-2},2 1 1 -2 -2 -1 -1,open,19_{10},true,ms-v1-0451,,
+1013,5,yx^{2}y^{-2}x^{-2},2 1 1 -2 -2 -1 -1,open,21_9,true,ms-v1-0452,,
+1014,6,yx^{2}y^{-2}x^{-2},2 1 1 -2 -2 -1 -1,open,23_4,true,ms-v1-0453,,
+1015,7,yx^{2}y^{-2}x^{-2},2 1 1 -2 -2 -1 -1,open,25_{10},true,ms-v1-0454,,
+1016,1,yx^{2}y^{-1}x^{-1}yx^{-1},2 1 1 -2 -1 2 -1,certified,,false,,ms-train-0374,27
+1017,2,yx^{2}y^{-1}x^{-1}yx^{-1},2 1 1 -2 -1 2 -1,open,15_5,true,ms-v1-0455,,
+1018,3,yx^{2}y^{-1}x^{-1}yx^{-1},2 1 1 -2 -1 2 -1,open,17_7,true,ms-v1-0456,,
+1019,4,yx^{2}y^{-1}x^{-1}yx^{-1},2 1 1 -2 -1 2 -1,open,19_6,true,ms-v1-0457,,
+1020,5,yx^{2}y^{-1}x^{-1}yx^{-1},2 1 1 -2 -1 2 -1,open,21_6,true,ms-v1-0458,,
+1021,6,yx^{2}y^{-1}x^{-1}yx^{-1},2 1 1 -2 -1 2 -1,open,23_3,true,ms-v1-0459,,
+1022,7,yx^{2}y^{-1}x^{-1}yx^{-1},2 1 1 -2 -1 2 -1,open,25_6,true,ms-v1-0460,,
+1023,1,yx^{2}y^{-1}x^{-1}y^{-1}x^{-1},2 1 1 -2 -1 -2 -1,certified,,false,,ms-train-0375,19
+1024,2,yx^{2}y^{-1}x^{-1}y^{-1}x^{-1},2 1 1 -2 -1 -2 -1,open,15_2,true,ms-v1-0461,,
+1025,3,yx^{2}y^{-1}x^{-1}y^{-1}x^{-1},2 1 1 -2 -1 -2 -1,open,17_{10},true,ms-v1-0462,,
+1026,4,yx^{2}y^{-1}x^{-1}y^{-1}x^{-1},2 1 1 -2 -1 -2 -1,open,19_9,true,ms-v1-0463,,
+1027,5,yx^{2}y^{-1}x^{-1}y^{-1}x^{-1},2 1 1 -2 -1 -2 -1,open,20_5,true,ms-v1-0464,,
+1028,6,yx^{2}y^{-1}x^{-1}y^{-1}x^{-1},2 1 1 -2 -1 -2 -1,open,21_{31},true,ms-v1-0465,,
+1029,7,yx^{2}y^{-1}x^{-1}y^{-1}x^{-1},2 1 1 -2 -1 -2 -1,open,25_9,true,ms-v1-0466,,
+1030,1,yx^{2}y^{-1}x^{-2}y,2 1 1 -2 -1 -1 2,certified,,false,,ms-train-0376,32
+1031,2,yx^{2}y^{-1}x^{-2}y,2 1 1 -2 -1 -1 2,open,14_1,true,ms-v1-0467,,
+1032,3,yx^{2}y^{-1}x^{-2}y,2 1 1 -2 -1 -1 2,open,17_8,true,ms-v1-0468,,
+1033,4,yx^{2}y^{-1}x^{-2}y,2 1 1 -2 -1 -1 2,open,19_7,true,ms-v1-0469,,
+1034,5,yx^{2}y^{-1}x^{-2}y,2 1 1 -2 -1 -1 2,open,21_7,true,ms-v1-0470,,
+1035,6,yx^{2}y^{-1}x^{-2}y,2 1 1 -2 -1 -1 2,open,22_7,true,ms-v1-0471,,
+1036,7,yx^{2}y^{-1}x^{-2}y,2 1 1 -2 -1 -1 2,open,25_7,true,ms-v1-0472,,
+1037,1,yx^{2}y^{-1}x^{-2}y^{-1},2 1 1 -2 -1 -1 -2,certified,,false,,ms-train-0377,15
+1038,2,yx^{2}y^{-1}x^{-2}y^{-1},2 1 1 -2 -1 -1 -2,open,14_1,true,ms-v1-0473,,
+1039,3,yx^{2}y^{-1}x^{-2}y^{-1},2 1 1 -2 -1 -1 -2,open,17_9,true,ms-v1-0474,,
+1040,4,yx^{2}y^{-1}x^{-2}y^{-1},2 1 1 -2 -1 -1 -2,open,19_8,true,ms-v1-0475,,
+1041,5,yx^{2}y^{-1}x^{-2}y^{-1},2 1 1 -2 -1 -1 -2,open,21_8,true,ms-v1-0476,,
+1042,6,yx^{2}y^{-1}x^{-2}y^{-1},2 1 1 -2 -1 -1 -2,open,22_8,true,ms-v1-0477,,
+1043,7,yx^{2}y^{-1}x^{-2}y^{-1},2 1 1 -2 -1 -1 -2,open,25_8,true,ms-v1-0478,,
+1044,1,yxy^{-1}xyx^{-2},2 1 -2 1 2 -1 -1,certified,,false,,ms-train-0378,25
+1045,2,yxy^{-1}xyx^{-2},2 1 -2 1 2 -1 -1,open,15_8,true,ms-v1-0479,,
+1046,3,yxy^{-1}xyx^{-2},2 1 -2 1 2 -1 -1,open,17_{14},true,ms-v1-0480,,
+1047,4,yxy^{-1}xyx^{-2},2 1 -2 1 2 -1 -1,open,19_{13},true,ms-v1-0481,,
+1048,5,yxy^{-1}xyx^{-2},2 1 -2 1 2 -1 -1,open,21_{12},true,ms-v1-0482,,
+1049,6,yxy^{-1}xyx^{-2},2 1 -2 1 2 -1 -1,open,23_7,true,ms-v1-0483,,
+1050,7,yxy^{-1}xyx^{-2},2 1 -2 1 2 -1 -1,open,25_{13},true,ms-v1-0484,,
+1051,1,yxy^{-1}xy^{-1}x^{-2},2 1 -2 1 -2 -1 -1,certified,,false,,ms-train-0379,10
+1052,2,yxy^{-1}xy^{-1}x^{-2},2 1 -2 1 -2 -1 -1,open,15_9,true,ms-v1-0485,,
+1053,3,yxy^{-1}xy^{-1}x^{-2},2 1 -2 1 -2 -1 -1,open,17_{15},true,ms-v1-0486,,
+1054,4,yxy^{-1}xy^{-1}x^{-2},2 1 -2 1 -2 -1 -1,open,19_{14},true,ms-v1-0487,,
+1055,5,yxy^{-1}xy^{-1}x^{-2},2 1 -2 1 -2 -1 -1,open,21_{13},true,ms-v1-0488,,
+1056,6,yxy^{-1}xy^{-1}x^{-2},2 1 -2 1 -2 -1 -1,open,23_8,true,ms-v1-0489,,
+1057,7,yxy^{-1}xy^{-1}x^{-2},2 1 -2 1 -2 -1 -1,open,25_{14},true,ms-v1-0490,,
+1058,1,yxy^{-4}x^{-1},2 1 -2 -2 -2 -2 -1,certified,,false,,ms-train-0380,10
+1059,2,yxy^{-4}x^{-1},2 1 -2 -2 -2 -2 -1,uncertified,,false,,,
+1060,3,yxy^{-4}x^{-1},2 1 -2 -2 -2 -2 -1,certified,,false,,ms-train-0381,21
+1061,4,yxy^{-4}x^{-1},2 1 -2 -2 -2 -2 -1,open,15_1,true,ms-v1-0491,,
+1062,5,yxy^{-4}x^{-1},2 1 -2 -2 -2 -2 -1,open,14_1,true,ms-v1-0492,,
+1063,6,yxy^{-4}x^{-1},2 1 -2 -2 -2 -2 -1,open,17_{37},true,ms-v1-0493,,
+1064,7,yxy^{-4}x^{-1},2 1 -2 -2 -2 -2 -1,uncertified,,false,,,
+1065,1,yxy^{-3}x^{-1}y,2 1 -2 -2 -2 -1 2,certified,,false,,ms-train-0382,8
+1066,2,yxy^{-3}x^{-1}y,2 1 -2 -2 -2 -1 2,certified,,false,,ms-train-0383,17
+1067,3,yxy^{-3}x^{-1}y,2 1 -2 -2 -2 -1 2,open,13_1,true,ms-v1-0494,,
+1068,4,yxy^{-3}x^{-1}y,2 1 -2 -2 -2 -1 2,open,15_{10},true,ms-v1-0495,,
+1069,5,yxy^{-3}x^{-1}y,2 1 -2 -2 -2 -1 2,certified,,false,,ms-train-0384,60
+1070,6,yxy^{-3}x^{-1}y,2 1 -2 -2 -2 -1 2,open,17_{38},true,ms-v1-0496,,
+1071,7,yxy^{-3}x^{-1}y,2 1 -2 -2 -2 -1 2,open,18_8,true,ms-v1-0497,,
+1072,1,yxy^{-3}x^{-1}y^{-1},2 1 -2 -2 -2 -1 -2,certified,,false,,ms-train-0385,14
+1073,2,yxy^{-3}x^{-1}y^{-1},2 1 -2 -2 -2 -1 -2,certified,,false,,ms-train-0386,17
+1074,3,yxy^{-3}x^{-1}y^{-1},2 1 -2 -2 -2 -1 -2,open,13_1,true,ms-v1-0498,,
+1075,4,yxy^{-3}x^{-1}y^{-1},2 1 -2 -2 -2 -1 -2,open,15_{10},true,ms-v1-0499,,
+1076,5,yxy^{-3}x^{-1}y^{-1},2 1 -2 -2 -2 -1 -2,uncertified,,false,,,
+1077,6,yxy^{-3}x^{-1}y^{-1},2 1 -2 -2 -2 -1 -2,open,17_{38},true,ms-v1-0500,,
+1078,7,yxy^{-3}x^{-1}y^{-1},2 1 -2 -2 -2 -1 -2,open,18_8,true,ms-v1-0501,,
+1079,1,yxy^{-2}x^{-1}y^{2},2 1 -2 -2 -1 2 2,certified,,false,,ms-train-0387,11
+1080,2,yxy^{-2}x^{-1}y^{2},2 1 -2 -2 -1 2 2,uncertified,,false,,,
+1081,3,yxy^{-2}x^{-1}y^{2},2 1 -2 -2 -1 2 2,certified,,false,,ms-train-0388,46
+1082,4,yxy^{-2}x^{-1}y^{2},2 1 -2 -2 -1 2 2,open,14_1,true,ms-v1-0502,,
+1083,5,yxy^{-2}x^{-1}y^{2},2 1 -2 -2 -1 2 2,uncertified,,false,,,
+1084,6,yxy^{-2}x^{-1}y^{2},2 1 -2 -2 -1 2 2,open,19_{33},true,ms-v1-0503,,
+1085,7,yxy^{-2}x^{-1}y^{2},2 1 -2 -2 -1 2 2,open,19_{37},true,ms-v1-0504,,
+1086,1,yxy^{-2}x^{-1}y^{-2},2 1 -2 -2 -1 -2 -2,certified,,false,,ms-train-0389,9
+1087,2,yxy^{-2}x^{-1}y^{-2},2 1 -2 -2 -1 -2 -2,certified,,false,,ms-train-0390,40
+1088,3,yxy^{-2}x^{-1}y^{-2},2 1 -2 -2 -1 -2 -2,certified,,false,,ms-train-0391,76
+1089,4,yxy^{-2}x^{-1}y^{-2},2 1 -2 -2 -1 -2 -2,open,14_1,true,ms-v1-0505,,
+1090,5,yxy^{-2}x^{-1}y^{-2},2 1 -2 -2 -1 -2 -2,uncertified,,false,,,
+1091,6,yxy^{-2}x^{-1}y^{-2},2 1 -2 -2 -1 -2 -2,open,19_{33},true,ms-v1-0506,,
+1092,7,yxy^{-2}x^{-1}y^{-2},2 1 -2 -2 -1 -2 -2,open,17_{41},true,ms-v1-0507,,
+1093,1,yxy^{-1}x^{-1}y^{-3},2 1 -2 -1 -2 -2 -2,certified,,false,,ms-train-0392,10
+1094,2,yxy^{-1}x^{-1}y^{-3},2 1 -2 -1 -2 -2 -2,uncertified,,false,,,
+1095,3,yxy^{-1}x^{-1}y^{-3},2 1 -2 -1 -2 -2 -2,uncertified,,false,,,
+1096,4,yxy^{-1}x^{-1}y^{-3},2 1 -2 -1 -2 -2 -2,uncertified,,false,,,
+1097,5,yxy^{-1}x^{-1}y^{-3},2 1 -2 -1 -2 -2 -2,uncertified,,false,,,
+1098,6,yxy^{-1}x^{-1}y^{-3},2 1 -2 -1 -2 -2 -2,uncertified,,false,,,
+1099,7,yxy^{-1}x^{-1}y^{-3},2 1 -2 -1 -2 -2 -2,uncertified,,false,,,
+1100,1,yx^{-1}y^{-1}xy^{3},2 -1 -2 1 2 2 2,certified,,false,,ms-train-0393,16
+1101,2,yx^{-1}y^{-1}xy^{3},2 -1 -2 1 2 2 2,certified,,false,,ms-train-0394,18
+1102,3,yx^{-1}y^{-1}xy^{3},2 -1 -2 1 2 2 2,open,13_1,true,ms-v1-0508,,
+1103,4,yx^{-1}y^{-1}xy^{3},2 -1 -2 1 2 2 2,open,15_{11},true,ms-v1-0509,,
+1104,5,yx^{-1}y^{-1}xy^{3},2 -1 -2 1 2 2 2,uncertified,,false,,,
+1105,6,yx^{-1}y^{-1}xy^{3},2 -1 -2 1 2 2 2,open,17_{39},true,ms-v1-0510,,
+1106,7,yx^{-1}y^{-1}xy^{3},2 -1 -2 1 2 2 2,open,18_{10},true,ms-v1-0511,,
+1107,1,yx^{-1}y^{-1}x^{2}yx^{-1},2 -1 -2 1 1 2 -1,certified,,false,,ms-train-0395,15
+1108,2,yx^{-1}y^{-1}x^{2}yx^{-1},2 -1 -2 1 1 2 -1,open,14_1,true,ms-v1-0512,,
+1109,3,yx^{-1}y^{-1}x^{2}yx^{-1},2 -1 -2 1 1 2 -1,open,17_{16},true,ms-v1-0513,,
+1110,4,yx^{-1}y^{-1}x^{2}yx^{-1},2 -1 -2 1 1 2 -1,open,19_{19},true,ms-v1-0514,,
+1111,5,yx^{-1}y^{-1}x^{2}yx^{-1},2 -1 -2 1 1 2 -1,open,21_{17},true,ms-v1-0515,,
+1112,6,yx^{-1}y^{-1}x^{2}yx^{-1},2 -1 -2 1 1 2 -1,open,22_9,true,ms-v1-0516,,
+1113,7,yx^{-1}y^{-1}x^{2}yx^{-1},2 -1 -2 1 1 2 -1,open,25_{19},true,ms-v1-0517,,
+1114,1,yx^{-1}y^{-1}x^{2}y^{-1}x^{-1},2 -1 -2 1 1 -2 -1,certified,,false,,ms-train-0396,25
+1115,2,yx^{-1}y^{-1}x^{2}y^{-1}x^{-1},2 -1 -2 1 1 -2 -1,open,14_2,true,ms-v1-0518,,
+1116,3,yx^{-1}y^{-1}x^{2}y^{-1}x^{-1},2 -1 -2 1 1 -2 -1,open,17_{17},true,ms-v1-0519,,
+1117,4,yx^{-1}y^{-1}x^{2}y^{-1}x^{-1},2 -1 -2 1 1 -2 -1,open,19_{20},true,ms-v1-0520,,
+1118,5,yx^{-1}y^{-1}x^{2}y^{-1}x^{-1},2 -1 -2 1 1 -2 -1,open,21_{18},true,ms-v1-0521,,
+1119,6,yx^{-1}y^{-1}x^{2}y^{-1}x^{-1},2 -1 -2 1 1 -2 -1,open,22_{10},true,ms-v1-0522,,
+1120,7,yx^{-1}y^{-1}x^{2}y^{-1}x^{-1},2 -1 -2 1 1 -2 -1,open,25_{20},true,ms-v1-0523,,
+1121,1,yx^{-1}y^{-1}xy^{-3},2 -1 -2 1 -2 -2 -2,certified,,false,,ms-train-0397,21
+1122,2,yx^{-1}y^{-1}xy^{-3},2 -1 -2 1 -2 -2 -2,certified,,false,,ms-train-0398,19
+1123,3,yx^{-1}y^{-1}xy^{-3},2 -1 -2 1 -2 -2 -2,uncertified,,false,,,
+1124,4,yx^{-1}y^{-1}xy^{-3},2 -1 -2 1 -2 -2 -2,open,14_1,true,ms-v1-0524,,
+1125,5,yx^{-1}y^{-1}xy^{-3},2 -1 -2 1 -2 -2 -2,uncertified,,false,,,
+1126,6,yx^{-1}y^{-1}xy^{-3},2 -1 -2 1 -2 -2 -2,open,17_{40},true,ms-v1-0525,,
+1127,7,yx^{-1}y^{-1}xy^{-3},2 -1 -2 1 -2 -2 -2,open,19_{41},true,ms-v1-0526,,
+1128,1,yx^{-1}y^{-2}xy^{2},2 -1 -2 -2 1 2 2,certified,,false,,ms-train-0399,15
+1129,2,yx^{-1}y^{-2}xy^{2},2 -1 -2 -2 1 2 2,certified,,false,,ms-train-0400,17
+1130,3,yx^{-1}y^{-2}xy^{2},2 -1 -2 -2 1 2 2,certified,,false,,ms-train-0401,38
+1131,4,yx^{-1}y^{-2}xy^{2},2 -1 -2 -2 1 2 2,certified,,false,,ms-train-0402,58
+1132,5,yx^{-1}y^{-2}xy^{2},2 -1 -2 -2 1 2 2,uncertified,,false,,,
+1133,6,yx^{-1}y^{-2}xy^{2},2 -1 -2 -2 1 2 2,uncertified,,false,,,
+1134,7,yx^{-1}y^{-2}xy^{2},2 -1 -2 -2 1 2 2,uncertified,,false,,,
+1135,1,yx^{-1}y^{-2}xy^{-2},2 -1 -2 -2 1 -2 -2,certified,,false,,ms-train-0403,22
+1136,2,yx^{-1}y^{-2}xy^{-2},2 -1 -2 -2 1 -2 -2,certified,,false,,ms-train-0404,33
+1137,3,yx^{-1}y^{-2}xy^{-2},2 -1 -2 -2 1 -2 -2,certified,,false,,ms-train-0405,99
+1138,4,yx^{-1}y^{-2}xy^{-2},2 -1 -2 -2 1 -2 -2,uncertified,,false,,,
+1139,5,yx^{-1}y^{-2}xy^{-2},2 -1 -2 -2 1 -2 -2,open,16_5,true,ms-v1-0527,,
+1140,6,yx^{-1}y^{-2}xy^{-2},2 -1 -2 -2 1 -2 -2,open,19_{36},true,ms-v1-0528,,
+1141,7,yx^{-1}y^{-2}xy^{-2},2 -1 -2 -2 1 -2 -2,open,20_{11},true,ms-v1-0529,,
+1142,1,yx^{-1}y^{-3}xy,2 -1 -2 -2 -2 1 2,certified,,false,,ms-train-0406,35
+1143,2,yx^{-1}y^{-3}xy,2 -1 -2 -2 -2 1 2,certified,,false,,ms-train-0407,57
+1144,3,yx^{-1}y^{-3}xy,2 -1 -2 -2 -2 1 2,certified,,false,,ms-train-0408,28
+1145,4,yx^{-1}y^{-3}xy,2 -1 -2 -2 -2 1 2,open,15_1,true,ms-v1-0530,,
+1146,5,yx^{-1}y^{-3}xy,2 -1 -2 -2 -2 1 2,open,17_{30},true,ms-v1-0531,,
+1147,6,yx^{-1}y^{-3}xy,2 -1 -2 -2 -2 1 2,uncertified,,false,,,
+1148,7,yx^{-1}y^{-3}xy,2 -1 -2 -2 -2 1 2,open,18_{11},true,ms-v1-0532,,
+1149,1,yx^{-1}y^{-3}xy^{-1},2 -1 -2 -2 -2 1 -2,certified,,false,,ms-train-0409,36
+1150,2,yx^{-1}y^{-3}xy^{-1},2 -1 -2 -2 -2 1 -2,uncertified,,false,,,
+1151,3,yx^{-1}y^{-3}xy^{-1},2 -1 -2 -2 -2 1 -2,certified,,false,,ms-train-0410,24
+1152,4,yx^{-1}y^{-3}xy^{-1},2 -1 -2 -2 -2 1 -2,uncertified,,false,,,
+1153,5,yx^{-1}y^{-3}xy^{-1},2 -1 -2 -2 -2 1 -2,open,17_{31},true,ms-v1-0533,,
+1154,6,yx^{-1}y^{-3}xy^{-1},2 -1 -2 -2 -2 1 -2,uncertified,,false,,,
+1155,7,yx^{-1}y^{-3}xy^{-1},2 -1 -2 -2 -2 1 -2,open,19_{42},true,ms-v1-0534,,
+1156,1,yx^{-2}y^{-1}x^{2}y,2 -1 -1 -2 1 1 2,certified,,false,,ms-train-0411,30
+1157,2,yx^{-2}y^{-1}x^{2}y,2 -1 -1 -2 1 1 2,open,15_6,true,ms-v1-0535,,
+1158,3,yx^{-2}y^{-1}x^{2}y,2 -1 -1 -2 1 1 2,open,17_{18},true,ms-v1-0536,,
+1159,4,yx^{-2}y^{-1}x^{2}y,2 -1 -1 -2 1 1 2,open,19_{17},true,ms-v1-0537,,
+1160,5,yx^{-2}y^{-1}x^{2}y,2 -1 -1 -2 1 1 2,open,20_6,true,ms-v1-0538,,
+1161,6,yx^{-2}y^{-1}x^{2}y,2 -1 -1 -2 1 1 2,open,21_{32},true,ms-v1-0539,,
+1162,7,yx^{-2}y^{-1}x^{2}y,2 -1 -1 -2 1 1 2,open,25_{17},true,ms-v1-0540,,
+1163,1,yx^{-2}y^{-1}x^{2}y^{-1},2 -1 -1 -2 1 1 -2,certified,,false,,ms-train-0412,31
+1164,2,yx^{-2}y^{-1}x^{2}y^{-1},2 -1 -1 -2 1 1 -2,open,15_7,true,ms-v1-0541,,
+1165,3,yx^{-2}y^{-1}x^{2}y^{-1},2 -1 -1 -2 1 1 -2,open,17_{19},true,ms-v1-0542,,
+1166,4,yx^{-2}y^{-1}x^{2}y^{-1},2 -1 -1 -2 1 1 -2,open,19_{18},true,ms-v1-0543,,
+1167,5,yx^{-2}y^{-1}x^{2}y^{-1},2 -1 -1 -2 1 1 -2,open,21_{16},true,ms-v1-0544,,
+1168,6,yx^{-2}y^{-1}x^{2}y^{-1},2 -1 -1 -2 1 1 -2,open,23_{11},true,ms-v1-0545,,
+1169,7,yx^{-2}y^{-1}x^{2}y^{-1},2 -1 -1 -2 1 1 -2,open,25_{18},true,ms-v1-0546,,
+1170,1,y^{-1}xy^{3}x^{-1}y^{-1},-2 1 2 2 2 -1 -2,certified,,false,,ms-train-0413,10
+1171,2,y^{-1}xy^{3}x^{-1}y^{-1},-2 1 2 2 2 -1 -2,certified,,false,,ms-train-0414,11
+1172,3,y^{-1}xy^{3}x^{-1}y^{-1},-2 1 2 2 2 -1 -2,open,13_1,true,ms-v1-0547,,
+1173,4,y^{-1}xy^{3}x^{-1}y^{-1},-2 1 2 2 2 -1 -2,open,15_{11},true,ms-v1-0548,,
+1174,5,y^{-1}xy^{3}x^{-1}y^{-1},-2 1 2 2 2 -1 -2,certified,,false,,ms-train-0415,50
+1175,6,y^{-1}xy^{3}x^{-1}y^{-1},-2 1 2 2 2 -1 -2,open,17_{39},true,ms-v1-0549,,
+1176,7,y^{-1}xy^{3}x^{-1}y^{-1},-2 1 2 2 2 -1 -2,open,18_{10},true,ms-v1-0550,,
+1177,1,y^{-1}xyx^{-1}y^{-3},-2 1 2 -1 -2 -2 -2,certified,,false,,ms-train-0416,23
+1178,2,y^{-1}xyx^{-1}y^{-3},-2 1 2 -1 -2 -2 -2,certified,,false,,ms-train-0417,90
+1179,3,y^{-1}xyx^{-1}y^{-3},-2 1 2 -1 -2 -2 -2,uncertified,,false,,,
+1180,4,y^{-1}xyx^{-1}y^{-3},-2 1 2 -1 -2 -2 -2,uncertified,,false,,,
+1181,5,y^{-1}xyx^{-1}y^{-3},-2 1 2 -1 -2 -2 -2,uncertified,,false,,,
+1182,6,y^{-1}xyx^{-1}y^{-3},-2 1 2 -1 -2 -2 -2,uncertified,,false,,,
+1183,7,y^{-1}xyx^{-1}y^{-3},-2 1 2 -1 -2 -2 -2,uncertified,,false,,,
+1184,1,y^{7},2 2 2 2 2 2 2,certified,,false,,ms-train-0418,31
+1185,2,y^{7},2 2 2 2 2 2 2,certified,,false,,ms-train-0419,38
+1186,3,y^{7},2 2 2 2 2 2 2,certified,,false,,ms-train-0420,40
+1187,4,y^{7},2 2 2 2 2 2 2,certified,,false,,ms-train-0421,55
+1188,5,y^{7},2 2 2 2 2 2 2,certified,,false,,ms-train-0422,36
+1189,6,y^{7},2 2 2 2 2 2 2,certified,,false,,ms-train-0423,13
+1190,7,y^{7},2 2 2 2 2 2 2,certified,,false,,ms-train-0424,45

@@ -1,0 +1,23 @@
+id: acms
+name: "ACMS: Andrews–Curtis, Miller–Schupp Phase"
+organizer: sairmath
+status: active
+task_type: mathematical_discovery
+submission_artifact: submission.json
+submission_format: "JSON; solutions[] of {challenge_id, move_spec_version, moves[]} where moves are atomic AC move ids 0-13"
+verifier: "Python, competition/tools/verifier (standard library only), acms-verify 0.1.0"
+counterexample_verifier: "Lean 4 in a frozen offline container, see rules/evaluation.md"
+primary_metric: leaderboard_score
+scoring_unit: team_challenge
+scoring_formula: "V_i * 2^(1-k_i) for teams at the current shortest length, 0 otherwise"
+move_spec_version: ac-r2-v1
+move_spec_hash: "sha256:e13f57d82b5db1a79c1bd9d5ee1f6665ac4d96a634a3656ea20c0ada82e07643"
+manifest_hash: "sha256:978be7ed9faafcf8ff68046c9e32ac6ef60cbd8d0fd99391f2abb94e8c83490f"
+freeze_date: "2026-09-01T00:00:00Z"  # D-9 placeholder until the timeline decision lands
+freeze_commit: "TBD — freeze manifest.json and move_spec.json in git before public launch"
+challenge_count: 550
+challenge_policy: "MS-1190 instances with no publicly known replayable trivialization certificate at freeze date; 'unresolved' does NOT mean counterexample"
+overview: rules/overview.md
+evaluation: rules/evaluation.md
+manifest: challenges/manifest.json
+move_spec: challenges/move_spec.json

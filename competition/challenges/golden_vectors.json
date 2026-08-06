@@ -1,0 +1,779 @@
+{
+ "format": "acms-golden-v1",
+ "move_spec_version": "ac-r2-v1",
+ "move_spec_hash": "sha256:e13f57d82b5db1a79c1bd9d5ee1f6665ac4d96a634a3656ea20c0ada82e07643",
+ "manifest_hash": "sha256:978be7ed9faafcf8ff68046c9e32ac6ef60cbd8d0fd99391f2abb94e8c83490f",
+ "default_limits": {
+  "max_path_length": 100000,
+  "max_total_relator_length": 10000,
+  "max_work": 5000000
+ },
+ "note": "Self-contained conformance vectors.  'expected' is a subset: every key it contains must match the verifier output exactly.  Run with: python3 -m acms_verify --golden golden_vectors.json",
+ "challenges": {
+  "ms-train-0160": {
+   "challenge_id": "ms-train-0160",
+   "move_spec_version": "ac-r2-v1",
+   "generators": [
+    "x",
+    "y"
+   ],
+   "initial_relators": [
+    [
+     -1,
+     2,
+     1,
+     -2,
+     -2
+    ],
+    [
+     1,
+     2,
+     1,
+     2,
+     2,
+     -1,
+     -2
+    ]
+   ],
+   "target_relators": [
+    [
+     1
+    ],
+    [
+     2
+    ]
+   ]
+  },
+  "ms-train-0109": {
+   "challenge_id": "ms-train-0109",
+   "move_spec_version": "ac-r2-v1",
+   "generators": [
+    "x",
+    "y"
+   ],
+   "initial_relators": [
+    [
+     -1,
+     2,
+     2,
+     2,
+     2,
+     2,
+     2,
+     2,
+     1,
+     -2,
+     -2,
+     -2,
+     -2,
+     -2,
+     -2,
+     -2,
+     -2
+    ],
+    [
+     1,
+     2,
+     2,
+     2,
+     2,
+     2
+    ]
+   ],
+   "target_relators": [
+    [
+     1
+    ],
+    [
+     2
+    ]
+   ]
+  },
+  "ms-train-0066": {
+   "challenge_id": "ms-train-0066",
+   "move_spec_version": "ac-r2-v1",
+   "generators": [
+    "x",
+    "y"
+   ],
+   "initial_relators": [
+    [
+     -1,
+     2,
+     2,
+     2,
+     2,
+     1,
+     -2,
+     -2,
+     -2,
+     -2,
+     -2
+    ],
+    [
+     1,
+     1,
+     2,
+     -1,
+     -2
+    ]
+   ],
+   "target_relators": [
+    [
+     1
+    ],
+    [
+     2
+    ]
+   ]
+  },
+  "golden-yx": {
+   "challenge_id": "golden-yx",
+   "move_spec_version": "ac-r2-v1",
+   "generators": [
+    "x",
+    "y"
+   ],
+   "initial_relators": [
+    [
+     2
+    ],
+    [
+     1
+    ]
+   ],
+   "target_relators": [
+    [
+     1
+    ],
+    [
+     2
+    ]
+   ]
+  },
+  "golden-pump": {
+   "challenge_id": "golden-pump",
+   "move_spec_version": "ac-r2-v1",
+   "generators": [
+    "x",
+    "y"
+   ],
+   "initial_relators": [
+    [
+     1,
+     2
+    ],
+    [
+     1,
+     1,
+     2
+    ]
+   ],
+   "target_relators": [
+    [
+     1
+    ],
+    [
+     2
+    ]
+   ]
+  }
+ },
+ "verify_vectors": [
+  {
+   "name": "accept-shortest-ms-train-0160",
+   "challenge_id": "ms-train-0160",
+   "moves": [
+    6,
+    4,
+    2,
+    9,
+    1,
+    4,
+    1
+   ],
+   "expected": {
+    "ok": true,
+    "length": 7,
+    "peak_total_relator_length": 12,
+    "work": 46,
+    "certificate_hash": "sha256:80dedf02b91d429b017fb0b3f48e950a9fc5e18363dbdf21c6e27297100c471f"
+   }
+  },
+  {
+   "name": "accept-median-ms-train-0109",
+   "challenge_id": "ms-train-0109",
+   "moves": [
+    6,
+    2,
+    9,
+    9,
+    9,
+    9,
+    11,
+    1,
+    4,
+    8,
+    2,
+    8,
+    2,
+    0,
+    4,
+    0,
+    8,
+    2,
+    0,
+    4,
+    4,
+    4,
+    3,
+    4,
+    3,
+    10
+   ],
+   "expected": {
+    "ok": true,
+    "length": 26,
+    "peak_total_relator_length": 23,
+    "work": 243,
+    "certificate_hash": "sha256:c6828d86573b040d7626728d90e26fdfc5c0df25056bc2d4d4426df7a742bf43"
+   }
+  },
+  {
+   "name": "accept-longest-ms-train-0066",
+   "challenge_id": "ms-train-0066",
+   "moves": [
+    0,
+    9,
+    1,
+    9,
+    9,
+    1,
+    9,
+    9,
+    6,
+    8,
+    1,
+    2,
+    0,
+    1,
+    7,
+    13,
+    11,
+    2,
+    7,
+    8,
+    12,
+    2,
+    6,
+    6,
+    6,
+    13,
+    2,
+    8,
+    6,
+    2,
+    0,
+    8,
+    6,
+    12,
+    1,
+    0,
+    10,
+    7,
+    2,
+    0,
+    7,
+    2,
+    0,
+    7,
+    2,
+    0,
+    7,
+    9,
+    0,
+    11,
+    2,
+    0,
+    8,
+    10,
+    2,
+    7,
+    9,
+    2,
+    0,
+    8,
+    2,
+    0,
+    7,
+    2,
+    0,
+    7,
+    2,
+    7,
+    9,
+    11,
+    2,
+    9,
+    2,
+    0,
+    8,
+    8,
+    10,
+    2,
+    7,
+    9,
+    2,
+    0,
+    8,
+    2,
+    0,
+    7,
+    2,
+    0,
+    9,
+    2,
+    8,
+    7,
+    2,
+    0,
+    7,
+    2,
+    7,
+    9,
+    2,
+    7,
+    10,
+    2,
+    0,
+    6,
+    8,
+    11,
+    2,
+    0,
+    7,
+    2,
+    0,
+    7,
+    2,
+    0,
+    7,
+    2,
+    0,
+    9,
+    11,
+    2,
+    8,
+    7,
+    10,
+    2,
+    0,
+    7,
+    2,
+    0,
+    7,
+    2,
+    0,
+    7,
+    2,
+    7,
+    10,
+    2,
+    0,
+    7,
+    11,
+    11,
+    2,
+    7,
+    7,
+    2,
+    7,
+    7,
+    2,
+    0,
+    4,
+    0,
+    7,
+    4,
+    2,
+    7,
+    2,
+    2,
+    0,
+    4,
+    3
+   ],
+   "expected": {
+    "ok": true,
+    "length": 159,
+    "peak_total_relator_length": 16,
+    "work": 2161,
+    "certificate_hash": "sha256:bf0e6b0f97db6eddec4a7dd80146505561ac3ac18337626fd624d61fedc11095"
+   }
+  },
+  {
+   "name": "spec-mismatch",
+   "challenge_id": "ms-train-0160",
+   "move_spec_version": "ac-r1-v0",
+   "moves": [
+    6,
+    4,
+    2,
+    9,
+    1,
+    4,
+    1
+   ],
+   "expected": {
+    "ok": false,
+    "code": "E_SPEC_MISMATCH",
+    "move_index": null
+   }
+  },
+  {
+   "name": "bad-move-id-negative",
+   "challenge_id": "ms-train-0160",
+   "moves": [
+    0,
+    -1
+   ],
+   "expected": {
+    "ok": false,
+    "code": "E_BAD_MOVE_ID",
+    "move_index": 1,
+    "move": -1
+   }
+  },
+  {
+   "name": "bad-move-id-14",
+   "challenge_id": "ms-train-0160",
+   "moves": [
+    14
+   ],
+   "expected": {
+    "ok": false,
+    "code": "E_BAD_MOVE_ID",
+    "move_index": 0
+   }
+  },
+  {
+   "name": "bad-move-id-float",
+   "challenge_id": "ms-train-0160",
+   "moves": [
+    0,
+    1.5
+   ],
+   "expected": {
+    "ok": false,
+    "code": "E_BAD_MOVE_ID",
+    "move_index": 1
+   }
+  },
+  {
+   "name": "bad-move-id-string",
+   "challenge_id": "ms-train-0160",
+   "moves": [
+    "3"
+   ],
+   "expected": {
+    "ok": false,
+    "code": "E_BAD_MOVE_ID",
+    "move_index": 0
+   }
+  },
+  {
+   "name": "bad-move-id-null",
+   "challenge_id": "ms-train-0160",
+   "moves": [
+    null
+   ],
+   "expected": {
+    "ok": false,
+    "code": "E_BAD_MOVE_ID",
+    "move_index": 0
+   }
+  },
+  {
+   "name": "bad-move-id-bool",
+   "challenge_id": "ms-train-0160",
+   "moves": [
+    true
+   ],
+   "expected": {
+    "ok": false,
+    "code": "E_BAD_MOVE_ID",
+    "move_index": 0
+   }
+  },
+  {
+   "name": "path-too-long",
+   "challenge_id": "ms-train-0160",
+   "moves": [
+    6,
+    7,
+    6,
+    7,
+    6
+   ],
+   "limits": {
+    "max_path_length": 4,
+    "max_total_relator_length": 10000,
+    "max_work": 5000000
+   },
+   "expected": {
+    "ok": false,
+    "code": "E_PATH_TOO_LONG",
+    "move_index": null,
+    "path_length": 5
+   }
+  },
+  {
+   "name": "not-target-truncated",
+   "challenge_id": "ms-train-0160",
+   "moves": [
+    6,
+    4,
+    2,
+    9,
+    1,
+    4
+   ],
+   "expected": {
+    "ok": false,
+    "code": "E_NOT_TARGET",
+    "move_index": null
+   }
+  },
+  {
+   "name": "not-target-empty-path",
+   "challenge_id": "ms-train-0160",
+   "moves": [],
+   "expected": {
+    "ok": false,
+    "code": "E_NOT_TARGET",
+    "move_index": null
+   }
+  },
+  {
+   "name": "not-target-wrong-order",
+   "challenge_id": "golden-yx",
+   "moves": [],
+   "expected": {
+    "ok": false,
+    "code": "E_NOT_TARGET",
+    "move_index": null,
+    "final_shape": [
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "name": "length-limit",
+   "challenge_id": "golden-pump",
+   "moves": [
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2
+   ],
+   "limits": {
+    "max_path_length": 100000,
+    "max_total_relator_length": 20,
+    "max_work": 5000000
+   },
+   "expected": {
+    "ok": false,
+    "code": "E_LENGTH_LIMIT",
+    "move_index": 5
+   }
+  },
+  {
+   "name": "work-budget",
+   "challenge_id": "golden-pump",
+   "moves": [
+    6,
+    7,
+    6,
+    7,
+    6,
+    7,
+    6,
+    7,
+    6,
+    7,
+    6,
+    7,
+    6,
+    7,
+    6,
+    7,
+    6,
+    7,
+    6,
+    7,
+    6,
+    7,
+    6,
+    7,
+    6,
+    7,
+    6,
+    7,
+    6,
+    7,
+    6,
+    7,
+    6,
+    7,
+    6,
+    7,
+    6,
+    7,
+    6,
+    7
+   ],
+   "limits": {
+    "max_path_length": 100000,
+    "max_total_relator_length": 10000,
+    "max_work": 200
+   },
+   "expected": {
+    "ok": false,
+    "code": "E_WORK_BUDGET",
+    "move_index": 32
+   }
+  }
+ ],
+ "submission_vectors": [
+  {
+   "name": "sub-accept-one",
+   "raw": "{\"solutions\": [{\"challenge_id\": \"ms-train-0160\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": [6, 4, 2, 9, 1, 4, 1]}]}",
+   "expected": {
+    "accepted": true,
+    "results": [
+     {
+      "ok": true,
+      "challenge_id": "ms-train-0160",
+      "certificate_hash": "sha256:80dedf02b91d429b017fb0b3f48e950a9fc5e18363dbdf21c6e27297100c471f"
+     }
+    ]
+   }
+  },
+  {
+   "name": "sub-malformed-truncated",
+   "raw": "{\"solutions\": [{\"challenge_id\": \"ms-tr",
+   "expected": {
+    "accepted": false,
+    "code": "E_MALFORMED",
+    "detail": "bad_json"
+   }
+  },
+  {
+   "name": "sub-missing-moves",
+   "raw": "{\"solutions\": [{\"challenge_id\": \"ms-train-0160\", \"move_spec_version\": \"ac-r2-v1\"}]}",
+   "expected": {
+    "accepted": false,
+    "code": "E_MALFORMED",
+    "detail": "solution_missing_key",
+    "key": "moves"
+   }
+  },
+  {
+   "name": "sub-moves-not-array",
+   "raw": "{\"solutions\": [{\"challenge_id\": \"ms-train-0160\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": \"0,1,2\"}]}",
+   "expected": {
+    "accepted": false,
+    "code": "E_MALFORMED",
+    "detail": "moves_not_array"
+   }
+  },
+  {
+   "name": "sub-duplicate-challenge",
+   "raw": "{\"solutions\": [{\"challenge_id\": \"ms-train-0160\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": [6, 4, 2, 9, 1, 4, 1]}, {\"challenge_id\": \"ms-train-0160\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}]}",
+   "expected": {
+    "accepted": false,
+    "code": "E_DUPLICATE_CHALLENGE",
+    "challenge_id": "ms-train-0160"
+   }
+  },
+  {
+   "name": "sub-client-asserted-top",
+   "raw": "{\"solutions\": [{\"challenge_id\": \"ms-train-0160\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": [6, 4, 2, 9, 1, 4, 1]}], \"score\": 100}",
+   "expected": {
+    "accepted": false,
+    "code": "E_CLIENT_ASSERTED_RESULT",
+    "key_path": "score"
+   }
+  },
+  {
+   "name": "sub-client-asserted-nested",
+   "raw": "{\"solutions\": [{\"challenge_id\": \"ms-train-0160\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": [6, 4, 2, 9, 1, 4, 1], \"length\": 7}]}",
+   "expected": {
+    "accepted": false,
+    "code": "E_CLIENT_ASSERTED_RESULT",
+    "key_path": "solutions[0].length"
+   }
+  },
+  {
+   "name": "sub-unknown-challenge",
+   "raw": "{\"solutions\": [{\"challenge_id\": \"ms-v1-9999\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": [6, 4, 2, 9, 1, 4, 1]}]}",
+   "expected": {
+    "accepted": true,
+    "results": [
+     {
+      "ok": false,
+      "code": "E_UNKNOWN_CHALLENGE"
+     }
+    ]
+   }
+  },
+  {
+   "name": "sub-spec-mismatch-per-item",
+   "raw": "{\"solutions\": [{\"challenge_id\": \"ms-train-0160\", \"move_spec_version\": \"ac-r1-v0\", \"moves\": [6, 4, 2, 9, 1, 4, 1]}]}",
+   "expected": {
+    "accepted": true,
+    "results": [
+     {
+      "ok": false,
+      "code": "E_SPEC_MISMATCH"
+     }
+    ]
+   }
+  },
+  {
+   "name": "sub-too-many-solutions",
+   "raw": "{\"solutions\": [{\"challenge_id\": \"ms-v1-0001\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0002\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0003\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0004\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0005\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0006\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0007\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0008\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0009\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0010\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0011\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0012\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0013\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0014\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0015\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0016\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0017\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0018\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0019\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0020\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0021\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0022\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0023\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0024\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0025\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0026\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0027\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0028\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0029\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0030\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0031\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0032\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0033\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0034\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0035\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0036\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0037\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0038\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0039\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0040\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0041\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0042\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0043\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0044\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0045\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0046\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0047\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0048\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0049\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0050\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0051\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0052\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0053\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0054\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0055\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0056\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0057\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0058\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0059\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0060\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0061\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0062\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0063\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0064\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0065\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0066\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0067\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0068\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0069\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0070\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0071\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0072\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0073\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0074\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0075\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0076\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0077\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0078\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0079\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0080\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0081\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0082\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0083\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0084\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0085\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0086\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0087\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0088\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0089\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0090\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0091\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0092\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0093\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0094\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0095\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0096\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0097\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0098\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0099\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0100\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0101\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0102\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0103\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0104\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0105\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0106\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0107\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0108\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0109\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0110\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0111\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0112\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0113\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0114\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0115\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0116\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0117\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0118\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0119\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0120\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0121\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0122\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0123\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0124\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0125\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0126\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0127\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0128\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0129\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0130\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0131\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0132\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0133\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0134\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0135\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0136\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0137\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0138\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0139\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0140\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0141\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0142\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0143\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0144\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0145\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0146\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0147\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0148\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0149\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0150\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0151\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0152\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0153\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0154\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0155\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0156\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0157\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0158\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0159\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0160\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0161\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0162\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0163\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0164\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0165\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0166\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0167\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0168\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0169\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0170\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0171\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0172\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0173\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0174\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0175\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0176\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0177\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0178\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0179\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0180\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0181\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0182\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0183\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0184\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0185\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0186\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0187\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0188\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0189\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0190\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0191\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0192\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0193\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0194\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0195\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0196\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0197\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0198\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0199\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0200\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0201\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0202\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0203\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0204\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0205\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0206\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0207\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0208\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0209\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0210\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0211\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0212\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0213\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0214\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0215\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0216\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0217\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0218\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0219\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0220\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0221\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0222\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0223\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0224\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0225\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0226\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0227\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0228\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0229\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0230\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0231\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0232\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0233\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0234\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0235\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0236\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0237\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0238\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0239\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0240\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0241\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0242\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0243\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0244\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0245\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0246\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0247\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0248\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0249\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0250\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0251\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0252\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0253\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0254\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0255\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0256\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0257\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0258\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0259\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0260\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0261\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0262\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0263\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0264\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0265\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0266\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0267\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0268\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0269\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0270\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0271\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0272\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0273\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0274\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0275\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0276\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0277\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0278\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0279\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0280\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0281\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0282\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0283\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0284\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0285\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0286\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0287\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0288\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0289\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0290\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0291\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0292\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0293\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0294\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0295\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0296\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0297\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0298\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0299\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0300\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0301\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0302\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0303\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0304\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0305\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0306\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0307\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0308\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0309\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0310\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0311\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0312\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0313\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0314\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0315\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0316\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0317\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0318\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0319\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0320\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0321\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0322\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0323\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0324\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0325\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0326\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0327\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0328\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0329\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0330\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0331\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0332\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0333\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0334\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0335\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0336\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0337\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0338\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0339\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0340\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0341\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0342\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0343\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0344\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0345\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0346\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0347\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0348\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0349\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0350\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0351\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0352\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0353\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0354\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0355\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0356\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0357\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0358\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0359\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0360\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0361\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0362\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0363\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0364\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0365\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0366\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0367\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0368\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0369\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0370\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0371\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0372\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0373\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0374\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0375\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0376\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0377\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0378\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0379\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0380\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0381\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0382\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0383\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0384\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0385\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0386\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0387\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0388\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0389\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0390\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0391\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0392\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0393\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0394\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0395\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0396\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0397\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0398\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0399\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0400\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0401\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0402\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0403\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0404\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0405\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0406\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0407\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0408\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0409\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0410\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0411\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0412\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0413\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0414\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0415\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0416\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0417\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0418\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0419\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0420\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0421\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0422\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0423\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0424\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0425\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0426\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0427\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0428\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0429\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0430\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0431\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0432\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0433\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0434\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0435\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0436\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0437\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0438\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0439\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0440\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0441\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0442\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0443\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0444\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0445\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0446\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0447\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0448\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0449\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0450\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0451\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0452\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0453\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0454\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0455\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0456\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0457\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0458\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0459\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0460\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0461\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0462\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0463\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0464\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0465\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0466\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0467\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0468\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0469\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0470\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0471\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0472\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0473\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0474\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0475\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0476\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0477\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0478\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0479\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0480\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0481\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0482\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0483\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0484\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0485\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0486\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0487\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0488\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0489\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0490\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0491\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0492\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0493\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0494\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0495\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0496\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0497\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0498\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0499\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0500\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}, {\"challenge_id\": \"ms-v1-0501\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": []}]}",
+   "expected": {
+    "accepted": false,
+    "code": "E_MALFORMED",
+    "detail": "too_many_solutions"
+   }
+  },
+  {
+   "name": "sub-notes-too-long",
+   "raw": "{\"notes\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\", \"solutions\": [{\"challenge_id\": \"ms-train-0160\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": [6, 4, 2, 9, 1, 4, 1]}]}",
+   "expected": {
+    "accepted": false,
+    "code": "E_MALFORMED",
+    "detail": "notes_too_long"
+   }
+  },
+  {
+   "name": "sub-unknown-top-key",
+   "raw": "{\"solutions\": [{\"challenge_id\": \"ms-train-0160\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": [6, 4, 2, 9, 1, 4, 1]}], \"team\": \"foo\"}",
+   "expected": {
+    "accepted": false,
+    "code": "E_MALFORMED",
+    "detail": "unknown_key",
+    "key": "team"
+   }
+  }
+ ]
+}
