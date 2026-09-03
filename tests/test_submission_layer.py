@@ -121,8 +121,12 @@ class TestSubmissionLayer(unittest.TestCase):
         RecursionError (whole-submission E_MALFORMED)."""
         raw = b"[" * 3000 + b"]" * 3000
         v = submission.process_submission(raw, self.mini)
-        self.assertEqual((v["code"], v["detail"]),
-                         ("E_MALFORMED", "bad_json"))
+        # Which detail fires depends on how deep the host CPython's json
+        # parser gets before its recursion guard trips (<=3.12 raises and
+        # we report bad_json; 3.13+ parses the nest and we reject the
+        # non-object root).  Either way it is a verdict, not a crash.
+        self.assertEqual(v["code"], "E_MALFORMED")
+        self.assertIn(v["detail"], ("bad_json", "root_not_object"))
         deep = (b'{"solutions": ' + b"[" * 900 + b"]" * 900 + b"}")
         v = submission.process_submission(deep, self.mini)
         self.assertEqual(v["code"], "E_MALFORMED")

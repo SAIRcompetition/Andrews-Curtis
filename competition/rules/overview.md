@@ -1,29 +1,43 @@
-# ACMS: Andrews–Curtis, Miller–Schupp Phase — Overview
+# ACC: The Andrews–Curtis Conjecture Competition — Overview
 
 ## The mathematics
 
 The **Andrews–Curtis conjecture** (1965) asserts that every balanced
 presentation of the trivial group can be transformed into the trivial
 presentation by a sequence of elementary moves — relator inversion,
-relator multiplication, and conjugation. It is open; most experts
-expect it to be false, but no counterexample has ever been verified.
+relator multiplication, and conjugation. It has been open for sixty
+years; most experts expect it to be false, but no counterexample has
+ever been verified.
 
-This competition works on the **Miller–Schupp family**, the most
-studied source of potential counterexamples:
+The competition runs on a **frozen pool of 10,115 balanced
+presentations of the trivial group**, `ac-v1-00001` … `ac-v1-10115`,
+spanning warm-up exercises to the research frontier. The pool draws on
+an extended Miller–Schupp family, on automorphic disguises of known
+hard classes, and on presentations that are solvable by construction.
+It includes **all 550 Miller–Schupp instances with no publicly known
+trivialization** — the MS-1190 dataset (Shehper et al. 2025; status per
+Fagan et al., *The Two-Hump Problem*, ICML 2026) — and excludes from
+scoring every instance whose trivialization is already publicly known.
 
-$$MS(n,w)=\langle x,y \mid x^{-1}y^n x y^{-(n+1)},\ x\,w^{-1} \rangle,
+The Miller–Schupp family itself is the most studied source of potential
+counterexamples:
+
+$$MS(n,w)=\langle x,y \mid x^{-1}y^n x y^{-(n+1)},\ x\,w^{-1}\rangle,
 \qquad n\ge 1,\ \sigma_x(w)=0.$$
 
-Every $MS(n,w)$ presents the trivial group. The question is whether it
-is **AC-trivializable**. From the MS-1190 dataset (Shehper et al. 2025;
-status per Fagan et al., *The Two-Hump Problem*, ICML 2026), the
-challenge pool consists of the **550 instances with no publicly known
-replayable trivialization** as of the freeze date. Solving any one of
-them is a new mathematical result.
+Every $MS(n,w)$ presents the trivial group; the question is whether it
+is **AC-trivializable**.
 
-1. > "Unresolved" means only: as of the data freeze date, no publicly available
-   > valid trivialization certificate is known. It does **not** mean the instance
-   > is a counterexample, and it does **not** mean the instance is unsolvable.
+**Per-instance difficulty, provenance, and status are deliberately
+withheld.** Working out which instances are within reach is part of the
+game. Many of them are open problems: for those, a first trivialization
+is a new mathematical result — which ones they are is not disclosed.
+
+> **"Unresolved" is not a verdict.** An unresolved instance is one for
+> which, as of the data freeze date, no publicly available valid
+> trivialization certificate is known. It does **not** mean the instance
+> is a counterexample, and it does **not** mean the instance is
+> unsolvable.
 
 ## The task
 
@@ -49,7 +63,7 @@ inversion, so reachability is symmetric.
 **The endpoint must be exactly `[[1],[2]]`, in order.** Ending at
 $(y,x)$ or $(x^{-1},y)$ does not count — but this costs at most **5**
 extra moves from any "loose trivial" state. The exhaustively verified
-shortest suffixes (also machine-readable in `move_spec.json`,
+shortest suffixes (also machine-readable in `challenges/move_spec.json`,
 `canonicalization_table`) are:
 
 | Final state | Moves to $T$ | One shortest path (move ids) |
@@ -65,6 +79,12 @@ shortest suffixes (also machine-readable in `move_spec.json`,
 
 No extra theory is needed — append the matching suffix and you are done.
 
+**Warm-up data.** `challenges/training_424.json` publishes 424 solved
+Miller–Schupp instances with full atomic-move certificates, in exactly
+the frozen encoding. It is training material: replay it to validate a
+pipeline, or mine it for search heuristics. Those instances are **not**
+in the scored pool.
+
 ## Submitting
 
 ```json
@@ -72,7 +92,7 @@ No extra theory is needed — append the matching suffix and you are done.
   "method": "optional method name",
   "notes": "optional free text, <= 2000 chars",
   "solutions": [
-    { "challenge_id": "ms-v1-0001", "move_spec_version": "ac-r2-v1",
+    { "challenge_id": "ac-v1-00001", "move_spec_version": "ac-r2-v1",
       "moves": [0, 4, 8, 3] }
   ]
 }
@@ -107,8 +127,10 @@ Worked example ($V_i = 1$):
 The rule is hard by design: a new strictly-shorter path zeroes everyone
 else instantly, maximizing the incentive to keep optimizing.
 
-2. > Current best-known atomic path — the shortest path among valid competition
-   > submissions to date. This is **not** a mathematically proven shortest path.
+> **The leaderboard length is a record, not a theorem.** The current
+> best-known atomic path is the shortest path among valid competition
+> submissions to date. This is **not** a mathematically proven shortest
+> path.
 
 **First Solver** is a permanent honor recorded the moment a challenge
 is first solved; it never changes afterwards, and does not guarantee
@@ -127,24 +149,50 @@ shortest-path rule keeps bridges honor, not arbitrage.
 
 ## The counterexample track
 
-Prove in Lean 4 — in a frozen, offline-buildable environment — that
-some pool challenge presents the trivial group but is **not** reachable
-from the trivial presentation under the full, unbounded, non-stable AC
-relation. The competition library provides the frozen definitions and
-the compatibility theorem `ac_iff_atomic` tying the 14-move closure to
-standard AC moves.
+A disproof of the Andrews–Curtis conjecture is not a search log. It is
+a **self-contained mathematical argument** that some balanced
+presentation of the trivial group is **not** related to the trivial
+presentation by the full, unbounded, non-stable Andrews–Curtis
+relation.
 
-3. > A verified counterexample is a Lean proof, checked in the frozen environment
-   > with an audited axiom set, that the presentation presents the trivial group
-   > and is **not** related to the trivial presentation by the full, unbounded,
-   > non-stable Andrews–Curtis relation. Failure to find a path — under any
-   > budget, length bound, peak bound, or restricted move set — is not a counterexample.
+**Official channel: PDF plus expert review.** Upload the argument as a
+single self-contained PDF through the competition site. A claim moves
+through *received* → *screening* → *under expert review* → *accepted*,
+*rejected*, or *revision requested*; review is carried out by the
+organizer panel together with reviewers they designate. There is no
+guaranteed turnaround. The organizers may summarily decline
+submissions that carry no substantive new mathematical content, and a
+team may have **at most one active claim at a time** — a new upload
+replaces the pending one.
 
-The first submission passing full verification is honored as the
-**Highest Mathematical Achievement of the Competition**, displayed
-above the leaderboard; it does not convert into leaderboard points.
-Technical requirements (allowed axioms, CI gates, review process) are
-in [evaluation.md](evaluation.md).
+**Lean 4 fast track (optional).** A claim accompanied by, or later
+formalized as, a machine-checked Lean 4 proof that builds in the
+competition's frozen offline environment is fast-tracked and, on
+passing verification, settles the claim. The competition Lean library
+is in development: when published it will provide frozen definitions of
+the full, unbounded, non-stable AC relation together with a
+compatibility theorem tying the 14-move closure to the standard AC
+moves. Until the library is published there is nothing to build
+against, so the PDF channel is the only route open.
+
+> **Not finding a path is not a disproof.** Failure to find a
+> trivialization — under any compute budget, length bound, peak bound,
+> or restricted move set — is **not** a counterexample.
+
+Explicitly **not** a counterexample:
+
+* no path found within a fixed compute budget;
+* nonexistence of paths of length $\le N$;
+* nonexistence of paths of peak total relator length $\le B$;
+* unreachability in the substitution graph or any restricted move set;
+* unreachability under *stable* AC (which allows adding and removing
+  trivial relators).
+
+The first accepted disproof is honored as the **Highest Mathematical
+Achievement of the Competition**, displayed above the leaderboard; it
+does not convert into leaderboard points. The submission mechanics,
+review states, and Lean requirements are in
+[evaluation.md](evaluation.md) §9.
 
 ## Teams and integrity
 
@@ -155,9 +203,29 @@ work and must not be resubmitted as independent; coordinated cheating
 (including sockpuppets) disqualifies all involved teams. The organizers
 may request provenance for any submission.
 
+## Co-organizers
+
+ACC is co-organized by (in alphabetical order by surname):
+
+* Lucas Fagan
+* Sergei Gukov
+* Terence Tao
+
+ACC is run by the [SAIR Foundation](https://sair.foundation/) in
+collaboration with [Caltech](https://www.caltech.edu/).
+
+<!-- logo URLs: re-host under /competition-assets/acms/ at site onboarding -->
+[<img src="https://competition.sair.foundation/competition-assets/lean-kernel-challenge/sair-foundation-logo.png" alt="SAIR Foundation logo" width="200">](https://sair.foundation/)
+[<img src="https://www.caltech.edu/static/core/img/caltech-new-logo.png" alt="Caltech logo" width="200">](https://www.caltech.edu/)
+
 ## Timeline
 
+* Registration opens: —
+* Submissions open: —
+* Submission deadline: —
+* Certificate release (post-competition): —
+
 The freeze date, competition window, and post-competition certificate
-release date will be announced (decision D-9, pending). The frozen
-data carries the freeze date in `manifest.json`, `challenges/README.md`
-and `competition.yaml`.
+release date will be announced. The frozen data carries the freeze date
+in `challenges/manifest.json`, `challenges/README.md` and
+`competition.yaml`.
