@@ -203,6 +203,12 @@ work and must not be resubmitted as independent; coordinated cheating
 (including sockpuppets) disqualifies all involved teams. The organizers
 may request provenance for any submission.
 
+## Community feedback
+
+Questions about the rules, scoring, or evaluation are welcome. Join the
+[SAIR Foundation Zulip community](https://zulip.sair.foundation/) for
+discussion and collaboration.
+
 ## Co-organizers
 
 ACC is co-organized by (in alphabetical order by surname):
