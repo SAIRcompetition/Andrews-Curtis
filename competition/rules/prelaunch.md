@@ -1,4 +1,4 @@
-# ACC: The Andrews–Curtis Conjecture Competition
+# The Andrews–Curtis Conjecture (ACC) Challenge
 
 *A mathematical discovery competition on the Andrews–Curtis conjecture:
 trivialize balanced presentations of the trivial group with machine-checked
@@ -12,20 +12,21 @@ ACC is co-organized by (in alphabetical order by surname):
 - Sergei Gukov
 - Terence Tao
 
-The co-organizing institutions are the
-[SAIR Foundation](https://sair.foundation/) and
-[Caltech](https://www.caltech.edu/).
+The co-organizing institutions are
+[Caltech](https://www.caltech.edu/) and the
+[SAIR Foundation](https://sair.foundation/).
 
 <!-- logo URLs: re-host under /competition-assets/acms/ at site onboarding -->
 <p align="center">
-  <a href="https://sair.foundation/"><img src="https://competition.sair.foundation/competition-assets/lean-kernel-challenge/sair-foundation-logo.png" alt="SAIR Foundation" width="260"></a>
-  &nbsp;&nbsp;&nbsp;&nbsp;
   <a href="https://www.caltech.edu/"><img src="https://www.caltech.edu/static/core/img/caltech-new-logo.png" alt="Caltech" width="260"></a>
+  &nbsp;&nbsp;&nbsp;&nbsp;
+  <a href="https://sair.foundation/"><img src="https://competition.sair.foundation/competition-assets/lean-kernel-challenge/sair-foundation-logo.png" alt="SAIR Foundation" width="260"></a>
 </p>
 
 ## Background
 
-The Andrews–Curtis conjecture has been open since 1965. It says that every
+The [Andrews–Curtis conjecture](https://en.wikipedia.org/wiki/Andrews%E2%80%93Curtis_conjecture)
+has been open since 1965. It says that every
 balanced presentation of the trivial group — as many relators as generators —
 can be reduced to the trivial presentation by a sequence of elementary moves:
 inverting a relator, multiplying one relator by another, conjugating a
