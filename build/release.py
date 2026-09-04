@@ -20,6 +20,7 @@ inspection but must never be published.
 """
 
 import json
+import re
 import shutil
 import subprocess
 import sys
@@ -32,12 +33,25 @@ from acms_verify import canon, core  # noqa: E402
 
 OUT = Path(sys.argv[1]) if len(sys.argv) > 1 else REPO / "dist" / "ACMS-public"
 
-ROOT_README = """\
-# ACMS-public — Andrews–Curtis Competition, Miller–Schupp Phase
+CHALLENGE_COUNT = 10115
 
-Public data, rules, and reference tools for the ACMS competition,
-organized by **sairmath**: trivializing Miller–Schupp presentations
-with atomic Andrews–Curtis moves, plus a Lean 4 counterexample track.
+#: Directories that hold organizer-only material and must never appear
+#: in the export, at any depth.
+INTERNAL_DIRS = ("server", "build", "spec", "reference", "tests", "private")
+
+#: Provenance/difficulty vocabulary that must not survive into the
+#: exported manifest (mirrors build/build_manifest_v2.py leak_check).
+BANNED_TOKENS = ("tier", "pool", "family", "provenance", "w_vector",
+                 "status_at_freeze", "MS-", "AUTH-", "INTL") + tuple(
+                     "T%d_" % i for i in range(6))
+
+ROOT_README = """\
+# ACC — The Andrews–Curtis Conjecture Competition (public package)
+
+Public data, rules, and reference tools for ACC, co-organized by
+Lucas Fagan, Sergei Gukov, and Terence Tao: trivializing balanced
+presentations of the trivial group with atomic Andrews–Curtis moves,
+plus an expert-reviewed counterexample track.
 
 The public reference tools are intentionally small. The official
 competition system runs the production evaluator, while this repository
@@ -47,7 +61,7 @@ exposes the core mathematical checks used for reproducibility.
 
 1. Read `competition/rules/overview.md` (the task and scoring), then
    `competition/rules/evaluation.md` (exact verifier semantics).
-2. Explore `competition/challenges/` — the frozen 550-challenge
+2. Explore `competition/challenges/` — the frozen 10,115-challenge
    manifest, the machine-readable move spec, the full MS-1190 metadata,
    and 424 known trivializations as training data.
 3. Self-check with the reference verifier:
@@ -87,11 +101,13 @@ def main():
         for c in manifest["challenges"]]
     assert recomputed == [c["instance_hash"] for c in manifest["challenges"]]
     assert canon.manifest_hash(recomputed) == manifest["manifest_hash"]
-    assert len(manifest["challenges"]) == 550
+    assert len(manifest["challenges"]) == CHALLENGE_COUNT, \
+        len(manifest["challenges"])
+    assert manifest["challenge_count"] == CHALLENGE_COUNT
     yaml_text = (src / "competition.yaml").read_text()
     assert 'move_spec_hash: "%s"' % spec_hash in yaml_text
     assert 'manifest_hash: "%s"' % manifest["manifest_hash"] in yaml_text
-    assert "challenge_count: 550" in yaml_text
+    assert "challenge_count: %d" % CHALLENGE_COUNT in yaml_text
 
     # 2. verbatim export
     if OUT.exists():
@@ -114,21 +130,43 @@ def main():
        cwd=comp / "tools" / "verifier", env=env)
 
     # 4. nothing from the internal directories may leak: the package
-    # holds exactly {README.md, LICENSE, competition/}, no path segment
-    # named "server", and no server-module basenames.
+    # holds exactly {README.md, LICENSE, NOTICE, competition/}, no path
+    # segment named server/build/spec/reference/tests/private, and no
+    # server-module or builder basenames.
     top = sorted(q.name for q in OUT.iterdir())
     assert top == ["LICENSE", "NOTICE", "README.md", "competition"], top
-    server_files = {p.name for p in (REPO / "server").rglob("*.py")
-                    if "__pycache__" not in p.parts}
+    internal_files = {p.name for p in (REPO / "server").rglob("*.py")
+                      if "__pycache__" not in p.parts}
+    internal_files |= {p.name for p in (REPO / "build").rglob("*.py")
+                       if "__pycache__" not in p.parts}
     for p in OUT.rglob("*"):
-        assert "server" not in (q.lower() for q in p.relative_to(OUT).parts), p
+        parts = [q.lower() for q in p.relative_to(OUT).parts]
+        for bad in INTERNAL_DIRS:
+            assert bad not in parts, (bad, p)
         if p.is_file() and p.suffix == ".py":
-            assert p.name not in server_files or p.name == "__init__.py", p
+            assert p.name not in internal_files or p.name == "__init__.py", p
+        assert p.name not in ("scored_pool_source.jsonl", "SOURCES.json",
+                              "challenge_map_private.tsv",
+                              "pool_stats.json"), p
+
+    # 5. the exported manifest still carries no provenance vocabulary and
+    # no private identifier (re-run of build_manifest_v2.leak_check on the
+    # bytes that actually ship).
+    exported = (comp / "challenges" / "manifest.json").read_text(
+        encoding="utf-8")
+    for token in BANNED_TOKENS:
+        assert token not in exported, "banned token %r in exported manifest" \
+            % (token,)
+    freeze = json.loads(exported)["freeze_date"]
+    hit = re.search(r"[A-Z]", exported.replace(freeze, ""))
+    assert hit is None, "unexpected uppercase in exported manifest at %d" % (
+        hit.start() if hit else -1)
 
     files = sorted(str(p.relative_to(OUT)) for p in OUT.rglob("*") if p.is_file())
     print("\n".join(files))
     print(f"\nOK: ACMS-public exported to {OUT} ({len(files)} files), "
-          f"all hashes verified, golden vectors green, no internal leakage")
+          f"{CHALLENGE_COUNT} challenges, all hashes verified, golden "
+          f"vectors green, no internal leakage")
 
 
 if __name__ == "__main__":

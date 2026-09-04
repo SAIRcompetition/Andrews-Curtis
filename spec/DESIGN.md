@@ -225,6 +225,24 @@ it must **not** appear in the rules text or the `move_spec` download.
 
 ## 2. Challenge Pool: The Real State of MS-1190
 
+> ### Update 2026-09-03 — upstream data source, and the pool beyond D-3
+>
+> **Upstream.** `reference/index.html` is **no longer the upstream** for the frozen data. The
+> manifest is now built from `build/data/`, synced from the SAIR dataset release by
+> `build/sync_dataset.py` and assembled by `build/build_manifest_v2.py`. `reference/index.html`
+> stays exactly as it is — frozen, read-only, cited as the prototype and as the provenance of
+> the 424 converted training paths — and is not a production dependency.
+>
+> **Pool.** D-3 (§2.2) scoped v1 to the 550 open MS-1190 instances. The shipped pool is larger:
+> **10 115 challenges**, `ac-v1-00001 … ac-v1-10115`, spanning warm-up to research frontier,
+> drawn from an extended Miller–Schupp family, automorphic disguises of known hard classes, and
+> solvable-by-construction walks, and containing all 550 open MS-1190 instances. Instances with
+> a publicly known certificate are excluded from scoring; `training_424.json` remains published
+> training data. Per-instance difficulty, provenance, and status are **withheld** from
+> contestants — an extension of the §2.3 anti-hint reasoning (cf. O-4's numbering-leaks-difficulty
+> point) from ordering to metadata generally. The analysis in §2.1–§2.4 below is retained as the
+> record of how the MS-1190 core was scoped.
+
 ### 2.1 [Verified] Actual composition of the prototype dataset
 
 `reference/index.html` embeds 1190 instances of $MS(n,w)$, $n=1\ldots7$ × 170 values of $w$. Breakdown:
@@ -336,7 +354,8 @@ There is no need for $V_i$ to be a multiple of $2^k$, because scoring uses exact
   "freeze_date": "2026-09-01T00:00:00Z",
   "generators": ["x", "y"],
   "target_relators": [[1], [2]],
-  "limits": { "max_path_length": 100000, "max_total_relator_length": 10000 },
+  "limits": { "max_path_length": 100000, "max_total_relator_length": 10000,
+              "max_work": 5000000 },
   "challenges": [
     {
       "challenge_id": "ms-v1-0001",
@@ -575,7 +594,9 @@ recompute():
   P[t] = sum_i P[t,i];  rank by P desc, then by earliest time-of-current-total
 ```
 
-Every accepted submission triggers one full recomputation (~766 challenges, ~10² teams — the cost is negligible).
+Every accepted submission triggers one full recomputation (the v1 pool as scoped here was ~766 challenges;
+**update 2026-09-03**: the actual scored pool is **10 115** challenges, so a full recomputation is ~10⁴ challenges × ~10² teams —
+still ~10⁶ cheap operations, negligible, and the "no incremental patching" rule stands unchanged).
 Every recomputation writes a `scoring_run` record (including `manifest_hash`, `verifier_version`, and timestamp),
 aligned with IGP24's `scoring-history`, guaranteeing that any historical leaderboard can be reproduced.
 
@@ -657,6 +678,30 @@ Sharing a specific certificate for a challenge across teams counts as joint-team
 ---
 
 ## 7. Lean Counterexample Track
+
+> ### Update 2026-09-03 — the official channel is PDF + expert review; Lean is an optional fast track
+>
+> This section was written on the assumption that a Lean package is the *only* admissible
+> counterexample artifact. That assumption did not survive O-3: `ac_iff_atomic` (§7.2) is
+> **still unproven**, so the competition cannot require a Lean proof and must not advertise the
+> frozen library as delivered. The shipped design is:
+>
+> * **Official channel**: a self-contained mathematical argument uploaded as a single PDF.
+>   `POST /counterexample-submissions` now accepts `application/pdf`, **≤ 25 MB**, one file.
+>   States: `received → screening → under_review → accepted | rejected | revision_requested`.
+>   Review by the organizer panel plus reviewers they designate (see O-6); no guaranteed
+>   turnaround; organizers may summarily decline submissions with no substantive new
+>   mathematical content; **at most one active claim per team**, a new upload replacing the
+>   pending one (its receipt time is the one that counts).
+> * **Lean fast track (optional)**: a claim accompanied by — or later formalized as — a
+>   machine-checked Lean 4 proof in the frozen environment skips expert review and, on passing
+>   the CI gates of §7.5, settles the claim. Everything in §7.2–§7.6 remains the specification
+>   of that track, stated in advance; none of it is available yet, and the contestant-facing
+>   docs describe the library in the future tense only.
+> * §7.4 (what is not a counterexample) and §7.7 (Highest Mathematical Achievement, no
+>   leaderboard points) are unchanged and apply to both routes.
+>
+> Normative text: `competition/rules/evaluation.md` §9.
 
 ### 7.1 Submission Artifact
 
@@ -774,8 +819,8 @@ Unified prefix `/api/acms`. All endpoints share the same verifier / team / rate-
 | GET | `/submissions/me` | Required | **own team only**, includes full moves |
 | POST | `/submissions` | Required | per-item verdict + the team's updated score |
 | POST | `/bridge-submissions` | Required | bridge verdict |
-| POST | `/counterexample-submissions` | Required | Lean package acceptance receipt + CI status |
-| GET | `/counterexample-submissions/me` | Required | own team's Lean submission status and logs |
+| POST | `/counterexample-submissions` | Required | counterexample claim receipt + state (**update 2026-09-03**: accepts `application/pdf`, ≤ 25 MB, one active claim per team; a Lean package remains admissible as the optional fast track, returning CI status) |
+| GET | `/counterexample-submissions/me` | Required | own team's counterexample claims, their states, and (fast track only) CI logs |
 
 The public response of `GET /challenges/:id` (**this is the privacy contract**, enforced by schema rather than comments —
 acceptance §16.10):
@@ -830,12 +875,14 @@ but the public package contains no scheduling, storage, or scoring.
 ACMS-public/
   README.md                              # what it is, organizers, background, layout, Start Here
   LICENSE                                # Apache-2.0 (same as IGP24-public)
+  NOTICE                                 # attribution (Apache-2.0 §4d): dataset + status sources
   competition/
     README.md                            # submission format, reference tools, internal-system boundary
     competition.yaml                     # machine-readable metadata (§9.4)
     rules/
       overview.md                        # contestant-facing
       evaluation.md                      # technical
+      prelaunch.md                       # added 2026-09-03: the pre-launch page, rendered alone with a countdown
     challenges/
       README.md                          # exact semantics of every column of every file + freeze date
       manifest.json                      # 550-entry frozen challenge pool + three hashes
@@ -896,7 +943,15 @@ manifest: challenges/manifest.json
 move_spec: challenges/move_spec.json
 ```
 
+**Update 2026-09-03**: the shipped file keeps `id: acms` and the other code identifiers, but carries the
+contestant-facing `name: "ACC: The Andrews–Curtis Conjecture Competition"`, `challenge_count: 10115`,
+and a `challenge_policy` describing the frozen pool rather than the MS-only scope above.
+
 ### 9.5 Content split for `rules/` (confirmed: only two files)
+
+**Update 2026-09-03**: three files. `prelaunch.md` joins them — a half-page standalone teaser (pitch,
+co-organizers, "dates to be announced") that the SAIR platform renders alone on the pre-launch page with a
+countdown. It is not concatenated into `/competitions/acms.md`, which is still `overview.md` + `evaluation.md`.
 
 | File | Contents | Maps to this document |
 |---|---|---|
@@ -927,15 +982,17 @@ Andrews–Curtis/                    # ← development repository (private), rep
   LICENSE     Apache-2.0 (exported verbatim)
   competition/                     # ← THE public tree, IGP24-public-aligned (§9.2)
     competition.yaml               generated by build_manifest.py (hashes, freeze_date)
-    rules/       overview.md, evaluation.md          ← source of truth
+    rules/       overview.md, evaluation.md, prelaunch.md   ← source of truth
     challenges/  manifest.json, move_spec.json, ms1190_metadata.csv,
                  training_424.json, golden_vectors.json, README.md
     examples/    sample_submission.json, README.md
     tools/verifier/  acms_verify/ (Python, the only implementation) + README.md
     tools/lean/      README.md (frozen formalization published at P4)
   spec/       DESIGN.md (this document, internal, not in the public package)
-              reference-igp24-rules.md (original IGP24 rules text, for comparison only)
-  build/      build_manifest.py (regenerates challenges/ + competition.yaml)
+              (the IGP24 rules text used for comparison is no longer vendored here;
+               read it at https://competition.sair.foundation/competitions/igp24.md)
+  build/      build_manifest.py (regenerates challenges/ + competition.yaml;
+              2026-09-03: demoted to a library, driven by sync_dataset.py + build_manifest_v2.py)
               release.py (exports + verifies the public package)
               checks/ acheck.py bridge.py convert.py demo.py
   tests/      verifier + frozen-data acceptance tests (internal, not shipped)
@@ -1008,6 +1065,8 @@ The 13 items of requirements §16, each mapped to an executable test:
 
 These three scripts upgrade directly into P1 regression tests (seeds for acceptance items 1, 5, and 11).
 
+**Update 2026-09-03**: that upgrade has happened — `build/checks/*` is superseded by the `tests/` suite and is kept only as the historical record of the [Verified] figures above.
+
 ---
 
 ## 12. Decision List
@@ -1063,6 +1122,13 @@ These three scripts upgrade directly into P1 regression tests (seeds for accepta
    > non-stable Andrews–Curtis relation. Failure to find a path — under any
    > budget, length bound, peak bound, or restricted move set — is not a counterexample.
 
+**Update 2026-09-03**: statements 1 and 2 ship verbatim in substance. Statement 3's *second* sentence
+(failure to find a path is not a counterexample) is unchanged and normative; its *first* sentence is
+narrowed to the optional Lean fast track, because the official channel is now PDF + expert review
+(§7 update note). The shipped wording defines a disproof by its mathematical content — an argument that
+the presentation is not related to the trivial presentation by the full, unbounded, non-stable AC
+relation — rather than by the artifact that carries it.
+
 ---
 
 ## 14. Open Questions and Risks
@@ -1090,7 +1156,16 @@ In that case our deliverables converge to: **manifest + verifier + scoring engin
 
 **Needs confirmation**: does ACMS go through the SAIR platform? If so, we need the platform's competition integration spec (how submissions are delivered to the evaluator, how the evaluator returns verdicts and scores, and who computes the leaderboard).
 
-### O-2 Empty-leaderboard risk, and a proposed warm-up track
+### O-2 Empty-leaderboard risk, and a proposed warm-up track — **RESOLVED 2026-09-03**
+
+> **Resolved by the pool change (§2 update note).** The 10 115-instance pool is graded from
+> warm-up to research frontier, so its easy/medium mass guarantees leaderboard activity from
+> day one and shortest-path competition on solvable instances throughout — which is exactly what
+> the proposed warm-up track was for, without a second leaderboard or a second scoring unit.
+> `training_424.json` stays published as **training data** (not a scored track): 424 solved
+> MS-1190 instances with full atomic-move certificates, excluded from scoring.
+> The analysis below is kept as the record of why the pool was widened.
+
 
 IGP24's target space has 165 836 possible pairs and the baseline covers only 622 — low-hanging fruit everywhere, with points available from day one. ACMS's 550 challenges are the ones Shehper et al. and Fagan et al. **attacked with large-scale RL and search and failed to crack**. The realistic outcome may be: **the main leaderboard stays empty for the entire competition.**
 
@@ -1134,6 +1209,11 @@ Whichever limit trips first is the one reported; `evaluation.md` lists them in t
 
 §7.6 requires "a Lean expert to audit the trust boundary + a mathematics expert to confirm the formal statement matches the standard AC conjecture." This needs **named people**, and they must be in place before the first `Provisional Counterexample` appears — otherwise the state machine stalls at Provisional and cannot advance.
 
-IGP24 lists 5 co-organizers (Jones / Paulhus / Roe / Sutherland / Tao). ACMS needs a similar roster, with at least one Lean expert and one combinatorial group theory expert.
+IGP24 lists 5 co-organizers. ACMS needs a similar roster, with at least one Lean expert and one combinatorial group theory expert.
 
-**Needs confirmation**: the co-organizer roster and the counterexample reviewers.
+**Resolved 2026-09-03.** Co-organizers, in alphabetical order by surname: **Lucas Fagan, Sergei Gukov, Terence Tao**.
+Counterexample review is carried out by that organizer panel together with reviewers they designate case by case;
+under the PDF channel (§7 update note) the state machine no longer stalls waiting for a standing Lean auditor, since
+`under_review` is a human-review state by construction and the Lean fast track's CI gates are automated.
+The contestant-facing name of the competition is **ACC: The Andrews–Curtis Conjecture Competition**; internal code
+identifiers (`acms_verify`, `manifest_version`, the `acms` slug) are unchanged.

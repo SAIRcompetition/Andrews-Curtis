@@ -3,7 +3,7 @@
   "notes": "sample only; see README.md next to this file",
   "solutions": [
     {
-      "challenge_id": "ms-v1-0001",
+      "challenge_id": "ac-v1-00001",
       "move_spec_version": "ac-r2-v1",
       "moves": [6, 7]
     }

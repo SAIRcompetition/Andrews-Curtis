@@ -1,25 +1,32 @@
 #!/usr/bin/env python3
-"""Generate the frozen ACMS data artifacts from reference/index.html.
+"""RETIRED GENERATOR — builders only, kept for import.
 
-Outputs, all inside the IGP24-aligned public tree (DESIGN.md §3, §9.2, §10.1):
-  competition/challenges/manifest.json        550 open challenges + hashes + limits
-  competition/challenges/move_spec.json       ac-r2-v1 machine-readable move spec
-  competition/challenges/ms1190_metadata.csv  all 1190 MS instances (the "denominator")
-  competition/challenges/training_424.json    424 known paths converted to ac-r2-v1
-  competition/challenges/golden_vectors.json  conformance vectors (pass + every error code)
-  competition/competition.yaml                machine-readable metadata (§9.4)
+This module built the v1 (``acms-ms-v1``) artifacts: a 550-challenge
+manifest whose pool was exactly the open half of MS-1190, parsed out of
+``reference/index.html``.  The scored pool is now the 10115-row SAIR
+draw distilled into ``build/data/`` — see ``build/sync_dataset.py`` —
+and ``build/build_manifest_v2.py`` is the sole generator.
 
-The builder hard-asserts every [Verified] figure from DESIGN.md (§1.5,
-§2.1, §2.3) so that any drift in the prototype data or the conversion
-recipe fails generation loudly instead of silently changing the frozen
-artifacts.
+Running this file is a hard error.  What survives is the set of
+builders that ``build_manifest_v2`` imports and reuses unchanged, so
+that the frozen artifacts they produce stay byte-identical:
+
+  load_items / ms_initial      reference/index.html + the D-2 encoding
+  build_training               training_424.json (FROZEN)
+  build_move_spec              move_spec.json (FROZEN)
+  build_golden                 golden_vectors.json
+  replay, dump, FREEZE_DATE, LIMITS, GENERATORS, TARGET
+
+Every [Verified] figure from DESIGN.md (§1.5, §2.1, §2.3) is still
+hard-asserted inside those builders, so drift in the prototype data or
+the conversion recipe fails loudly instead of silently changing the
+frozen artifacts.
 
 Deterministic: no timestamps, no randomness; identical inputs give
 byte-identical outputs.
 """
 
 import collections
-import csv
 import json
 import sys
 from pathlib import Path
@@ -27,7 +34,7 @@ from pathlib import Path
 REPO = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO / "competition" / "tools" / "verifier"))
 
-from acms_verify import __version__, canon, core  # noqa: E402
+from acms_verify import canon, core  # noqa: E402
 
 MANIFEST_VERSION = "acms-ms-v1"
 COMPETITION = "acms"
@@ -409,7 +416,7 @@ def build_golden(manifest, training, move_spec_hash):
          "expected": {"accepted": False, "code": "E_CLIENT_ASSERTED_RESULT",
                       "key_path": "solutions[0].length"}},
         {"name": "sub-unknown-challenge",
-         "raw": json.dumps({"solutions": [dict(sol, challenge_id="ms-v1-9999")]}),
+         "raw": json.dumps({"solutions": [dict(sol, challenge_id="ac-v1-99999")]}),
          "expected": {"accepted": True,
                       "results": [{"ok": False,
                                    "code": "E_UNKNOWN_CHALLENGE"}]}},
@@ -421,7 +428,7 @@ def build_golden(manifest, training, move_spec_hash):
                                    "code": "E_SPEC_MISMATCH"}]}},
         {"name": "sub-too-many-solutions",
          "raw": json.dumps({"solutions": [
-             {"challenge_id": "ms-v1-%04d" % (i + 1),
+             {"challenge_id": "ac-v1-%05d" % (i + 1),
               "move_spec_version": core.MOVE_SPEC_VERSION, "moves": []}
              for i in range(501)]}),
          "expected": {"accepted": False, "code": "E_MALFORMED",
@@ -461,74 +468,17 @@ def dump(path, obj):
 
 
 def main():
-    items = load_items()
-    counts = collections.Counter(
-        (it["status"], bool(it.get("path"))) for it in items)
-    assert dict(counts) == EXPECTED_STATUS_COUNTS, dict(counts)
-
-    move_spec_hash = canon.move_spec_hash(core.MOVE_TABLE)
-    move_spec = build_move_spec(move_spec_hash)
-    manifest = build_manifest(items, move_spec_hash)
-    training = build_training(items, move_spec_hash)
-    golden = build_golden(manifest, training, move_spec_hash)
-
-    open_seq = {}
-    train_seq = {}
-    ci = ti = 0
-    for seq, it in enumerate(items, 1):
-        if it["status"] == "unsolved":
-            ci += 1
-            open_seq[seq] = "ms-v1-%04d" % ci
-        if it.get("path"):
-            ti += 1
-            train_seq[seq] = "ms-train-%04d" % ti
-    rows = build_metadata_rows(items, open_seq, train_seq)
-
-    challenges_dir = REPO / "competition" / "challenges"
-    dump(challenges_dir / "manifest.json", manifest)
-    dump(challenges_dir / "move_spec.json", move_spec)
-    dump(challenges_dir / "training_424.json", training)
-    dump(challenges_dir / "golden_vectors.json", golden)
-
-    csv_path = challenges_dir / "ms1190_metadata.csv"
-    with open(csv_path, "w", encoding="utf-8", newline="") as fh:
-        writer = csv.DictWriter(fh, fieldnames=list(rows[0].keys()))
-        writer.writeheader()
-        writer.writerows(rows)
-    print("wrote %s (%d rows)" % (csv_path.relative_to(REPO), len(rows)))
-
-    yaml_path = REPO / "competition" / "competition.yaml"
-    yaml_path.write_text(f"""\
-id: acms
-name: "ACMS: Andrews–Curtis, Miller–Schupp Phase"
-organizer: sairmath
-status: active
-task_type: mathematical_discovery
-submission_artifact: submission.json
-submission_format: "JSON; solutions[] of {{challenge_id, move_spec_version, moves[]}} where moves are atomic AC move ids 0-13"
-verifier: "Python, competition/tools/verifier (standard library only), acms-verify {__version__}"
-counterexample_verifier: "Lean 4 in a frozen offline container, see rules/evaluation.md"
-primary_metric: leaderboard_score
-scoring_unit: team_challenge
-scoring_formula: "V_i * 2^(1-k_i) for teams at the current shortest length, 0 otherwise"
-move_spec_version: {core.MOVE_SPEC_VERSION}
-move_spec_hash: "{move_spec_hash}"
-manifest_hash: "{manifest['manifest_hash']}"
-freeze_date: "{manifest['freeze_date']}"  # D-9 placeholder until the timeline decision lands
-freeze_commit: "TBD — freeze manifest.json and move_spec.json in git before public launch"
-challenge_count: {len(manifest['challenges'])}
-challenge_policy: "MS-1190 instances with no publicly known replayable trivialization certificate at freeze date; 'unresolved' does NOT mean counterexample"
-overview: rules/overview.md
-evaluation: rules/evaluation.md
-manifest: challenges/manifest.json
-move_spec: challenges/move_spec.json
-""")
-    print("wrote %s" % yaml_path.relative_to(REPO))
-
-    print("move_spec_hash =", move_spec_hash)
-    print("manifest_hash  =", manifest["manifest_hash"])
-    print("challenges: %d open, all scored, base_score 1"
-          % len(manifest["challenges"]))
+    sys.exit(
+        "build/build_manifest.py is the retired v1 generator (550 MS-only\n"
+        "challenges).  The frozen artifacts are now produced by:\n"
+        "\n"
+        "    python3 build/sync_dataset.py --release ../sair_dataset/release\n"
+        "    python3 build/build_manifest_v2.py\n"
+        "\n"
+        "This module is kept only so build_manifest_v2 can import its\n"
+        "builders (build_training, build_move_spec, build_golden, ...)\n"
+        "unchanged, which is what keeps move_spec.json and training_424.json\n"
+        "byte-identical across the v2 rebuild.")
 
 
 if __name__ == "__main__":

@@ -1,4 +1,4 @@
-# ACMS Evaluation — Technical Specification
+# ACC Evaluation — Technical Specification
 
 This document is normative for verification, scoring, and
 confidentiality. The reference verifier in `tools/verifier/` runs the
@@ -89,7 +89,8 @@ is the one reported.
 
 All values live in the manifest/configuration, not in code. The work
 budget exists because path length × relator length alone admits ~10⁹
-character operations; the known 424 paths have work ≤ 2 161, so
+character operations; the 424 published training certificates have
+work ≤ 2 161, so
 5 000 000 leaves three orders of magnitude of headroom while bounding
 verification cost.
 
@@ -162,10 +163,54 @@ merging of challenges happens only at announced scoring-epoch
 boundaries, by the organizers, with verified bridges as the only
 admissible evidence.
 
-## 9. Lean counterexample track
+## 9. Counterexample track
 
-Submission: a self-contained Lean package that builds offline
-(`lake build` in the frozen container, no network) and proves:
+### 9.1 What is claimed
+
+A counterexample claim asserts, for a specific balanced presentation
+$P$, that $P$ presents the trivial group and that $P$ is **not** related
+to the trivial presentation by the full, unbounded, non-stable
+Andrews–Curtis relation (inversion, multiplication, and conjugation by
+an **arbitrary** word). The claim must name the presentation
+explicitly; if it is a pool instance, it must name the `challenge_id`.
+
+### 9.2 Official channel: PDF plus expert review
+
+`POST /counterexample-submissions`, content type `application/pdf`,
+one file, **≤ 25 MB**. The argument must be self-contained: a reader
+must be able to check it from the PDF alone, without running code and
+without consulting unpublished material. Supplementary data may be
+referenced but never substitutes for the argument.
+
+States:
+
+| State | Meaning |
+|---|---|
+| `received` | upload accepted and timestamped |
+| `screening` | organizer triage for substantive mathematical content |
+| `under_review` | with the review panel |
+| `accepted` | the disproof is accepted |
+| `rejected` | declined, with a reason |
+| `revision_requested` | returned to the team; a revised upload restarts at `received` |
+
+Review is carried out by the organizer panel together with reviewers
+they designate. **No turnaround is guaranteed.** The organizers may
+summarily decline a submission that carries no substantive new
+mathematical content. A team may hold **at most one active claim**
+(`received`, `screening`, `under_review`) at a time; a new upload
+replaces the pending one, and the receipt time of the replacement is
+the one that counts. `GET /counterexample-submissions/me` returns a
+team's own claims and their states.
+
+"First" is by server receipt time of the submission that is ultimately
+accepted; later independent disproofs are marked `Independent
+Confirmation`.
+
+### 9.3 Optional fast track: machine-checked Lean 4
+
+A claim accompanied by — or later formalized as — a Lean 4 package that
+builds offline (`lake build` in the frozen container, no network) and
+proves
 
 ```lean
 theorem candidate_matches_manifest : P = Competition.instance challenge_id
@@ -174,11 +219,19 @@ theorem candidate_not_ac_reachable :
     ¬ StandardAC.Reachable P StandardAC.trivialPresentation
 ```
 
-against the frozen competition library, which defines the full,
-unbounded, non-stable AC relation (`StandardAC.Step`: inversion,
-multiplication, conjugation by an **arbitrary** word) and proves
-`ac_iff_atomic` — the equivalence of its reflexive-transitive closure
-with the 14-move closure.
+against the competition Lean library is fast-tracked: machine checking
+replaces mathematical refereeing of the argument, and passing
+verification settles the claim.
+
+**The competition Lean library is in development and is not yet
+available.** When published it will provide frozen definitions of the
+full, unbounded, non-stable AC relation (`StandardAC.Step`) together
+with a compatibility theorem tying the 14-move closure of `ac-r2-v1` to
+the standard AC moves; the exact statement, the pinned toolchain, and a
+template project will be published in `tools/lean/` at that point.
+Until then the PDF channel of §9.2 is the official and only route, and
+the requirements below are stated in advance so that a formalization
+effort can target them.
 
 Frozen and published by hash: Lean version, `lean-toolchain`, Mathlib
 commit, competition formalization commit, `lake-manifest.json`,
@@ -193,16 +246,20 @@ Automatic CI gates (all fail-closed):
 4. SHA-256 comparison of the frozen definition files — any edit rejects;
 5. steps 1–2 repeated on an independent machine.
 
-State machine: `received → ci_running → ci_passed (Provisional
-Counterexample) / ci_failed (Rejected, full logs attached)`. Provisional
-becomes **Verified Counterexample** only after expert review of the
-trust boundary (Lean expert), confirmation that the formal statement
-matches the standard AC conjecture (mathematician), and public source
-release for community scrutiny. "First" is by server receipt time of
-the complete package, effective only upon full verification; later
-independent proofs are marked `Independent Confirmation`.
+Passing all five gates yields a **Provisional Counterexample**; it
+becomes **Verified** after review of the trust boundary and
+confirmation that the formal statement matches the standard AC
+conjecture, plus public source release for community scrutiny.
+
+### 9.4 What is not a counterexample
 
 Explicitly **not** a counterexample: failure to find a path under any
 compute budget; nonexistence of paths of length ≤ N or peak ≤ B;
 unreachability in a restricted move set or substitution graph;
 unreachability under stable AC.
+
+### 9.5 Honor
+
+The first accepted disproof is displayed above the leaderboard as the
+**Highest Mathematical Achievement of the Competition**. It awards no
+leaderboard points and does not enter any team's score.
