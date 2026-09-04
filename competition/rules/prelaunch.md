@@ -27,8 +27,7 @@ The co-organizing institutions are
 
 The [Andrews–Curtis conjecture](https://en.wikipedia.org/wiki/Andrews%E2%80%93Curtis_conjecture)
 has been open since 1965. It says that every
-balanced presentation of the trivial group — as many relators as generators —
-can be reduced to the trivial presentation by a sequence of elementary moves:
+balanced presentation of the trivial group can be reduced to the trivial presentation by a sequence of elementary moves:
 inverting a relator, multiplying one relator by another, conjugating a
 relator. Most experts expect the conjecture to be false, yet in sixty years no
 counterexample has ever been verified.
@@ -44,7 +43,7 @@ reuse, and build on.
 
 Teams are given a frozen pool of **10,115 balanced presentations of the
 trivial group**, ranging from warm-up exercises to instances that are open
-research problems — which is which is not disclosed. A solution is a sequence
+research problems; which is which is not disclosed. A solution is a sequence
 of atomic Andrews–Curtis moves, submitted as a list of integers, that
 transforms a presentation into the trivial presentation; the leaderboard
 rewards the shortest verified path.
