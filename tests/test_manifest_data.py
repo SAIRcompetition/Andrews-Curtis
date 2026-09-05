@@ -185,7 +185,8 @@ class TestManifestLeakage(unittest.TestCase):
 
     def test_lowercase_ascii_apart_from_the_freeze_date(self):
         freeze = util.load_manifest()["freeze_date"]
-        self.assertIsNone(re.search(r"[A-Z]", self.text.replace(freeze, "")))
+        text = self.text.replace(freeze, "") if freeze is not None else self.text
+        self.assertIsNone(re.search(r"[A-Z]", text))
 
 
 if __name__ == "__main__":

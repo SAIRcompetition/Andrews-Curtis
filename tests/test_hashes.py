@@ -1,8 +1,8 @@
 """Acceptance row 11 + §3.2 byte templates.
 
-Any change to the manifest or the move spec must change at least one
-hash, and submissions carrying a stale move_spec_version must be
-rejected with E_SPEC_MISMATCH.
+Changes to hashed instance fields or the move table must change their
+hashes. The low-level verifier rejects an inconsistent internal version;
+contestant submissions obtain that version from the official challenge.
 """
 
 import unittest
@@ -89,7 +89,7 @@ class TestHashSensitivity(unittest.TestCase):
         self.assertEqual(canon.manifest_hash(list(reversed(hashes))),
                          canon.manifest_hash(hashes))
 
-    def test_stale_spec_version_rejected(self):
+    def test_stale_internal_spec_version_rejected(self):
         c = self.manifest["challenges"][0]
         v = core.verify(c, [], "ac-r1-v0", self.manifest["limits"])
         self.assertEqual(v["code"], "E_SPEC_MISMATCH")

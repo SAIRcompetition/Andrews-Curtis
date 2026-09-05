@@ -1,5 +1,20 @@
 # SAIR Andrews–Curtis Competition — Backend Design Document v0.3 (MS Phase)
 
+**Current release state: prelaunch / development preview.** The current
+competition pool has 10,115 instances. Registration, submissions, and
+official scoring are not open; the PDF review channel is planned for after
+submissions open, and the optional Lean route is not available. Earlier
+dated decision records below are historical where they describe a smaller
+pool or imply a live service.
+
+`build/competition_state.json` is the maintained source for `status` and
+release metadata. Current `status` is `prelaunch`; `freeze_date`,
+`freeze_commit`, `registration_opens`, `submissions_open`,
+`submission_deadline`, and `certificate_release` are all `null`.
+`build/build_manifest_v2.py` synchronizes generated manifest and YAML
+metadata from this source. A preview is runnable locally; it is not an
+official frozen release (§9.3, §10.1).
+
 > **Scope: backend only.** This document covers spec / data / verifier / scoring / submission
 > service / public API / Lean pipeline. **Frontend pages are out of scope for this design** —
 > our only deliverable to the frontend is the API contract in Section 8 (including the public-field whitelist).
@@ -351,7 +366,7 @@ There is no need for $V_i$ to be a multiple of $2^k$, because scoring uses exact
   "competition": "acms",
   "move_spec_version": "ac-r2-v1",
   "move_spec_hash": "sha256:…",          // §3.3
-  "freeze_date": "2026-09-01T00:00:00Z",
+  "freeze_date": null,
   "generators": ["x", "y"],
   "target_relators": [[1], [2]],
   "limits": { "max_path_length": 100000, "max_total_relator_length": 10000,
@@ -377,7 +392,7 @@ There is no need for $V_i$ to be a multiple of $2^k$, because scoring uses exact
         "reported_class_size": 34,
         "reported_class_normative": false
       },
-      "freeze_date": "2026-09-01T00:00:00Z"
+      "freeze_date": null
     }
   ]
 }
@@ -403,6 +418,10 @@ instance_hash = "sha256:" + lowercase_hex(SHA256(utf8(canon)))
 canon = '{"challenge_id":"<id>","move_spec_version":"<ver>","moves":[<m0>,<m1>,...]}'
 ```
 
+In both templates, `<ver>` is read from the official challenge's
+`move_spec_version`; contestants do not supply this field. The canonical
+certificate bytes retain the version so existing certificate hashes stay valid.
+
 This way an independent third-party implementation needs no RFC 8785 dependency and never trips over the JSON serialization quirks of individual languages.
 
 This is exactly what the requirements demand: "covers the initial state, the target state, and the move specification."
@@ -416,8 +435,9 @@ manifest_hash  = sha256(JCS of sorted list of instance_hash)
 ```
 
 All three hashes are published in the Overview / Evaluation Setup / `GET /challenges`.
-**Acceptance §16.11**: changing the manifest or the move spec ⟹ at least one hash changes ⟹
-submissions carrying the old `move_spec_version` are rejected.
+**Acceptance §16.11**: changing the manifest or the move spec changes at least
+one hash. Replay and certificate hashing use the official challenge's version,
+not a contestant-supplied value.
 
 ---
 
@@ -427,13 +447,16 @@ submissions carrying the old `move_spec_version` are rejected.
 
 ```json
 {
-  "method": "optional method name",
-  "notes": "optional free text, ≤2000 chars",
   "solutions": [
-    { "challenge_id": "ms-v1-0001", "move_spec_version": "ac-r2-v1", "moves": [0,4,8,3] }
+    { "challenge_id": "ms-v1-0001", "moves": [0,4,8,3] }
   ]
 }
 ```
+
+Each solution must contain exactly `challenge_id` and `moves`. The top-level
+document may also include optional `method` (a method name) and `notes` (free
+text, at most 2000 characters). The server resolves `move_spec_version` from
+the official challenge for verification and certificate hashing.
 
 The server **does not accept** any user-claimed length / endpoint / state / score fields;
 if keys such as `length`, `score`, or `final_state` appear, the whole submission is rejected with
@@ -446,8 +469,8 @@ Pure integer arithmetic, no floating point, no concurrency, no randomness. Pseud
 
 ```
 verify(challenge, moves, limits):
-  assert moves.move_spec_version == challenge.move_spec_version   -> E_SPEC_MISMATCH
-  assert len(moves) <= limits.max_path_length                     -> E_PATH_TOO_LONG
+  move_spec_version = challenge.move_spec_version  # official manifest value
+  assert len(moves) <= limits.max_path_length       -> E_PATH_TOO_LONG
   s = challenge.initial_relators            # already reduced
   peak = work = |s0| + |s1|
   for k, m in enumerate(moves):
@@ -469,7 +492,6 @@ Error codes are part of the API contract; every one carries `move_index` so cont
 
 | code | trigger |
 |---|---|
-| `E_SPEC_MISMATCH` | `move_spec_version` does not equal the frozen value |
 | `E_UNKNOWN_CHALLENGE` | `challenge_id` not in the manifest |
 | `E_BAD_MOVE_ID` | move is not an integer or not in 0–13 |
 | `E_PATH_TOO_LONG` | step count exceeds the limit |
@@ -523,9 +545,10 @@ a timeout is handled as `E_WORK_BUDGET` and logged as an alert — timeouts must
 
 ```json
 { "from_challenge_id": "ms-v1-0001", "to_challenge_id": "ms-v1-0042",
-  "move_spec_version": "ac-r2-v1", "moves": [ … ] }
+  "moves": [ … ] }
 ```
 
+The server determines the move-spec version from the official challenges.
 The verification logic is identical to §4.2, except the endpoint becomes `to_challenge.initial_relators` (exact ordered).
 Effects:
 
@@ -679,15 +702,16 @@ Sharing a specific certificate for a challenge across teams counts as joint-team
 
 ## 7. Lean Counterexample Track
 
-> ### Update 2026-09-03 — the official channel is PDF + expert review; Lean is an optional fast track
+> ### Update 2026-09-03 — planned official channel: PDF + expert review; Lean is an optional fast track
 >
 > This section was written on the assumption that a Lean package is the *only* admissible
 > counterexample artifact. That assumption did not survive O-3: `ac_iff_atomic` (§7.2) is
 > **still unproven**, so the competition cannot require a Lean proof and must not advertise the
 > frozen library as delivered. The shipped design is:
 >
-> * **Official channel**: a self-contained mathematical argument uploaded as a single PDF.
->   `POST /counterexample-submissions` now accepts `application/pdf`, **≤ 25 MB**, one file.
+> * **Planned official channel after submissions open**: a self-contained mathematical
+>   argument uploaded as a single PDF. The intended `POST /counterexample-submissions`
+>   contract accepts `application/pdf`, **≤ 25 MB**, one file; no channel is open in prelaunch.
 >   States: `received → screening → under_review → accepted | rejected | revision_requested`.
 >   Review by the organizer panel plus reviewers they designate (see O-6); no guaranteed
 >   turnaround; organizers may summarily decline submissions with no substantive new
@@ -819,7 +843,7 @@ Unified prefix `/api/acms`. All endpoints share the same verifier / team / rate-
 | GET | `/submissions/me` | Required | **own team only**, includes full moves |
 | POST | `/submissions` | Required | per-item verdict + the team's updated score |
 | POST | `/bridge-submissions` | Required | bridge verdict |
-| POST | `/counterexample-submissions` | Required | counterexample claim receipt + state (**update 2026-09-03**: accepts `application/pdf`, ≤ 25 MB, one active claim per team; a Lean package remains admissible as the optional fast track, returning CI status) |
+| POST | `/counterexample-submissions` | Required | planned after submissions open: PDF claim receipt + state (`application/pdf`, ≤ 25 MB, one active claim per team); the optional Lean route is not available yet |
 | GET | `/counterexample-submissions/me` | Required | own team's counterexample claims, their states, and (fast track only) CI logs |
 
 The public response of `GET /challenges/:id` (**this is the privacy contract**, enforced by schema rather than comments —
@@ -841,7 +865,7 @@ acceptance §16.10):
   "first_certificate_hash": "sha256:…",
   "bridges": [ { "to": "ms-v1-0042", "length": 61, "team": "Team Foo", "hash": "sha256:…" } ],
   "source": { … },
-  "freeze_date": "2026-09-01T00:00:00Z"
+  "freeze_date": null
 }
 ```
 
@@ -864,10 +888,12 @@ The IGP24-public README states this explicitly:
 > runs the production evaluator, while this repository exposes the core mathematical
 > checks used for reproducibility.
 
-ACMS adopts this rule as-is: **the public package contains only frozen data, rules text, and the reproducible core mathematical checks;
+ACMS adopts this boundary: **the public package contains data, rules text, and the reproducible core mathematical checks;
 the submission service, scoring engine, leaderboard, authentication, and rate limiting all stay in the internal system.**
-The Python verifier in the public package and the server side **are the same `competition/tools/verifier/acms_verify` source code**,
-but the public package contains no scheduling, storage, or scoring.
+The planned competition service will use the same
+`competition/tools/verifier/acms_verify` sources as the public package.
+The current export is a prelaunch preview; it contains no production
+scheduling, storage, or scoring, and does not establish that a service is live.
 
 ### 9.2 Directory structure
 
@@ -882,21 +908,25 @@ ACMS-public/
     rules/
       overview.md                        # contestant-facing
       evaluation.md                      # technical
-      prelaunch.md                       # added 2026-09-03: the pre-launch page, rendered alone with a countdown
+      prelaunch.md                       # prelaunch preview page; no countdown while dates are null
     challenges/
       README.md                          # exact semantics of every column of every file + freeze date
-      manifest.json                      # 550-entry frozen challenge pool + three hashes
+      manifest.json                      # 10,115-instance pool + hashes; official freeze pending
       move_spec.json                     # machine-readable definition of the 14 moves of ac-r2-v1
       ms1190_metadata.csv                # full MS-1190 set, 1190 entries (the challenge pool's "universe")
       training_424.json                  # 424 paths already converted to ac-r2-v1
       golden_vectors.json                # conformance vectors (passing + each error code)
     examples/
-      sample_submission.json
+      README.md                          # commands, successful receipt, separate failure example
+      sample_submission.json             # successful unscored training solution
+      training_manifest.json             # separate example manifest, outside scored pool
+      sample_verdict.json                # expected complete successful receipt
+      invalid_submission.json            # deliberate E_NOT_TARGET example
     tools/
       verifier/                          # Python reference verifier (library + CLI, standard library only)
         README.md
         acms_verify/
-      lean/                              # Lean counterexample template + frozen toolchain
+      lean/                              # optional Lean route description; not open
         README.md
 ```
 
@@ -904,54 +934,68 @@ ACMS-public/
 
 | IGP24-public | ACMS-public | Notes |
 |---|---|---|
-| `rules/overview.md` + `rules/evaluation.md` | Same names | **rules/ contains only these two files** (confirmed). The website's `/competitions/acms.md` is generated by concatenating them |
+| `rules/overview.md` + `rules/evaluation.md` | Same names | Full rules for the planned competition; `prelaunch.md` separately describes the current preview |
 | `competition.yaml` | Same name | Machine-readable metadata, see §9.4 |
-| `baseline/lmfdb_baseline.csv` | `challenges/manifest.json` | Frozen scoring baseline data |
-| `baseline/valid_pairs.csv` (full set of 165 836 pairs) | `challenges/ms1190_metadata.csv` (full MS set of 1190 entries) | Lets contestants see the "denominator": which 1190 entries the 550-challenge pool was drawn from |
-| `examples/sample_submission.txt` | `examples/sample_submission.json` | Annotated sample |
+| `baseline/lmfdb_baseline.csv` | `challenges/manifest.json` | Data defining the scoring task; ACC's official freeze is pending |
+| `baseline/valid_pairs.csv` (full set of 165 836 pairs) | `challenges/ms1190_metadata.csv` (full MS set of 1190 entries) | Reference context for the MS family; ACC's current scored pool has 10,115 instances |
+| `examples/sample_submission.txt` | `examples/sample_submission.json` plus `training_manifest.json` and `sample_verdict.json` | Runnable successful local example; unscored and separate from the competition manifest |
 | `tools/magma/t24.m` (requires a commercial CAS) | `tools/verifier/` (self-contained Python) | **We are stronger here**: IGP24's core verification requires Magma; the ACMS verifier is pure standard library — anyone can run it |
-| `tools/number_field_discriminant/` (PARI/GP) | `tools/lean/` | Second trust base: IGP24 computes discriminants, ACMS verifies counterexamples in Lean |
+| `tools/number_field_discriminant/` (PARI/GP) | `tools/lean/` | IGP24 supplies discriminant tools; ACC's optional Lean route is only a plan and is not open |
 | `baseline/README.md` records `LMFDB baseline snapshot: 2026-05-20` | `challenges/README.md` records `freeze_date` | The freeze date must live next to the data, not only in the rules |
 
-`challenges/README.md` must copy IGP24's operational-discipline sentence verbatim: **"Before public launch,
-freeze both files in git."** — before public launch, `manifest.json` and `move_spec.json`
-must be frozen with a git commit, and the commit hash written into `competition.yaml`.
+Before an official release, the organizers must approve the schedule and
+freeze date, regenerate metadata from `build/competition_state.json`, and
+freeze `manifest.json` and `move_spec.json` in git. Record that commit as
+`freeze_commit` in the maintained state, then run
+`python3 build/build_manifest_v2.py` again to synchronize YAML before
+running the release command.
+The default `python3 build/release.py` must fail if required metadata is
+missing or the declared git freeze cannot be verified. For local review,
+`python3 build/release.py --preview` writes `dist/ACMS-public` with a
+prominent prelaunch/preview notice and no claim of an official release.
 
 ### 9.4 `competition.yaml`
 
 ```yaml
 id: acms
-name: "ACMS: Andrews–Curtis, Miller–Schupp Phase"
-status: active
+name: "ACC: The Andrews–Curtis Conjecture Competition"
+status: prelaunch
 task_type: mathematical_discovery
 submission_artifact: submission.json
-submission_format: "JSON; solutions[] of {challenge_id, move_spec_version, moves[]} where moves are atomic AC move ids 0-13"
+submission_format: "JSON; solutions[] of {challenge_id, moves[]} where moves are atomic AC move ids 0-13"
 verifier: "Python, competition/tools/verifier (standard library only)"
-counterexample_verifier: "Lean 4 in a frozen offline container, see rules/evaluation.md"
+counterexample_verifier: "Planned after submissions open: PDF + expert review; optional Lean route not open"
 primary_metric: leaderboard_score
 scoring_unit: team_challenge
 scoring_formula: "V_i * 2^(1-k_i) for teams at the current shortest length, 0 otherwise"
 move_spec_version: ac-r2-v1
 move_spec_hash: "sha256:…"
 manifest_hash: "sha256:…"
-freeze_date: "…"                     # D-9 pending
-challenge_count: 550
-challenge_policy: "MS-1190 instances with no publicly known replayable trivialization certificate at freeze date; 'unresolved' does NOT mean counterexample"
+freeze_date: null
+freeze_commit: null
+registration_opens: null
+submissions_open: null
+submission_deadline: null
+certificate_release: null
+challenge_count: 10115
+challenge_policy: "10,115-instance competition pool; official freeze pending; training examples are not scored"
 overview: rules/overview.md
 evaluation: rules/evaluation.md
 manifest: challenges/manifest.json
 move_spec: challenges/move_spec.json
 ```
 
-**Update 2026-09-03**: the shipped file keeps `id: acms` and the other code identifiers, but carries the
-contestant-facing `name: "ACC: The Andrews–Curtis Conjecture Competition"`, `challenge_count: 10115`,
-and a `challenge_policy` describing the frozen pool rather than the MS-only scope above.
+The generated file keeps `id: acms` and the existing code identifiers.
+Maintain status, freeze information, and all four schedule fields in
+`build/competition_state.json`; do not hand-edit generated YAML or manifest dates.
 
-### 9.5 Content split for `rules/` (confirmed: only two files)
+### 9.5 Content split for `rules/`
 
-**Update 2026-09-03**: three files. `prelaunch.md` joins them — a half-page standalone teaser (pitch,
-co-organizers, "dates to be announced") that the SAIR platform renders alone on the pre-launch page with a
-countdown. It is not concatenated into `/competitions/acms.md`, which is still `overview.md` + `evaluation.md`.
+There are three files. `prelaunch.md` describes the current prelaunch
+preview, including locally usable rules, data, and tools. A future site
+may render it separately; no countdown should be shown while dates are
+`null`. The planned full-rules document combines `overview.md` and
+`evaluation.md`, not `prelaunch.md`.
 
 | File | Contents | Maps to this document |
 |---|---|---|
@@ -981,11 +1025,12 @@ Andrews–Curtis/                    # ← development repository (private), rep
   README.md   development-repo guide (the public root README is written at export)
   LICENSE     Apache-2.0 (exported verbatim)
   competition/                     # ← THE public tree, IGP24-public-aligned (§9.2)
-    competition.yaml               generated by build_manifest.py (hashes, freeze_date)
+    competition.yaml               generated by build_manifest_v2.py (hashes and release metadata)
     rules/       overview.md, evaluation.md, prelaunch.md   ← source of truth
     challenges/  manifest.json, move_spec.json, ms1190_metadata.csv,
                  training_424.json, golden_vectors.json, README.md
-    examples/    sample_submission.json, README.md
+    examples/    sample_submission.json, training_manifest.json, sample_verdict.json,
+                 invalid_submission.json, README.md
     tools/verifier/  acms_verify/ (Python, the only implementation) + README.md
     tools/lean/      README.md (frozen formalization published at P4)
   spec/       DESIGN.md (this document, internal, not in the public package)
@@ -993,7 +1038,8 @@ Andrews–Curtis/                    # ← development repository (private), rep
                read it at https://competition.sair.foundation/competitions/igp24.md)
   build/      build_manifest.py (regenerates challenges/ + competition.yaml;
               2026-09-03: demoted to a library, driven by sync_dataset.py + build_manifest_v2.py)
-              release.py (exports + verifies the public package)
+              competition_state.json (maintained status, freeze, schedule)
+              release.py (gates official releases; --preview exports a marked preview)
               checks/ acheck.py bridge.py convert.py demo.py
   tests/      verifier + frozen-data acceptance tests (internal, not shipped)
   server/     scoring/ (P2); api/, storage/, privacy/ pending O-1   ← not in the public package
@@ -1004,18 +1050,21 @@ Andrews–Curtis/                    # ← development repository (private), rep
 **No `web/`** — the frontend is out of scope for this document (§0.1).
 
 `ACMS-public` (§9.2) is **not maintained by hand**; `build/release.py`
-exports it from the in-repo `competition/` tree. Because the public
-tree is the source of truth in place, the script generates no content —
-it only filters, verifies, and stamps:
+exports it from the in-repo `competition/` tree. `--preview` is the
+development path and writes `dist/ACMS-public`; the default invocation
+is the official release gate. It rejects incomplete schedule/freeze
+metadata or an unverified git freeze before producing an official package.
+Both modes verify the package, and preview mode labels its root README
+prominently as prelaunch/preview:
 
 1. Recompute all three hashes from the frozen data and assert
    `competition.yaml` quotes the same values
-2. Copy `LICENSE` + `competition/` verbatim to the output directory and
+2. Copy `LICENSE`, `NOTICE`, and `competition/` to the output directory and
    write the public root README
 3. **Run the golden vectors and the hash check from the copied
-   package** in an isolated environment; abort the release if they do
-   not pass
-4. Assert the package contains exactly `{README.md, LICENSE,
+   package** in an isolated environment; also verify the successful
+   training example and its expected receipt; abort if checks fail
+4. Assert the package contains exactly `{README.md, LICENSE, NOTICE,
    competition/}` and no file from `server/` (prevents accidental
    leakage of scoring/auth logic)
 
@@ -1023,7 +1072,7 @@ it only filters, verifies, and stamps:
 
 | Phase | Deliverables | Completion criteria |
 |---|---|---|
-| **P1** (current) | Frozen mathematical definitions + move spec; 550-entry manifest + generator + hashes; deterministic Python verifier + unit tests | Acceptance §11 items 1–5 and 11 all green; golden vectors published |
+| **P1** (local preview) | Mathematical definitions + move spec; 10,115-entry manifest + generator + hashes; deterministic Python verifier + unit tests | Acceptance §11 items 1–5 and 11 all green; golden vectors and successful training example available; official data freeze remains separate |
 | **P2** | Submission service, scoring engine, leaderboard computation, certificate privacy | Acceptance 6–10 all green |
 | **P3** | Public API (§8), the `ACMS-public` release package (§9), `overview.md` + `evaluation.md` | End to end: authentication → submission → leaderboard recomputation → API response; public-field whitelist tests pass; an external party can independently run the golden vectors against the `release.py` artifacts |
 | **P4** | Lean AC formalization (including `ac_iff_atomic`), counterexample pipeline, axiom audit | Acceptance 12–13 all green; the template project builds offline |
@@ -1049,7 +1098,7 @@ The 13 items of requirements §16, each mapped to an executable test:
 | 8 | Scoring correct for $k=1,2,3,4$ | Assert $V,\ V/2,\ V/4,\ V/8$, compared exactly with `Fraction`; **includes one non-uniform $V_i$ fixture (`1,7,100`)** | scoring |
 | 9 | First Solver unchanged | After running the full §5.6 flow, `first_solver == A` | scoring |
 | 10 | API does not leak other teams' paths | As team B, recursively scan `/challenges`, `/challenges/:id`, `/leaderboard`, `/discoveries` and assert no `moves`; `/submissions/me` returns only the requesting team | api |
-| 11 | manifest/move spec change ⟹ hash mismatch | Change one relator / one move → `instance_hash`/`move_spec_hash` changes; a submission with the old `move_spec_version` → `E_SPEC_MISMATCH` | data |
+| 11 | manifest/move spec change ⟹ hash mismatch | Change one relator / one move → `instance_hash`/`move_spec_hash` changes; replay and certificate hashing derive the version from the official challenge | data |
 | 12 | Lean template builds offline | `docker run --network=none … lake build` exits with code 0 | lean |
 | 13 | Submissions containing `sorry`/new axioms are rejected | Three fixtures: `sorry`, `axiom foo : False`, `native_decide` → all reject | lean |
 | 14 | Release package does not leak internal logic | Assert the `release.py` output contains no `server/` files and no auth/scoring source code; the three hashes in `competition.yaml` match the actual manifest values | release |
@@ -1087,13 +1136,13 @@ These three scripts upgrade directly into P1 regression tests (seeds for accepta
 | **D-10a** | Browser verifier | **Not built** (no JS / WASM / Pyodide); rationale in §4.5 |
 | **D-11** | `max_work` | **5 000 000** (§4.3) |
 | **D-1 / D-7** | Tab layout / UI hints | Moved out of this document (frontend matters) |
-| — | Public release package | Build `ACMS-public` following the `IGP24-public` structure; `rules/` contains only `overview.md` + `evaluation.md`; generated by `release.py` (§9, §10.1) |
+| — | Public release package | Build `ACMS-public` following the `IGP24-public` structure; three rule files; `release.py --preview` for development, default `release.py` for an official release after metadata and git-freeze checks (§9, §10.1) |
 
 ### 12.2 Only one item still pending
 
 | # | Decision | Blocks | Notes |
 |---|---|---|---|
-| **D-9** | Dates for `freeze_date` / competition start / leaderboard freeze / post-competition publication of certificates | P3 (does not block P1, P2) | Once `freeze_date` is set, it is written into the manifest and counted into `instance_hash`, and must also be written into `challenges/README.md` and `competition.yaml` in sync |
+| **D-9** | Official freeze and competition schedule | Formal release (does not block local previews) | Maintain `freeze_date`, `freeze_commit`, `registration_opens`, `submissions_open`, `submission_deadline`, and `certificate_release` in `build/competition_state.json`; all are currently `null`. The generator synchronizes manifest/YAML metadata. `freeze_date` remains outside `instance_hash`; default release fails until metadata and git freeze are valid |
 
 ### 12.3 Pending revisions to the requirements document
 

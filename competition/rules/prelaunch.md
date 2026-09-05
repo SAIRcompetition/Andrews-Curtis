@@ -1,5 +1,9 @@
 # The Andrews–Curtis Conjecture (ACC) Challenge
 
+**Prelaunch preview — registration and submissions are not open.**
+Rules, training data, and the reference verifier are available here for
+local trials. The official data freeze and all dates are to be announced.
+
 *A mathematical discovery competition on the Andrews–Curtis conjecture:
 trivialize balanced presentations of the trivial group with machine-checked
 certificates — or disprove the conjecture.*
@@ -41,34 +45,41 @@ reuse, and build on.
 
 ## Task
 
-Teams are given a frozen pool of **10,115 balanced presentations of the
+The planned competition uses a pool of **10,115 balanced presentations of the
 trivial group**, ranging from warm-up exercises to instances that are open
 research problems; which is which is not disclosed. A solution is a sequence
 of atomic Andrews–Curtis moves, submitted as a list of integers, that
 transforms a presentation into the trivial presentation; the leaderboard
 rewards the shortest verified path.
 
-A second track is open to anyone who believes the conjecture is false:
-purported counterexamples are submitted as self-contained mathematical
-arguments and go to expert review.
+A second track is planned for anyone who believes the conjecture is false:
+after submissions open, purported counterexamples will be submitted as
+self-contained PDFs for expert review. This PDF channel is not open yet;
+the optional Lean route is also unavailable.
 
 The full move specification, submission format, scoring formula, and
-counterexample-track rules will be published at the official launch, together
-with the reference verifier and a public warm-up dataset of solved instances.
+counterexample-track plan can already be inspected in
+[overview.md](overview.md) and [evaluation.md](evaluation.md). Try the
+[successful training example](../examples/README.md) with the included
+Python verifier and warm-up data. These are preview materials; formal
+release and online submissions await the announced schedule and data freeze.
 
 ## Key Dates
 
-- Registration and team formation open: —
-- Official launch (submissions open): —
-- Submission deadline: —
-- Certificate release (post-competition): —
+- Registration and team formation open: to be announced.
+- Official launch (submissions open): to be announced.
+- Submission deadline: to be announced.
+- Certificate release (post-competition): to be announced.
 
-Dates will be announced here.
+`competition.yaml` records status `prelaunch`; all four schedule fields,
+`freeze_date`, and `freeze_commit` are currently `null`. Dates and the
+official freeze commit will be announced before formal release.
 
 ## Registration & Teams
 
-Registration and team management take place on
-[SAIR](https://competition.sair.foundation/). Participants must have a SAIR
+Registration and team management are planned on
+[SAIR](https://competition.sair.foundation/) when registration opens.
+Participants will need a SAIR
 account, complete the required profile information, and agree to the SAIR
 competition terms before registering. They may compete individually or form a
 team on SAIR.

@@ -1,14 +1,18 @@
-# Frozen challenge data (`acms-v2`)
+# Challenge data (`acms-v2`) — prelaunch preview
 
-**Freeze discipline: before public launch, freeze both `manifest.json`
-and `move_spec.json` in git**, and record the commit hash in
-`competition.yaml` (DESIGN.md §9.3). Regenerate only via
-`build/build_manifest_v2.py`, never by hand.
+**The official data freeze is not yet set.** This preview contains
+10,115 competition challenges for local inspection and verification.
+`freeze_date` and `freeze_commit` are `null`, as are registration,
+submission, deadline, and certificate-release dates in
+`competition.yaml`. The competition status is `prelaunch`.
 
-> `freeze_date` is currently the **D-9 placeholder**
-> `2026-09-01T00:00:00Z`. It is deliberately outside `instance_hash`
-> (§3.2), so fixing D-9 later does not invalidate any certificate, but
-> it must be updated here and in `competition.yaml` at the same time.
+Before public launch, the organizers will freeze `manifest.json` and
+`move_spec.json` in git and publish the freeze commit. Release metadata
+comes from the development repository's `build/competition_state.json`;
+`build/build_manifest_v2.py` synchronizes generated data and metadata.
+`freeze_date` is outside `instance_hash`, so setting the date does not
+change the mathematical instance or certificate hashes. See
+[evaluation.md](../rules/evaluation.md#5-hashes) for hash semantics.
 
 Upstream is no longer `reference/index.html`. The scored pool is
 distilled from the private SAIR dataset release into `build/data/`
@@ -27,7 +31,11 @@ aborts if either would change.
 | `move_spec.json` | Machine-readable `ac-r2-v1`: the 14 frozen moves (the exact rows covered by `move_spec_hash`), letter encoding, and the §1.2 canonicalization table |
 | `ms1190_metadata.csv` | The full MS-1190 "denominator": all 1190 instances with `status_at_freeze` ∈ open (550) / uncertified (216) / certified (424). Reference material, **not** the pool listing |
 | `training_424.json` | 424 known trivializations converted to `ac-r2-v1` (not scored challenges — published training data) |
-| `golden_vectors.json` | Conformance vectors: run them to prove your verifier agrees with the official one (`python3 -m acms_verify --golden ...`) |
+| `golden_vectors.json` | Conformance vectors for the reference verifier (`python3 -m acms_verify --golden ...`) |
+
+For a complete successful replay, start with the
+[training example](../examples/README.md). It supplies a separate
+unscored manifest, a submission, and the expected verifier receipt.
 
 ## `manifest.json` challenge fields
 
@@ -44,7 +52,7 @@ else — no difficulty, family, tier, or provenance signal (O-4):
 | `scored` | Always `true` — every challenge in the pool is scored |
 | `base_score` | Always `1` (D-8) |
 | `instance_hash` | §3.2 hash over `challenge_id`, generators, both relator lists, `move_spec_version`, `move_spec_hash` |
-| `freeze_date` | The D-9 placeholder above; outside `instance_hash` by design |
+| `freeze_date` | `null` until the official freeze is set; outside `instance_hash` by design |
 
 Pool composition: the 10000-row SAIR competition draw, minus the 89
 draw instances that have a public replayable certificate (they are in

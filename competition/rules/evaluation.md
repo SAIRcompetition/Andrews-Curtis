@@ -1,9 +1,21 @@
 # ACC Evaluation — Technical Specification
 
-This document is normative for verification, scoring, and
-confidentiality. The reference verifier in `tools/verifier/` runs the
-same sources as the competition system; **the server-side verifier is
-the sole authority for official results**.
+**Prelaunch preview.** This document specifies verification, scoring,
+and confidentiality for the planned competition. Local verification
+is available now; registration, online submissions, and official
+scoring are not open. The competition service is planned to use the
+reference verifier sources in `tools/verifier/`; its server-side
+verdicts will be the authority for official results once submissions open.
+
+The official freeze and schedule are not yet set. `competition.yaml`
+records `status: prelaunch` and `null` for `freeze_date`,
+`freeze_commit`, `registration_opens`, `submissions_open`,
+`submission_deadline`, and `certificate_release`. The competition
+manifest also carries `freeze_date: null` during this preview.
+
+For a complete local success case and expected receipt, see the
+[training example](../examples/README.md). It uses an unscored example
+manifest and does not count as a competition submission.
 
 ## 1. Encoding and frozen objects
 
@@ -22,12 +34,15 @@ keys, no whitespace, ASCII) of the `moves` array of that file.
 ## 2. Verifier semantics
 
 Deterministic, pure integer arithmetic. For a solution
-`{challenge_id, move_spec_version, moves}` verified against limits
-`{max_path_length, max_total_relator_length, max_work}`:
+`{challenge_id, moves}` verified against limits
+`{max_path_length, max_total_relator_length, max_work}`, the server
+looks up the official challenge by id and uses its `move_spec_version`
+for replay and certificate hashing. Each solution must contain exactly
+`challenge_id` and `moves`; optional `method` and `notes` belong to the
+top-level submission document.
 
 ```
-assert move_spec_version == challenge.move_spec_version   else E_SPEC_MISMATCH
-assert len(moves) <= max_path_length                      else E_PATH_TOO_LONG
+assert len(moves) <= max_path_length       else E_PATH_TOO_LONG
 s    = challenge.initial_relators          # freely reduced, from the manifest
 work = peak = |s0| + |s1|                  # the initial state counts toward work
 for k, m in enumerate(moves):
@@ -63,7 +78,6 @@ processed normally):
 | Code | Trigger |
 |---|---|
 | `E_UNKNOWN_CHALLENGE` | `challenge_id` not in the manifest |
-| `E_SPEC_MISMATCH` | `move_spec_version` differs from the frozen value |
 | `E_PATH_TOO_LONG` | more than `max_path_length` moves |
 | `E_BAD_MOVE_ID` | non-integer or out-of-range move (carries `move_index`) |
 | `E_LENGTH_LIMIT` | intermediate total relator length exceeds the limit (carries `move_index`) |
@@ -72,7 +86,7 @@ processed normally):
 
 **Check priority (frozen):** body byte limit → JSON parse →
 client-asserted-result scan → structural shape → solutions count →
-duplicates → then per solution: spec version → path length → per-move
+duplicates → then per solution: challenge lookup → path length → per-move
 id → relator length → work budget → target. The first triggered check
 is the one reported.
 
@@ -112,12 +126,16 @@ hash              = "sha256:" + lowercase_hex(SHA256(utf8(canon)))
 (Line breaks above are illustrative only; the canonical byte strings
 contain none.)
 
+The `<ver>` in both templates is the official challenge's
+`move_spec_version`. It remains part of the certificate hash but is
+not a contestant-supplied submission field.
+
 `manifest_hash` = SHA-256 of the canonical JSON of the sorted list of
 all `instance_hash` values. `instance_hash` deliberately excludes
 `base_score`, `status_at_freeze`, `source`, and `freeze_date`: policy
 edits never invalidate certificates. Any change to the manifest or the
-move spec changes at least one published hash, and submissions carrying
-a stale `move_spec_version` are rejected with `E_SPEC_MISMATCH`.
+move spec changes at least one published hash. Submissions are always
+replayed against the official frozen challenge and its move-spec version.
 
 ## 6. Scoring
 
@@ -155,7 +173,8 @@ published after the competition.
 ## 8. Bridge certificates
 
 `POST /bridge-submissions` with
-`{from_challenge_id, to_challenge_id, move_spec_version, moves}`.
+`{from_challenge_id, to_challenge_id, moves}`. The server determines
+the move-spec version from the official challenges.
 Verified exactly as §2 with the target replaced by
 `to_challenge.initial_relators` (exact ordered). Registered on both
 challenges and in `/discoveries`; scores nothing in v1; any future
@@ -174,8 +193,10 @@ Andrews–Curtis relation (inversion, multiplication, and conjugation by
 an **arbitrary** word). The claim must name the presentation
 explicitly; if it is a pool instance, it must name the `challenge_id`.
 
-### 9.2 Official channel: PDF plus expert review
+### 9.2 Planned official channel: PDF plus expert review
 
+This channel is planned for after submissions open; it is unavailable
+during prelaunch. The intended contract is
 `POST /counterexample-submissions`, content type `application/pdf`,
 one file, **≤ 25 MB**. The argument must be self-contained: a reader
 must be able to check it from the PDF alone, without running code and
@@ -206,7 +227,7 @@ team's own claims and their states.
 accepted; later independent disproofs are marked `Independent
 Confirmation`.
 
-### 9.3 Optional fast track: machine-checked Lean 4
+### 9.3 Optional fast track: machine-checked Lean 4 (not open)
 
 A claim accompanied by — or later formalized as — a Lean 4 package that
 builds offline (`lake build` in the frozen container, no network) and
@@ -229,9 +250,11 @@ full, unbounded, non-stable AC relation (`StandardAC.Step`) together
 with a compatibility theorem tying the 14-move closure of `ac-r2-v1` to
 the standard AC moves; the exact statement, the pinned toolchain, and a
 template project will be published in `tools/lean/` at that point.
-Until then the PDF channel of §9.2 is the official and only route, and
-the requirements below are stated in advance so that a formalization
-effort can target them.
+Until that library and route are released, the PDF channel of §9.2
+is the planned route once competition submissions open. The
+requirements below are stated in advance so that a formalization
+effort can target them; they do not describe a currently available
+submission service.
 
 Frozen and published by hash: Lean version, `lean-toolchain`, Mathlib
 commit, competition formalization commit, `lake-manifest.json`,

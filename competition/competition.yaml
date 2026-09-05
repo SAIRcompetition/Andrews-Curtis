@@ -1,10 +1,10 @@
 id: acms
 name: "ACC: The Andrews–Curtis Conjecture Competition"
 organizer: sairmath
-status: active
+status: prelaunch
 task_type: mathematical_discovery
 submission_artifact: submission.json
-submission_format: "JSON; solutions[] of {challenge_id, move_spec_version, moves[]} where moves are atomic AC move ids 0-13"
+submission_format: "JSON; solutions[] of {challenge_id, moves[]} where moves are atomic AC move ids 0-13"
 verifier: "Python, competition/tools/verifier (standard library only), acms-verify 0.1.0"
 counterexample_verifier: "PDF + expert review (organizer panel); optional Lean 4 formalization fast-track — see rules/evaluation.md"
 primary_metric: leaderboard_score
@@ -13,10 +13,14 @@ scoring_formula: "V_i * 2^(1-k_i) for teams at the current shortest length, 0 ot
 move_spec_version: ac-r2-v1
 move_spec_hash: "sha256:e13f57d82b5db1a79c1bd9d5ee1f6665ac4d96a634a3656ea20c0ada82e07643"
 manifest_hash: "sha256:2ad90dd132c09780a3fc4bd4cf4c41ab2717255f0891070eb195df6a8096f7a1"
-freeze_date: "2026-09-01T00:00:00Z"  # D-9 placeholder until the timeline decision lands
-freeze_commit: "TBD — freeze manifest.json and move_spec.json in git before public launch"
+freeze_date: null
+freeze_commit: null
+registration_opens: null
+submissions_open: null
+submission_deadline: null
+certificate_release: null
 challenge_count: 10115
-challenge_policy: "Frozen pool of 10,115 balanced presentations of the trivial group (SAIR dataset draw plus the full MS-1190 open set, minus instances with public certificates); per-instance difficulty and provenance withheld; base_score 1 each"
+challenge_policy: "Pool of 10,115 balanced presentations of the trivial group (SAIR dataset draw plus the full MS-1190 open set, minus instances with public certificates); per-instance difficulty and provenance withheld; base_score 1 each"
 overview: rules/overview.md
 evaluation: rules/evaluation.md
 manifest: challenges/manifest.json

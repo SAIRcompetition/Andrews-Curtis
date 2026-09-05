@@ -4,7 +4,7 @@ and the O-5 check priority."""
 import json
 import unittest
 
-from acms_verify import submission
+from acms_verify import core, submission
 from tests import util
 
 
@@ -21,7 +21,6 @@ class TestSubmissionLayer(unittest.TestCase):
                     + [util.training_challenge(entry)]}
         cls.entry = entry
         cls.sol = {"challenge_id": entry["training_id"],
-                   "move_spec_version": entry["move_spec_version"],
                    "moves": entry["moves"]}
 
     def run_sub(self, doc, manifest=None):
@@ -29,21 +28,33 @@ class TestSubmissionLayer(unittest.TestCase):
         return submission.process_submission(raw, manifest or self.mini)
 
     # -- happy path ------------------------------------------------------
-    def test_accept(self):
+    def test_accept_without_client_version_uses_official_hash(self):
         v = self.run_sub({"method": "bfs", "notes": "hi",
                           "solutions": [self.sol]})
         self.assertTrue(v["accepted"])
         self.assertTrue(v["results"][0]["ok"])
         self.assertEqual(v["results"][0]["certificate_hash"],
                          self.entry["certificate_hash"])
+        official = core.verify(util.training_challenge(self.entry),
+                               self.sol["moves"],
+                               self.entry["move_spec_version"],
+                               self.mini["limits"])
+        self.assertEqual(v["results"][0],
+                         dict(official, challenge_id=self.sol["challenge_id"]))
 
     def test_per_item_errors_do_not_reject_submission(self):
-        good, bad = self.sol, {"challenge_id": "ms-v1-9999",
-                               "move_spec_version": "ac-r2-v1", "moves": []}
-        v = self.run_sub({"solutions": [bad, good]})
+        good, bad = self.sol, {"challenge_id": "ms-v1-9999", "moves": []}
+        bad_move = {"challenge_id": self.mini["challenges"][0]["challenge_id"],
+                    "moves": [14]}
+        wrong_target = {"challenge_id": self.mini["challenges"][1]["challenge_id"],
+                        "moves": []}
+        v = self.run_sub({"solutions": [bad, bad_move, wrong_target, good]})
         self.assertTrue(v["accepted"])
         self.assertEqual(v["results"][0]["code"], "E_UNKNOWN_CHALLENGE")
-        self.assertTrue(v["results"][1]["ok"])
+        self.assertEqual(v["results"][1]["code"], "E_BAD_MOVE_ID")
+        self.assertEqual(v["results"][1]["move_index"], 0)
+        self.assertEqual(v["results"][2]["code"], "E_NOT_TARGET")
+        self.assertTrue(v["results"][3]["ok"])
 
     # -- acceptance row 4: corrupted certificates -----------------------
     def test_malformed_json(self):
@@ -53,8 +64,7 @@ class TestSubmissionLayer(unittest.TestCase):
         self.assertFalse(v["counts_against_quota"])
 
     def test_missing_moves(self):
-        v = self.run_sub({"solutions": [{"challenge_id": "x",
-                                         "move_spec_version": "ac-r2-v1"}]})
+        v = self.run_sub({"solutions": [{"challenge_id": "x"}]})
         self.assertEqual((v["code"], v["detail"], v["key"]),
                          ("E_MALFORMED", "solution_missing_key", "moves"))
 
@@ -93,9 +103,19 @@ class TestSubmissionLayer(unittest.TestCase):
         self.assertEqual((v["code"], v["detail"], v["key"]),
                          ("E_MALFORMED", "unknown_key", "hint"))
 
+    def test_client_version_rejects_whole_submission_as_unknown_key(self):
+        for version in (self.entry["move_spec_version"], "ac-r1-v0"):
+            with self.subTest(version=version):
+                v = self.run_sub({"solutions": [
+                    dict(self.sol, move_spec_version=version)]})
+                self.assertFalse(v["accepted"])
+                self.assertFalse(v["counts_against_quota"])
+                self.assertEqual((v["code"], v["detail"], v["key"]),
+                                 ("E_MALFORMED", "unknown_key",
+                                  "move_spec_version"))
+
     def test_solution_count_limit(self):
-        sols = [{"challenge_id": "c%d" % i, "move_spec_version": "ac-r2-v1",
-                 "moves": []} for i in range(501)]
+        sols = [{"challenge_id": "c%d" % i, "moves": []} for i in range(501)]
         v = self.run_sub({"solutions": sols})
         self.assertEqual((v["code"], v["detail"]),
                          ("E_MALFORMED", "too_many_solutions"))
@@ -132,8 +152,7 @@ class TestSubmissionLayer(unittest.TestCase):
         self.assertEqual(v["code"], "E_MALFORMED")
 
     def test_structural_limits_configurable(self):
-        sols = [{"challenge_id": "c%d" % i, "move_spec_version": "ac-r2-v1",
-                 "moves": []} for i in range(3)]
+        sols = [{"challenge_id": "c%d" % i, "moves": []} for i in range(3)]
         v = self.run_sub({"solutions": sols})
         self.assertTrue(v["accepted"])
         raw = json.dumps({"solutions": sols}).encode()
@@ -143,11 +162,10 @@ class TestSubmissionLayer(unittest.TestCase):
                          ("E_MALFORMED", "too_many_solutions"))
 
     def test_real_manifest_challenge_wrong_path(self):
-        """Against the real 550-challenge manifest any path that merely
+        """Against the scored manifest any path that merely
         walks legally but ends elsewhere yields E_NOT_TARGET."""
         cid = self.manifest["challenges"][0]["challenge_id"]
         v = self.run_sub({"solutions": [{"challenge_id": cid,
-                                         "move_spec_version": "ac-r2-v1",
                                          "moves": [6, 7]}]},
                          manifest=self.manifest)
         self.assertTrue(v["accepted"])

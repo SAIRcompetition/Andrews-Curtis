@@ -38,6 +38,7 @@ import json
 import random
 import re
 import sys
+from datetime import datetime
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parents[1]
@@ -47,7 +48,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from acms_verify import __version__, canon, core  # noqa: E402
 
 from build_manifest import (  # noqa: E402
-    FREEZE_DATE, GENERATORS, LIMITS, TARGET, build_golden, build_move_spec,
+    GENERATORS, LIMITS, TARGET, build_golden, build_move_spec,
     build_training, dump, load_items, ms_initial)
 from sync_dataset import (  # noqa: E402
     DATA_DIR, EXPECTED_ADDED_OPEN, EXPECTED_MS_STATUS,
@@ -61,6 +62,9 @@ CHALLENGE_ID_FORMAT = "ac-v1-%05d"
 
 CHALLENGES_DIR = REPO / "competition" / "challenges"
 PRIVATE_DIR = REPO / "build" / "private"
+COMPETITION_STATE_PATH = REPO / "build" / "competition_state.json"
+SCHEDULE_FIELDS = ("freeze_date", "registration_opens", "submissions_open",
+                   "submission_deadline", "certificate_release")
 
 #: Exactly the keys a public challenge record may carry (O-4: no
 #: difficulty, family, or provenance signal reaches contestants).
@@ -85,6 +89,40 @@ PRIVATE_MAP_FIELDS = ("challenge_id", "master_id", "public_id", "pool",
 def serialize(obj):
     """Exactly what :func:`build_manifest.dump` writes."""
     return json.dumps(obj, indent=1) + "\n"
+
+
+def load_competition_state(path=None):
+    """Read the sole source of publication state and dates.
+
+    Unannounced values are JSON null. Dates, when announced, are UTC
+    timestamps; a freeze commit is a full Git object id, never a label.
+    Release readiness and Git verification are enforced by release.py.
+    """
+    path = Path(path) if path is not None else COMPETITION_STATE_PATH
+    state = json.loads(path.read_text(encoding="utf-8"))
+    expected = {"status", "freeze_commit", *SCHEDULE_FIELDS}
+    if not isinstance(state, dict) or set(state) != expected:
+        raise ValueError("competition state must contain exactly %s" %
+                         ", ".join(sorted(expected)))
+    status = state["status"]
+    if status not in ("prelaunch", "active", "finished"):
+        raise ValueError("competition status must be prelaunch, active, or finished")
+    for field in SCHEDULE_FIELDS:
+        value = state[field]
+        if value is None:
+            continue
+        if not isinstance(value, str) or not re.fullmatch(
+                r"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z", value):
+            raise ValueError("%s must be null or a UTC timestamp" % field)
+        try:
+            datetime.strptime(value, "%Y-%m-%dT%H:%M:%SZ")
+        except ValueError as exc:
+            raise ValueError("%s is not a valid UTC timestamp" % field) from exc
+    commit = state["freeze_commit"]
+    if commit is not None and (not isinstance(commit, str) or not re.fullmatch(
+            r"(?:[0-9a-f]{40}|[0-9a-f]{64})", commit)):
+        raise ValueError("freeze_commit must be null or a full Git object id")
+    return state
 
 
 def freeze_guard(name, obj):
@@ -200,7 +238,10 @@ def assign_ids(rows):
     return ordered
 
 
-def build_manifest_v2(rows, move_spec_hash):
+def build_manifest_v2(rows, move_spec_hash, competition_state=None):
+    if competition_state is None:
+        competition_state = load_competition_state()
+    freeze_date = competition_state["freeze_date"]
     challenges = []
     for row in rows:
         initial = [list(w) for w in row["relators_int"]]
@@ -215,7 +256,7 @@ def build_manifest_v2(rows, move_spec_hash):
             "instance_hash": canon.instance_hash(
                 row["challenge_id"], GENERATORS, initial, TARGET,
                 core.MOVE_SPEC_VERSION, move_spec_hash),
-            "freeze_date": FREEZE_DATE,
+            "freeze_date": freeze_date,
         })
     for c in challenges:
         assert set(c) == CHALLENGE_KEYS, sorted(set(c) ^ CHALLENGE_KEYS)
@@ -226,7 +267,7 @@ def build_manifest_v2(rows, move_spec_hash):
         "move_spec_hash": move_spec_hash,
         "manifest_hash": canon.manifest_hash(
             [c["instance_hash"] for c in challenges]),
-        "freeze_date": FREEZE_DATE,
+        "freeze_date": freeze_date,
         "generators": GENERATORS,
         "target_relators": TARGET,
         "limits": LIMITS,
@@ -244,7 +285,9 @@ def leak_check(path, private_ids):
     # letter, and the manifest is lowercase ASCII apart from the ISO-8601
     # freeze_date, so no id can occur as a substring.  Both halves are
     # asserted, plus a direct scan for any hypothetical all-lowercase id.
-    hit = re.search(r"[A-Z]", text.replace(FREEZE_DATE, ""))
+    freeze_date = json.loads(text)["freeze_date"]
+    scrubbed = text.replace(freeze_date, "") if freeze_date is not None else text
+    hit = re.search(r"[A-Z]", scrubbed)
     assert hit is None, "unexpected uppercase in %s at offset %d" % (
         path.name, hit.start() if hit else -1)
     for pid in private_ids:
@@ -304,16 +347,20 @@ def write_private(rows, sources):
     print("wrote %s" % path.relative_to(REPO))
 
 
-def write_yaml(manifest, move_spec_hash):
+def write_yaml(manifest, move_spec_hash, competition_state=None):
+    if competition_state is None:
+        competition_state = load_competition_state()
+    assert manifest["freeze_date"] == competition_state["freeze_date"], \
+        "manifest freeze date differs from competition state"
     path = REPO / "competition" / "competition.yaml"
     path.write_text(f"""\
 id: acms
 name: "ACC: The Andrews–Curtis Conjecture Competition"
 organizer: sairmath
-status: active
+status: {competition_state['status']}
 task_type: mathematical_discovery
 submission_artifact: submission.json
-submission_format: "JSON; solutions[] of {{challenge_id, move_spec_version, moves[]}} where moves are atomic AC move ids 0-13"
+submission_format: "JSON; solutions[] of {{challenge_id, moves[]}} where moves are atomic AC move ids 0-13"
 verifier: "Python, competition/tools/verifier (standard library only), acms-verify {__version__}"
 counterexample_verifier: "PDF + expert review (organizer panel); optional Lean 4 formalization fast-track — see rules/evaluation.md"
 primary_metric: leaderboard_score
@@ -322,10 +369,14 @@ scoring_formula: "V_i * 2^(1-k_i) for teams at the current shortest length, 0 ot
 move_spec_version: {core.MOVE_SPEC_VERSION}
 move_spec_hash: "{move_spec_hash}"
 manifest_hash: "{manifest['manifest_hash']}"
-freeze_date: "{manifest['freeze_date']}"  # D-9 placeholder until the timeline decision lands
-freeze_commit: "TBD — freeze manifest.json and move_spec.json in git before public launch"
+freeze_date: {json.dumps(competition_state['freeze_date'])}
+freeze_commit: {json.dumps(competition_state['freeze_commit'])}
+registration_opens: {json.dumps(competition_state['registration_opens'])}
+submissions_open: {json.dumps(competition_state['submissions_open'])}
+submission_deadline: {json.dumps(competition_state['submission_deadline'])}
+certificate_release: {json.dumps(competition_state['certificate_release'])}
 challenge_count: {manifest['challenge_count']}
-challenge_policy: "Frozen pool of 10,115 balanced presentations of the trivial group (SAIR dataset draw plus the full MS-1190 open set, minus instances with public certificates); per-instance difficulty and provenance withheld; base_score 1 each"
+challenge_policy: "Pool of 10,115 balanced presentations of the trivial group (SAIR dataset draw plus the full MS-1190 open set, minus instances with public certificates); per-instance difficulty and provenance withheld; base_score 1 each"
 overview: rules/overview.md
 evaluation: rules/evaluation.md
 manifest: challenges/manifest.json
@@ -335,6 +386,7 @@ move_spec: challenges/move_spec.json
 
 
 def main():
+    competition_state = load_competition_state()
     items = load_items()
     move_spec_hash = canon.move_spec_hash(core.MOVE_TABLE)
 
@@ -348,7 +400,7 @@ def main():
     # 2. the scored pool.
     rows, sources = load_pool(items, training)
     rows = assign_ids(rows)
-    manifest = build_manifest_v2(rows, move_spec_hash)
+    manifest = build_manifest_v2(rows, move_spec_hash, competition_state)
     golden = build_golden(manifest, training, move_spec_hash)
 
     dump(CHALLENGES_DIR / "manifest.json", manifest)
@@ -370,7 +422,7 @@ def main():
         writer.writerows(meta_rows)
     print("wrote %s (%d rows)" % (csv_path.relative_to(REPO), len(meta_rows)))
 
-    write_yaml(manifest, move_spec_hash)
+    write_yaml(manifest, move_spec_hash, competition_state)
 
     # 4. private side tables, then prove the public manifest is clean.
     write_private(rows, sources)

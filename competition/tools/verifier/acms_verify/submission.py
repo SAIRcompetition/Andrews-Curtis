@@ -38,7 +38,7 @@ FORBIDDEN_RESULT_KEYS = frozenset({
 })
 
 _ALLOWED_TOP_KEYS = frozenset({"method", "notes", "solutions"})
-_ALLOWED_SOLUTION_KEYS = frozenset({"challenge_id", "move_spec_version", "moves"})
+_ALLOWED_SOLUTION_KEYS = frozenset({"challenge_id", "moves"})
 
 
 def _reject(code, **extra):
@@ -76,7 +76,9 @@ def process_submission(raw_bytes, manifest, challenge_index=None,
     Returns either a whole-submission rejection
     (``{"accepted": False, "code": ..., ...}``) or
     ``{"accepted": True, "results": [...]}`` with one verdict per
-    solution in input order.
+    solution in input order. Each solution supplies only ``challenge_id``
+    and ``moves``; the official challenge supplies the move-spec version
+    used for replay and certificate hashing.
     """
     if challenge_index is None:
         challenge_index = build_challenge_index(manifest)
@@ -142,8 +144,6 @@ def process_submission(raw_bytes, manifest, challenge_index=None,
                            key=sorted(unknown)[0])
         if not isinstance(sol["challenge_id"], str):
             return _reject("E_MALFORMED", detail="bad_challenge_id", index=i)
-        if not isinstance(sol["move_spec_version"], str):
-            return _reject("E_MALFORMED", detail="bad_move_spec_version", index=i)
         if not isinstance(sol["moves"], list):
             return _reject("E_MALFORMED", detail="moves_not_array", index=i)
         if sol["challenge_id"] in seen_ids:
@@ -160,7 +160,7 @@ def process_submission(raw_bytes, manifest, challenge_index=None,
                             "code": "E_UNKNOWN_CHALLENGE", "move_index": None})
             continue
         verdict = core.verify(challenge, sol["moves"],
-                              sol["move_spec_version"], limits)
+                              challenge["move_spec_version"], limits)
         verdict = dict(verdict)
         verdict["challenge_id"] = cid
         results.append(verdict)

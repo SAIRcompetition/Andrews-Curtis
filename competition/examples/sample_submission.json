@@ -1,11 +1,16 @@
 {
-  "method": "demo",
-  "notes": "sample only; see README.md next to this file",
   "solutions": [
     {
-      "challenge_id": "ac-v1-00001",
-      "move_spec_version": "ac-r2-v1",
-      "moves": [6, 7]
+      "challenge_id": "ms-train-0160",
+      "moves": [
+        6,
+        4,
+        2,
+        9,
+        1,
+        4,
+        1
+      ]
     }
   ]
 }

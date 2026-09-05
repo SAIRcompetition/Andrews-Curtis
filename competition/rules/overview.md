@@ -1,5 +1,10 @@
 # ACC: The Andrews–Curtis Conjecture Competition — Overview
 
+**Prelaunch preview — registration and submissions are not open.** You
+can inspect the current rules and data and try the Python verifier
+locally. The official data freeze and competition dates have not yet
+been announced.
+
 ## The mathematics
 
 The **Andrews–Curtis conjecture** (1965) asserts that every balanced
@@ -9,9 +14,10 @@ relator multiplication, and conjugation. It has been open for sixty
 years; most experts expect it to be false, but no counterexample has
 ever been verified.
 
-The competition runs on a **frozen pool of 10,115 balanced
+The planned competition uses a **pool of 10,115 balanced
 presentations of the trivial group**, `ac-v1-00001` … `ac-v1-10115`,
-spanning warm-up exercises to the research frontier. The pool draws on
+spanning warm-up exercises to the research frontier. Its official
+publication freeze is still pending. The pool draws on
 an extended Miller–Schupp family, on automorphic disguises of known
 hard classes, and on presentations that are solvable by construction.
 It includes **all 550 Miller–Schupp instances with no publicly known
@@ -87,24 +93,43 @@ in the scored pool.
 
 ## Submitting
 
+The format below is the successful **training example**, which uses
+`examples/training_manifest.json` rather than the scored competition
+manifest:
+
 ```json
 {
-  "method": "optional method name",
-  "notes": "optional free text, <= 2000 chars",
   "solutions": [
-    { "challenge_id": "ac-v1-00001", "move_spec_version": "ac-r2-v1",
-      "moves": [0, 4, 8, 3] }
+    { "challenge_id": "ms-train-0160", "moves": [6, 4, 2, 9, 1, 4, 1] }
   ]
 }
 ```
 
-Submit only the moves. The server verifies deterministically and
-computes length itself; any client-asserted result field (`length`,
+Run it from the repository or exported package root:
+
+```sh
+PYTHONPATH=competition/tools/verifier python3 -m acms_verify \
+  --manifest competition/examples/training_manifest.json \
+  --submission competition/examples/sample_submission.json --pretty
+```
+
+This example earns no competition points and is not valid against the
+scored manifest. The [examples guide](../examples/README.md) provides
+the complete expected receipt and a separate rejection example. For
+the competition, use the `challenge_id` of a scored pool instance and
+the moves that solve it; online submission will open on the announced
+date.
+
+Each solution contains only `challenge_id` and `moves`. You may also
+include optional top-level `method` (a method name) and `notes` (free
+text, at most 2000 characters). The verifier reads the move-spec version
+from the supplied challenge, verifies deterministically, and computes
+length itself; any client-asserted result field (`length`,
 `score`, `final_state`, …) rejects the whole submission. Limits (path
 length 100 000, total relator length 10 000, work budget 5 000 000) and
 the full error-code contract are in [evaluation.md](evaluation.md). A
-downloadable reference verifier — the same Python sources the server
-runs — lets you check everything before submitting.
+downloadable reference verifier lets you self-check now; the planned
+competition service will use the same Python sources.
 
 ## Scoring
 
@@ -155,8 +180,9 @@ presentation of the trivial group is **not** related to the trivial
 presentation by the full, unbounded, non-stable Andrews–Curtis
 relation.
 
-**Official channel: PDF plus expert review.** Upload the argument as a
-single self-contained PDF through the competition site. A claim moves
+**Planned official channel after submissions open: PDF plus expert
+review.** The competition site will accept the argument as a single
+self-contained PDF. This channel is not open during prelaunch. A claim moves
 through *received* → *screening* → *under expert review* → *accepted*,
 *rejected*, or *revision requested*; review is carried out by the
 organizer panel together with reviewers they designate. There is no
@@ -165,15 +191,15 @@ submissions that carry no substantive new mathematical content, and a
 team may have **at most one active claim at a time** — a new upload
 replaces the pending one.
 
-**Lean 4 fast track (optional).** A claim accompanied by, or later
+**Lean 4 fast track (optional, not open).** A claim accompanied by, or later
 formalized as, a machine-checked Lean 4 proof that builds in the
 competition's frozen offline environment is fast-tracked and, on
 passing verification, settles the claim. The competition Lean library
 is in development: when published it will provide frozen definitions of
 the full, unbounded, non-stable AC relation together with a
 compatibility theorem tying the 14-move closure to the standard AC
-moves. Until the library is published there is nothing to build
-against, so the PDF channel is the only route open.
+moves. Until that library and route are released, the PDF channel will
+be the planned route once competition submissions open.
 
 > **Not finding a path is not a disproof.** Failure to find a
 > trivialization — under any compute budget, length bound, peak bound,
@@ -226,12 +252,13 @@ collaboration with [Caltech](https://www.caltech.edu/).
 
 ## Timeline
 
-* Registration opens: —
-* Submissions open: —
-* Submission deadline: —
-* Certificate release (post-competition): —
+* Registration opens: to be announced.
+* Submissions open: to be announced.
+* Submission deadline: to be announced.
+* Certificate release (post-competition): to be announced.
 
-The freeze date, competition window, and post-competition certificate
-release date will be announced. The frozen data carries the freeze date
-in `challenges/manifest.json`, `challenges/README.md` and
-`competition.yaml`.
+Current status is `prelaunch`. In `competition.yaml`, `freeze_date`,
+`freeze_commit`, `registration_opens`, `submissions_open`,
+`submission_deadline`, and `certificate_release` are all `null` until
+announced. The manifest's `freeze_date` is also `null`; the official
+freeze commit will be published before the formal release.

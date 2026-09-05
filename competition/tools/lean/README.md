@@ -1,8 +1,9 @@
 # Lean 4 fast track (in development)
 
-The official channel for a purported disproof of the Andrews–Curtis
-conjecture is a **self-contained PDF uploaded through the competition
-site**, reviewed by the organizer panel and reviewers they designate;
+The competition is in prelaunch; counterexample submissions are not yet
+open. After submissions open, the planned official channel for a purported
+disproof of the Andrews–Curtis conjecture is a **self-contained PDF uploaded
+through the competition site**, reviewed by the organizer panel and reviewers they designate;
 see [../../rules/evaluation.md](../../rules/evaluation.md) §9.2. The
 Lean track described here is an optional fast track: a claim backed by
 a machine-checked proof skips expert review and, on passing

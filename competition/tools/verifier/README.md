@@ -1,12 +1,12 @@
 # ACMS reference verifier (`acms_verify`)
 
-The single authoritative verifier implementation for the ACMS
-competition (decision D-10: Python only, standard library only). The
-same sources run inside the competition system and ship in the public
-release package — there is no port.
+**Prelaunch preview.** This Python reference verifier is available for
+local self-checking now; competition submissions are not open. The
+planned competition service will use these same standard-library-only
+sources, with no separate port.
 
-> The reference verifier is for contestant self-checking only; the
-> server-side verifier is the sole authority for official results.
+> Local results are self-checks. Once the competition opens, the
+> server-side verifier will be the authority for official results.
 
 ## Layout
 
@@ -20,14 +20,30 @@ release package — there is no port.
 
 ## Usage
 
-Run from this directory (`competition/tools/verifier/`):
+Each entry in a submission's `solutions` array contains only
+`challenge_id` and `moves`. The verifier obtains the move-spec version
+from the official challenge for replay and certificate hashing.
+
+Start with a successful, unscored training example. Run from the
+repository or exported package root:
 
 ```sh
-# verify a submission against the frozen manifest
+PYTHONPATH=competition/tools/verifier python3 -m acms_verify \
+  --manifest competition/examples/training_manifest.json \
+  --submission competition/examples/sample_submission.json --pretty
+```
+
+The expected full receipt and a separate rejection example are in the
+[examples guide](../../examples/README.md).
+
+For other checks, run from this directory (`competition/tools/verifier/`):
+
+```sh
+# verify a submission against the current competition manifest
 python3 -m acms_verify --manifest ../../challenges/manifest.json \
                        --submission mine.json --pretty
 
-# prove this verifier agrees with the official one
+# run the reference conformance vectors
 python3 -m acms_verify --golden ../../challenges/golden_vectors.json
 
 # recompute and check every hash in the manifest
