@@ -21,12 +21,13 @@ Outputs:
   build/private/challenge_map_private.tsv     NEVER published
   build/private/pool_stats.json               NEVER published
 
-The manifest carries no difficulty or provenance signal: every scored
+The manifest omits internal difficulty labels and direct source mappings: every scored
 challenge is exactly {challenge_id, generators, initial_relators,
 target_relators, move_spec_version, scored, base_score, instance_hash,
 freeze_date}, challenge ids are a seeded shuffle of the pool, and
 :func:`leak_check` re-reads the emitted file to prove no private id or
-provenance token survived.
+provenance token survived. Public relators can still be matched to known
+mathematical sources; this is not an anonymity guarantee.
 
 Deterministic: the only randomness is ``random.Random(CHALLENGE_ID_SEED)``,
 so identical inputs give byte-identical outputs.
@@ -355,17 +356,32 @@ def write_yaml(manifest, move_spec_hash, competition_state=None):
     path = REPO / "competition" / "competition.yaml"
     path.write_text(f"""\
 id: acms
-name: "ACC: The Andrews–Curtis Conjecture Competition"
+name: "Andrews–Curtis Conjecture Challenge (ACC)"
 organizer: sairmath
 status: {competition_state['status']}
 task_type: mathematical_discovery
+submission_track: discovery
 submission_artifact: submission.json
-submission_format: "JSON; solutions[] of {{challenge_id, moves[]}} where moves are atomic AC move ids 0-13"
-verifier: "Python, competition/tools/verifier (standard library only), acms-verify {__version__}"
-counterexample_verifier: "PDF + expert review (organizer panel); optional Lean 4 formalization fast-track — see rules/evaluation.md"
+submission_format: "Discovery Track: JSON; solutions[] of {{challenge_id, moves[]}} where moves are atomic AC move ids 0-13"
+verifier: "Discovery Track: Python, competition/tools/verifier (standard library only), acms-verify {__version__}"
+scoring_track: discovery
 primary_metric: leaderboard_score
 scoring_unit: team_challenge
 scoring_formula: "V_i * 2^(1-k_i) for teams at the current shortest length, 0 otherwise"
+tracks:
+  - id: discovery
+    name: Discovery Track
+    objective: "Find short verified AC move sequences for the published challenge pool"
+  - id: prove
+    name: Prove Track
+    claims: [proof, disproof]
+    statement: rules/statement.md
+    submission_format: "Claim type and description required; complete argument in description, PDF or paper, GitHub at a fixed commit, or arXiv at a fixed version"
+    visibility: public
+    versions: immutable
+    review: "Public comments; final mathematical determination by reviewers; Lean does not bypass review"
+    credit: "Earliest complete correct version, with references and contributions recorded; see rules/evaluation.md"
+    leaderboard_points: false
 move_spec_version: {core.MOVE_SPEC_VERSION}
 move_spec_hash: "{move_spec_hash}"
 manifest_hash: "{manifest['manifest_hash']}"
@@ -376,7 +392,7 @@ submissions_open: {json.dumps(competition_state['submissions_open'])}
 submission_deadline: {json.dumps(competition_state['submission_deadline'])}
 certificate_release: {json.dumps(competition_state['certificate_release'])}
 challenge_count: {manifest['challenge_count']}
-challenge_policy: "Pool of 10,115 balanced presentations of the trivial group (SAIR dataset draw plus the full MS-1190 open set, minus instances with public certificates); per-instance difficulty and provenance withheld; base_score 1 each"
+challenge_policy: "Discovery Track: 10,115 balanced presentations of the trivial group; base_score 1 each. Internal difficulty labels and direct source-ID mappings are omitted; public MS metadata and relators may reveal origins"
 overview: rules/overview.md
 evaluation: rules/evaluation.md
 manifest: challenges/manifest.json

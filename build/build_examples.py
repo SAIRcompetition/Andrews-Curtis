@@ -76,12 +76,12 @@ def build_examples(manifest, training):
             or rejected["results"][0].get("code") != "E_NOT_TARGET"):
         raise ValueError("negative example no longer produces E_NOT_TARGET")
 
-    readme = """# Runnable submission examples
+    readme = """# Runnable Discovery submission examples
 
 Start with `sample_submission.json`: a complete, successful submission for
 the published training instance `%s`, copied from
 [`training_424.json`](../challenges/training_424.json). It uses %d atomic
-moves and the same verifier and JSON submission format as the scored track.
+moves and the same verifier and JSON submission format as Discovery Track.
 
 This is **local training only and earns no points**. The accompanying
 `training_manifest.json` contains just this training instance, marked

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Export and verify the ACMS-public release package (DESIGN.md §9, §10.1).
+"""Export and verify the ACMS-public release package (DESIGN.md §9).
 
 The public tree lives in-repo at ``competition/`` (single source of
 truth, IGP24-public-aligned). Official exports require announced dates
@@ -9,10 +9,12 @@ Duties:
   1. verify the three hashes: recompute every instance_hash, the
      manifest_hash, and the move_spec_hash from the frozen move table,
      and check competition.yaml quotes the same values
-  2. copy LICENSE + competition/ verbatim into the output directory and
-     write the public root README
-  3. run golden vectors, hash checks, and documented examples FROM THE
-     COPIED PACKAGE in an isolated environment; abort on any failure
+  2. copy LICENSE + competition/ source files into the output directory,
+     excluding local caches and Lean build products, and write the public
+     root README
+  3. run golden vectors, hash checks, the official Lean source lock check,
+     and documented examples FROM THE COPIED PACKAGE in an isolated
+     environment; abort on any failure
   4. assert the package contains nothing from server/ or any other
      internal directory
 
@@ -22,6 +24,7 @@ after every check passes.
 
 import argparse
 from datetime import datetime
+import hashlib
 import json
 import re
 import shutil
@@ -45,6 +48,14 @@ DATE_FIELDS = ("freeze_date", "registration_opens", "submissions_open",
 #: in the export, at any depth.
 INTERNAL_DIRS = ("server", "build", "spec", "reference", "tests", "private")
 
+# Lake dependencies and build products are local state, not public source.
+# In particular, exporting .lake/packages would copy complete dependency
+# repositories (including their internal directories) into the package.
+PUBLIC_COPY_IGNORE = shutil.ignore_patterns(
+    "__pycache__", ".DS_Store", ".lake", "*.olean", "*.ilean",
+    "*.olean.private", "*.olean.server",
+)
+
 #: Provenance/difficulty vocabulary that must not survive into the
 #: exported manifest (mirrors build/build_manifest_v2.py leak_check).
 BANNED_TOKENS = ("tier", "pool", "family", "provenance", "w_vector",
@@ -52,18 +63,26 @@ BANNED_TOKENS = ("tier", "pool", "family", "provenance", "w_vector",
                      "T%d_" % i for i in range(6))
 
 ROOT_README = """\
-# ACC — The Andrews–Curtis Conjecture Competition (public package)
+# Andrews–Curtis Conjecture Challenge (ACC) — public package
 
 RELEASE_NOTICE
 
 Public data, rules, and reference tools for ACC, co-organized by
-Lucas Fagan, Sergei Gukov, and Terence Tao: trivializing balanced
-presentations of the trivial group with atomic Andrews–Curtis moves,
-plus an expert-reviewed counterexample track.
+Lucas Fagan, Sergei Gukov, and Terence Tao. One competition has two tracks:
+the **Discovery Track** rewards short verified trivializations, and the
+**Prove Track** accepts proofs and disproofs of the full conjecture.
+The tracks continue independently.
 
 This package provides the core mathematical checks used for reproducibility.
 Official submission handling and leaderboard updates belong to the SAIR
 competition platform. Local verification does not register a submission.
+
+Prove submissions include a claim type and description, with a complete
+argument in the description, PDF or paper, GitHub at a fixed commit, or
+arXiv at a fixed version. Every submitted version is public and immutable,
+with comments for discussion. Reviewers make the final determination;
+Lean does not bypass review. See `competition/rules/evaluation.md` for
+the submission, version, and credit rules.
 
 ## Start here
 
@@ -83,22 +102,54 @@ PYTHONPATH=competition/tools/verifier python3 -m acms_verify \\
 Expected: exit code 0, `accepted: true`, and `results[0].ok: true`.
 The full expected receipt is `competition/examples/sample_verdict.json`;
 see `competition/examples/README.md` for the input and negative example.
+`accepted` only indicates structural acceptance; each solution succeeds
+only when its own `results[].ok` is `true`.
+
+For the Prove Track, read `competition/rules/statement.md` and
+`competition/tools/lean/README.md`. The local `lake build` command builds
+the official `AC` statement; auxiliary `Check` examples are optional.
 
 ## Layout
 
     competition/
       competition.yaml        machine-readable metadata
-      rules/                  overview.md, evaluation.md
+      rules/                  overview, evaluation, and full conjecture statement
       challenges/             frozen data + hashes (see its README)
       examples/               successful training submission and expected receipt
       tools/verifier/         Python reference verifier (stdlib only)
-      tools/lean/             optional Lean fast track (not yet available)
+      tools/lean/             official Lean statement of the full AC conjecture
 """
 
 
 def sh(*args, **kw):
     print("  $", " ".join(str(a) for a in args))
     return subprocess.run([str(a) for a in args], check=True, **kw)
+
+
+def copy_public_tree(src, dst):
+    """Copy public sources, including the standalone Lean project, without caches."""
+    shutil.copytree(src, dst, ignore=PUBLIC_COPY_IGNORE)
+
+
+def lean_statement_snapshot(root):
+    """Identify the official Lean sources and pinned dependency files."""
+    files = ("AC.lean", "lakefile.toml", "lean-toolchain",
+             "lake-manifest.json")
+    return {
+        "schema_version": 1, "conjecture": "AC.Conjecture",
+        "disproof": "Not AC.Conjecture", "counterexample": "AC.Counterexample",
+        "lean_toolchain": "leanprover/lean4:v4.29.1",
+        "lean_revision": "f72c35b3f637c8c6571d353742168ab66cc22c00",
+        "mathlib_revision": "5e932f97dd25535344f80f9dd8da3aab83df0fe6",
+        "files": {name: hashlib.sha256((root / name).read_bytes()).hexdigest()
+                  for name in sorted(files)},
+    }
+
+
+def verify_lean_statement(root):
+    """Reject an export whose official statement differs from its reviewed lock."""
+    if json.loads((root / "statement-lock.json").read_text()) != lean_statement_snapshot(root):
+        raise ValueError("statement lock mismatch: a source or dependency pin changed")
 
 
 def validate_public_state(state, yaml_text, manifest):
@@ -224,10 +275,9 @@ def export_package(out, preview=False):
     assert "challenge_count: %d" % CHALLENGE_COUNT in yaml_text
     sh(sys.executable, REPO / "build/build_examples.py", "--check")
 
-    # 2. verbatim export
+    # 2. source export (without local caches or Lean build products)
     out.mkdir(parents=True)
-    shutil.copytree(src, out / "competition",
-                    ignore=shutil.ignore_patterns("__pycache__", ".DS_Store"))
+    copy_public_tree(src, out / "competition")
     shutil.copy2(REPO / "LICENSE", out / "LICENSE")
     shutil.copy2(REPO / "NOTICE", out / "NOTICE")
     if preview:
@@ -239,9 +289,13 @@ def export_package(out, preview=False):
         notice = "Official data release. Competition status: `" + state["status"] + "`."
     (out / "README.md").write_text(ROOT_README.replace("RELEASE_NOTICE", notice))
 
-    # 3. golden vectors + hash check, executed from the copied package only
+    # 3. source lock, golden vectors, and hashes from the copied package only.
+    # This verifies the published statement snapshot without copying or
+    # downloading Lean dependencies; the Lean build/audit is run separately.
     comp = out / "competition"
     env = {"PYTHONPATH": "", "PATH": "/usr/bin:/bin"}
+    verify_lean_statement(comp / "tools/lean")
+    print("OK: packaged Lean sources and dependency lock match statement-lock.json")
     sh(sys.executable, "-m", "acms_verify",
        "--golden", comp / "challenges" / "golden_vectors.json",
        cwd=comp / "tools" / "verifier", env=env)
@@ -319,7 +373,8 @@ def main(argv=None):
         return 1
     mode = "PREVIEW" if args.preview else "OFFICIAL"
     print(f"\nOK: {mode} ACMS-public exported to {out} ({file_count} files), "
-          f"{CHALLENGE_COUNT} challenges; hashes, golden vectors, and examples verified")
+          f"{CHALLENGE_COUNT} challenges; hashes, Lean source lock, golden vectors, "
+          "and examples verified")
     return 0
 
 

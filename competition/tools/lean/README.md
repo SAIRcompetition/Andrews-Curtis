@@ -1,22 +1,47 @@
-# Lean 4 fast track (in development)
+# Prove Track — Andrews–Curtis statement in Lean
 
-The competition is in prelaunch; counterexample submissions are not yet
-open. After submissions open, the planned official channel for a purported
-disproof of the Andrews–Curtis conjecture is a **self-contained PDF uploaded
-through the competition site**, reviewed by the organizer panel and reviewers they designate;
-see [../../rules/evaluation.md](../../rules/evaluation.md) §9.2. The
-Lean track described here is an optional fast track: a claim backed by
-a machine-checked proof skips expert review and, on passing
-verification, settles the claim outright.
+Import `AC` and use one of the two official targets:
 
-**The competition Lean library is not yet available.** When published,
-this directory will carry the frozen definitions — including the full,
-unbounded, non-stable AC relation and a compatibility theorem tying the
-14-move closure of `ac-r2-v1` to the standard AC moves — together with
-a template project, the pinned toolchain, and the container digest.
+* **Proof:** `AC.Conjecture`.
+* **Disproof:** `¬ AC.Conjecture`, equivalently `AC.Counterexample` via
+  `AC.not_conjecture_iff_counterexample`.
 
-The verification requirements are already frozen so that a
-formalization effort can target them (evaluation.md §9.3): offline
-`lake build`, axiom whitelist `propext` / `Classical.choice` /
-`Quot.sound`, no `sorry` / `unsafe` / `native_decide`, hash-pinned
-definitions, and an independent-machine re-check.
+See the [mathematical statement](../../rules/statement.md) for the full,
+arbitrary-positive-rank, non-stable conjecture.
+
+The Prove Track is part of the Andrews–Curtis Conjecture Challenge (ACC).
+It accepts a proof or disproof with a description and complete argument,
+which may be carried by the description, a PDF or paper, a GitHub
+repository at a fixed commit, or an arXiv paper at a fixed version.
+Submissions and immutable versions are public, with comments for review
+and discussion. Reviewers make the final mathematical determination;
+Lean does not provide an exemption from review. See the
+[evaluation rules](../../rules/evaluation.md) for versions and credit.
+
+## Build
+
+From the repository root, download dependencies on first use, then build:
+
+```sh
+cd competition/tools/lean
+lake exe cache get Mathlib/GroupTheory/PresentedGroup.lean
+lake build
+```
+
+Pinned dependencies: Lean `4.29.1`, Mathlib
+`5e932f97dd25535344f80f9dd8da3aab83df0fe6`.
+
+| File | Purpose |
+|---|---|
+| [AC.lean](AC.lean) | Complete conjecture and counterexample definitions |
+| [Check.lean](Check.lean) | Optional semantic examples, axiom audit, and compiler-hash check |
+
+`lake build` builds only `AC`; a formalization needs only `import AC`.
+Building the official statement does not verify a contestant's theorem.
+Authors should identify the theorem proving `AC.Conjecture` or its
+negation and provide instructions for checking their own source.
+To run the auxiliary checks, optionally use `lake build Check`.
+Those checks are not a submission requirement. Source snapshots are
+checked separately at release. Prove submissions address `AC.Conjecture`
+or its negation directly; a formal bridge to the Discovery verifier's
+14-move encoding is not required for this target.

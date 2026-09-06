@@ -1,15 +1,30 @@
 id: acms
-name: "ACC: The Andrews–Curtis Conjecture Competition"
+name: "Andrews–Curtis Conjecture Challenge (ACC)"
 organizer: sairmath
 status: prelaunch
 task_type: mathematical_discovery
+submission_track: discovery
 submission_artifact: submission.json
-submission_format: "JSON; solutions[] of {challenge_id, moves[]} where moves are atomic AC move ids 0-13"
-verifier: "Python, competition/tools/verifier (standard library only), acms-verify 0.1.0"
-counterexample_verifier: "PDF + expert review (organizer panel); optional Lean 4 formalization fast-track — see rules/evaluation.md"
+submission_format: "Discovery Track: JSON; solutions[] of {challenge_id, moves[]} where moves are atomic AC move ids 0-13"
+verifier: "Discovery Track: Python, competition/tools/verifier (standard library only), acms-verify 0.1.0"
+scoring_track: discovery
 primary_metric: leaderboard_score
 scoring_unit: team_challenge
 scoring_formula: "V_i * 2^(1-k_i) for teams at the current shortest length, 0 otherwise"
+tracks:
+  - id: discovery
+    name: Discovery Track
+    objective: "Find short verified AC move sequences for the published challenge pool"
+  - id: prove
+    name: Prove Track
+    claims: [proof, disproof]
+    statement: rules/statement.md
+    submission_format: "Claim type and description required; complete argument in description, PDF or paper, GitHub at a fixed commit, or arXiv at a fixed version"
+    visibility: public
+    versions: immutable
+    review: "Public comments; final mathematical determination by reviewers; Lean does not bypass review"
+    credit: "Earliest complete correct version, with references and contributions recorded; see rules/evaluation.md"
+    leaderboard_points: false
 move_spec_version: ac-r2-v1
 move_spec_hash: "sha256:e13f57d82b5db1a79c1bd9d5ee1f6665ac4d96a634a3656ea20c0ada82e07643"
 manifest_hash: "sha256:2ad90dd132c09780a3fc4bd4cf4c41ab2717255f0891070eb195df6a8096f7a1"
@@ -20,7 +35,7 @@ submissions_open: null
 submission_deadline: null
 certificate_release: null
 challenge_count: 10115
-challenge_policy: "Pool of 10,115 balanced presentations of the trivial group (SAIR dataset draw plus the full MS-1190 open set, minus instances with public certificates); per-instance difficulty and provenance withheld; base_score 1 each"
+challenge_policy: "Discovery Track: 10,115 balanced presentations of the trivial group; base_score 1 each. Internal difficulty labels and direct source-ID mappings are omitted; public MS metadata and relators may reveal origins"
 overview: rules/overview.md
 evaluation: rules/evaluation.md
 manifest: challenges/manifest.json

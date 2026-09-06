@@ -46,8 +46,7 @@ class TestReleaseState(unittest.TestCase):
             fixture = Path(tmp) / "repo"
             (fixture / "build").mkdir(parents=True)
             shutil.copy2(util.REPO / "build/release.py", fixture / "build/release.py")
-            shutil.copytree(util.REPO / "competition", fixture / "competition",
-                            ignore=shutil.ignore_patterns("__pycache__", ".DS_Store"))
+            release.copy_public_tree(util.REPO / "competition", fixture / "competition")
             state = util.load(util.REPO / "build/competition_state.json")
             state["status"] = "prelaunch"
             (fixture / "build/competition_state.json").write_text(json.dumps(state))
@@ -64,6 +63,51 @@ class TestReleaseState(unittest.TestCase):
             self.assertIn("use --preview", result.stderr)
             self.assertEqual((out / "sentinel").read_text(), "previous package")
             self.assertEqual([p.name for p in out.iterdir()], ["sentinel"])
+
+
+class TestPublicSourceExport(unittest.TestCase):
+    def test_lean_sources_and_pins_ship_without_dependencies_or_build_products(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            source = Path(tmp) / "source"
+            destination = Path(tmp) / "package"
+            lean = source / "tools/lean"
+            public_files = {
+                "AC.lean": "namespace AC\nend AC\n",
+                "Check.lean": "import AC\n",
+                "lakefile.toml": 'name = "ac_statement"\n',
+                "lean-toolchain": "leanprover/lean4:v4.29.1\n",
+                "lake-manifest.json": '{"packages": []}\n',
+                "statement-lock.json": '{"schema_version": 1}\n',
+                "README.md": "Build the official statement.\n",
+            }
+            local_files = (
+                ".lake/packages/mathlib/Mathlib.lean",
+                ".lake/packages/mathlib/.git/config",
+                ".lake/build/lib/lean/AC.olean",
+                "AC.olean", "AC.ilean",
+                "AC.olean.private", "AC.olean.server",
+                "__pycache__/local.cpython-313.pyc", ".DS_Store",
+            )
+            for relative, content in public_files.items():
+                path = lean / relative
+                path.parent.mkdir(parents=True, exist_ok=True)
+                path.write_text(content)
+            for relative in local_files:
+                path = lean / relative
+                path.parent.mkdir(parents=True, exist_ok=True)
+                path.write_text("local artifact")
+
+            release.copy_public_tree(source, destination)
+
+            exported = destination / "tools/lean"
+            self.assertEqual(
+                {p.relative_to(exported).as_posix() for p in exported.rglob("*")
+                 if p.is_file()},
+                set(public_files),
+            )
+            for relative, content in public_files.items():
+                self.assertEqual((exported / relative).read_text(), content)
+            self.assertFalse((exported / ".lake").exists())
 
 
 class TestFinalFreeze(unittest.TestCase):

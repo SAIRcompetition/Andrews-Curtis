@@ -1,27 +1,53 @@
-# ACC — The Andrews–Curtis Conjecture Competition (development repository)
+# Andrews–Curtis Conjecture Challenge (ACC) — development repository
 
 **Prelaunch development preview.** Registration and submissions are not
 open. The release schedule and official data freeze have not been set.
 
-Backend for ACC: trivializing balanced presentations of the trivial
-group with atomic Andrews–Curtis moves over a 10,115-instance
-pool, plus a counterexample track for purported disproofs of the
-conjecture. Structured after SAIR's IGP24 competition.
+ACC is one competition with two tracks. The **Discovery Track** rewards
+short verified trivializations in a 10,115-instance pool. The **Prove
+Track** accepts proofs and disproofs of the full conjecture. Both tracks
+continue independently; a result in one does not end the other. The
+public package follows the structure of SAIR's IGP24 competition.
 
 ACC is co-organized by (in alphabetical order by surname): Lucas Fagan,
 Sergei Gukov, Terence Tao.
+
+For the full conjecture, start with the
+[mathematical statement](competition/rules/statement.md) and
+[Lean build instructions](competition/tools/lean/README.md).
+
+Prove submissions include a claim type and description, with a complete
+argument in the description, a PDF or paper, a GitHub repository at a
+fixed commit, or an arXiv paper at a fixed version. Submissions and their
+immutable versions are public, with comments for discussion. Reviewers
+make the final mathematical determination; Lean is not an exemption
+from review. Priority follows the earliest complete correct version,
+with references and contributions recorded separately.
+
+SAIR is the competition platform for registration, teams, submissions,
+review, and leaderboard presentation. The integration and persistent
+submission service remain to be implemented. Outstanding scoring work
+includes event ordering, `current_best_solver` and `solved` semantics,
+and complete configuration snapshots for reproducible scoring. The
+local verifier and release checks do not establish that these platform
+features are ready.
 
 ## Layout
 
 | Path | Contents | Public? |
 |---|---|---|
-| `competition/` | **The IGP24-aligned public tree** (single source of truth): `rules/`, current `challenges/` data + hashes, `examples/`, `tools/verifier/` (reference verifier), `tools/lean/`, `competition.yaml` | yes — exported verbatim by `build/release.py` |
+| `competition/` | **The IGP24-aligned public tree** (single source of truth): `rules/`, current `challenges/` data + hashes, `examples/`, `tools/verifier/` (reference verifier), `tools/lean/`, `competition.yaml` | yes — exported by `build/release.py`, excluding caches and build products |
 | `spec/` | Internal design doc (`DESIGN.md`) | no |
 | `build/` | `competition_state.json` (maintained release state and schedule), `sync_dataset.py` + `build_manifest_v2.py` (regenerate data and synchronize metadata), `build_manifest.py` (v1 manifest library), `release.py` (checks and exports previews or official releases), `checks/` (original verification scripts) | no |
 | `tests/` | Verifier + frozen-data acceptance tests | no |
-| `server/` | Scoring engine (P2); submission service pending decision O-1 | no |
-| `lean/` | Formalization workspace (O-3 spike → P4) | no |
+| `server/` | Scoring engine; SAIR adapter, persistent submission service, and remaining scoring fixes are pending | no |
 | `reference/` | Frozen prototype `index.html` — read-only, never a production dependency | no |
+
+Publish the generated public package, not this development repository.
+The development tree and its Git history contain organizer-only data,
+including source records and direct challenge mappings under `build/`;
+they are excluded from the export and must not be exposed by making the
+development repository public as a substitute for publishing the package.
 
 ## Commands
 
@@ -37,8 +63,8 @@ python3 build/build_examples.py
 python3 -m unittest discover -s tests -t .
 (cd server && python3 -m unittest discover -s tests)
 
-# Lean spike
-(cd lean/Competition && lake build)
+# official full-conjecture statement (first-use setup: competition/tools/lean/README.md)
+(cd competition/tools/lean && lake build)
 
 # run the successful, unscored training example
 PYTHONPATH=competition/tools/verifier python3 -m acms_verify \

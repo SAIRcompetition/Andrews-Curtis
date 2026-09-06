@@ -1,17 +1,30 @@
-# ACC Evaluation — Technical Specification
+# Andrews–Curtis Conjecture Challenge — Evaluation and Rules
 
 **Prelaunch preview.** This document specifies verification, scoring,
 and confidentiality for the planned competition. Local verification
 is available now; registration, online submissions, and official
 scoring are not open. The competition service is planned to use the
 reference verifier sources in `tools/verifier/`; its server-side
-verdicts will be the authority for official results once submissions open.
+verdicts will be the authority for Discovery results once submissions open.
+
+ACC is one competition with **Discovery Track** and **Prove Track**.
+Sections 1–8 specify Discovery; §9 specifies Prove, which accepts both
+proofs and disproofs of the shared [mathematical statement](statement.md).
+Prove submissions and their versions are public from submission, with
+comments for community review. Discovery move sequences remain private
+during the competition and are released afterwards (§7).
 
 The official freeze and schedule are not yet set. `competition.yaml`
 records `status: prelaunch` and `null` for `freeze_date`,
 `freeze_commit`, `registration_opens`, `submissions_open`,
 `submission_deadline`, and `certificate_release`. The competition
 manifest also carries `freeze_date: null` during this preview.
+
+For both tracks, competition eligibility uses the time the server receives
+the complete submission: at or after `submissions_open` and before
+`submission_deadline`. A qualifying submission may finish verification or
+review after the deadline. A late Discovery submission earns no points;
+Prove corrections after the deadline are addressed in §9.6.
 
 For a complete local success case and expected receipt, see the
 [training example](../examples/README.md). It uses an unscored example
@@ -61,6 +74,13 @@ JSON type strictness: `1.0` is a float and is **not** a valid move id;
 `true`/`false` are booleans, not integers; `"3"` is a string. All are
 rejected with `E_BAD_MOVE_ID` at their index.
 
+The submission receipt's top-level `accepted` means that the document
+passed structural checks. It does **not** mean that any challenge was
+solved. Only a solution with `results[i].ok: true` is verified and may
+enter scoring. A mixed submission keeps its successful solutions even
+when others fail; a structurally accepted document can contain no
+successful solutions.
+
 ## 3. Error codes
 
 Whole-submission rejections (structural; do **not** count against the
@@ -94,14 +114,20 @@ is the one reported.
 
 | Limit | v1 value |
 |---|---:|
-| Submissions per team per day (site + API combined) | 100 |
+| Discovery submissions per team per UTC day (site + API combined) | 100 |
 | `solutions` per submission | 500 |
-| Raw body size | 4 MB |
+| Raw body size | 4 MiB (4,194,304 bytes) |
 | `max_path_length` | 100 000 |
 | `max_total_relator_length` | 10 000 |
 | `max_work` = Σ per-step total relator length | 5 000 000 |
 
-All values live in the manifest/configuration, not in code. The work
+Path limits come from the manifest; structural limits have published
+defaults in the reference parser and are supplied by the platform's
+frozen configuration. A structurally accepted upload counts once toward
+the daily quota, even if all its solutions fail verification. Structural
+rejections do not count. Local self-checks do not consume platform quota.
+
+The work
 budget exists because path length × relator length alone admits ~10⁹
 character operations; the 424 published training certificates have
 work ≤ 2 161, so
@@ -132,10 +158,20 @@ not a contestant-supplied submission field.
 
 `manifest_hash` = SHA-256 of the canonical JSON of the sorted list of
 all `instance_hash` values. `instance_hash` deliberately excludes
-`base_score`, `status_at_freeze`, `source`, and `freeze_date`: policy
-edits never invalidate certificates. Any change to the manifest or the
-move spec changes at least one published hash. Submissions are always
-replayed against the official frozen challenge and its move-spec version.
+`base_score`, `status_at_freeze`, `source`, and `freeze_date`.
+The manifest hash therefore identifies the encoded instances, not the
+complete scoring policy or resource limits. Changing an excluded field
+does not change this hash. Changing a challenge's encoded mathematical
+data or the hashed move table changes the relevant hashes.
+
+Official scoring must retain the complete frozen configuration, including
+base scores, eligibility, limits, and scoring rules, identified by an
+immutable release commit or an archived configuration snapshot. Each
+scoring run must identify that configuration as well as the manifest and
+verifier version. These are organizer records, not extra contestant fields.
+The v1 base scores are all 1; any future policy change must be announced
+and separately recorded, never silently substituted into old results.
+Submissions are replayed against the official frozen challenges.
 
 ## 6. Scoring
 
@@ -146,143 +182,277 @@ $k_i = \#\{t : L_{t,i} = L^\star_i\}$;
 $P_{t,i} = V_i\,2^{1-k_i}$ if $L_{t,i}=L^\star_i$, else 0;
 $P_t = \sum_i P_{t,i}$.
 
-The leaderboard is recomputed **in full** from the best-length table
-after every accepted solution; every recomputation writes a
-`scoring_run` (with `manifest_hash`, verifier version, event time) so
-any historical leaderboard is reproducible. Scores are exact rationals
-end to end — floats are forbidden — and displayed round-half-even to 4
-decimal places. Ranking: total descending, then earliest
-time-of-current-total. **First Solver** = argmin over accepted
-solutions of `(received_at, submission_id)`; `submission_id` is
-monotonically increasing and breaks same-millisecond ties; the record
-is immutable.
+The server timestamps each complete submission and assigns a monotonically
+increasing `submission_id`. Accepted solutions are processed in the total
+order `(received_at, submission_id)`, preserving array order within a
+submission. Verification completion time does not decide priority.
+If an earlier submission finishes verification later, replay the affected
+history in this order before publishing the corrected leaderboard.
 
-## 7. Confidentiality
+The leaderboard is recomputed **in full** after every accepted solution.
+Scores are exact rationals end to end and displayed round-half-even to
+4 decimal places. Rank by total descending, then by the earliest event
+at which the current total was reached, then by immutable team ID for
+an exact tie. The time-of-current-total resets whenever that team's
+total changes in the ordered history, including changes caused by other
+teams. Each `scoring_run` records the input event, configuration reference
+from §5, `manifest_hash`, and verifier version; the accepted event history
+must be retained so that the result can be reproduced.
+
+**First Solver** is the team with the earliest `(received_at, submission_id)`
+among verified solutions of a challenge, regardless of path length. A later
+submission cannot take this honor by finding a shorter path. A provisional
+display may be corrected when an earlier submission is subsequently verified.
+`current_best_solver` is the earliest submitter of the current minimum length;
+this also uses receipt order, including equal-length submissions verified late.
+
+`solved` counts the distinct scored challenges for which a team has any
+verified solution. `current_best_count` counts those on which it currently
+shares the shortest accepted length. Losing points to a shorter solution
+does not erase a solved challenge or its First Solver record.
+
+**Implementation status.** These are the official scoring requirements.
+The development scoring engine still needs the ordered-replay fixes,
+the separate solved/current-best counts, and complete configuration
+references. Production integration must pass these checks before launch;
+the local engine is not yet an end-to-end implementation of this section.
+
+## 7. Discovery disclosure and collaboration
 
 Public per challenge during the competition: `status`,
 `current_best_length`, `current_best_solver`, `first_solver`,
 `first_solved_at`, `k_teams`, `base_score`, `certificate_hash`,
 `peak_total_relator_length` (non-scoring), verified bridges (length,
-team, time, hash). **Not public: any move sequence, any intermediate
-state, any path statistic beyond length.** Teams see only their own
-submissions (`GET /submissions/me`). The public API serializer uses an
-explicit whitelist, with a regression test asserting no `moves` array
-ever appears in any public response. All valid certificates are
-published after the competition.
+team, time, hash). **Not public: move sequences, intermediate states,
+or path statistics other than the explicitly listed length and peak.**
+Teams may download only their own Discovery submissions during the
+competition. The platform must enforce this with a public-field whitelist
+and tests; this repository does not yet supply that production API.
+All valid Discovery certificates are published at the announced
+post-competition `certificate_release` time. This embargo does not apply
+to Prove submissions, which are public under §9.
+
+One person participates through one team. Teams may add members with
+organizer approval but may not merge after either has submitted.
+Sharing a specific Discovery certificate across teams is joint work and
+must not be resubmitted as independent results by multiple teams.
+Sockpuppets and coordinated duplicate submissions are prohibited.
+Discussion, public Prove review, and properly attributed use of ideas
+are allowed; they do not create an exception for copying Discovery
+certificates into additional independently scoring teams.
+
+The public dataset omits internal per-instance difficulty labels and
+provenance mappings. This is not a guarantee of anonymity: contestants
+may recognize presentations or match them to public mathematical sources.
 
 ## 8. Bridge certificates
 
-`POST /bridge-submissions` with
+The planned Discovery bridge submission accepts
 `{from_challenge_id, to_challenge_id, moves}`. The server determines
 the move-spec version from the official challenges.
 Verified exactly as §2 with the target replaced by
-`to_challenge.initial_relators` (exact ordered). Registered on both
-challenges and in `/discoveries`; scores nothing in v1; any future
-merging of challenges happens only at announced scoring-epoch
-boundaries, by the organizers, with verified bridges as the only
-admissible evidence.
+`to_challenge.initial_relators` (exact ordered). A verified bridge is
+listed on both challenges with its length, team, time, and hash;
+its moves follow the same disclosure rules as other Discovery certificates.
 
-## 9. Counterexample track
+The bridge itself scores nothing. A complete solution derived using a
+bridge may be submitted in the ordinary `{challenge_id, moves}` format
+and is verified and scored normally for that challenge, subject to §7's
+collaboration rules. For example, a 10-move path from B to A plus a
+40-move solution of A gives a 50-move solution of B; if it is B's first
+accepted solution, it earns B's full base score. Shortest-path scoring
+does not prevent this. A bridge does not merge challenges in v1.
+
+## 9. Prove Track
 
 ### 9.1 What is claimed
 
-A counterexample claim asserts, for a specific balanced presentation
-$P$, that $P$ presents the trivial group and that $P$ is **not** related
-to the trivial presentation by the full, unbounded, non-stable
-Andrews–Curtis relation (inversion, multiplication, and conjugation by
-an **arbitrary** word). The claim must name the presentation
-explicitly; if it is a pool instance, it must name the `challenge_id`.
+A **proof** establishes the full conjecture for every positive finite
+rank. A **disproof** establishes its negation; an explicit counterexample
+must give a balanced presentation of the trivial group and prove that
+it is not related to the standard presentation by the full, unbounded,
+non-stable AC relation. A counterexample may lie outside the Discovery
+pool. If it is a pool instance, identify the `challenge_id` and its
+exact presentation.
 
-### 9.2 Planned official channel: PDF plus expert review
+Neither a proof for only the rank-two pool nor a successful finite
+collection of searches proves the full conjecture. Failure to find a
+path, nonexistence of paths of length ≤ N or peak ≤ B, and unreachability
+under a restricted move set do not constitute a disproof.
 
-This channel is planned for after submissions open; it is unavailable
-during prelaunch. The intended contract is
-`POST /counterexample-submissions`, content type `application/pdf`,
-one file, **≤ 25 MB**. The argument must be self-contained: a reader
-must be able to check it from the PDF alone, without running code and
-without consulting unpublished material. Supplementary data may be
-referenced but never substitutes for the argument.
+### 9.2 Submission materials
 
-States:
+The Prove submission page will collect the following when submissions open:
 
-| State | Meaning |
+| Field | Requirement |
 |---|---|
-| `received` | upload accepted and timestamped |
-| `screening` | organizer triage for substantive mathematical content |
-| `under_review` | with the review panel |
-| `accepted` | the disproof is accepted |
-| `rejected` | declined, with a reason |
-| `revision_requested` | returned to the team; a revised upload restarts at `received` |
+| `claim_type` | `proof` or `disproof` |
+| `description` | State the claim, its scope, the argument or its outline, and the authors' contribution |
+| Supporting materials | Paper/PDF, GitHub link for a Lean formalization, arXiv link, or a combination, as needed to supply the complete argument |
+| Attribution | Identify prior work, submissions, versions, or comments used and explain their contribution; include this in the description or argument |
 
-Review is carried out by the organizer panel together with reviewers
-they designate. **No turnaround is guaranteed.** The organizers may
-summarily decline a submission that carries no substantive new
-mathematical content. A team may hold **at most one active claim**
-(`received`, `screening`, `under_review`) at a time; a new upload
-replaces the pending one, and the receipt time of the replacement is
-the one that counts. `GET /counterexample-submissions/me` returns a
-team's own claims and their states.
+The description may contain the full argument itself. Otherwise the
+supporting materials must supply it. PDF and Lean are both optional;
+an uploaded PDF must be ≤ 25 MB. A title, claim announcement, or search
+log without a complete argument cannot earn acceptance or priority.
+The submitted materials and cited public references must give reviewers
+access to the argument and all assumptions on which it depends.
 
-"First" is by server receipt time of the submission that is ultimately
-accepted; later independent disproofs are marked `Independent
-Confirmation`.
+GitHub materials must identify a fixed commit and the theorem and build
+instructions to check. arXiv materials must identify a specific version
+such as `v2`. The platform records the actual submitted content under §9.4;
+changing an external link's target later does not revise that record.
+The team and authors are associated with the submission by the platform.
+The platform assigns version identifiers and timestamps; contestants do
+not add a version selector to the official mathematical statement.
 
-### 9.3 Optional fast track: machine-checked Lean 4 (not open)
+### 9.3 Official statement and Lean verification
 
-A claim accompanied by — or later formalized as — a Lean 4 package that
-builds offline (`lake build` in the frozen container, no network) and
-proves
+The [official mathematical statement](statement.md) is the full,
+non-stable Andrews–Curtis conjecture for every positive finite rank.
+The implementation in `tools/lean/AC.lean` uses
+`FreeGroup (Fin n)`, with triviality defined by
+`Subsingleton (PresentedGroup (Set.range R))`, and unbounded
+reachability generated by inversion, right relator multiplication,
+and conjugation by arbitrary free-group elements. Left multiplication
+is derived from right multiplication followed by conjugation, as shown
+in the mathematical statement.
 
-```lean
-theorem candidate_matches_manifest : P = Competition.instance challenge_id
-theorem candidate_presents_trivial_group : P.PresentsTrivialGroup
-theorem candidate_not_ac_reachable :
-    ¬ StandardAC.Reachable P StandardAC.trivialPresentation
-```
+The canonical proof target is `AC.Conjecture`; the canonical disproof
+target is `¬ AC.Conjecture`. The supplied theorem
+`AC.not_conjecture_iff_counterexample` equates the latter with
+`AC.Counterexample`, the existence of a positive-rank tuple presenting
+the trivial group but not reachable to `AC.standard`. A counterexample
+need not belong to the competition pool. If it does, the argument must
+identify the relevant challenge and show how its presentation matches
+the mathematical tuple. No contestant-supplied version field selects
+or changes the statement.
 
-against the competition Lean library is fast-tracked: machine checking
-replaces mathematical refereeing of the argument, and passing
-verification settles the claim.
+Descriptions, papers, and formalizations address this same target.
+Lean is a means of verification, not an exemption from review. A
+successful build does not automatically accept a mathematical claim:
+reviewers must examine the exact theorem, its scope, dependencies,
+axioms, and trust boundary.
 
-**The competition Lean library is in development and is not yet
-available.** When published it will provide frozen definitions of the
-full, unbounded, non-stable AC relation (`StandardAC.Step`) together
-with a compatibility theorem tying the 14-move closure of `ac-r2-v1` to
-the standard AC moves; the exact statement, the pinned toolchain, and a
-template project will be published in `tools/lean/` at that point.
-Until that library and route are released, the PDF channel of §9.2
-is the planned route once competition submissions open. The
-requirements below are stated in advance so that a formalization
-effort can target them; they do not describe a currently available
-submission service.
+The local project pins Lean `4.29.1` and Mathlib commit
+`5e932f97dd25535344f80f9dd8da3aab83df0fe6`. Its
+`statement-lock.json` records source and dependency SHA-256 snapshots.
+Follow the [project guide](../tools/lean/README.md) to acquire the
+pinned cache and run `lake build`, which builds only `AC`. A
+formalization imports `AC`; the release process separately checks the
+source snapshot.
 
-Frozen and published by hash: Lean version, `lean-toolchain`, Mathlib
-commit, competition formalization commit, `lake-manifest.json`,
-container image digest.
+`lake build Check` optionally runs semantic examples, the compiler-hash
+check, and an axiom audit against `propext`, `Classical.choice`, and
+`Quot.sound`. This auxiliary target is not a submission requirement.
+Online submissions remain closed during prelaunch.
 
-Automatic CI gates (all fail-closed):
+### 9.4 Public versions and comments
 
-1. clean offline container `lake build`;
-2. `#print axioms` on all three theorems — whitelist exactly
-   `propext`, `Classical.choice`, `Quot.sound`;
-3. source scan for `sorry|admit|sorryAx|unsafe|native_decide|@[implemented_by]`;
-4. SHA-256 comparison of the frozen definition files — any edit rejects;
-5. steps 1–2 repeated on an independent machine.
+Every Prove submission is public from receipt. A submission page contains
+the description, materials, author and team attribution, version history,
+comments, and review decisions. Other participants may comment, question
+an argument, suggest corrections, and learn from it. Comments and author
+responses identify the version they discuss and carry server timestamps;
+substantive edits retain an accessible history.
 
-Passing all five gates yields a **Provisional Counterexample**; it
-becomes **Verified** after review of the trust boundary and
-confirmation that the formal statement matches the standard AC
-conjecture, plus public source release for community scrutiny.
+The server assigns each complete submitted version an immutable,
+globally unique, monotonically increasing version ID and a UTC
+`received_at`; the ID breaks equal-time ties. It preserves that version's
+description, authors, supplied files,
+and the submitted content of linked arguments, together with content
+hashes and fixed external revision identifiers. A replacement PDF or
+changed argument is a new version linked to its predecessor. Older
+versions, comments, and decisions remain accessible. Withdrawal marks
+the record as withdrawn rather than erasing it.
 
-### 9.4 What is not a counterexample
+Submission publication and a receipt timestamp are records of a claim;
+they do not certify its correctness.
 
-Explicitly **not** a counterexample: failure to find a path under any
-compute budget; nonexistence of paths of length ≤ N or peak ≤ B;
-unreachability in a restricted move set or substitution graph;
-unreachability under stable AC.
+### 9.5 Review and decisions
 
-### 9.5 Honor
+Review is carried out by the organizers and reviewers they designate,
+informed by public comments and the authors' responses. Community
+discussion is open; acceptance is an organizer decision, not a vote
+count or a successful Lean build. No turnaround is guaranteed.
 
-The first accepted disproof is displayed above the leaderboard as the
-**Highest Mathematical Achievement of the Competition**. It awards no
-leaderboard points and does not enter any team's score.
+| State | Meaning for the identified version |
+|---|---|
+| `received` | The version has been recorded and published |
+| `screening` | Organizers check scope and substantive mathematical content |
+| `under_review` | The argument is being assessed |
+| `accepted` | The stated proof or disproof has been accepted, with a public review explanation |
+| `rejected` | The claim has been declined, with a reason |
+| `revision_requested` | Reviewers request changes; a submitted revision creates a new version at `received` |
+| `withdrawn` | The authors have withdrawn this version from review and competition recognition; its history and contribution record remain visible |
+| `retracted` | Organizers have withdrawn a prior acceptance, with a public explanation |
+
+Decisions identify the exact version, the reviewers or responsible
+organizers, the decision time, and the reasons. A newer version does
+not inherit acceptance automatically or delete the assessment of an
+older version. Organizers may correct a decision when a substantive
+error is established; the previous decision, explanation, and correction
+remain part of the record. A substantive objection to an accepted
+version is displayed while it is reviewed, and any recognition based
+on a withdrawn or retracted version is updated accordingly. Withdrawal
+does not itself establish that an argument was mathematically incorrect.
+
+### 9.6 Priority and contribution credit
+
+Priority belongs to the **earliest submitted version that review confirms
+already contains a complete, correct argument** for the stated result.
+Order qualifying versions by server `(received_at, version ID)`,
+not by the time review finishes or by an external publication date.
+Publication dates remain relevant scholarly attribution, but they do not
+replace the competition's receipt record. Only versions received within
+the announced competition submission window qualify for competition
+priority; review may continue after the deadline. Later corrections may
+be published and reviewed as non-competitive versions, but cannot create
+or backdate an eligible version. Withdrawn or retracted versions do not
+hold competition priority; their recorded historical contributions remain
+attributable.
+
+An incomplete announcement cannot reserve priority. If a later version
+supplies a missing essential argument, that later version's receipt time
+applies. If an earlier version was already complete and correct, later
+wording or exposition changes do not erase its established priority.
+The review explanation identifies the earliest qualifying version and
+why it qualifies. Recognition may be corrected if subsequent review
+validates an earlier version or retracts a previously accepted one.
+
+Priority and contribution credit are recorded separately. Authors must
+cite the particular submissions, versions, papers, code, and comments
+they used and explain their contribution. For example, if a public
+comment supplies a key lemma used in a revision, that contribution
+must be acknowledged even when the original authors submit the completed
+argument. Reviewers consider these records when recognizing contributions
+or resolving attribution disputes. The platform does not automatically
+assign contribution percentages or turn a comment into coauthorship.
+`Independent Confirmation` is reserved for later accepted work whose
+independence has been established; a disclosed extension or correction
+of another submission is credited as such.
+
+### 9.7 Recognition and the two tracks
+
+The first qualifying proof **or** disproof is recognized as the
+**Highest Mathematical Achievement of the Competition**, with its
+qualifying version, receipt time, contributors, and review explanation.
+Other accepted work and substantive contributions receive attribution
+appropriate to their role. Prove recognition does not convert into
+Discovery points.
+
+An accepted proof or disproof does not automatically close Discovery,
+change its scoring rule, or invalidate correct finite move certificates.
+If an accepted explicit counterexample is in the Discovery pool, mark
+that challenge accordingly; do not merge it with other challenges or
+change unrelated scores. A purported accepted counterexample and a
+verified solution of the exact same presentation require an organizer
+consistency review of the argument, instance mapping, and verifier.
+Any correction must be explained publicly; incompatible conclusions
+cannot both remain endorsed.
+
+The planned platform flow is a public submission page with version
+history, comments, and organizer decisions. The local repository supplies
+the mathematical statement and reference tools; the SAIR integration,
+version storage, comments, and review workflow still require implementation
+and end-to-end acceptance checks before launch.

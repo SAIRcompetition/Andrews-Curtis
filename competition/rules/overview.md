@@ -1,9 +1,13 @@
-# ACC: The Andrews–Curtis Conjecture Competition — Overview
+# Andrews–Curtis Conjecture Challenge (ACC) — Overview
 
 **Prelaunch preview — registration and submissions are not open.** You
 can inspect the current rules and data and try the Python verifier
 locally. The official data freeze and competition dates have not yet
 been announced.
+
+ACC is one competition with two tracks: **Discovery Track** rewards
+short verified trivializations of the published instances; **Prove
+Track** accepts proofs or disproofs of the full conjecture.
 
 ## The mathematics
 
@@ -14,7 +18,15 @@ relator multiplication, and conjugation. It has been open for sixty
 years; most experts expect it to be false, but no counterexample has
 ever been verified.
 
-The planned competition uses a **pool of 10,115 balanced
+The [official statement](statement.md) fixes the full conjecture for
+every positive finite rank and maps it to the
+[Lean project](../tools/lean/README.md). A proof must cover that full
+statement; a disproof must establish its negation. An explicit
+counterexample must present the trivial group and rule out reachability
+under the full, unbounded, non-stable relation. The finite rank-two pool
+below is a separate search task.
+
+Discovery Track uses a **pool of 10,115 balanced
 presentations of the trivial group**, `ac-v1-00001` … `ac-v1-10115`,
 spanning warm-up exercises to the research frontier. Its official
 publication freeze is still pending. The pool draws on
@@ -34,10 +46,11 @@ $$MS(n,w)=\langle x,y \mid x^{-1}y^n x y^{-(n+1)},\ x\,w^{-1}\rangle,
 Every $MS(n,w)$ presents the trivial group; the question is whether it
 is **AC-trivializable**.
 
-**Per-instance difficulty, provenance, and status are deliberately
-withheld.** Working out which instances are within reach is part of the
-game. Many of them are open problems: for those, a first trivialization
-is a new mathematical result — which ones they are is not disclosed.
+**Internal per-instance difficulty, provenance, and status labels and
+maps are not published.** Participants may still identify instances by
+matching them against public mathematical sources. Working out which
+instances are within reach is part of the task; a first trivialization
+of an open instance is a new mathematical result.
 
 > **"Unresolved" is not a verdict.** An unresolved instance is one for
 > which, as of the data freeze date, no publicly available valid
@@ -45,7 +58,7 @@ is a new mathematical result — which ones they are is not disclosed.
 > is a counterexample, and it does **not** mean the instance is
 > unsolvable.
 
-## The task
+## Discovery Track
 
 A challenge gives you an ordered pair of freely reduced words
 `initial_relators = [r0, r1]` over letters `1 = x, -1 = x^-1, 2 = y,
@@ -91,7 +104,7 @@ the frozen encoding. It is training material: replay it to validate a
 pipeline, or mine it for search heuristics. Those instances are **not**
 in the scored pool.
 
-## Submitting
+### Submitting
 
 The format below is the successful **training example**, which uses
 `examples/training_manifest.json` rather than the scored competition
@@ -131,7 +144,7 @@ the full error-code contract are in [evaluation.md](evaluation.md). A
 downloadable reference verifier lets you self-check now; the planned
 competition service will use the same Python sources.
 
-## Scoring
+### Scoring
 
 Each challenge $i$ has a base score $V_i$ (v1: all $V_i = 1$). Let
 $L^\star_i$ be the shortest accepted path across all teams and $k_i$
@@ -157,77 +170,92 @@ else instantly, maximizing the incentive to keep optimizing.
 > submissions to date. This is **not** a mathematically proven shortest
 > path.
 
-**First Solver** is a permanent honor recorded the moment a challenge
-is first solved; it never changes afterwards, and does not guarantee
-continued points.
+**First Solver** is the accepted solution with the earliest server
+receipt, with submission ID breaking ties. A later, shorter solution
+does not take this honor away. Delayed validation of an earlier receipt
+may correct a provisional display; the honor does not guarantee points.
+See [evaluation.md](evaluation.md) §6.
 
-During the competition, only path **lengths** are public — never the
-moves. Your `certificate_hash` lets you claim a result publicly (e.g.
+During Discovery Track, path length, peak relator length, certificate
+hash, and the result fields listed in [evaluation.md](evaluation.md) §7
+are public; move sequences remain private. Your `certificate_hash`
+lets you claim a result publicly (e.g.
 in a preprint) without revealing the path; all valid certificates are
 published openly after the competition, forming a new public benchmark.
 
 **Bridge certificates**: a verified path from one challenge's initial
 state to another's is a real, machine-checked mathematical fact. It is
-registered and displayed (length, team, hash) but scores no points, and
-a bridge-derived solution is necessarily longer than a direct one — the
-shortest-path rule keeps bridges honor, not arbitrage.
+registered and displayed (length, team, hash) but scores no points.
+If a bridge is composed into a valid submitted trivialization, that
+full solution is scored normally for the challenge it solves, using
+its full move length.
 
-## The counterexample track
+## Prove Track
 
-A disproof of the Andrews–Curtis conjecture is not a search log. It is
-a **self-contained mathematical argument** that some balanced
-presentation of the trivial group is **not** related to the trivial
-presentation by the full, unbounded, non-stable Andrews–Curtis
-relation.
+Prove Track accepts **proofs and disproofs** of the
+[official statement](statement.md). A proof must cover every positive
+finite rank; a disproof must establish the negation of that statement.
+An explicit counterexample must be a balanced presentation of the
+trivial group that cannot reach the standard presentation under the
+full, unbounded, non-stable Andrews–Curtis relation. It may lie outside
+the Discovery pool; if it uses a pool instance, identify its challenge.
 
-**Planned official channel after submissions open: PDF plus expert
-review.** The competition site will accept the argument as a single
-self-contained PDF. This channel is not open during prelaunch. A claim moves
-through *received* → *screening* → *under expert review* → *accepted*,
-*rejected*, or *revision requested*; review is carried out by the
-organizer panel together with reviewers they designate. There is no
-guaranteed turnaround. The organizers may summarily decline
-submissions that carry no substantive new mathematical content, and a
-team may have **at most one active claim at a time** — a new upload
-replaces the pending one.
+**Planned submission after opening.** Set `claim_type` to `proof` or `disproof` and
+provide a description stating the claim and summarizing the argument.
+The complete argument may be in the description, a paper/PDF, Lean
+material at a fixed GitHub commit, an identified arXiv version, or a
+combination of these. A PDF is optional. Without supporting material,
+the description itself must contain the complete substantive argument.
 
-**Lean 4 fast track (optional, not open).** A claim accompanied by, or later
-formalized as, a machine-checked Lean 4 proof that builds in the
-competition's frozen offline environment is fast-tracked and, on
-passing verification, settles the claim. The competition Lean library
-is in development: when published it will provide frozen definitions of
-the full, unbounded, non-stable AC relation together with a
-compatibility theorem tying the 14-move closure to the standard AC
-moves. Until that library and route are released, the PDF channel will
-be the planned route once competition submissions open.
+**Public versions and discussion.** The planned platform will publish
+all Prove submission versions and comments by default. Each version
+will receive a server timestamp and a monotonically increasing ID;
+revisions will create new versions rather than overwrite old ones.
+Supporting links will identify the fixed commit or document version
+being submitted. Comments and review decisions will identify the
+submission version they address.
+
+The organizers and their designated reviewers will consider public
+comments and issue a reasoned `accepted`, `rejected`, or
+`revision_requested` decision for a specific version. They may correct
+a decision publicly while preserving its history. Lean compilation
+does not replace review of the claim, its scope, and its trust boundary.
+A formal proof targets `AC.Conjecture`; a formal disproof targets
+`¬ AC.Conjecture`, equivalently `AC.Counterexample`. The
+[Lean guide](../tools/lean/README.md) builds `AC`; `lake build Check`
+is optional and is not a submission requirement.
+
+**Priority and credit.** Priority belongs to the earliest version that
+review confirms contains a complete, correct argument, ordered by
+server timestamp and then ID. Closing a substantive gap uses the new
+valid version's time; editorial revisions do not erase an already
+valid version's priority. Cite any submission, version, or comment you
+build on, and explain the contribution. Only later work confirmed to
+be independent is called `Independent Confirmation`; contribution
+percentages are not assigned automatically.
 
 > **Not finding a path is not a disproof.** Failure to find a
 > trivialization — under any compute budget, length bound, peak bound,
 > or restricted move set — is **not** a counterexample.
 
-Explicitly **not** a counterexample:
-
-* no path found within a fixed compute budget;
-* nonexistence of paths of length $\le N$;
-* nonexistence of paths of peak total relator length $\le B$;
-* unreachability in the substitution graph or any restricted move set;
-* unreachability under *stable* AC (which allows adding and removing
-  trivial relators).
-
-The first accepted disproof is honored as the **Highest Mathematical
-Achievement of the Competition**, displayed above the leaderboard; it
-does not convert into leaderboard points. The submission mechanics,
-review states, and Lean requirements are in
-[evaluation.md](evaluation.md) §9.
+The first accepted proof or disproof under this priority rule receives
+the **Highest Mathematical Achievement of the Competition** honor.
+Prove results do not earn Discovery points and do not automatically
+end Discovery Track. Submission fields, review states, public records,
+and the full priority and credit rules are in
+[evaluation.md](evaluation.md) §9. Both tracks remain closed during
+prelaunch.
 
 ## Teams and integrity
 
 One person, one team; team size unlimited; members may join during the
 competition with organizer approval. **Teams may not merge after either
-has submitted.** Sharing a specific certificate across teams is joint
-work and must not be resubmitted as independent; coordinated cheating
-(including sockpuppets) disqualifies all involved teams. The organizers
-may request provenance for any submission.
+has submitted.** Public learning and cross-team discussion with stated
+contributions are welcome. Sharing a specific Discovery certificate
+across teams is joint work and must not be resubmitted for independent
+credit or scoring. Coordinated cheating (including sockpuppets)
+disqualifies all involved teams. The organizers may request provenance
+for any submission.
 
 ## Community feedback
 
@@ -255,7 +283,7 @@ collaboration with [Caltech](https://www.caltech.edu/).
 * Registration opens: to be announced.
 * Submissions open: to be announced.
 * Submission deadline: to be announced.
-* Certificate release (post-competition): to be announced.
+* Discovery certificate release (post-competition): to be announced.
 
 Current status is `prelaunch`. In `competition.yaml`, `freeze_date`,
 `freeze_commit`, `registration_opens`, `submissions_open`,

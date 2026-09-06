@@ -1,12 +1,11 @@
-# The Andrews–Curtis Conjecture (ACC) Challenge
+# Andrews–Curtis Conjecture Challenge (ACC)
 
 **Prelaunch preview — registration and submissions are not open.**
 Rules, training data, and the reference verifier are available here for
 local trials. The official data freeze and all dates are to be announced.
 
-*A mathematical discovery competition on the Andrews–Curtis conjecture:
-trivialize balanced presentations of the trivial group with machine-checked
-certificates — or disprove the conjecture.*
+*One competition, two tracks: discover short trivializations in Discovery
+Track, or prove or disprove the full conjecture in Prove Track.*
 
 ## Co-organizers
 
@@ -36,29 +35,41 @@ inverting a relator, multiplying one relator by another, conjugating a
 relator. Most experts expect the conjecture to be false, yet in sixty years no
 counterexample has ever been verified.
 
-ACC turns that problem into a competition. Every submission is a
-machine-checked certificate, verified deterministically by an open reference
-verifier; a trivialization of an open instance is a new mathematical result.
-After the competition, all valid certificates will be released publicly,
-forming a new open benchmark for the global research community to reproduce,
-reuse, and build on.
+ACC turns that problem into a competition. Discovery certificates are
+checked deterministically by an open reference verifier; a trivialization
+of an open instance is a new mathematical result. Its valid certificates
+will be released after the competition. Prove submissions and discussion
+will be public by default from submission, with expert review of each claim.
 
 ## Task
 
-The planned competition uses a pool of **10,115 balanced presentations of the
-trivial group**, ranging from warm-up exercises to instances that are open
-research problems; which is which is not disclosed. A solution is a sequence
+**Discovery Track** uses a pool of **10,115 balanced presentations of the
+trivial group**, ranging from warm-up exercises to open research problems.
+Internal labels and maps are withheld, though instances may be recognized
+from public mathematical sources. A solution is a sequence
 of atomic Andrews–Curtis moves, submitted as a list of integers, that
 transforms a presentation into the trivial presentation; the leaderboard
-rewards the shortest verified path.
+rewards the shortest verified path. The 424 solved training instances are
+separate from the scored pool. Moves remain private during the competition.
 
-A second track is planned for anyone who believes the conjecture is false:
-after submissions open, purported counterexamples will be submitted as
-self-contained PDFs for expert review. This PDF channel is not open yet;
-the optional Lean route is also unavailable.
+**Prove Track** accepts a proof or disproof with a description of the claim
+and argument. The complete argument may be in that description, a
+paper/PDF, Lean material at a fixed GitHub commit, an arXiv version, or a
+combination. The planned platform will preserve and publish every version
+with its server timestamp and ID, alongside version-specific comments and
+reasoned review decisions. Priority belongs to the earliest version
+confirmed to contain a complete correct argument; borrowing from other
+submissions or comments must be cited with an explanation of contributions.
+Either a proof or disproof can receive the mathematical honor; neither
+earns Discovery points nor automatically ends Discovery Track.
+
+The [official mathematical statement](statement.md) and
+[Lean project](../tools/lean/README.md) are available for local use.
+Lean compilation does not replace expert review; auxiliary checks are
+optional. Online submissions for both tracks are not open yet.
 
 The full move specification, submission format, scoring formula, and
-counterexample-track plan can already be inspected in
+Prove submission, review, priority, and credit rules can be inspected in
 [overview.md](overview.md) and [evaluation.md](evaluation.md). Try the
 [successful training example](../examples/README.md) with the included
 Python verifier and warm-up data. These are preview materials; formal
@@ -69,7 +80,7 @@ release and online submissions await the announced schedule and data freeze.
 - Registration and team formation open: to be announced.
 - Official launch (submissions open): to be announced.
 - Submission deadline: to be announced.
-- Certificate release (post-competition): to be announced.
+- Discovery certificate release (post-competition): to be announced.
 
 `competition.yaml` records status `prelaunch`; all four schedule fields,
 `freeze_date`, and `freeze_commit` are currently `null`. Dates and the
@@ -86,9 +97,12 @@ team on SAIR.
 
 ## Team Participation and Anti-Cheating Policy
 
-- Each individual or organization can participate in only one team.
-- Teams must register members in advance; teams may not merge after either
-  has submitted.
+- Each individual can participate in only one team.
+- Members may join during the competition with organizer approval;
+  teams may not merge after either has submitted.
+- Public learning and cross-team discussion with stated contributions are
+  welcome. A shared Discovery certificate must not be resubmitted by
+  multiple teams for independent credit or scoring.
 - If coordinated cheating is detected (including sockpuppet teams), all
   related teams will be disqualified.
 
