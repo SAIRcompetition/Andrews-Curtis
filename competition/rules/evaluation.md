@@ -1,4 +1,4 @@
-# Andrews–Curtis Conjecture Challenge — Evaluation and Rules
+# The Andrews–Curtis Conjecture (ACC) Challenge — Evaluation and Rules
 
 **Prelaunch preview.** This document specifies verification, scoring,
 and confidentiality for the planned competition. Local verification
@@ -7,7 +7,7 @@ scoring are not open. The competition service is planned to use the
 reference verifier sources in `tools/verifier/`; its server-side
 verdicts will be the authority for Discovery results once submissions open.
 
-ACC is one competition with **Discovery Track** and **Proof Track**. Each
+The ACC Challenge is one competition with **Discovery Track** and **Proof Track**. Each
 contains **AC** and **Stable AC** problems. Sections 1–8 specify Discovery;
 §9 specifies Proof, which accepts proofs and disproofs of either
 [mathematical statement](statement.md). Proof submissions and versions are

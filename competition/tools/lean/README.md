@@ -25,7 +25,7 @@ benchmark's rank-8 limit is not part of the conjecture.
 also disproves ordinary AC. These implications do not assume either conjecture.
 See the [mathematical statements](../../rules/statement.md) for details.
 
-The Proof Track is part of the Andrews–Curtis Conjecture Challenge (ACC).
+The Proof Track is part of the Andrews–Curtis Conjecture (ACC) Challenge.
 It accepts a proof or disproof with a description and complete argument,
 which may be carried by the description, a PDF or paper, a GitHub
 repository at a fixed commit, or an arXiv paper at a fixed version.

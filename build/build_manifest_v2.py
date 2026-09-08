@@ -844,7 +844,7 @@ def write_yaml(manifest, competition_state=None):
     path = REPO / "competition" / "competition.yaml"
     path.write_text(f"""\
 id: acms
-name: "Andrews–Curtis Conjecture Challenge (ACC)"
+name: "The Andrews–Curtis Conjecture (ACC) Challenge"
 organizer: sairmath
 status: {competition_state['status']}
 task_type: mathematical_discovery

@@ -1,6 +1,6 @@
-# Andrews–Curtis Conjecture Challenge (ACC) — Internal Design Guide
+# The Andrews–Curtis Conjecture (ACC) Challenge — Internal Design Guide
 
-ACC is one competition on SAIR with **Discovery Track** (`discovery`)
+The ACC Challenge is one competition on SAIR with **Discovery Track** (`discovery`)
 and **Proof Track** (`proof`). Each has two problems: **AC** (`ac`) and
 **Stable AC** (`stable_ac`). Discovery rewards short verified paths with
 separate problem leaderboards. Proof accepts proofs or disproofs of either
