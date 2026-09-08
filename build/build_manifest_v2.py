@@ -119,8 +119,10 @@ def load_competition_state(path=None):
         raise ValueError("competition state must contain exactly %s" %
                          ", ".join(sorted(expected)))
     announced = state["announced_dates"]
-    if not isinstance(announced, dict) or set(announced) != {"registration", "discovery", "prove"}:
-        raise ValueError("announced_dates must contain registration, discovery, and prove")
+    if not isinstance(announced, dict) or set(announced) != {
+            "registration", "discovery", "prove", "deadline"}:
+        raise ValueError("announced_dates must contain registration, discovery, "
+                         "prove, and deadline")
     for value in announced.values():
         if not isinstance(value, str) or not re.fullmatch(r"\d{4}-\d{2}-\d{2}", value):
             raise ValueError("announced dates must be calendar dates in YYYY-MM-DD form")

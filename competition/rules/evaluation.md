@@ -16,10 +16,10 @@ comments for community review. Discovery move sequences remain private
 during the competition and are released afterwards (§7).
 
 Announced calendar dates are September 8, 2026 for registration, September
-11 for both Discovery tracks, and September 20 for both Prove tracks.
-Exact UTC opening times, the deadline, certificate release, and official
-freeze remain to be set. Their timestamp fields remain `null` and the
-status remains `prelaunch` until the release requirements are met.
+11 for both Discovery tracks, September 20 for both Prove tracks, and
+November 30 for the submission deadline. Exact UTC opening and deadline
+times, certificate release, and official freeze remain to be set. Their
+timestamp fields remain `null` and the status remains `prelaunch` until the release requirements are met.
 `submissions_open` is Discovery's UTC opening; `prove_submissions_open` is
 Prove's. Each track's `opens_at` uses its corresponding timestamp.
 

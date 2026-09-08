@@ -3,8 +3,9 @@
 **Prelaunch preview — registration and submissions are not open.** You
 can inspect the current rules and data and try the Python verifier
 locally. Registration is announced for September 8, 2026, Discovery for
-September 11, and Prove for September 20. Exact UTC opening times, the
-deadline, and the official data freeze remain pending.
+September 11, and Prove for September 20. The submission deadline is
+November 30, 2026; its exact UTC time, opening times, and the official
+data freeze remain pending.
 
 ACC is one competition with four tracks:
 
@@ -337,10 +338,11 @@ collaboration with [Caltech](https://www.caltech.edu/).
 * Registration and team formation: September 8, 2026.
 * AC Discovery and Stable AC Discovery: September 11, 2026.
 * AC Prove and Stable AC Prove: September 20, 2026.
-* Submission deadline and certificate release: to be announced.
+* Submission deadline: November 30, 2026; exact UTC time to be announced.
+* Certificate release: to be announced.
 
 These calendar dates are recorded in `competition.yaml` under
-`announced_dates`. Exact UTC opening times, deadline, release time,
+`announced_dates`. Exact UTC opening times, deadline time, release time,
 `freeze_date`, and `freeze_commit` remain `null`; status is `prelaunch`.
 `submissions_open` records Discovery's UTC start and `prove_submissions_open`
 Prove's; each track's `opens_at` uses the relevant field.

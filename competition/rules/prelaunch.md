@@ -1,12 +1,6 @@
 # Andrews–Curtis Conjecture Challenge (ACC)
 
-**Prelaunch preview — registration and submissions are not open.**
-Rules, training data, and the reference verifier are available here for
-local trials. Calendar dates are announced below; the official data freeze
-and exact UTC schedule remain pending.
-
-*One competition, four tracks: AC and Stable AC, each with Discovery
-for short trivializations and Prove for proofs or disproofs.*
+A competition to find short trivializations of group presentations and to prove or disprove the Andrews–Curtis conjecture and its stable version.
 
 ## Co-organizers
 
@@ -16,9 +10,7 @@ ACC is co-organized by (in alphabetical order by surname):
 - Sergei Gukov
 - Terence Tao
 
-The co-organizing institutions are
-[Caltech](https://www.caltech.edu/) and the
-[SAIR Foundation](https://sair.foundation/).
+The co-organizing institutions are [Caltech](https://www.caltech.edu/) and the [SAIR Foundation](https://sair.foundation/).
 
 <!-- logo URLs: re-host under /competition-assets/acms/ at site onboarding -->
 <p align="center">
@@ -29,95 +21,51 @@ The co-organizing institutions are
 
 ## Background
 
-The [Andrews–Curtis conjecture](https://en.wikipedia.org/wiki/Andrews%E2%80%93Curtis_conjecture)
-has been open since 1965. It says that every
-balanced presentation of the trivial group can be reduced to its standard
-presentation at the same rank by a sequence of elementary moves:
-inverting a relator, multiplying one relator by another, conjugating a
-relator. Most experts expect the conjecture to be false, yet in sixty years no
-counterexample has ever been verified. The stable conjecture additionally
-allows adding or removing a fresh generator together with a relation
-setting it to the identity, with no bound on intermediate rank.
+The [Andrews–Curtis conjecture](https://en.wikipedia.org/wiki/Andrews%E2%80%93Curtis_conjecture) concerns balanced presentations of the trivial group: descriptions with the same number of generators and defining relations. It asks whether every such presentation can be reduced to the standard presentation at the same rank by inverting a relation, multiplying one by another, or conjugating a relation.
 
-ACC turns that problem into a competition. Discovery certificates are
-checked deterministically by an open reference verifier; a trivialization
-of an open instance is a new mathematical result. Its valid certificates
-will be released after the competition. Prove submissions and discussion
-will be public by default from submission, with expert review of each claim.
+The stable version additionally allows adding a fresh generator together with a relation setting it equal to the identity. Such a pair can be removed when the generator occurs in no other relation. These extra operations may make a presentation easier to simplify. The challenge brings together computational search for explicit simplifications and mathematical work on the two conjectures.
 
 ## Task
 
-**AC Discovery** and **Stable AC Discovery** share a pool of **10,115
-balanced rank-two presentations of the trivial group**. Internal labels
-and maps are withheld, though public mathematical sources may reveal origins.
-AC Discovery uses 14 moves and the target `(x,y)`; Stable AC Discovery uses
-257 moves, allows ranks up to 8, and ends at the empty presentation. The
-two tracks have separate leaderboards and First Solver honors. Submissions
-contain only a challenge ID and move list. The 424 solved training
-presentations are outside both scored pools; their examples cover both move
-specifications. Moves remain private during the competition.
+The challenge has **four tracks**:
 
-**AC Prove** and **Stable AC Prove** accept a proof or disproof of the
-selected full conjecture, with a description of the claim
-and argument. The complete argument may be in that description, a
-paper/PDF, Lean material at a fixed GitHub commit, an arXiv version, or a
-combination. The planned platform will preserve and publish every version
-with its server timestamp and ID, alongside version-specific comments and
-reasoned review decisions. Priority belongs to the earliest version
-confirmed to contain a complete correct argument; borrowing from other
-submissions or comments must be cited with an explanation of contributions.
-Either a proof or disproof can receive the mathematical honor; neither
-earns Discovery points nor automatically ends either Discovery track.
-An AC proof also settles Stable AC; a Stable AC disproof also settles AC,
-with the same qualifying version and receipt time recognized for both.
+1. **AC Discovery.** Find short sequences of ordinary Andrews–Curtis moves that reduce a given two-generator presentation to the standard presentation `(x, y)`. There are 14 allowed atomic moves, and the rank stays fixed.
+2. **Stable AC Discovery.** Simplify the same presentations using stable Andrews–Curtis moves. There are 257 allowed atomic moves; the rank may grow up to 8, and the target is the empty presentation.
+3. **AC Prove.** Prove or disprove the full Andrews–Curtis conjecture, which concerns balanced presentations at every positive finite rank.
+4. **Stable AC Prove.** Prove or disprove the full stable Andrews–Curtis conjecture, with no bound on intermediate rank.
 
-The [official mathematical statement](statement.md) and
-[Lean project](../tools/lean/README.md) are available for local use.
-Lean compilation does not replace expert review; auxiliary checks are
-optional. Online submissions for all four tracks are not open yet.
+The two **Discovery tracks** share a pool of **10,115 presentations** and have separate leaderboards. Each solution contains only a **challenge ID and a list of moves**. The verifier checks the sequence, and scoring rewards the shortest verified path for each problem. Move sequences remain private during the competition and are published afterwards.
 
-The full move specification, submission format, scoring formula, and
-Prove submission, review, priority, and credit rules can be inspected in
-[overview.md](overview.md) and [evaluation.md](evaluation.md). Try the
-[successful training example](../examples/README.md) with the included
-Python verifier and warm-up data. These are preview materials; formal
-release and online submissions await the announced schedule and data freeze.
+For either **Prove track**, submit a description and a complete mathematical argument. The argument may be supplied in the description, a paper or PDF, a GitHub repository containing a Lean proof at a fixed commit, an arXiv version, or a combination. Submissions are public, with timestamped versions and comments for community review. Organizers and reviewers assess every claim, including Lean proofs. Priority belongs to the earliest complete, correct version; contributions from other submissions or comments must be acknowledged.
+
+A proof or disproof can receive the competition's highest mathematical honor. Prove results do not earn Discovery points or automatically end the Discovery tracks. Full statements and rules are linked below.
 
 ## Key Dates
 
-- Registration and team formation: September 8, 2026.
-- AC Discovery and Stable AC Discovery: September 11, 2026.
-- AC Prove and Stable AC Prove: September 20, 2026.
-- Submission deadline: to be announced.
-- Discovery certificate release (post-competition): to be announced.
+- Registration and team formation open: **September 8, 2026**
+- AC Discovery and Stable AC Discovery open: **September 11, 2026**
+- AC Prove and Stable AC Prove open: **September 20, 2026**
+- Submission deadline for all tracks: **November 30, 2026**
 
-`competition.yaml` records these calendar dates in `announced_dates`.
-Status remains `prelaunch`; exact UTC schedule fields, `freeze_date`, and
-`freeze_commit` are currently `null`. The complete schedule and verified
-freeze must be set before formal release and online submission.
+Exact opening and deadline times will be announced before submissions open.
 
 ## Registration & Teams
 
-Registration and team management are planned on
-[SAIR](https://competition.sair.foundation/) when registration opens.
-Participants will need a SAIR
-account, complete the required profile information, and agree to the SAIR
-competition terms before registering. They may compete individually or form a
-team on SAIR.
+Registration and team management will take place on [SAIR](https://competition.sair.foundation/). Participants will need a SAIR account, the required profile information, and agreement to the competition terms. They may compete individually or form a team.
+
+## Rules & Resources
+
+The [competition overview](overview.md), [evaluation rules](evaluation.md), [mathematical statements](statement.md), and [Lean project](../tools/lean/README.md) are available for preparation. The [reference verifier](../tools/verifier/README.md) includes a [runnable example](../examples/README.md) for each Discovery track. There are **424 solved training presentations**, separate from the scored pool, with solutions under both move specifications.
+
+Local trials are available now. Online submissions will open on the announced schedule.
 
 ## Team Participation and Anti-Cheating Policy
 
-- Each individual can participate in only one team.
-- Members may join during the competition with organizer approval;
-  teams may not merge after either has submitted.
-- Public learning and cross-team discussion with stated contributions are
-  welcome. A shared Discovery certificate must not be resubmitted by
-  multiple teams for independent credit or scoring.
-- If coordinated cheating is detected (including sockpuppet teams), all
-  related teams will be disqualified.
+- Each individual may participate in only one team.
+- Members may join during the competition with organizer approval; teams may not merge after either has submitted.
+- Public discussion and properly attributed collaboration are welcome. A shared Discovery solution must not be submitted by multiple teams for independent credit or scoring.
+- Coordinated cheating, including sockpuppet teams, will result in disqualification of all related teams.
 
 ## Community Feedback
 
-Community feedback and contributions are welcome. Join the
-[SAIR Foundation Zulip community](https://zulip.sair.foundation/) for
-discussion and collaboration.
+Join the [SAIR Foundation Zulip community](https://zulip.sair.foundation/) to discuss the challenge, ask questions, and contribute feedback.
