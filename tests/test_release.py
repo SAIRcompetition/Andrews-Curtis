@@ -26,6 +26,20 @@ class TestReleaseState(unittest.TestCase):
             state, (util.REPO / "competition/competition.yaml").read_text(),
             util.load_manifest())
 
+    def test_two_tracks_route_both_problems_to_their_own_definitions(self):
+        yaml_text = (util.REPO / "competition/competition.yaml").read_text()
+        release.validate_track_structure(yaml_text)
+        mutations = (
+            yaml_text.replace("  - id: proof\n", "  - id: prove_ac\n"),
+            yaml_text.replace("      - id: stable_ac\n", "      - id: ac\n", 1),
+            yaml_text.replace("conjecture: AC.StableConjecture", "conjecture: AC.Conjecture"),
+            yaml_text.replace("move_spec_version: sac-r8-v1", "move_spec_version: ac-r2-v1"),
+            yaml_text.replace("leaderboards: independent_per_problem", "leaderboards: combined"),
+        )
+        for mutation in mutations:
+            with self.subTest(metadata=mutation), self.assertRaises(ValueError):
+                release.validate_track_structure(mutation)
+
     def test_metadata_drift_is_rejected(self):
         state = dict.fromkeys(release.STATE_FIELDS)
         state["status"] = "prelaunch"

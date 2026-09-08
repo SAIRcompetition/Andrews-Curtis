@@ -27,24 +27,35 @@ The stable version additionally allows adding a fresh generator together with a 
 
 ## Task
 
-The challenge has **four tracks**:
+The challenge has **two tracks: Discovery and Proof**. Each covers two problems: **AC** and **Stable AC**.
 
-1. **AC Discovery.** Find short sequences of ordinary Andrews–Curtis moves that reduce a given two-generator presentation to the standard presentation `(x, y)`. There are 14 allowed atomic moves, and the rank stays fixed.
-2. **Stable AC Discovery.** Simplify the same presentations using stable Andrews–Curtis moves. There are 257 allowed atomic moves; the rank may grow up to 8, and the target is the empty presentation.
-3. **AC Prove.** Prove or disprove the full Andrews–Curtis conjecture, which concerns balanced presentations at every positive finite rank.
-4. **Stable AC Prove.** Prove or disprove the full stable Andrews–Curtis conjecture, with no bound on intermediate rank.
+### Discovery Track
 
-The two **Discovery tracks** share a pool of **10,115 presentations** and have separate leaderboards. Each solution contains only a **challenge ID and a list of moves**. The verifier checks the sequence, and scoring rewards the shortest verified path for each problem. Move sequences remain private during the competition and are published afterwards.
+Find short sequences of moves that simplify given presentations of the trivial group. The AC and Stable AC problems use the same pool of **10,115 two-generator presentations**, with different allowed moves and targets:
 
-For either **Prove track**, submit a description and a complete mathematical argument. The argument may be supplied in the description, a paper or PDF, a GitHub repository containing a Lean proof at a fixed commit, an arXiv version, or a combination. Submissions are public, with timestamped versions and comments for community review. Organizers and reviewers assess every claim, including Lean proofs. Priority belongs to the earliest complete, correct version; contributions from other submissions or comments must be acknowledged.
+- **AC:** use the 14 ordinary Andrews–Curtis moves to reach the standard presentation `(x, y)`. The rank stays fixed at 2.
+- **Stable AC:** use the 257 stable Andrews–Curtis moves to reach the empty presentation. The rank may grow up to 8 along the way.
 
-A proof or disproof can receive the competition's highest mathematical honor. Prove results do not earn Discovery points or automatically end the Discovery tracks. Full statements and rules are linked below.
+Each solution contains only a **challenge ID and a list of moves**. The verifier checks the sequence, and the AC and Stable AC problems have **separate leaderboards**, rewarding the shortest verified paths. Move sequences remain private during the competition and are published afterwards.
+
+### Proof Track
+
+Submit a proof or disproof of either conjecture:
+
+- **AC:** the full Andrews–Curtis conjecture, using ordinary moves at fixed rank.
+- **Stable AC:** the full stable Andrews–Curtis conjecture, allowing stabilization with no bound on intermediate rank.
+
+Both conjectures concern balanced presentations at every positive finite rank. A proof must establish the full conjecture; a disproof must establish a counterexample. The Discovery pool and its search limits do not restrict these mathematical claims.
+
+Submit a description and a complete argument, supplied in the description, a paper or PDF, a GitHub repository containing a Lean proof at a fixed commit, an arXiv version, or a combination. Every submission is public, with timestamped versions and comments for community review. Organizers and reviewers assess every claim, including Lean proofs. Priority belongs to the earliest complete, correct version; contributions from other submissions or comments must be acknowledged.
+
+A proof or disproof can receive the competition's highest mathematical honor. Results in the Proof Track do not earn Discovery points or automatically end the Discovery Track.
 
 ## Key Dates
 
 - Registration and team formation open: **September 8, 2026**
-- AC Discovery and Stable AC Discovery open: **September 11, 2026**
-- AC Prove and Stable AC Prove open: **September 20, 2026**
+- Discovery Track opens: **September 11, 2026**
+- Proof Track opens: **September 20, 2026**
 - Submission deadline for all tracks: **November 30, 2026**
 
 Exact opening and deadline times will be announced before submissions open.
@@ -55,7 +66,7 @@ Registration and team management will take place on [SAIR](https://competition.s
 
 ## Rules & Resources
 
-The [competition overview](overview.md), [evaluation rules](evaluation.md), [mathematical statements](statement.md), and [Lean project](../tools/lean/README.md) are available for preparation. The [reference verifier](../tools/verifier/README.md) includes a [runnable example](../examples/README.md) for each Discovery track. There are **424 solved training presentations**, separate from the scored pool, with solutions under both move specifications.
+The [competition overview](overview.md), [evaluation rules](evaluation.md), [mathematical statements](statement.md), and [Lean project](../tools/lean/README.md) are available for preparation. The [reference verifier](../tools/verifier/README.md) includes [runnable examples](../examples/README.md) for both AC and Stable AC. There are **424 solved training presentations**, separate from the scored pool, with solutions under both move specifications.
 
 Local trials are available now. Online submissions will open on the announced schedule.
 

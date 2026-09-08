@@ -31,14 +31,14 @@ def display_score(value):
 
 class ScoringEngine:
     def __init__(self, manifest, verifier_version, move_spec_version=None):
-        """Score one Discovery track; a mixed manifest requires a selector."""
+        """Score one Discovery problem; a mixed manifest requires a selector."""
         self.manifest_hash = manifest["manifest_hash"]
         self.verifier_version = verifier_version
         challenges = [c for c in manifest["challenges"] if c["scored"]]
         versions = {c.get("move_spec_version") for c in challenges}
         if move_spec_version is None:
             if len(versions) > 1:
-                raise ValueError("select move_spec_version for a mixed-track manifest")
+                raise ValueError("select move_spec_version for a manifest with both Discovery problems")
             move_spec_version = next(iter(versions), None)
         elif move_spec_version not in versions:
             raise ValueError("no scored challenges for move_spec_version: %r"

@@ -1,17 +1,17 @@
 # Runnable Discovery submission examples
 
 Start with `sample_submission.json`: a complete, successful submission for
-both Discovery variants of the published training instance `ms-train-0160`. The AC
+the AC and Stable AC problems in Discovery Track, using training instance `ms-train-0160`. The AC
 path uses 7 moves from [`training_424.json`](../challenges/training_424.json);
 the Stable AC path appends `[16, 15]` from
 [`stable_training_424.json`](../challenges/stable_training_424.json), reaching
 the empty presentation. Both use the official verifier and JSON format.
 
 This is **local training only and earns no points**. The accompanying
-`training_manifest.json` contains the two variants of this instance, each
+`training_manifest.json` contains the AC and Stable AC versions of this instance, each
 marked `scored: false` with `base_score: 0`; its limits and move specifications
 match the official manifest. The Stable example ID is `sac-train-0160`;
-training files share `ms-train-0160`, so the example gives each variant a
+training files share `ms-train-0160`, so the example gives each problem a
 distinct ID for mixed submissions. Its instance and manifest hashes are independently
 checkable. It is not a new official challenge pool or freeze.
 

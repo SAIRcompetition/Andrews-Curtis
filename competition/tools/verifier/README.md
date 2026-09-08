@@ -1,10 +1,11 @@
 # Discovery Track reference verifier (`acms_verify`)
 
 **Prelaunch preview.** This Python reference verifier is available for
-local self-checking now for both Discovery tracks of the Andrews–Curtis
+local self-checking now for the AC and Stable AC problems in Discovery
+Track of the Andrews–Curtis
 Conjecture Challenge (ACC); competition submissions are not open.
 The SAIR integration will use these same standard-library-only sources,
-with no separate port. Proofs and disproofs belong to the Prove Track
+with no separate port. Proofs and disproofs belong to the Proof Track
 and are not processed by this path verifier.
 
 > Local results are self-checks. Once the competition opens, the
@@ -31,8 +32,9 @@ Each entry in a submission's `solutions` array contains only
 `challenge_id` and `moves`. The verifier obtains the move-spec version
 from the official challenge for replay and certificate hashing. `ac-v1-`
 IDs use `ac-r2-v1` (0–13); `sac-v1-` IDs use `sac-r8-v1` (0–256).
-One submission may contain both. The rank cap applies only to Stable AC
-Discovery; proving either conjecture uses the separate Lean targets.
+One submission may contain both. The rank cap applies only to the
+Stable AC problem in Discovery; proving either conjecture uses the
+separate Lean targets.
 
 Start with a successful, unscored training example. Run from the
 repository or exported package root:

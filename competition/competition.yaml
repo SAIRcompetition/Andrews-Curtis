@@ -10,44 +10,43 @@ primary_metric: leaderboard_score
 scoring_unit: team_challenge
 scoring_formula: "V_i * 2^(1-k_i) for teams at the current shortest length, 0 otherwise"
 tracks:
-  - id: discovery_ac
-    name: Discovery Track — AC
+  - id: discovery
+    name: Discovery Track
     opens: "2026-09-11"
     opens_at: null
-    objective: "Find short verified ordinary AC trivializations"
-    id_prefix: ac-v1-
-  - id: discovery_stable
-    name: Discovery Track — Stable AC
-    opens: "2026-09-11"
-    opens_at: null
-    objective: "Find short verified stable AC trivializations, current rank at most 8"
-    id_prefix: sac-v1-
-  - id: prove_ac
-    name: Prove Track — AC
+    objective: "Find short verified trivializations of the published presentations"
+    leaderboards: independent_per_problem
+    problems:
+      - id: ac
+        name: AC
+        id_prefix: ac-v1-
+        move_spec_version: ac-r2-v1
+        target: "The ordered pair (x, y), at fixed rank 2"
+      - id: stable_ac
+        name: Stable AC
+        id_prefix: sac-v1-
+        move_spec_version: sac-r8-v1
+        target: "The empty presentation, with current rank at most 8"
+  - id: proof
+    name: Proof Track
     opens: "2026-09-20"
     opens_at: null
-    conjecture: AC.Conjecture
-    claims: [proof, disproof]
     statement: rules/statement.md
-    submission_format: "Claim type and description required; complete argument in description, PDF or paper, GitHub at a fixed commit, or arXiv at a fixed version"
+    submission_format: "Conjecture, claim type, and description required; complete argument in description, PDF or paper, GitHub at a fixed commit, or arXiv at a fixed version"
     visibility: public
     versions: immutable
     review: "Public comments; final mathematical determination by reviewers; Lean does not bypass review"
     credit: "Earliest complete correct version, with references and contributions recorded; see rules/evaluation.md"
     leaderboard_points: false
-  - id: prove_stable
-    name: Prove Track — Stable AC
-    opens: "2026-09-20"
-    opens_at: null
-    claims: [proof, disproof]
-    statement: rules/statement.md
-    conjecture: AC.StableConjecture
-    submission_format: "Claim type and description required; complete argument in description, PDF or paper, GitHub at a fixed commit, or arXiv at a fixed version"
-    visibility: public
-    versions: immutable
-    review: "Public comments; final mathematical determination by reviewers; Lean does not bypass review"
-    credit: "Earliest complete correct version, with references and contributions recorded; see rules/evaluation.md"
-    leaderboard_points: false
+    problems:
+      - id: ac
+        name: AC
+        conjecture: AC.Conjecture
+        claims: [proof, disproof]
+      - id: stable_ac
+        name: Stable AC
+        conjecture: AC.StableConjecture
+        claims: [proof, disproof]
 move_specs:
   - version: ac-r2-v1
     hash: "sha256:e13f57d82b5db1a79c1bd9d5ee1f6665ac4d96a634a3656ea20c0ada82e07643"
@@ -72,7 +71,7 @@ submission_deadline: null
 certificate_release: null
 challenge_count: 20230
 presentation_count: 10115
-challenge_policy: "10,115 balanced presentations in each of two Discovery variants: 20,230 separately scored challenges; base_score 1 each. Internal difficulty labels and direct source-ID mappings are omitted; public MS metadata and relators may reveal origins"
+challenge_policy: "Discovery Track: 10,115 balanced presentations for each of the AC and Stable AC problems, with 20,230 separately scored challenge records; base_score 1 each. Internal difficulty labels and direct source-ID mappings are omitted; public MS metadata and relators may reveal origins"
 overview: rules/overview.md
 evaluation: rules/evaluation.md
 manifest: challenges/manifest.json

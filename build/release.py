@@ -78,16 +78,19 @@ ROOT_README = """\
 RELEASE_NOTICE
 
 Public data, rules, and reference tools for ACC, co-organized by
-Lucas Fagan, Sergei Gukov, and Terence Tao. One competition offers **Discovery** and **Prove**, each for AC and
-Stable AC: four tracks. Discovery rewards short verified trivializations;
-Prove accepts proofs and disproofs of the corresponding full conjecture.
-The four tracks continue independently.
+Lucas Fagan, Sergei Gukov, and Terence Tao. ACC has two tracks:
+**Discovery Track** and **Proof Track**, each containing the **AC** and
+**Stable AC** problems. Discovery rewards short verified trivializations,
+with an independent leaderboard for each problem. Proof accepts proofs
+and disproofs of either full conjecture. A Proof result does not
+automatically end Discovery.
 
 This package provides the core mathematical checks used for reproducibility.
 Official submission handling and leaderboard updates belong to the SAIR
 competition platform. Local verification does not register a submission.
 
-Prove submissions include a claim type and description, with a complete
+Proof submissions identify the conjecture and include a claim type and
+description, with a complete
 argument in the description, PDF or paper, GitHub at a fixed commit, or
 arXiv at a fixed version. Every submitted version is public and immutable,
 with comments for discussion. Reviewers make the final determination;
@@ -99,9 +102,9 @@ the submission, version, and credit rules.
 1. Read `competition/rules/overview.md` (the task and scoring), then
    `competition/rules/evaluation.md` (exact verifier semantics).
 2. Explore `competition/challenges/` — the 20,230-challenge
-   manifest (10,115 presentations in each Discovery variant), two move specs,
-   full MS-1190 metadata, and 424 training trivializations for each variant.
-3. Run the successful, non-scoring examples for both Discovery variants from this package's root:
+   manifest (10,115 presentations in each Discovery problem), two move specs,
+   full MS-1190 metadata, and 424 training trivializations for each problem.
+3. Run the successful, non-scoring examples for both Discovery problems from this package's root:
 
 ```sh
 PYTHONPATH=competition/tools/verifier python3 -m acms_verify \\
@@ -115,9 +118,10 @@ see `competition/examples/README.md` for the input and negative example.
 `accepted` only indicates structural acceptance; each solution succeeds
 only when its own `results[].ok` is `true`.
 
-For the Prove Track, read `competition/rules/statement.md` and
+For the Proof Track, read `competition/rules/statement.md` and
 `competition/tools/lean/README.md`. The local `lake build` command builds
-the official `AC` statement; auxiliary `Check` examples are optional.
+the official ordinary and stable statements in `AC.lean`; auxiliary
+`Check` examples are optional.
 
 ## Layout
 
@@ -127,7 +131,7 @@ the official `AC` statement; auxiliary `Check` examples are optional.
       challenges/             frozen data + hashes (see its README)
       examples/               successful training submission and expected receipt
       tools/verifier/         Python reference verifier (stdlib only)
-      tools/lean/             official Lean statement of the full AC conjecture
+      tools/lean/             official Lean statements of AC and Stable AC
 """
 
 
@@ -189,6 +193,41 @@ def validate_public_state(state, yaml_text, manifest):
         raise ValueError("manifest freeze dates disagree with competition_state.json")
 
 
+def validate_track_structure(yaml_text):
+    """Check the published two-track/two-problem routing without a YAML dependency."""
+    match = re.search(r"^tracks:\n(.*?)(?=^\S|\Z)", yaml_text, re.MULTILINE | re.DOTALL)
+    if match is None:
+        raise ValueError("competition.yaml is missing tracks")
+    blocks = re.findall(r"^  - id: ([a-z_]+)\n(.*?)(?=^  - id: |\Z)",
+                        match.group(1), re.MULTILINE | re.DOTALL)
+    if [track for track, _ in blocks] != ["discovery", "proof"]:
+        raise ValueError("tracks must be Discovery Track and Proof Track, in that order")
+    expected = {
+        "discovery": {
+            "ac": {"id_prefix": "ac-v1-", "move_spec_version": "ac-r2-v1"},
+            "stable_ac": {"id_prefix": "sac-v1-", "move_spec_version": "sac-r8-v1"},
+        },
+        "proof": {
+            "ac": {"conjecture": "AC.Conjecture", "claims": "[proof, disproof]"},
+            "stable_ac": {"conjecture": "AC.StableConjecture", "claims": "[proof, disproof]"},
+        },
+    }
+    for track, block in blocks:
+        name = "Discovery Track" if track == "discovery" else "Proof Track"
+        if "    name: " + name + "\n" not in block or "    problems:\n" not in block:
+            raise ValueError("track metadata missing name or problems: " + track)
+        problems = re.findall(r"^      - id: ([a-z_]+)\n(.*?)(?=^      - id: |\Z)",
+                              block, re.MULTILINE | re.DOTALL)
+        if [problem for problem, _ in problems] != ["ac", "stable_ac"]:
+            raise ValueError("each track must contain AC and Stable AC problems: " + track)
+        for problem, details in problems:
+            for field, value in expected[track][problem].items():
+                if "        " + field + ": " + value + "\n" not in details:
+                    raise ValueError("problem routing mismatch: " + track + "." + problem + "." + field)
+        if track == "discovery" and "    leaderboards: independent_per_problem\n" not in block:
+            raise ValueError("Discovery requires independent problem leaderboards")
+
+
 def validate_final_state(state, repo=REPO):
     """Fail before touching the output if dates or the Git data freeze are missing."""
     if state["status"] not in ("active", "finished"):
@@ -211,7 +250,7 @@ def validate_final_state(state, repo=REPO):
             <= dates["prove_submissions_open"]
             < dates["submission_deadline"] <= dates["certificate_release"]):
         raise ValueError("competition dates must follow registration, Discovery opening, "
-                         "Prove opening, deadline, certificate release order")
+                         "Proof opening, deadline, certificate release order")
     if dates["freeze_date"] > dates["submissions_open"]:
         raise ValueError("data must be frozen no later than submissions open")
     commit = state["freeze_commit"]
@@ -293,7 +332,7 @@ def export_package(out, preview=False):
     assert manifest["challenge_count"] == CHALLENGE_COUNT
     assert manifest["presentation_count"] == PRESENTATION_COUNT
 
-    # Each presentation appears once per track, with identical inputs.
+    # Each presentation appears once per Discovery problem, with identical inputs.
     by_prefix = {}
     for c in manifest["challenges"]:
         prefix, _, number = c["challenge_id"].rpartition("-")
@@ -320,8 +359,7 @@ def export_package(out, preview=False):
         assert "  - version: %s\n" % entry["move_spec_version"] in yaml_text
         assert '    hash: "%s"\n' % entry["move_spec_hash"] in yaml_text
         assert "    file: challenges/%s\n" % entry["file"] in yaml_text
-    for track in ("discovery_ac", "discovery_stable", "prove_ac", "prove_stable"):
-        assert "  - id: %s\n" % track in yaml_text, track
+    validate_track_structure(yaml_text)
     assert 'manifest_hash: "%s"' % manifest["manifest_hash"] in yaml_text
     assert "challenge_count: %d" % CHALLENGE_COUNT in yaml_text
     sh(sys.executable, REPO / "build/build_examples.py", "--check")

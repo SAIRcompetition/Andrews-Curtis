@@ -1,6 +1,7 @@
 # Andrews–Curtis conjectures — official statements
 
-These are the mathematical targets for AC Prove and Stable AC Prove.
+These are the mathematical targets for the AC and Stable AC problems
+within Proof Track.
 Both cover the full conjecture at every positive finite rank. Their Lean definitions are in
 [AC.lean](../tools/lean/AC.lean), under namespace `AC`.
 
@@ -70,7 +71,7 @@ counterexample alone does not establish a stable counterexample.
 This follows the stable convention in
 [Lackenby, §1](https://arxiv.org/html/2606.06122v1#S1).
 
-Stable AC Discovery's `sac-r8-v1` cap of rank 8 is solely a search benchmark
+The Stable AC problem in Discovery uses a rank cap of 8 (`sac-r8-v1`) as a benchmark
 restriction. Proving non-reachability with that cap does not disprove this
 unbounded statement.
 
@@ -93,10 +94,10 @@ unbounded statement.
 
 ## Proof and disproof
 
-| Prove track | Proof | Disproof |
+| Problem | Proof | Disproof |
 |---|---|---|
-| AC Prove | `AC.Conjecture` | `¬ AC.Conjecture` |
-| Stable AC Prove | `AC.StableConjecture` | `¬ AC.StableConjecture` |
+| AC | `AC.Conjecture` | `¬ AC.Conjecture` |
+| Stable AC | `AC.StableConjecture` | `¬ AC.StableConjecture` |
 
 The witness forms are equivalent to those negations:
 

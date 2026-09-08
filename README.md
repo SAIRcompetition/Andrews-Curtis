@@ -1,15 +1,21 @@
 # Andrews–Curtis Conjecture Challenge (ACC) — development repository
 
-**Prelaunch development preview.** Registration and submissions are not
-open. Calendar dates are announced for September 8, 11, and 20, 2026;
-exact UTC opening times, the deadline, and official freeze remain pending.
+**Prelaunch development preview.** Registration is scheduled for September
+8, 2026, Discovery for September 11, and Proof for September 20; the
+submission deadline is November 30. Exact UTC times and the official data
+freeze remain pending. Registration and online submissions are not open.
 
-ACC is one competition with four tracks: **AC Discovery**, **Stable AC
-Discovery**, **AC Prove**, and **Stable AC Prove**. The two Discovery
-tracks use the same 10,115 presentations and separate leaderboards;
-Stable AC adds stabilization with a benchmark rank cap of 8. The two
-Prove tracks accept proofs or disproofs of the full ordinary and stable
-conjectures, without search bounds. A Prove result does not automatically
+ACC is one competition with **two tracks**, each containing **AC** and
+**Stable AC** problems:
+
+| Track | Task |
+|---|---|
+| **Discovery Track** | Find short verified trivializations, with separate AC and Stable AC leaderboards |
+| **Proof Track** | Prove or disprove either full conjecture |
+
+Discovery uses the same 10,115 presentations for both problems. The AC
+problem fixes rank 2; Stable AC permits ranks up to 8. Proof Track concerns
+the full conjectures without search bounds. Proof results do not automatically
 end Discovery. The public package follows SAIR's IGP24 structure.
 
 ACC is co-organized by (in alphabetical order by surname): Lucas Fagan,
@@ -19,7 +25,7 @@ For the full conjectures, start with the
 [mathematical statement](competition/rules/statement.md) and
 [Lean build instructions](competition/tools/lean/README.md).
 
-Prove submissions identify the conjecture, claim type, and description, with a complete
+Proof submissions identify the conjecture, claim type, and description, with a complete
 argument in the description, a PDF or paper, a GitHub repository at a
 fixed commit, or an arXiv paper at a fixed version. Submissions and their
 immutable versions are public, with comments for discussion. Reviewers
@@ -88,9 +94,9 @@ edited independently in generated files. Current `status` is
 `prelaunch`; `freeze_date`, `freeze_commit`, `registration_opens`,
 `submissions_open`, `prove_submissions_open`, `submission_deadline`, and `certificate_release`
 are all `null`. Date-only plans are recorded separately in `announced_dates`:
-registration September 8, Discovery September 11, and Prove September 20,
-2026. `submissions_open` supplies Discovery UTC opening and
-`prove_submissions_open` supplies Prove UTC opening; each track exposes its
+registration September 8, Discovery September 11, Proof September 20,
+and the deadline November 30, 2026. `submissions_open` supplies Discovery UTC opening and
+`prove_submissions_open` supplies Proof UTC opening; each track exposes its
 relevant `opens_at`. `build/build_manifest_v2.py` synchronizes the manifest
 and `competition.yaml` from that state.
 

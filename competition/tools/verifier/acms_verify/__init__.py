@@ -4,7 +4,7 @@ The same ``acms_verify`` sources run server-side and ship in the public
 release package; there is no port.  See DESIGN.md §4 for the frozen
 semantics.
 
-Two frozen move specs are implemented, one per trivialization track:
+Two frozen move specs are implemented, one per Discovery problem:
 ``ac-r2-v1`` (:mod:`acms_verify.core`) and ``sac-r8-v1``
 (:mod:`acms_verify.stable_core`).  :mod:`acms_verify.specs` is the
 registry every dispatch goes through; the top-level ``MOVE_TABLE``,

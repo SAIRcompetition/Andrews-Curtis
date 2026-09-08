@@ -1,6 +1,6 @@
 """Move-spec registry: ``move_spec_version`` -> the semantics that implement it.
 
-ACC runs two trivialization tracks over the same 10,115 presentations:
+The Discovery Track covers AC and Stable AC over the same 10,115 presentations:
 
   ``ac-r2-v1``   rank-2 Andrews-Curtis, target the exact ordered pair
                  (x, y), 14 atomic moves            :mod:`acms_verify.core`
@@ -8,7 +8,7 @@ ACC runs two trivialization tracks over the same 10,115 presentations:
                  257 atomic moves, rank up to 8     :mod:`acms_verify.stable_core`
 
 A challenge names its spec in ``move_spec_version`` and its
-``challenge_id`` prefix (``ac-v1-`` / ``sac-v1-``) names the track.  A
+``challenge_id`` prefix (``ac-v1-`` / ``sac-v1-``) selects the problem. A
 submission contains only ``challenge_id`` and ``moves``; the official
 challenge supplies the spec for verification and certificate hashing.
 
@@ -39,7 +39,7 @@ def _entry(module, target, max_rank, id_prefix, file):
 
 #: version -> namespace.  Insertion order is the published order (the
 #: ``move_specs`` list of the manifest, of competition.yaml and of the
-#: golden header): the original AC track first, the stable track second.
+#: golden header): the AC problem first, the Stable AC problem second.
 SPECS = {
     core.MOVE_SPEC_VERSION: _entry(
         core, [[1], [2]], 2, "ac-v1-", "move_spec.json"),

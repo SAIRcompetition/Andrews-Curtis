@@ -1,7 +1,7 @@
 """Deterministic verifier core for ACMS stable AC, move spec ``sac-r8-v1``.
 
-The stable Andrews-Curtis track asks for a *stable* trivialization: the
-same balanced presentations as the ``ac-r2-v1`` track, but the target is
+The Stable AC problem in the Discovery Track asks for a *stable* trivialization:
+the same balanced presentations as the AC problem, but the target is
 the EMPTY presentation and the move set additionally allows stabilization
 (add a fresh generator with the relator that names it) and its inverse,
 destabilization, up to rank :data:`MAX_RANK`.

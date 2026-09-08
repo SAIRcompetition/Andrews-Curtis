@@ -10,7 +10,7 @@ still the source of the MS-1190 denominator and of the 424 published
 trivializations, so the MS-only builders are imported from
 ``build/build_manifest.py`` unchanged.
 
-Two trivialization tracks run over the same 10115 presentations, so the
+The two Discovery problems use the same 10115 presentations, so the
 manifest holds 20230 scored challenges: ``ac-v1-NNNNN`` under
 ``ac-r2-v1`` (target the ordered pair (x, y)) and ``sac-v1-NNNNN`` under
 ``sac-r8-v1`` (target the empty presentation, stabilization allowed up
@@ -70,7 +70,7 @@ COMPETITION = "acms"
 CHALLENGE_ID_SEED = 20260903
 CHALLENGE_ID_FORMAT = "ac-v1-%05d"
 STABLE_CHALLENGE_ID_FORMAT = "sac-v1-%05d"
-#: The stable track's target: the empty presentation.
+#: The Stable AC problem's target: the empty presentation.
 STABLE_TARGET = []
 
 CHALLENGES_DIR = REPO / "competition" / "challenges"
@@ -154,7 +154,7 @@ def freeze_guard(name, obj, create_if_missing=False):
 
     With ``create_if_missing`` the first build writes the file and every
     later build must reproduce it exactly — the mode used for the two
-    stable-track artifacts, which are frozen from the moment they first
+    Stable AC artifacts, which are frozen from the moment they first
     land in git.
     """
     path = CHALLENGES_DIR / name
@@ -291,7 +291,7 @@ def challenge_record(challenge_id, initial, target, version, move_spec_hash, fre
 
 
 def build_manifest_v3(rows, competition_state=None):
-    """One record per (presentation, track): all ac-v1 then all sac-v1.
+    """One record per (presentation, Discovery problem): all ac-v1 then all sac-v1.
 
     ``sac-v1-N`` carries the identical generators and initial_relators as
     ``ac-v1-N``; only the target, the spec version and therefore the
@@ -347,7 +347,7 @@ def build_manifest_v3(rows, competition_state=None):
 
 
 # ---------------------------------------------------------------------------
-# the stable AC track (sac-r8-v1)
+# the Stable AC problem (sac-r8-v1)
 # ---------------------------------------------------------------------------
 
 #: Loose-trivial rank-2 final state -> shortest suffix to the EMPTY
@@ -855,44 +855,43 @@ primary_metric: leaderboard_score
 scoring_unit: team_challenge
 scoring_formula: "V_i * 2^(1-k_i) for teams at the current shortest length, 0 otherwise"
 tracks:
-  - id: discovery_ac
-    name: Discovery Track — AC
+  - id: discovery
+    name: Discovery Track
     opens: {json.dumps(competition_state['announced_dates']['discovery'])}
     opens_at: {json.dumps(competition_state['submissions_open'])}
-    objective: "Find short verified ordinary AC trivializations"
-    id_prefix: ac-v1-
-  - id: discovery_stable
-    name: Discovery Track — Stable AC
-    opens: {json.dumps(competition_state['announced_dates']['discovery'])}
-    opens_at: {json.dumps(competition_state['submissions_open'])}
-    objective: "Find short verified stable AC trivializations, current rank at most 8"
-    id_prefix: sac-v1-
-  - id: prove_ac
-    name: Prove Track — AC
+    objective: "Find short verified trivializations of the published presentations"
+    leaderboards: independent_per_problem
+    problems:
+      - id: ac
+        name: AC
+        id_prefix: ac-v1-
+        move_spec_version: ac-r2-v1
+        target: "The ordered pair (x, y), at fixed rank 2"
+      - id: stable_ac
+        name: Stable AC
+        id_prefix: sac-v1-
+        move_spec_version: sac-r8-v1
+        target: "The empty presentation, with current rank at most 8"
+  - id: proof
+    name: Proof Track
     opens: {json.dumps(competition_state['announced_dates']['prove'])}
     opens_at: {json.dumps(competition_state['prove_submissions_open'])}
-    conjecture: AC.Conjecture
-    claims: [proof, disproof]
     statement: rules/statement.md
-    submission_format: "Claim type and description required; complete argument in description, PDF or paper, GitHub at a fixed commit, or arXiv at a fixed version"
+    submission_format: "Conjecture, claim type, and description required; complete argument in description, PDF or paper, GitHub at a fixed commit, or arXiv at a fixed version"
     visibility: public
     versions: immutable
     review: "Public comments; final mathematical determination by reviewers; Lean does not bypass review"
     credit: "Earliest complete correct version, with references and contributions recorded; see rules/evaluation.md"
     leaderboard_points: false
-  - id: prove_stable
-    name: Prove Track — Stable AC
-    opens: {json.dumps(competition_state['announced_dates']['prove'])}
-    opens_at: {json.dumps(competition_state['prove_submissions_open'])}
-    claims: [proof, disproof]
-    statement: rules/statement.md
-    conjecture: AC.StableConjecture
-    submission_format: "Claim type and description required; complete argument in description, PDF or paper, GitHub at a fixed commit, or arXiv at a fixed version"
-    visibility: public
-    versions: immutable
-    review: "Public comments; final mathematical determination by reviewers; Lean does not bypass review"
-    credit: "Earliest complete correct version, with references and contributions recorded; see rules/evaluation.md"
-    leaderboard_points: false
+    problems:
+      - id: ac
+        name: AC
+        conjecture: AC.Conjecture
+        claims: [proof, disproof]
+      - id: stable_ac
+        name: Stable AC
+        conjecture: AC.StableConjecture
+        claims: [proof, disproof]
 move_specs:
 {specs_yaml}announced_dates: {json.dumps(competition_state['announced_dates'])}
 manifest_hash: "{manifest['manifest_hash']}"
@@ -905,7 +904,7 @@ submission_deadline: {json.dumps(competition_state['submission_deadline'])}
 certificate_release: {json.dumps(competition_state['certificate_release'])}
 challenge_count: {manifest['challenge_count']}
 presentation_count: {manifest['presentation_count']}
-challenge_policy: "10,115 balanced presentations in each of two Discovery variants: 20,230 separately scored challenges; base_score 1 each. Internal difficulty labels and direct source-ID mappings are omitted; public MS metadata and relators may reveal origins"
+challenge_policy: "Discovery Track: 10,115 balanced presentations for each of the AC and Stable AC problems, with 20,230 separately scored challenge records; base_score 1 each. Internal difficulty labels and direct source-ID mappings are omitted; public MS metadata and relators may reveal origins"
 overview: rules/overview.md
 evaluation: rules/evaluation.md
 manifest: challenges/manifest.json
@@ -935,7 +934,7 @@ def main():
     print("freeze guard: move_spec.json, training_424.json, "
           "stable_move_spec.json and stable_training_424.json byte-identical")
 
-    # 2. the scored pool, twice: once per trivialization track.
+    # 2. the scored pool, twice: once per Discovery problem.
     rows, sources = load_pool(items, training)
     rows = assign_ids(rows)
     manifest = build_manifest_v3(rows, competition_state)
@@ -975,7 +974,7 @@ def main():
     print("move_spec_hash (%s) = %s"
           % (stable_core.MOVE_SPEC_VERSION, sac_hash))
     print("manifest_hash  =", manifest["manifest_hash"])
-    print("challenges: %d scored over %d presentations x %d tracks, "
+    print("challenges: %d scored over %d presentations x %d Discovery problems, "
           "base_score 1 each"
           % (manifest["challenge_count"], manifest["presentation_count"],
              len(manifest["move_specs"])))

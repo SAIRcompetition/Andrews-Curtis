@@ -3,21 +3,20 @@
 **Prelaunch preview — registration and submissions are not open.** You
 can inspect the current rules and data and try the Python verifier
 locally. Registration is announced for September 8, 2026, Discovery for
-September 11, and Prove for September 20. The submission deadline is
+September 11, and Proof for September 20. The submission deadline is
 November 30, 2026; its exact UTC time, opening times, and the official
 data freeze remain pending.
 
-ACC is one competition with four tracks:
+ACC is one competition with **two tracks**, each containing **AC** and
+**Stable AC** problems:
 
 | Track | Task |
 |---|---|
-| **AC Discovery** | Short paths using ordinary AC moves, with a scored leaderboard |
-| **Stable AC Discovery** | Short paths allowing stabilization, with a separate scored leaderboard |
-| **AC Prove** | Prove or disprove the full ordinary AC conjecture |
-| **Stable AC Prove** | Prove or disprove the full stable AC conjecture |
+| **Discovery Track** | Find short verified move sequences, with separate AC and Stable AC leaderboards |
+| **Proof Track** | Prove or disprove either full conjecture |
 
-Discovery and Prove share the same competition, team identities, and
-attribution rules. A Prove result does not automatically end Discovery.
+The tracks share team identities and attribution rules. A Proof result
+does not automatically end Discovery.
 
 ## The mathematics
 
@@ -38,8 +37,8 @@ The [official statements](statement.md) and [Lean project](../tools/lean/README.
 cover every positive finite rank. Discovery is a separate bounded search
 benchmark on rank-two inputs.
 
-The Discovery tracks share **10,115 balanced presentations of the trivial
-group**. `ac-v1-00001` … `ac-v1-10115` are AC challenges; the matching
+The AC and Stable AC problems in Discovery use the same **10,115 balanced
+presentations of the trivial group**. `ac-v1-00001` … `ac-v1-10115` are AC challenges; the matching
 `sac-v1-` IDs have exactly the same initial relators. This gives 20,230
 challenge records, with one leaderboard per move specification. The
 publication freeze is pending. The pool draws on an extended Miller–Schupp
@@ -70,7 +69,9 @@ of an open instance is a new mathematical result.
 > is a counterexample, and it does **not** mean the instance is
 > unsolvable.
 
-## AC Discovery
+## Discovery Track
+
+### AC problem
 
 A challenge gives you an ordered pair of freely reduced words
 `initial_relators = [r0, r1]` over letters `1 = x, -1 = x^-1, 2 = y,
@@ -110,7 +111,7 @@ shortest suffixes (also machine-readable in `challenges/move_spec.json`,
 
 No extra theory is needed — append the matching suffix and you are done.
 
-## Stable AC Discovery
+### Stable AC problem
 
 The matching `sac-v1-` challenge starts at the same rank-two presentation.
 Its target is the **empty presentation** `[]`. States have $0\le k\le8$
@@ -143,7 +144,7 @@ points; points are never transferred automatically.
 `challenges/training_424.json` contains 424 solved AC presentations and
 `stable_training_424.json` contains the same instances with certificates
 extended by `[16,15]`. These 424 presentations are **outside both scored
-tracks**. The runnable example exercises both specifications.
+problem sets**. The runnable example exercises both specifications.
 
 ### Submitting
 
@@ -176,7 +177,7 @@ the moves that solve it; online submission will open on the announced
 date.
 
 Each solution contains only `challenge_id` and `moves`. Its challenge
-selects the specification; a batch may mix both Discovery tracks. You may also
+selects the specification; a batch may contain solutions to both problems. You may also
 include optional top-level `method` (a method name) and `notes` (free
 text, at most 2000 characters). The verifier reads the move-spec version
 from the supplied challenge, verifies deterministically, and computes
@@ -189,8 +190,8 @@ competition service will use the same Python sources.
 
 ### Scoring
 
-The two Discovery tracks have **separate scores and rankings**, with no
-combined leaderboard. Upload quotas are shared across them.
+Discovery has **separate AC and Stable AC scores and rankings**, with no
+combined leaderboard. Upload quotas cover both problems together.
 
 Each challenge $i$ has a base score $V_i$ (v1: all $V_i = 1$). Let
 $L^\star_i$ be the shortest accepted path across all teams and $k_i$
@@ -220,7 +221,7 @@ else instantly, maximizing the incentive to keep optimizing.
 receipt, with submission ID breaking ties. A later, shorter solution
 does not take this honor away. Delayed validation of an earlier receipt
 may correct a provisional display; the honor does not guarantee points.
-First Solver is recorded separately for each track.
+First Solver is recorded separately for each problem.
 See [evaluation.md](evaluation.md) §6.
 
 During Discovery Track, path length, peak relator length, certificate
@@ -238,9 +239,10 @@ If a bridge is composed into a valid submitted trivialization, that
 full solution is scored normally for the challenge it solves, using
 its full move length.
 
-## AC Prove and Stable AC Prove
+## Proof Track
 
-Each accepts **proofs and disproofs** of its [official statement](statement.md).
+The AC and Stable AC problems each accept **proofs and disproofs** of their
+[official statement](statement.md).
 A proof must cover all positive finite ranks. A counterexample must present
 the trivial group and rule out the full unbounded relation of that
 conjecture. Ordinary AC keeps the rank fixed; Stable AC permits unrestricted
@@ -259,7 +261,7 @@ combination of these. A PDF is optional. Without supporting material,
 the description itself must contain the complete substantive argument.
 
 **Public versions and discussion.** The planned platform will publish
-all Prove submission versions and comments by default. Each version
+all Proof submission versions and comments by default. Each version
 will receive a server timestamp and a monotonically increasing ID;
 revisions will create new versions rather than overwrite old ones.
 Supporting links will identify the fixed commit or document version
@@ -291,14 +293,13 @@ percentages are not assigned automatically.
 > or restricted move set — is **not** a counterexample.
 
 For each conjecture, the first accepted proof or disproof under this
-priority rule receives
-the **Highest Mathematical Achievement of the Competition** honor.
-Prove results do not earn Discovery points and do not automatically
-end either Discovery track. A qualifying AC proof or Stable AC disproof
+priority rule receives the **Highest Mathematical Achievement of the Competition** honor.
+Proof results do not earn Discovery points and do not automatically
+end Discovery Track. A qualifying AC proof or Stable AC disproof
 is recognized for both conjectures using the same version and receipt time.
 Submission fields, review states, public records,
 and the full priority and credit rules are in
-[evaluation.md](evaluation.md) §9. All four tracks remain closed during
+[evaluation.md](evaluation.md) §9. Both tracks remain closed during
 prelaunch.
 
 ## Teams and integrity
@@ -336,8 +337,8 @@ collaboration with [Caltech](https://www.caltech.edu/).
 ## Timeline
 
 * Registration and team formation: September 8, 2026.
-* AC Discovery and Stable AC Discovery: September 11, 2026.
-* AC Prove and Stable AC Prove: September 20, 2026.
+* Discovery Track: September 11, 2026.
+* Proof Track: September 20, 2026.
 * Submission deadline: November 30, 2026; exact UTC time to be announced.
 * Certificate release: to be announced.
 
@@ -345,6 +346,6 @@ These calendar dates are recorded in `competition.yaml` under
 `announced_dates`. Exact UTC opening times, deadline time, release time,
 `freeze_date`, and `freeze_commit` remain `null`; status is `prelaunch`.
 `submissions_open` records Discovery's UTC start and `prove_submissions_open`
-Prove's; each track's `opens_at` uses the relevant field.
+Proof's; each track's `opens_at` uses the relevant field.
 The official schedule and verified freeze must be complete before formal
 release and online submissions open.

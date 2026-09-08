@@ -1,4 +1,4 @@
-# Prove Track — Andrews–Curtis statements in Lean
+# Proof Track — Andrews–Curtis statements in Lean
 
 Import `AC` and identify whether your claim concerns ordinary or stable AC:
 
@@ -22,7 +22,7 @@ benchmark's rank-8 limit is not part of the conjecture.
 also disproves ordinary AC. These implications do not assume either conjecture.
 See the [mathematical statements](../../rules/statement.md) for details.
 
-The Prove Track is part of the Andrews–Curtis Conjecture Challenge (ACC).
+The Proof Track is part of the Andrews–Curtis Conjecture Challenge (ACC).
 It accepts a proof or disproof with a description and complete argument,
 which may be carried by the description, a PDF or paper, a GitHub
 repository at a fixed commit, or an arXiv paper at a fixed version.
@@ -57,6 +57,6 @@ To run the auxiliary checks, optionally use `lake build Check`.
 Those checks are not a submission requirement. Source snapshots are
 checked separately at release. The optional checks verify the embedding used
 by stabilization, the equivalence of the standard and empty stable endpoints,
-paths beyond rank 8, and the allowed axioms. Prove submissions address the
+paths beyond rank 8, and the allowed axioms. Proof submissions address the
 chosen full conjecture or its negation; a formal bridge to a Discovery
 verifier's finite move encoding is not required.

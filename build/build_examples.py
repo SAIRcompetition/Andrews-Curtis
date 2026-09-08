@@ -22,7 +22,7 @@ def json_text(value, *, sort_keys=False):
 
 
 def build_examples(manifest, training, stable_training):
-    """Return a deterministic, successful example for both Discovery variants."""
+    """Return a deterministic, successful example for the AC and Stable AC problems in Discovery Track."""
     if specs.check_move_specs(manifest["move_specs"]):
         raise ValueError("manifest does not match the frozen move tables")
     entry = min(training["instances"],
@@ -92,17 +92,17 @@ def build_examples(manifest, training, stable_training):
     readme = """# Runnable Discovery submission examples
 
 Start with `sample_submission.json`: a complete, successful submission for
-both Discovery variants of the published training instance `%s`. The AC
+the AC and Stable AC problems in Discovery Track, using training instance `%s`. The AC
 path uses %d moves from [`training_424.json`](../challenges/training_424.json);
 the Stable AC path appends `[16, 15]` from
 [`stable_training_424.json`](../challenges/stable_training_424.json), reaching
 the empty presentation. Both use the official verifier and JSON format.
 
 This is **local training only and earns no points**. The accompanying
-`training_manifest.json` contains the two variants of this instance, each
+`training_manifest.json` contains the AC and Stable AC versions of this instance, each
 marked `scored: false` with `base_score: 0`; its limits and move specifications
 match the official manifest. The Stable example ID is `%s`;
-training files share `%s`, so the example gives each variant a
+training files share `%s`, so the example gives each problem a
 distinct ID for mixed submissions. Its instance and manifest hashes are independently
 checkable. It is not a new official challenge pool or freeze.
 

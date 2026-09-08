@@ -7,26 +7,26 @@ scoring are not open. The competition service is planned to use the
 reference verifier sources in `tools/verifier/`; its server-side
 verdicts will be the authority for Discovery results once submissions open.
 
-ACC is one competition with four tracks: **AC Discovery**, **Stable AC
-Discovery**, **AC Prove**, and **Stable AC Prove**. Sections 1–8 specify
-the two Discovery tracks; §9 specifies the two Prove tracks, each accepting
-proofs and disproofs of its [mathematical statement](statement.md).
-Prove submissions and their versions are public from submission, with
-comments for community review. Discovery move sequences remain private
-during the competition and are released afterwards (§7).
+ACC is one competition with **Discovery Track** and **Proof Track**. Each
+contains **AC** and **Stable AC** problems. Sections 1–8 specify Discovery;
+§9 specifies Proof, which accepts proofs and disproofs of either
+[mathematical statement](statement.md). Proof submissions and versions are
+public from receipt, with comments for community review. Discovery move
+sequences remain private during competition and are released afterwards (§7).
 
 Announced calendar dates are September 8, 2026 for registration, September
-11 for both Discovery tracks, September 20 for both Prove tracks, and
+11 for Discovery Track, September 20 for Proof Track, and
 November 30 for the submission deadline. Exact UTC opening and deadline
 times, certificate release, and official freeze remain to be set. Their
-timestamp fields remain `null` and the status remains `prelaunch` until the release requirements are met.
+timestamp fields remain `null`; status remains `prelaunch` until the
+release requirements are met.
 `submissions_open` is Discovery's UTC opening; `prove_submissions_open` is
-Prove's. Each track's `opens_at` uses its corresponding timestamp.
+Proof's. Each track's `opens_at` uses its corresponding timestamp.
 
 For each track, eligibility uses the time the server receives the complete
 submission: at or after that track's published UTC opening time and before
 `submission_deadline`. Verification or review may finish after the deadline.
-A late Discovery submission earns no points; Prove corrections after the
+A late Discovery submission earns no points; Proof corrections after the
 deadline are addressed in §9.6. A calendar date alone does not open an endpoint.
 
 For a complete local success case and expected receipt, see the
@@ -38,9 +38,9 @@ manifest and does not count as a competition submission.
 The challenge determines the move specification: `ac-v1-` IDs use
 `ac-r2-v1`; `sac-v1-` IDs use `sac-r8-v1`. Corresponding IDs contain the
 same initial presentation. The manifest has 20,230 challenge records for
-10,115 presentations, scored separately in the two Discovery tracks.
+10,115 presentations, scored separately for the AC and Stable AC problems.
 
-### 1.1 AC Discovery
+### 1.1 AC problem
 
 Letters: `1 = x, -1 = x^-1, 2 = y, -2 = y^-1`. A word is an array of
 nonzero integers; a presentation state is the ordered pair
@@ -54,7 +54,7 @@ machine-readably in `challenges/move_spec.json`; ids are frozen
 forever. `move_spec_hash` is the SHA-256 of the canonical JSON (sorted
 keys, no whitespace, ASCII) of the `moves` array of that file.
 
-### 1.2 Stable AC Discovery
+### 1.2 Stable AC problem
 
 A state is an ordered list of $k$ freely reduced relators over letters
 $\pm1,\ldots,\pm k$, where $0\le k\le8$. Each challenge starts at
@@ -83,9 +83,9 @@ relator index down; the shortest finish has $k$ plus the number of negative
 relators moves. From either `(x,y)` or `(y,x)`, the suffix is `[16,15]`.
 
 An AC solution followed by `[16,15]` reaches the stable target. It is
-accepted in Stable AC Discovery only if the extended path also satisfies
+accepted for the Stable AC problem only if the extended path also satisfies
 its limits: the suffix adds two moves and one unit of work. Submit it
-under the corresponding `sac-v1-` ID; no cross-track points are automatic.
+under the corresponding `sac-v1-` ID; points do not transfer between problems.
 
 ## 2. Verifier semantics
 
@@ -163,8 +163,8 @@ is the one reported.
 
 ## 4. Limits
 
-The same path limits apply to both Discovery tracks. Upload quotas and
-batch/body limits are shared per team across both tracks, not duplicated.
+The same path limits apply to both Discovery problems. Upload quotas and
+batch/body limits are shared per team across the entire Discovery Track.
 A batch may mix `ac-v1-` and `sac-v1-` IDs; they are distinct challenges.
 
 | Limit | v1 value |
@@ -242,7 +242,7 @@ $P_{t,i} = V_i\,2^{1-k_i}$ if $L_{t,i}=L^\star_i$, else 0;
 $P_t = \sum_i P_{t,i}$.
 
 Scores, totals, ranks, First Solver, and solved counters are computed
-**separately for each Discovery track**. There is no combined ranking.
+**separately for the AC and Stable AC problems**. There is no combined ranking.
 Submission IDs and quota accounting remain shared; an event affects only
 the leaderboard selected by its challenge.
 
@@ -294,14 +294,14 @@ competition. The platform must enforce this with a public-field whitelist
 and tests; this repository does not yet supply that production API.
 All valid Discovery certificates are published at the announced
 post-competition `certificate_release` time. This embargo does not apply
-to Prove submissions, which are public under §9.
+to Proof submissions, which are public under §9.
 
 One person participates through one team. Teams may add members with
 organizer approval but may not merge after either has submitted.
 Sharing a specific Discovery certificate across teams is joint work and
 must not be resubmitted as independent results by multiple teams.
 Sockpuppets and coordinated duplicate submissions are prohibited.
-Discussion, public Prove review, and properly attributed use of ideas
+Discussion, public Proof review, and properly attributed use of ideas
 are allowed; they do not create an exception for copying Discovery
 certificates into additional independently scoring teams.
 
@@ -328,7 +328,7 @@ collaboration rules. For example, a 10-move path from B to A plus a
 accepted solution, it earns B's full base score. Shortest-path scoring
 does not prevent this. A bridge does not merge challenges in v1.
 
-## 9. Prove Track
+## 9. Proof Track
 
 ### 9.1 What is claimed
 
@@ -351,11 +351,11 @@ of the full conjecture. Solving the finite pool is not a proof of either.
 
 ### 9.2 Submission materials
 
-The Prove submission page will collect the following when submissions open:
+The Proof submission page will collect the following when submissions open:
 
 | Field | Requirement |
 |---|---|
-| `conjecture` | `ac` or `stable_ac`, selecting AC Prove or Stable AC Prove |
+| `conjecture` | `ac` or `stable_ac`, selecting the problem within Proof Track |
 | `claim_type` | `proof` or `disproof` |
 | `description` | State the claim, its scope, the argument or its outline, and the authors' contribution |
 | Supporting materials | Paper/PDF, GitHub link for a Lean formalization, arXiv link, or a combination, as needed to supply the complete argument |
@@ -382,10 +382,10 @@ The [official statements](statement.md) cover every positive finite rank.
 Both are defined in `tools/lean/AC.lean`, using free groups and
 `Subsingleton (PresentedGroup (Set.range R))` for presented-group triviality.
 
-| Prove track | Proof target | Disproof target | Equivalent witness form |
+| Problem | Proof target | Disproof target | Equivalent witness form |
 |---|---|---|---|
-| AC Prove | `AC.Conjecture` | `¬ AC.Conjecture` | `AC.Counterexample` |
-| Stable AC Prove | `AC.StableConjecture` | `¬ AC.StableConjecture` | `AC.StableCounterexample` |
+| AC | `AC.Conjecture` | `¬ AC.Conjecture` | `AC.Counterexample` |
+| Stable AC | `AC.StableConjecture` | `¬ AC.StableConjecture` | `AC.StableCounterexample` |
 
 Ordinary reachability fixes the rank. Stable reachability permits finite
 sequences of rank changes without any bound on rank or intermediate word
@@ -415,7 +415,7 @@ Online submissions remain closed during prelaunch.
 
 ### 9.4 Public versions and comments
 
-Every Prove submission is public from receipt. A submission page contains
+Every Proof submission is public from receipt. A submission page contains
 the description, materials, author and team attribution, version history,
 comments, and review decisions. Other participants may comment, question
 an argument, suggest corrections, and learn from it. Comments and author
@@ -504,7 +504,7 @@ For each conjecture, the first qualifying proof **or** disproof is recognized as
 **Highest Mathematical Achievement of the Competition**, with its
 qualifying version, receipt time, contributors, and review explanation.
 Other accepted work and substantive contributions receive attribution
-appropriate to their role. Prove recognition does not convert into
+appropriate to their role. Proof recognition does not convert into
 Discovery points.
 
 A qualifying AC proof is recognized for both conjectures, as is a qualifying
