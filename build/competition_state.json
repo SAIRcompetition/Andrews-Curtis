@@ -3,13 +3,13 @@
  "freeze_date": null,
  "freeze_commit": null,
  "registration_opens": null,
- "submissions_open": null,
+ "submissions_open": "2026-09-11T16:00:00Z",
  "submission_deadline": null,
  "certificate_release": null,
  "announced_dates": {
   "registration": "2026-09-08",
   "discovery": "2026-09-11",
-  "prove": "2026-09-21",
+  "prove": "2026-09-20",
   "deadline": "2026-11-30"
  },
  "prove_submissions_open": null

@@ -2,10 +2,11 @@
 
 **The official data freeze is not yet set.** This preview contains
 20,230 challenges: the same **10,115 presentations** in the AC and Stable AC
-problems within Discovery Track. The status is `prelaunch`; exact UTC schedule and
-freeze fields are `null`. Calendar dates in `announced_dates` are September
-8, 2026 for registration, September 11 for Discovery, September 21 for
-Proof, and November 30 for the deadline. Exact UTC times remain pending.
+problems within Discovery Track. The status is `prelaunch`; Discovery opens at
+16:00 UTC on September 11, 2026. Other exact UTC schedule and freeze fields
+remain `null`. Calendar dates in `announced_dates` are September
+8, 2026 for registration, September 11 for Discovery, September 20 for
+Proof, and November 30 for the deadline.
 
 Before public launch, the organizers will freeze `manifest.json`,
 `move_spec.json`, and `stable_move_spec.json` in git and publish the commit.

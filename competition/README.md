@@ -2,8 +2,8 @@
 
 **Prelaunch preview — registration and submissions are not open.** Rules,
 data, and local verification are available. Registration is scheduled for
-September 8, 2026, Discovery for September 11, and Proof for September 21;
-the submission deadline is November 30. Exact UTC times and the official
+September 8, 2026, Discovery for September 11 at 16:00 UTC, and Proof for September 20;
+the submission deadline is November 30. Other exact UTC times and the official
 freeze remain pending.
 
 The ACC Challenge is one competition with **two tracks**. Each contains **AC** and

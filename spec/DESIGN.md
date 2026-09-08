@@ -420,9 +420,10 @@ integration, private maps, and this guide are not in the export.
 `dist/ACMS-public`. The default release command requires a complete approved
 schedule and verified Git data freeze. Maintain release state in
 `build/competition_state.json` and synchronize generated metadata. During
-prelaunch, exact UTC dates and `freeze_commit` remain `null`. Calendar plans
+prelaunch, `submissions_open` is `2026-09-11T16:00:00Z`; other exact UTC
+dates and `freeze_commit` remain `null`. Calendar plans
 are separately recorded in `announced_dates`: registration September 8,
-Discovery September 11, Proof September 21, and the deadline November 30,
+Discovery September 11, Proof September 20, and the deadline November 30,
 2026. Exact track opening
 uses track-level `opens_at`, supplied by `submissions_open` for Discovery and
 `prove_submissions_open` for Proof. The internal date keys retain their
