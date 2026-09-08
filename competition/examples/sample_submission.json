@@ -6,6 +6,11 @@
       "challenge_id": "ac-v1-00001",
       "move_spec_version": "ac-r2-v1",
       "moves": [6, 7]
+    },
+    {
+      "challenge_id": "sac-v1-00001",
+      "move_spec_version": "sac-r8-v1",
+      "moves": [6, 7]
     }
   ]
 }

@@ -9,10 +9,11 @@ server-side verifier is the sole authority for official results.
 """
 
 import argparse
+import collections
 import json
 import sys
 
-from . import __version__, canon, core, golden, submission
+from . import __version__, canon, golden, specs, submission
 
 
 def _load_json(path):
@@ -22,9 +23,12 @@ def _load_json(path):
 
 def _cmd_submission(args):
     manifest = _load_json(args.manifest)
-    if manifest.get("move_spec_hash") != canon.move_spec_hash(core.MOVE_TABLE):
-        print("error: manifest move_spec_hash does not match this "
-              "verifier's frozen move table", file=sys.stderr)
+    problems = specs.check_move_specs(manifest.get("move_specs"))
+    if problems:
+        print("error: manifest move_specs do not match this verifier's "
+              "frozen move tables", file=sys.stderr)
+        for p in problems:
+            print("  %s" % p, file=sys.stderr)
         return 3
     with open(args.submission, "rb") as fh:
         raw = fh.read()
@@ -53,13 +57,18 @@ def _cmd_golden(args):
 
 def _cmd_check_hashes(args):
     manifest = _load_json(args.manifest)
-    problems = []
-    spec_hash = canon.move_spec_hash(core.MOVE_TABLE)
-    if manifest.get("move_spec_hash") != spec_hash:
-        problems.append("move_spec_hash: manifest has %r, verifier computes %r"
-                        % (manifest.get("move_spec_hash"), spec_hash))
+    problems = specs.check_move_specs(manifest.get("move_specs"))
+    # Each challenge's instance_hash is bound to the spec IT names, so
+    # the hash to feed the template is looked up per challenge, never
+    # taken from a single manifest-level field.
+    spec_hashes = specs.move_spec_hashes()
     hashes = []
     for c in manifest["challenges"]:
+        spec_hash = spec_hashes.get(c["move_spec_version"])
+        if spec_hash is None:
+            problems.append("unknown move_spec_version %r: %s"
+                            % (c["move_spec_version"], c["challenge_id"]))
+            continue
         h = canon.instance_hash(
             c["challenge_id"], c["generators"], c["initial_relators"],
             c["target_relators"], c["move_spec_version"], spec_hash)
@@ -74,16 +83,21 @@ def _cmd_check_hashes(args):
         for p in problems:
             print("FAIL  %s" % p)
         return 2
-    print("OK  %d challenges; move_spec_hash, all instance_hash and "
-          "manifest_hash verified" % len(manifest["challenges"]))
+    counts = collections.Counter(c["move_spec_version"]
+                                 for c in manifest["challenges"])
+    print("OK  %d challenges (%s); every move_spec_hash, instance_hash and "
+          "manifest_hash verified"
+          % (len(manifest["challenges"]),
+             ", ".join("%d %s" % (counts[v], v) for v in specs.SPEC_ORDER
+                       if counts[v])))
     return 0
 
 
 def main(argv=None):
     parser = argparse.ArgumentParser(
         prog="acms-verify",
-        description="ACMS reference verifier (move spec %s, verifier %s)"
-        % (core.MOVE_SPEC_VERSION, __version__))
+        description="ACMS reference verifier (move specs %s; verifier %s)"
+        % (", ".join(specs.SPEC_ORDER), __version__))
     parser.add_argument("--manifest", help="path to manifest.json")
     parser.add_argument("--submission", help="path to a submission JSON file")
     parser.add_argument("--golden", help="run golden conformance vectors")

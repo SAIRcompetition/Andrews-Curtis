@@ -13,7 +13,7 @@ Check priority (DESIGN.md O-5, frozen):
 
 import json
 
-from . import core
+from . import specs
 
 #: Structural limits (DESIGN.md §4.3).  These are the frozen v1
 #: defaults; production overrides them per deployment via the
@@ -77,6 +77,12 @@ def process_submission(raw_bytes, manifest, challenge_index=None,
     (``{"accepted": False, "code": ..., ...}``) or
     ``{"accepted": True, "results": [...]}`` with one verdict per
     solution in input order.
+
+    Each solution is verified by the implementation its CHALLENGE names
+    (:mod:`acms_verify.specs`), so ac-v1 and sac-v1 solutions may be
+    mixed freely in one submission.  A solution whose
+    ``move_spec_version`` disagrees with its challenge's comes back as a
+    per-item ``E_SPEC_MISMATCH``.
     """
     if challenge_index is None:
         challenge_index = build_challenge_index(manifest)
@@ -159,8 +165,8 @@ def process_submission(raw_bytes, manifest, challenge_index=None,
             results.append({"challenge_id": cid, "ok": False,
                             "code": "E_UNKNOWN_CHALLENGE", "move_index": None})
             continue
-        verdict = core.verify(challenge, sol["moves"],
-                              sol["move_spec_version"], limits)
+        verdict = specs.verify_challenge(challenge, sol["moves"],
+                                         sol["move_spec_version"], limits)
         verdict = dict(verdict)
         verdict["challenge_id"] = cid
         results.append(verdict)

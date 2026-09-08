@@ -1,0 +1,8 @@
+{
+ "note": "sha256 of the newline-joined sorted ac-v1 instance_hash list, pinned BEFORE the stable track was added; ac-v1 instance hashes must never change.",
+ "count": 10115,
+ "sha256_of_sorted_joined": "617fc715c575b05c37c08f930795f47a7414723be997c46046dee0754fea49bf",
+ "manifest_hash_before_stable_track": "sha256:2ad90dd132c09780a3fc4bd4cf4c41ab2717255f0891070eb195df6a8096f7a1",
+ "first": "sha256:77651a9c7d1171b47fe108216d22ea789ab77a71429bcf4a0e291fbb123d5ea3",
+ "last": "sha256:34ff446f384a1f4293d2e53185d0e09d5c4281156eb7dae7207e96f9249caf3b"
+}

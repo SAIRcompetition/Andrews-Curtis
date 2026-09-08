@@ -15,14 +15,27 @@ class TestSubmissionLayer(unittest.TestCase):
         cls.index = submission.build_challenge_index(cls.manifest)
         entry = min(util.load_training()["instances"],
                     key=lambda e: e["length"])
-        # A mini manifest that also knows the solvable training instance.
+        stable = {e["training_id"]: e
+                  for e in util.load_stable_training()["instances"]}
+        # The stable counterpart carries the same training_id, so give it
+        # a distinct one inside the mini manifest.
+        stable_entry = dict(stable[entry["training_id"]],
+                            training_id="sac-" + entry["training_id"])
+        # A mini manifest that also knows the solvable training instance
+        # in both tracks.
         cls.mini = {"limits": cls.manifest["limits"],
                     "challenges": cls.manifest["challenges"][:3]
-                    + [util.training_challenge(entry)]}
+                    + [util.training_challenge(entry),
+                       util.training_challenge(stable_entry)]}
         cls.entry = entry
+        cls.stable_entry = stable_entry
         cls.sol = {"challenge_id": entry["training_id"],
                    "move_spec_version": entry["move_spec_version"],
                    "moves": entry["moves"]}
+        cls.stable_sol = {"challenge_id": stable_entry["training_id"],
+                          "move_spec_version":
+                              stable_entry["move_spec_version"],
+                          "moves": stable_entry["moves"]}
 
     def run_sub(self, doc, manifest=None):
         raw = doc if isinstance(doc, bytes) else json.dumps(doc).encode()
@@ -142,16 +155,57 @@ class TestSubmissionLayer(unittest.TestCase):
         self.assertEqual((v["code"], v["detail"]),
                          ("E_MALFORMED", "too_many_solutions"))
 
-    def test_real_manifest_challenge_wrong_path(self):
-        """Against the real 550-challenge manifest any path that merely
-        walks legally but ends elsewhere yields E_NOT_TARGET."""
-        cid = self.manifest["challenges"][0]["challenge_id"]
-        v = self.run_sub({"solutions": [{"challenge_id": cid,
-                                         "move_spec_version": "ac-r2-v1",
-                                         "moves": [6, 7]}]},
-                         manifest=self.manifest)
+    # -- both tracks in one submission ----------------------------------
+    def test_accept_mixed_tracks(self):
+        """One submission may carry ac-v1 and sac-v1 solutions; each is
+        verified by the spec its own challenge names."""
+        v = self.run_sub({"solutions": [self.sol, self.stable_sol]})
         self.assertTrue(v["accepted"])
-        self.assertEqual(v["results"][0]["code"], "E_NOT_TARGET")
+        self.assertEqual([r["ok"] for r in v["results"]], [True, True])
+        self.assertEqual(v["results"][0]["certificate_hash"],
+                         self.entry["certificate_hash"])
+        self.assertEqual(v["results"][1]["length"],
+                         self.entry["length"] + 2)
+        self.assertEqual(v["results"][1]["work"], self.entry["work"] + 1)
+        self.assertEqual([r["challenge_id"] for r in v["results"]],
+                         [self.sol["challenge_id"],
+                          self.stable_sol["challenge_id"]])
+
+    def test_cross_track_spec_version_is_a_per_item_rejection(self):
+        crossed = [dict(self.sol, move_spec_version="sac-r8-v1"),
+                   dict(self.stable_sol, move_spec_version="ac-r2-v1")]
+        v = self.run_sub({"solutions": crossed})
+        self.assertTrue(v["accepted"])
+        self.assertEqual([r["code"] for r in v["results"]],
+                         ["E_SPEC_MISMATCH", "E_SPEC_MISMATCH"])
+        self.assertEqual([r["expected"] for r in v["results"]],
+                         ["ac-r2-v1", "sac-r8-v1"])
+
+    def test_stable_moves_on_an_ac_challenge_are_bad_move_ids(self):
+        """Move id 16 exists only in sac-r8-v1; on an ac-r2-v1 challenge
+        it is out of range."""
+        v = self.run_sub({"solutions": [dict(self.sol,
+                                             moves=self.stable_sol["moves"])]})
+        self.assertTrue(v["accepted"])
+        self.assertEqual(v["results"][0]["code"], "E_BAD_MOVE_ID")
+        self.assertEqual(v["results"][0]["move"], 16)
+
+    def test_real_manifest_challenge_wrong_path(self):
+        """Against the real 20,230-challenge manifest any path that
+        merely walks legally but ends elsewhere yields E_NOT_TARGET —
+        on either track, with the track's own final_shape shape."""
+        ac, sac = util.paired_challenges(self.manifest)[0]
+        v = self.run_sub({"solutions": [
+            {"challenge_id": ac["challenge_id"],
+             "move_spec_version": "ac-r2-v1", "moves": [6, 7]},
+            {"challenge_id": sac["challenge_id"],
+             "move_spec_version": "sac-r8-v1", "moves": [6, 7]}]},
+            manifest=self.manifest)
+        self.assertTrue(v["accepted"])
+        shape = [len(w) for w in ac["initial_relators"]]
+        for r in v["results"]:
+            self.assertEqual(r["code"], "E_NOT_TARGET")
+            self.assertEqual(r["final_shape"], shape)
 
 
 if __name__ == "__main__":

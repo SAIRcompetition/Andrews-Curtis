@@ -9,9 +9,9 @@ exactly.
 
 import json
 
-from . import core, submission
+from . import specs, submission
 
-FORMAT = "acms-golden-v1"
+FORMAT = "acms-golden-v2"
 
 
 def _subset_match(expected, actual):
@@ -36,6 +36,10 @@ def run_vectors(doc):
     if doc.get("format") != FORMAT:
         raise ValueError("unsupported golden vector format: %r"
                          % (doc.get("format"),))
+    problems = specs.check_move_specs(doc.get("move_specs"))
+    if problems:
+        raise ValueError("golden header disagrees with this verifier: "
+                         + "; ".join(problems))
     challenges = doc["challenges"]
     default_limits = doc["default_limits"]
     mini_manifest = {
@@ -48,7 +52,8 @@ def run_vectors(doc):
         challenge = challenges[vec["challenge_id"]]
         limits = vec.get("limits", default_limits)
         version = vec.get("move_spec_version", challenge["move_spec_version"])
-        actual = core.verify(challenge, vec["moves"], version, limits)
+        actual = specs.verify_challenge(challenge, vec["moves"], version,
+                                        limits)
         mism = _subset_match(vec["expected"], actual)
         report.append({"name": vec["name"], "passed": not mism,
                        "mismatches": mism})

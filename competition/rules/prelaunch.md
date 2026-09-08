@@ -30,10 +30,11 @@ generators together with the same number of relators, such that the group
 they define is trivial. The **Andrews–Curtis conjecture** (1965) asserts that
 every such presentation can be reduced to the trivial presentation
 $\langle x, y \mid x, y \rangle$ by a sequence of elementary moves: inverting
-a relator, multiplying one relator by another, and conjugating a relator. The **stable Andrews–Curtis conjecture** additionally allows adding
-a new generator together with a relator equal to it, and removing such a
-pair. The stable conjecture is implied by the ordinary one, and it is
-connected to open questions in four-dimensional topology.
+a relator, multiplying one relator by another, and conjugating a relator.
+The **stable Andrews–Curtis conjecture** additionally allows adding a new
+generator together with a relator equal to it, and removing such a pair. The
+stable conjecture is implied by the ordinary one, and it is connected to open
+questions in four-dimensional topology.
 
 Both conjectures have been open for sixty years. Most experts expect the
 ordinary conjecture to be false, yet no counterexample has ever been

@@ -1,8 +1,31 @@
 {
- "format": "acms-golden-v1",
- "move_spec_version": "ac-r2-v1",
- "move_spec_hash": "sha256:e13f57d82b5db1a79c1bd9d5ee1f6665ac4d96a634a3656ea20c0ada82e07643",
- "manifest_hash": "sha256:2ad90dd132c09780a3fc4bd4cf4c41ab2717255f0891070eb195df6a8096f7a1",
+ "format": "acms-golden-v2",
+ "move_specs": [
+  {
+   "move_spec_version": "ac-r2-v1",
+   "move_spec_hash": "sha256:e13f57d82b5db1a79c1bd9d5ee1f6665ac4d96a634a3656ea20c0ada82e07643",
+   "file": "move_spec.json",
+   "target_relators": [
+    [
+     1
+    ],
+    [
+     2
+    ]
+   ],
+   "max_rank": 2,
+   "id_prefix": "ac-v1-"
+  },
+  {
+   "move_spec_version": "sac-r8-v1",
+   "move_spec_hash": "sha256:27ecd0ebd4af39871cbfb23ecbd8be73710e85e04d8be788c1d81117d9f4b2b0",
+   "file": "stable_move_spec.json",
+   "target_relators": [],
+   "max_rank": 8,
+   "id_prefix": "sac-v1-"
+  }
+ ],
+ "manifest_hash": "sha256:7e597db7bdf715f696f1e0b9f20b234cffe73f0e9d279f392aba7a59af673646",
  "default_limits": {
   "max_path_length": 100000,
   "max_total_relator_length": 10000,
@@ -177,6 +200,156 @@
      2
     ]
    ]
+  },
+  "sac-train-0160": {
+   "challenge_id": "sac-train-0160",
+   "move_spec_version": "sac-r8-v1",
+   "generators": [
+    "x",
+    "y"
+   ],
+   "initial_relators": [
+    [
+     -1,
+     2,
+     1,
+     -2,
+     -2
+    ],
+    [
+     1,
+     2,
+     1,
+     2,
+     2,
+     -1,
+     -2
+    ]
+   ],
+   "target_relators": []
+  },
+  "sac-train-0109": {
+   "challenge_id": "sac-train-0109",
+   "move_spec_version": "sac-r8-v1",
+   "generators": [
+    "x",
+    "y"
+   ],
+   "initial_relators": [
+    [
+     -1,
+     2,
+     2,
+     2,
+     2,
+     2,
+     2,
+     2,
+     1,
+     -2,
+     -2,
+     -2,
+     -2,
+     -2,
+     -2,
+     -2,
+     -2
+    ],
+    [
+     1,
+     2,
+     2,
+     2,
+     2,
+     2
+    ]
+   ],
+   "target_relators": []
+  },
+  "sac-train-0066": {
+   "challenge_id": "sac-train-0066",
+   "move_spec_version": "sac-r8-v1",
+   "generators": [
+    "x",
+    "y"
+   ],
+   "initial_relators": [
+    [
+     -1,
+     2,
+     2,
+     2,
+     2,
+     1,
+     -2,
+     -2,
+     -2,
+     -2,
+     -2
+    ],
+    [
+     1,
+     1,
+     2,
+     -1,
+     -2
+    ]
+   ],
+   "target_relators": []
+  },
+  "golden-stable-xy": {
+   "challenge_id": "golden-stable-xy",
+   "move_spec_version": "sac-r8-v1",
+   "generators": [
+    "x",
+    "y"
+   ],
+   "initial_relators": [
+    [
+     1
+    ],
+    [
+     2
+    ]
+   ],
+   "target_relators": []
+  },
+  "golden-stable-yx": {
+   "challenge_id": "golden-stable-yx",
+   "move_spec_version": "sac-r8-v1",
+   "generators": [
+    "x",
+    "y"
+   ],
+   "initial_relators": [
+    [
+     2
+    ],
+    [
+     1
+    ]
+   ],
+   "target_relators": []
+  },
+  "golden-stable-pump": {
+   "challenge_id": "golden-stable-pump",
+   "move_spec_version": "sac-r8-v1",
+   "generators": [
+    "x",
+    "y"
+   ],
+   "initial_relators": [
+    [
+     1,
+     2
+    ],
+    [
+     1,
+     1,
+     2
+    ]
+   ],
+   "target_relators": []
   }
  },
  "verify_vectors": [
@@ -649,6 +822,465 @@
     "code": "E_WORK_BUDGET",
     "move_index": 32
    }
+  },
+  {
+   "name": "accept-stable-shortest-sac-train-0160",
+   "challenge_id": "sac-train-0160",
+   "moves": [
+    6,
+    4,
+    2,
+    9,
+    1,
+    4,
+    1,
+    16,
+    15
+   ],
+   "expected": {
+    "ok": true,
+    "length": 9,
+    "peak_total_relator_length": 12,
+    "work": 47,
+    "certificate_hash": "sha256:e94492471688db5cb52971611a3617e75c165d89e3ed51cea9a3f5d96ccbb77e"
+   }
+  },
+  {
+   "name": "accept-stable-median-sac-train-0109",
+   "challenge_id": "sac-train-0109",
+   "moves": [
+    6,
+    2,
+    9,
+    9,
+    9,
+    9,
+    11,
+    1,
+    4,
+    8,
+    2,
+    8,
+    2,
+    0,
+    4,
+    0,
+    8,
+    2,
+    0,
+    4,
+    4,
+    4,
+    3,
+    4,
+    3,
+    10,
+    16,
+    15
+   ],
+   "expected": {
+    "ok": true,
+    "length": 28,
+    "peak_total_relator_length": 23,
+    "work": 244,
+    "certificate_hash": "sha256:5eb490a85ad517fb1b65e9c3d4552b591928cd2b9d009b8626dac82c844189b0"
+   }
+  },
+  {
+   "name": "accept-stable-longest-sac-train-0066",
+   "challenge_id": "sac-train-0066",
+   "moves": [
+    0,
+    9,
+    1,
+    9,
+    9,
+    1,
+    9,
+    9,
+    6,
+    8,
+    1,
+    2,
+    0,
+    1,
+    7,
+    13,
+    11,
+    2,
+    7,
+    8,
+    12,
+    2,
+    6,
+    6,
+    6,
+    13,
+    2,
+    8,
+    6,
+    2,
+    0,
+    8,
+    6,
+    12,
+    1,
+    0,
+    10,
+    7,
+    2,
+    0,
+    7,
+    2,
+    0,
+    7,
+    2,
+    0,
+    7,
+    9,
+    0,
+    11,
+    2,
+    0,
+    8,
+    10,
+    2,
+    7,
+    9,
+    2,
+    0,
+    8,
+    2,
+    0,
+    7,
+    2,
+    0,
+    7,
+    2,
+    7,
+    9,
+    11,
+    2,
+    9,
+    2,
+    0,
+    8,
+    8,
+    10,
+    2,
+    7,
+    9,
+    2,
+    0,
+    8,
+    2,
+    0,
+    7,
+    2,
+    0,
+    9,
+    2,
+    8,
+    7,
+    2,
+    0,
+    7,
+    2,
+    7,
+    9,
+    2,
+    7,
+    10,
+    2,
+    0,
+    6,
+    8,
+    11,
+    2,
+    0,
+    7,
+    2,
+    0,
+    7,
+    2,
+    0,
+    7,
+    2,
+    0,
+    9,
+    11,
+    2,
+    8,
+    7,
+    10,
+    2,
+    0,
+    7,
+    2,
+    0,
+    7,
+    2,
+    0,
+    7,
+    2,
+    7,
+    10,
+    2,
+    0,
+    7,
+    11,
+    11,
+    2,
+    7,
+    7,
+    2,
+    7,
+    7,
+    2,
+    0,
+    4,
+    0,
+    7,
+    4,
+    2,
+    7,
+    2,
+    2,
+    0,
+    4,
+    3,
+    16,
+    15
+   ],
+   "expected": {
+    "ok": true,
+    "length": 161,
+    "peak_total_relator_length": 16,
+    "work": 2162,
+    "certificate_hash": "sha256:ba8be103db9fbb2ca0cca09113371ed1d1524f5a345612457ec2b3f130cfe036"
+   }
+  },
+  {
+   "name": "accept-stable-canon-xy",
+   "challenge_id": "golden-stable-xy",
+   "moves": [
+    16,
+    15
+   ],
+   "expected": {
+    "ok": true,
+    "length": 2,
+    "peak_total_relator_length": 2,
+    "work": 3,
+    "certificate_hash": "sha256:cec92868400d31ba9aa6ad9a130c9f984bf77925b20c74dbd3e8bba5e74f7151"
+   }
+  },
+  {
+   "name": "accept-stable-canon-yx",
+   "challenge_id": "golden-stable-yx",
+   "moves": [
+    15,
+    15
+   ],
+   "expected": {
+    "ok": true,
+    "length": 2,
+    "peak_total_relator_length": 2,
+    "work": 3,
+    "certificate_hash": "sha256:236ec4ea675db99687bab8380a504acd496d7db35b168d8e811fce59a4ae0c10"
+   }
+  },
+  {
+   "name": "accept-stable-rank3-detour",
+   "challenge_id": "golden-stable-xy",
+   "moves": [
+    14,
+    161,
+    162,
+    17,
+    16,
+    15
+   ],
+   "expected": {
+    "ok": true,
+    "length": 6,
+    "peak_total_relator_length": 5,
+    "work": 16,
+    "certificate_hash": "sha256:228e477d97802a9027b62e008131eab126e18cace055de318b477d2723629900"
+   }
+  },
+  {
+   "name": "not-target-stable-missing-destabilizations",
+   "challenge_id": "sac-train-0160",
+   "moves": [
+    6,
+    4,
+    2,
+    9,
+    1,
+    4,
+    1
+   ],
+   "expected": {
+    "ok": false,
+    "code": "E_NOT_TARGET",
+    "final_shape": [
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "name": "not-target-stable-empty-path",
+   "challenge_id": "sac-train-0160",
+   "moves": [],
+   "expected": {
+    "ok": false,
+    "code": "E_NOT_TARGET"
+   }
+  },
+  {
+   "name": "move-not-applicable-relator-out-of-rank",
+   "challenge_id": "golden-stable-xy",
+   "moves": [
+    16,
+    1
+   ],
+   "expected": {
+    "ok": false,
+    "code": "E_MOVE_NOT_APPLICABLE",
+    "move_index": 1,
+    "reason": "relator_out_of_rank"
+   }
+  },
+  {
+   "name": "move-not-applicable-generator-out-of-rank",
+   "challenge_id": "golden-stable-xy",
+   "moves": [
+    16,
+    8
+   ],
+   "expected": {
+    "ok": false,
+    "code": "E_MOVE_NOT_APPLICABLE",
+    "move_index": 1,
+    "reason": "generator_out_of_rank"
+   }
+  },
+  {
+   "name": "move-not-applicable-max-rank-exceeded",
+   "challenge_id": "golden-stable-xy",
+   "moves": [
+    14,
+    14,
+    14,
+    14,
+    14,
+    14,
+    14
+   ],
+   "expected": {
+    "ok": false,
+    "code": "E_MOVE_NOT_APPLICABLE",
+    "move_index": 6,
+    "reason": "max_rank_exceeded"
+   }
+  },
+  {
+   "name": "move-not-applicable-destabilize-precondition-long-relator",
+   "challenge_id": "golden-stable-pump",
+   "moves": [
+    15
+   ],
+   "expected": {
+    "ok": false,
+    "code": "E_MOVE_NOT_APPLICABLE",
+    "move_index": 0,
+    "reason": "destabilize_precondition"
+   }
+  },
+  {
+   "name": "move-not-applicable-destabilize-precondition-inverted",
+   "challenge_id": "golden-stable-xy",
+   "moves": [
+    0,
+    15
+   ],
+   "expected": {
+    "ok": false,
+    "code": "E_MOVE_NOT_APPLICABLE",
+    "move_index": 1,
+    "reason": "destabilize_precondition"
+   }
+  },
+  {
+   "name": "move-not-applicable-destabilize-precondition-shared-generator",
+   "challenge_id": "golden-stable-xy",
+   "moves": [
+    4,
+    15
+   ],
+   "expected": {
+    "ok": false,
+    "code": "E_MOVE_NOT_APPLICABLE",
+    "move_index": 1,
+    "reason": "destabilize_precondition"
+   }
+  },
+  {
+   "name": "bad-move-id-stable-257",
+   "challenge_id": "golden-stable-xy",
+   "moves": [
+    257
+   ],
+   "expected": {
+    "ok": false,
+    "code": "E_BAD_MOVE_ID",
+    "move_index": 0,
+    "move": 257
+   }
+  },
+  {
+   "name": "spec-mismatch-ac-version-on-stable-challenge",
+   "challenge_id": "sac-train-0160",
+   "moves": [
+    6,
+    4,
+    2,
+    9,
+    1,
+    4,
+    1,
+    16,
+    15
+   ],
+   "expected": {
+    "ok": false,
+    "code": "E_SPEC_MISMATCH",
+    "move_index": null,
+    "expected": "sac-r8-v1"
+   },
+   "move_spec_version": "ac-r2-v1"
+  },
+  {
+   "name": "spec-mismatch-stable-version-on-ac-challenge",
+   "challenge_id": "ms-train-0160",
+   "move_spec_version": "sac-r8-v1",
+   "moves": [
+    6,
+    4,
+    2,
+    9,
+    1,
+    4,
+    1
+   ],
+   "expected": {
+    "ok": false,
+    "code": "E_SPEC_MISMATCH",
+    "move_index": null,
+    "expected": "ac-r2-v1"
+   }
   }
  ],
  "submission_vectors": [
@@ -773,6 +1405,40 @@
     "code": "E_MALFORMED",
     "detail": "unknown_key",
     "key": "team"
+   }
+  },
+  {
+   "name": "sub-accept-mixed-tracks",
+   "raw": "{\"solutions\": [{\"challenge_id\": \"ms-train-0160\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": [6, 4, 2, 9, 1, 4, 1]}, {\"challenge_id\": \"sac-train-0160\", \"move_spec_version\": \"sac-r8-v1\", \"moves\": [6, 4, 2, 9, 1, 4, 1, 16, 15]}]}",
+   "expected": {
+    "accepted": true,
+    "results": [
+     {
+      "ok": true,
+      "challenge_id": "ms-train-0160",
+      "certificate_hash": "sha256:80dedf02b91d429b017fb0b3f48e950a9fc5e18363dbdf21c6e27297100c471f"
+     },
+     {
+      "ok": true,
+      "challenge_id": "sac-train-0160",
+      "certificate_hash": "sha256:e94492471688db5cb52971611a3617e75c165d89e3ed51cea9a3f5d96ccbb77e"
+     }
+    ]
+   }
+  },
+  {
+   "name": "sub-stable-solution-with-ac-spec-version",
+   "raw": "{\"solutions\": [{\"challenge_id\": \"sac-train-0160\", \"move_spec_version\": \"ac-r2-v1\", \"moves\": [6, 4, 2, 9, 1, 4, 1, 16, 15]}]}",
+   "expected": {
+    "accepted": true,
+    "results": [
+     {
+      "ok": false,
+      "challenge_id": "sac-train-0160",
+      "code": "E_SPEC_MISMATCH",
+      "expected": "sac-r8-v1"
+     }
+    ]
    }
   }
  ]

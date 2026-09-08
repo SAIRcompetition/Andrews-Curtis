@@ -25,6 +25,14 @@
 > | — | Public release package | Build `ACMS-public` following the `SAIRcompetition/IGP24-public` structure (§9) |
 >
 > **Only D-9 (timeline) remains pending**; it does not block P1.
+>
+> **Update 2026-09-07 — four tracks.** ACC ships two trivialization tracks over the same
+> frozen pool (**D-12**, §1.6) under two frozen move specifications — `ac-r2-v1` (§1.1–§1.5)
+> and the new stable spec `sac-r8-v1` (**D-13**, §1.7) — plus two proof-or-disproof tracks,
+> one per conjecture (§7, §9.1 of `evaluation.md`). **D-9 is partially resolved**: registration
+> opens 2026-09-08, tracks 1–2 on 2026-09-11, tracks 3–4 on 2026-09-20; the submission deadline
+> and the certificate-release date are still to be announced (§12.2). O-2's "no second
+> leaderboard" resolution is **superseded by D-12** (see O-2).
 
 ---
 
@@ -59,8 +67,11 @@ Three **deliberate deviations** from IGP24 at the scoring layer:
 2. IGP24 publishes the discriminant and merely withholds the coefficients. ACMS
    **publishes nothing except length during the competition** (§6), because the move
    sequence itself is the answer.
-3. IGP24 has a single numeric target. ACMS has two tracks: the regular leaderboard +
-   the Lean counterexample track (§7); the latter does not enter the regular leaderboard.
+3. IGP24 has a single numeric target. ACMS has separate tracks: the regular leaderboard +
+   the counterexample track (§7); the latter does not enter the regular leaderboard.
+   (**Update 2026-09-07**: four tracks — two trivialization leaderboards, one per move
+   specification (D-12, §1.6), and one proof-or-disproof review track per conjecture (§7 update
+   note). No review track enters any leaderboard, and the two leaderboards are never summed.)
 
 ---
 
@@ -180,6 +191,27 @@ Requirements §10 requires proving that the finite closure of the production ato
 Conclusion: **14-move closure = the standard (non-stable, unbounded) AC relation**. This must be proved in the Lean library as the
 `ac_iff_atomic` theorem (§7.2); otherwise a counterexample proof only targets the competition metric and does not constitute an AC counterexample.
 
+> **Update 2026-09-07 — the same argument for `sac-r8-v1` (D-13, §1.7).**
+>
+> * **Soundness**: every one of the 257 ids is a special case of a standard *stable* AC move.
+>   Ids 0–13 and their rank-8 extensions (inversion, multiplication, generator conjugation) are
+>   ordinary AC moves; id 14 is exactly a standard stabilization (add a generator together with a
+>   relator equal to it); ids 15–22 are exactly a standard destabilization, whose precondition —
+>   relator $i$ is the single positive letter $g$ and $g$ occurs in no other relator — is the
+>   precondition of the standard move. So a found stable path is a genuine stable-AC equivalence.
+> * **Completeness** (standard stable relation ⊆ finite closure of the 257 moves, at ranks ≤ 8):
+>   standard stabilization **is** id 14; standard destabilization of a relator equal to a generator
+>   **is** ids 15–22 up to relabeling (the frozen renumbering "every generator above $g$ drops by
+>   one" is what makes the relabeling canonical rather than a choice); conjugation by an arbitrary
+>   word decomposes into single-generator conjugations exactly as in the non-stable case above, and
+>   left multiplication and the relator swap are derived by the same three identities. The one
+>   genuinely new ingredient is that the argument must be carried out at every rank $k \le 8$
+>   uniformly rather than at rank 2.
+> * **This needs the same Lean treatment as O-3** and has not had it: the stable analogue of
+>   `ac_iff_atomic` is neither stated nor proved, and `max_rank = 8` means the closure equals the
+>   stable relation *restricted to rank ≤ 8*, which is why the track-4 claim of `evaluation.md`
+>   §9.1 is defined with **no rank bound at all** and never in terms of `sac-r8-v1`.
+
 ### 1.5 ID remapping from the prototype 12-move set
 
 `reference/index.html` uses a 12-move set (missing $r_i \leftarrow r_i r_j^{-1}$,
@@ -220,6 +252,123 @@ This table also serves as the empirical basis for the limit values chosen in §4
 The published training set must use the remapped ids and carry `move_spec_version` in file names/fields.
 The prototype's 12-move table may appear only in `reference/` and literature citations;
 it must **not** appear in the rules text or the `move_spec` download.
+
+### 1.6 [D-12 Decided 2026-09-07] Two trivialization tracks on one manifest
+
+> **Decision.** ACC ships **two** trivialization tracks over the **same** 10 115 presentations,
+> separated by challenge-id prefix inside a **single** manifest (`manifest_version: acms-v3`):
+> `ac-v1-00001…ac-v1-10115` under `ac-r2-v1` (§1.1–§1.5, unchanged) and
+> `sac-v1-00001…sac-v1-10115` under `sac-r8-v1` (§1.7). `sac-v1-N` carries byte-identical
+> `initial_relators` to `ac-v1-N`. The two tracks are scored independently on two leaderboards
+> that are never summed, each with its own First Solver record.
+
+Manifest shape (amends §3.1):
+
+* **20 230** challenge records — 10 115 per prefix — each carrying **exactly the same nine keys**
+  as `acms-v2` (O-4 stands: no difficulty, family, tier, or provenance signal). Only
+  `challenge_id`, `target_relators` (`[[1],[2]]` vs `[]`), `move_spec_version` — and therefore
+  `instance_hash` — differ between a record and its twin;
+* the singular top-level `move_spec_version` / `move_spec_hash` / `target_relators` are replaced by a
+  `move_specs` list of `{move_spec_version, move_spec_hash, file, target_relators, max_rank,
+  id_prefix}`, one entry per frozen specification; `competition.yaml` publishes the same list with
+  the shorter keys `version` / `hash` / `target`, and carries both hashes;
+* `challenge_count: 20230` and `presentation_count: 10115`; `limits`, `freeze_date`, and
+  `manifest_hash`'s definition (sorted list of all `instance_hash` values) are unchanged.
+
+Why a prefix, rather than a second competition, a second manifest, or a second engine:
+
+| Machinery | Effect of D-12 |
+|---|---|
+| `instance_hash` / `certificate_hash` byte templates (§3.2) | **unchanged**; only the substituted values differ, so every `ac-v1-` hash is bit-identical to `acms-v2` and nothing already published moves |
+| duplicate-challenge rule (§4.2) | **unchanged**; `ac-v1-00001` and `sac-v1-00001` are different ids, so one submission may legitimately mix tracks |
+| error-code priority order (§4.2, O-5) | **unchanged** apart from a single insertion, `E_MOVE_NOT_APPLICABLE` after the move-id check (§1.7) |
+| verifier | one code path; the challenge record selects the move table and the target — no per-track branch above the move application itself |
+| scoring engine (§5) | **unchanged**; it is run once per prefix. $L^\star_i$, $k_i$, $P_{t,i}$, the recomputation algorithm, and the immutability of First Solver all apply per track |
+| `E_SPEC_MISMATCH` (§4.2) | promoted from a stale-version guard to the **track selector**: an `ac-r2-v1` path submitted against a `sac-v1-` id is refused by a check that already existed |
+
+The cost of the decision is therefore one new move table, one new error code, and running the
+existing scoring engine twice. That is why the tracks share a manifest instead of forking the system.
+
+### 1.7 [D-13 Decided 2026-09-07] The stable move specification `sac-r8-v1`
+
+`move_spec_version = "sac-r8-v1"`, published machine-readably as
+`competition/challenges/stable_move_spec.json` (`max_rank: 8`; its `move_spec_hash` covers the
+`moves` array exactly as in §3.3). **Once frozen, IDs must never change.**
+
+**State.** An ordered list of $k$ freely reduced relators over the generators $1,\dots,k$ — letters
+$\pm 1,\dots,\pm k$, with $x = 1$, $y = 2$ and $g_3,\dots,g_8$ the extra generators — where
+$0 \le k \le 8$. Every challenge starts at $k = 2$ from its `initial_relators`. Free reduction is
+the same deterministic left-fold as §1.1.
+
+**Target.** The **empty presentation** `[]`, i.e. $\langle\ \mid\ \rangle$.
+
+**Moves.** 257 ids, `0`–`256`. A move's *meaning* is independent of the current rank; its
+*applicability* is checked at replay time.
+
+| ids | Category | Count | Effect |
+|---|---|---:|---|
+| 0–13 | the `ac-r2-v1` block | 14 | identical to §1.3 — same rows, same ids, same inverses |
+| 14 | stabilize | 1 | $k \to k+1$: append the generator $k+1$ and the relator `[k+1]`. Not applicable at $k = 8$ |
+| 15–22 | destabilize relator $i$ ($i = 0,\dots,7$) | 8 | applicable **iff** relator $i$ is exactly the single positive letter $g$ **and** $g$ occurs in no other relator; deletes relator $i$ and generator $g$, renumbering every generator above $g$ down by one; $k \to k-1$ |
+| 23–28 | inversion of relator $i$ ($i = 2,\dots,7$) | 6 | $r_i \leftarrow r_i^{-1}$; the rank-2 cases are ids 0–1 |
+| 29–136 | multiplication $r_i \leftarrow r_i r_j^{\pm 1}$, $i \ne j < 8$ | 108 | $8\cdot 7\cdot 2 = 112$ minus the four rank-2 cases already at ids 2–5 |
+| 137–256 | conjugation $r_i \leftarrow c\,r_i\,c^{-1}$, $c = g^{\pm 1}$, $i < 8$, $g \le 8$ | 120 | $8\cdot 8\cdot 2 = 128$ minus the eight rank-2 cases already at ids 6–13 |
+
+$14 + 1 + 8 + 6 + 108 + 120 = 257$. The full enumerated table, with a description per id, is the
+frozen artifact; the rules text publishes the six categories and their counts, not all 257 rows.
+Inversion, multiplication and conjugation are closed under inversion exactly as in §1.3;
+`stabilize` and `destabilize` are inverse only **up to relabeling** — dropping generator $g$
+renumbers the larger ones — so neither has a fixed partner id (both carry `inverse: null` in the
+frozen file) while the relation itself stays symmetric.
+
+**Applicability and the new error code.** A new per-solution code `E_MOVE_NOT_APPLICABLE`
+(`move_index`, `move`, `reason`) is checked **immediately after `E_BAD_MOVE_ID` for each move, and
+before `E_LENGTH_LIMIT`** — the frozen priority order of §4.2 / O-5 gains exactly this one
+insertion:
+
+| `reason` | Condition |
+|---|---|
+| `relator_out_of_rank` | the move names a relator $i \ge k$ |
+| `generator_out_of_rank` | the move conjugates by $g^{\pm 1}$ with $g > k$ |
+| `max_rank_exceeded` | id 14 at $k = 8$ |
+| `destabilize_precondition` | ids 15–22 where relator $i$ is not exactly a single positive letter, or that generator occurs in another relator |
+
+Under `sac-r8-v1`, `E_BAD_MOVE_ID` means "not an integer in `0..256`" (under `ac-r2-v1` it stays
+`0..13`), and `E_NOT_TARGET.final_shape` is the list of relator lengths at the end of the path,
+possibly the empty list.
+
+**Limits.** `max_path_length` 100 000, `max_total_relator_length` 10 000, `max_work` 5 000 000 —
+identical values, identical meaning, with $\mathrm{tot}(s) = \sum_i |r_i|$ over all $k$ relators;
+`length`, `peak`, and `work` are computed exactly as in §4.2/§4.3. **`max_rank = 8` is part of the
+specification, not a limit**: exceeding it is `E_MOVE_NOT_APPLICABLE`, never a budget error, and it
+is not configurable per competition.
+
+**Canonicalization, and why the target is the empty presentation.** From any state whose $k$
+relators are $k$ distinct single letters, the shortest finish is $k + (\#\text{inverted letters})$
+moves: invert the inverted ones, then destabilize from the highest relator index down. In rank 2:
+
+| Final state | Min moves to `[]` | One shortest path |
+|---|---:|---|
+| $(x,y)$ | 2 | `[16,15]` |
+| $(y,x)$ | 2 | `[16,15]` |
+| one inverted letter | 3 | e.g. `[1,16,15]` from $(x,y^{-1})$ |
+| both inverted | 4 | e.g. `[0,1,16,15]` from $(x^{-1},y^{-1})$ |
+
+(The general law, frozen in `stable_move_spec.json`'s `canonicalization_table`: invert each inverted
+relator, then destabilize from the highest relator index down to 0.)
+
+There is **no ordering asymmetry** — $(x,y)$ and $(y,x)$ cost the same — which is the fairness
+rationale for the empty terminal state: §1.2's exact-ordered $T$ costs 0 or 5 depending on relator
+order, an arbitrary tax that has no natural analogue once the rank can change.
+
+**Bridge to track 1.** Any accepted `ac-r2-v1` certificate followed by `[16, 15]` is a valid
+`sac-r8-v1` certificate for the corresponding `sac-v1-` challenge (the path lands on
+$([1],[2])$; id 16 destabilizes relator 1, id 15 the remaining one). It is **not** auto-credited:
+the team must submit it under the `sac-v1-` id, and it scores in track 2 only (D-12).
+
+**Warm-up data.** `challenges/stable_training_424.json` is the same 424 solved instances as
+`training_424.json`, in `sac-r8-v1`, each certificate extended by `[16, 15]`. It is byte-frozen by
+the generator exactly like its sibling, and it is published training data, not a scored track.
 
 ---
 
@@ -385,6 +534,13 @@ There is no need for $V_i$ to be a multiple of $2^k$, because scoring uses exact
 
 `initial_relators` must be in **freely reduced** form; the manifest builder is responsible for reducing them and asserting idempotence.
 
+**Update 2026-09-07 (D-12, §1.6)**: the shipped manifest is `acms-v3` — 20 230 records over
+10 115 presentations, nine keys each, with a top-level `move_specs` list in place of the singular
+`move_spec_version` / `move_spec_hash` / `target_relators` shown above, and
+`challenge_count` / `presentation_count`. The record shown here is otherwise the historical
+`acms-ms-v1` shape (`family`, `n`, `w`, `status_at_freeze`, `source` were dropped by O-4 on
+2026-09-03).
+
 ### 3.2 `instance_hash`
 
 Serialization uses an **explicit byte template** rather than "some JSON canonicalization scheme" — fixed key order, no whitespace, no non-ASCII, integers in shortest decimal form (`-1`, not `-01`; `-0` forbidden), so any implementation can reproduce it byte for byte:
@@ -408,6 +564,11 @@ This way an independent third-party implementation needs no RFC 8785 dependency 
 This is exactly what the requirements demand: "covers the initial state, the target state, and the move specification."
 It **excludes** `base_score`, `status_at_freeze`, and `source` — these are policy fields, and changing them must not invalidate already-verified certificates.
 
+**Update 2026-09-07 (D-12)**: the byte template is **unchanged**; `<target>` is substituted from the
+challenge record (`[[1],[2]]` for `ac-v1-`, `[]` for `sac-v1-`), as are `move_spec_version` and
+`move_spec_hash`. Every `ac-v1-` `instance_hash` is therefore bit-identical to its `acms-v2` value,
+while `ac-v1-N` and `sac-v1-N` hash differently despite sharing `initial_relators`.
+
 ### 3.3 `move_spec_hash` and `manifest_hash`
 
 ```
@@ -418,6 +579,11 @@ manifest_hash  = sha256(JCS of sorted list of instance_hash)
 All three hashes are published in the Overview / Evaluation Setup / `GET /challenges`.
 **Acceptance §16.11**: changing the manifest or the move spec ⟹ at least one hash changes ⟹
 submissions carrying the old `move_spec_version` are rejected.
+
+**Update 2026-09-07 (D-12, D-13)**: there are two `move_spec_hash` values, computed identically —
+one over `move_spec.json`'s 14-row `moves` array, one over `stable_move_spec.json`'s 257-row one —
+published side by side in `competition.yaml` and in the manifest's `move_specs`. `manifest_hash` is
+still the SHA-256 over the sorted list of **all** `instance_hash` values, now 20 230 of them.
 
 ---
 
@@ -483,6 +649,27 @@ Error codes are part of the API contract; every one carries `move_index` so cont
 **Whole-submission rejection vs per-item rejection**: structural errors (`E_MALFORMED`, `E_DUPLICATE_CHALLENGE`,
 `E_CLIENT_ASSERTED_RESULT`, exceeding the item-count/byte caps) reject the whole submission and do **not** count against the daily quota;
 single-path errors (all other codes) reject only that item, the remaining items are stored as usual, and a per-item report is returned.
+
+> ### Update 2026-09-07 — one code path, two specifications (D-12, D-13)
+>
+> The pseudocode and the table above are the `ac-r2-v1` instance of a single verifier. Generalized:
+>
+> * `spec = challenge.move_spec_version` (selected by the id prefix, §1.6) determines the move
+>   table, the admissible id range — `0..13` under `ac-r2-v1`, `0..256` under `sac-r8-v1` — and the
+>   target compared at the end;
+> * the state is $k$ relators, $\mathrm{tot}(s) = \sum_i |r_i|$; `length`, `peak` and `work` are
+>   computed exactly as above, and the §4.3 limits are shared unchanged;
+> * `E_BAD_MOVE_ID` reads "not an integer in the specification's range"; the new
+>   `E_MOVE_NOT_APPLICABLE` is checked **immediately after it and before `E_LENGTH_LIMIT`** (§1.7),
+>   the only change to the frozen priority order;
+> * `E_NOT_TARGET` compares against **the challenge's** `target_relators` — `[[1],[2]]` exact
+>   ordered, or `[]` — and reports `final_shape` as the list of relator lengths, possibly empty;
+> * `E_SPEC_MISMATCH` reads "differs from **the challenge's** frozen `move_spec_version`"; it is
+>   now the track selector, not merely a stale-version guard;
+> * the §4.3 quotas (100 submissions/day, 500 solutions/submission) are per team **across both
+>   tracks**, unless the hosting platform announces otherwise (O-1).
+>
+> Normative contestant-facing text: `competition/rules/evaluation.md` §1–§4.
 
 ### 4.3 Submission limits and work budget
 
@@ -580,6 +767,11 @@ $$P_{t,i}=\begin{cases} V_i\,2^{1-k_i}, & L_{t,i}=L_i^\star\\ 0,&\text{otherwise
 \qquad P_t=\sum_i P_{t,i}$$
 
 $k_i=1,2,3,4 \Rightarrow V_i,\ V_i/2,\ V_i/4,\ V_i/8$.
+
+**Update 2026-09-07 (D-12)**: the index $i$ ranges over the challenges of **one** track. The engine
+is run once per id prefix, yielding two independent totals $P_t^{\,\mathrm{ac}}$ and
+$P_t^{\,\mathrm{sac}}$ that are never summed and two independent rankings; §5.3's First Solver
+immutability is per challenge and therefore per track.
 
 ### 5.2 Recomputation Algorithm
 
@@ -703,6 +895,34 @@ Sharing a specific certificate for a challenge across teams counts as joint-team
 >
 > Normative text: `competition/rules/evaluation.md` §9.
 
+> ### Update 2026-09-07 — one review track per conjecture (tracks 3 and 4)
+>
+> The single counterexample track becomes **two**, on identical mechanics: track 3 settles the
+> Andrews–Curtis conjecture, track 4 the **stable** Andrews–Curtis conjecture. Both open
+> 2026-09-20. Consequences for this section:
+>
+> * **Proofs are admissible too**, not only disproofs: each track accepts a settlement of its
+>   conjecture in either direction. §7.3's three theorems remain the shape of a *disproof* under
+>   the Lean fast track.
+> * The upload carries a `conjecture ∈ {ac, stable_ac}` selector (§8), and the "one active claim
+>   per team" rule becomes **one active claim per team per conjecture** — a new upload replaces
+>   that team's pending claim on the same conjecture only.
+> * Logical relations, honored by the review process: a **proof of AC proves stable AC**; a
+>   **disproof of stable AC is a disproof of AC** and is honored on both boards; a **disproof of AC
+>   is not a disproof of stable AC**.
+> * §7.4 forks. For track 3 the list is unchanged, except that its last bullet is restated: failure
+>   under *stable* AC is not an AC counterexample *in the sense of the track-3 claim*, which is
+>   about the non-stable relation — and such a result would in fact be **stronger**, belonging to
+>   track 4. For track 4 the bullets read with "stable path" throughout, plus: unreachability under
+>   **non-stable** AC (any bound, any move set, including an exhaustive `ac-r2-v1` result) is not a
+>   stable-AC counterexample, and neither is unreachability under a **bounded rank** — `max_rank = 8`
+>   is a property of the `sac-r8-v1` metric (§1.7), never of the conjecture.
+> * §7.2/§7.3: the Lean library is now "in development for **both** conjectures"; the stable
+>   relation and the `sac-r8-v1` bridge are **not started** (§1.4 update note, O-3). Nothing may be
+>   described to contestants as delivered, and no theorem may be named as available.
+> * §7.7: the honor is **per conjecture** — the first accepted disproof of each is displayed above
+>   the leaderboards; an accepted stable-AC disproof is displayed on both.
+
 ### 7.1 Submission Artifact
 
 A standalone Lean package (tar.gz or git bundle) that must pass `lake build`
@@ -813,16 +1033,18 @@ Unified prefix `/api/acms`. All endpoints share the same verifier / team / rate-
 |---|---|---|---|
 | GET | `/challenges` | None | public view of the manifest + `manifest_hash`/`move_spec_hash` |
 | GET | `/challenges/:id` | None | public view of a single challenge (§6.1 whitelisted fields) |
-| GET | `/leaderboard` | None | rankings, total scores, solved count per team, `scoring_run_id` |
+| GET | `/leaderboard` | None | rankings, total scores, solved count per team, `scoring_run_id` (**update 2026-09-07**: one leaderboard **per id prefix** — `/leaderboard?track=ac` \| `sac`, defaulting to `ac`; the two are never summed, and each carries its own First Solver records) |
 | GET | `/scoring-history` | None | all past `scoring_run`s |
 | GET | `/discoveries` | None | timeline of first solves, best-length updates, verified bridges |
 | GET | `/submissions/me` | Required | **own team only**, includes full moves |
 | POST | `/submissions` | Required | per-item verdict + the team's updated score |
 | POST | `/bridge-submissions` | Required | bridge verdict |
-| POST | `/counterexample-submissions` | Required | counterexample claim receipt + state (**update 2026-09-03**: accepts `application/pdf`, ≤ 25 MB, one active claim per team; a Lean package remains admissible as the optional fast track, returning CI status) |
-| GET | `/counterexample-submissions/me` | Required | own team's counterexample claims, their states, and (fast track only) CI logs |
+| POST | `/counterexample-submissions` | Required | claim receipt + state (**update 2026-09-03**: accepts `application/pdf`, ≤ 25 MB; a Lean package remains admissible as the optional fast track, returning CI status. **Update 2026-09-07**: the body carries `conjecture ∈ {ac, stable_ac}`, and the active-claim rule is **one per team per conjecture** — a second upload replaces that team's pending claim on the same conjecture and leaves the other one alone) |
+| GET | `/counterexample-submissions/me` | Required | own team's claims, their `conjecture`, their states, and (fast track only) CI logs |
 
-The public response of `GET /challenges/:id` (**this is the privacy contract**, enforced by schema rather than comments —
+The public response of `GET /challenges/:id` is **unchanged** by D-12 — a `sac-v1-` challenge
+serializes through the same whitelist, with its own `target_relators`, `move_spec_version`, and
+`instance_hash` (**this is the privacy contract**, enforced by schema rather than comments —
 acceptance §16.10):
 
 ```jsonc
@@ -900,6 +1122,14 @@ ACMS-public/
         README.md
 ```
 
+**Update 2026-09-07 (D-12, D-13).** `challenges/` gains two byte-frozen files —
+`stable_move_spec.json` (the 257 moves of `sac-r8-v1`, `max_rank: 8`) and
+`stable_training_424.json` (the 424 training certificates in the stable encoding, each extended by
+`[16, 15]`) — and `manifest.json` is the `acms-v3` 20 230-record file described in §1.6. The
+comment "550-entry frozen challenge pool" above is historical: the pool has been 10 115
+presentations since 2026-09-03, listed once per track since D-12. Nothing else in the tree moves;
+`rules/` still holds `overview.md`, `evaluation.md`, `prelaunch.md`.
+
 ### 9.3 Item-by-item comparison with IGP24-public
 
 | IGP24-public | ACMS-public | Notes |
@@ -947,6 +1177,14 @@ move_spec: challenges/move_spec.json
 contestant-facing `name: "ACC: The Andrews–Curtis Conjecture Competition"`, `challenge_count: 10115`,
 and a `challenge_policy` describing the frozen pool rather than the MS-only scope above.
 
+**Update 2026-09-07 (D-12, D-13)**: the singular `move_spec_version` / `move_spec_hash` / `move_spec`
+keys give way to a `move_specs` list carrying both specifications (version, hash, file, target,
+`max_rank`, `id_prefix`); `challenge_count` becomes 20230 with `presentation_count: 10115`; and
+`submission_format` reads "…where `moves` are atomic move ids in the range of the challenge's
+specification — 0-13 under `ac-r2-v1`, 0-256 under `sac-r8-v1`; the challenge-id prefix selects the
+track". `counterexample_verifier` covers both conjectures. `freeze_date` / `freeze_commit` are
+stamped at launch (§12.2).
+
 ### 9.5 Content split for `rules/` (confirmed: only two files)
 
 **Update 2026-09-03**: three files. `prelaunch.md` joins them — a half-page standalone teaser (pitch,
@@ -955,8 +1193,8 @@ countdown. It is not concatenated into `/competitions/acms.md`, which is still `
 
 | File | Contents | Maps to this document |
 |---|---|---|
-| `overview.md` | Mathematical background, Miller–Schupp, the task, the 14-move table, submission format, scoring (including the §5.6 worked example), summary of the Lean counterexample track, integrity and team rules, timeline, the three final wordings from §13 | §1, §2, §4.1, §5, §6.3, §7.1/7.3/7.4, §13 |
-| `evaluation.md` | Parsing rules, full error-code table, step-by-step verifier semantics, limits and work budget, hash templates, scoring recomputation algorithm, First Solver ordering, confidentiality whitelist, Lean frozen environment and axiom audit | §3, §4.2–4.4, §5.2–5.5, §6.1, §7.2, §7.5, §7.6, §8 |
+| `overview.md` | Mathematical background, Miller–Schupp, the task (both trivialization tracks: the 14-move table and the `sac-r8-v1` categories), submission format, scoring per track, the two proof-or-disproof tracks, integrity and team rules, timeline, the final wordings from §13 | §1, §2, §4.1, §5, §6.3, §7.1/7.3/7.4, §13 |
+| `evaluation.md` | Parsing rules, both frozen specifications, full error-code table, step-by-step verifier semantics, limits and work budget, hash templates, scoring recomputation per track, First Solver ordering, confidentiality whitelist, Lean frozen environment and axiom audit | §1.6–1.7, §3, §4.2–4.4, §5.2–5.5, §6.1, §7.2, §7.5, §7.6, §8 |
 
 This document (`DESIGN.md`) is an **internal design document and does not go into the public package**.
 
@@ -1087,6 +1325,8 @@ These three scripts upgrade directly into P1 regression tests (seeds for accepta
 | **D-10a** | Browser verifier | **Not built** (no JS / WASM / Pyodide); rationale in §4.5 |
 | **D-11** | `max_work` | **5 000 000** (§4.3) |
 | **D-1 / D-7** | Tab layout / UI hints | Moved out of this document (frontend matters) |
+| **D-12** | Second trivialization track | **2026-09-07**: two tracks over one manifest, separated by challenge-id prefix (`ac-v1-` / `sac-v1-`); nine-key records, `move_specs` list, `acms-v3`; the scoring engine is run once per prefix and the boards are never summed (§1.6) |
+| **D-13** | Stable move specification | **2026-09-07**: `sac-r8-v1` — 257 ids `0..256`, ranks 0–8, empty-presentation target, runtime applicability with `E_MOVE_NOT_APPLICABLE`, shared limits (§1.7) |
 | — | Public release package | Build `ACMS-public` following the `IGP24-public` structure; `rules/` contains only `overview.md` + `evaluation.md`; generated by `release.py` (§9, §10.1) |
 
 ### 12.2 Only one item still pending
@@ -1094,6 +1334,22 @@ These three scripts upgrade directly into P1 regression tests (seeds for accepta
 | # | Decision | Blocks | Notes |
 |---|---|---|---|
 | **D-9** | Dates for `freeze_date` / competition start / leaderboard freeze / post-competition publication of certificates | P3 (does not block P1, P2) | Once `freeze_date` is set, it is written into the manifest and counted into `instance_hash`, and must also be written into `challenges/README.md` and `competition.yaml` in sync |
+
+**Update 2026-09-07 — D-9 partially resolved.** The published dates are:
+
+| Event | Date |
+|---|---|
+| Registration and team formation open | **2026-09-08** |
+| Trivialization tracks 1 and 2 open | **2026-09-11** |
+| Proof-or-disproof tracks 3 and 4 open | **2026-09-20** |
+| Submission deadline | — (to be announced) |
+| Certificate release (post-competition) | — (to be announced) |
+
+`freeze_date` / `freeze_commit` remain the `2026-09-01T00:00:00Z` placeholder and `TBD`
+respectively; both are **stamped at launch**, when `manifest.json`, `move_spec.json`,
+`stable_move_spec.json`, `training_424.json` and `stable_training_424.json` are frozen in one
+commit whose hash goes into `competition.yaml` (§9.3). The contestant-facing files carry the three
+resolved dates and an em dash for the two open ones.
 
 ### 12.3 Pending revisions to the requirements document
 
@@ -1129,6 +1385,28 @@ narrowed to the optional Lean fast track, because the official channel is now PD
 the presentation is not related to the trivial presentation by the full, unbounded, non-stable AC
 relation — rather than by the artifact that carries it.
 
+**Update 2026-09-07 — statement 3 forks into 3a and 3b.** The frozen wording above stays exactly as
+written; there are now two conjectures under review (§7 update note), so the shipped text states one
+claim per track:
+
+> **3a — Meaning of a counterexample to the Andrews–Curtis conjecture (track 3).**
+> An accepted disproof is a self-contained argument that a specific balanced presentation
+> presents the trivial group and is **not** related to the trivial presentation
+> $\langle x,y \mid x,y \rangle$ by the full, unbounded, **non-stable** Andrews–Curtis relation.
+>
+> **3b — Meaning of a counterexample to the stable Andrews–Curtis conjecture (track 4).**
+> An accepted disproof is a self-contained argument that a specific balanced presentation
+> presents the trivial group and is **not** related to the empty presentation — equivalently, to
+> $\langle x,y \mid x,y \rangle$ — by the **stable** Andrews–Curtis relation, which additionally
+> allows adding a generator together with a relator equal to it, and removing such a pair.
+> **No rank bound is part of this claim**; `max_rank = 8` belongs to the `sac-r8-v1` competition
+> metric (§1.7) and to nothing else.
+>
+> The second sentence of statement 3 is unchanged and applies verbatim to both: failure to find a
+> path — in either trivialization track, under any budget, length bound, peak bound, or restricted
+> move set — is not a disproof of either conjecture. Each track also accepts a **proof** of its
+> conjecture; a proof of AC proves stable AC, and a disproof of stable AC is a disproof of AC.
+
 ---
 
 ## 14. Open Questions and Risks
@@ -1156,7 +1434,17 @@ In that case our deliverables converge to: **manifest + verifier + scoring engin
 
 **Needs confirmation**: does ACMS go through the SAIR platform? If so, we need the platform's competition integration spec (how submissions are delivered to the evaluator, how the evaluator returns verdicts and scores, and who computes the leaderboard).
 
-### O-2 Empty-leaderboard risk, and a proposed warm-up track — **RESOLVED 2026-09-03**
+### O-2 Empty-leaderboard risk, and a proposed warm-up track — **RESOLVED 2026-09-03, superseded in part 2026-09-07**
+
+> **Update 2026-09-07 — "without a second leaderboard" is superseded by D-12 (§1.6).** ACC ships a
+> second leaderboard after all, but not the one rejected here: the warm-up track proposed below
+> would have re-scored the 424 *already solved* training instances on a separate board, splitting
+> attention across two scoring units for no new mathematics. D-12's track 2 instead runs the
+> **same 10 115 unsolved presentations** under a **different conjecture** (`sac-r8-v1`, §1.7), so
+> every submission on it is a statement about stable AC that no track-1 submission makes, and the
+> cost is one move table plus a second run of the unchanged scoring engine. The empty-leaderboard
+> reasoning below is unaffected — it was answered by the pool change, and track 2 inherits the same
+> graded pool. `training_424.json` and `stable_training_424.json` remain training data, not tracks.
 
 > **Resolved by the pool change (§2 update note).** The 10 115-instance pool is graded from
 > warm-up to research frontier, so its easy/medium mass guarantees leaderboard activity from

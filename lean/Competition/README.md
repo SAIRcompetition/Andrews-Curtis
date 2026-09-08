@@ -1,7 +1,11 @@
 # Competition formalization — O-3 spike (P4 seed)
 
-Status: **spike**, per DESIGN.md O-3 ("do not wait for P4"). Builds
-offline in seconds with no dependencies:
+Status: **spike**, per DESIGN.md O-3 ("do not wait for P4"). Everything
+here is **rank-2 and non-stable**: it targets the Andrews–Curtis
+conjecture and the `ac-r2-v1` move set only. A formalization of the
+stable conjecture and of `sac-r8-v1` has **not been started**, and
+neither library is available to contestants. Builds offline in seconds
+with no dependencies:
 
 ```sh
 cd lean/Competition && lake build
@@ -17,6 +21,7 @@ What exists and what it establishes:
 | `ac_iff_atomic` (the credibility linchpin) | stated; `→` direction `sorry` | P4 work: conjugation decomposition, left-mul derivation, relator-swap derivation (numerically verified feasible, §1.4) |
 | `Pres.PresentsTrivialGroup` | `sorry` placeholder | P4: real definition via Mathlib `PresentedGroup` |
 | `instancePres` | `sorry` placeholder | P4: generated from `manifest.json` with instance hashes |
+| stable AC relation, `sac-r8-v1` bridge (D-13) | **not started** | P4: the stable analogue of the two rows above, per the soundness/completeness note in §1.4 |
 
 P4 hardening checklist (DESIGN.md §7.5): swap the local `ReflTransGen`
 for Mathlib's `Relation.ReflTransGen`; prove `reduce` equals the

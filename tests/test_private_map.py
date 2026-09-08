@@ -1,7 +1,10 @@
 """Organizer-side invariants of build/private/challenge_map_private.tsv.
 
 The map is the only link between a public ``ac-v1-NNNNN`` id and the
-private SAIR master id, and it must never be published.  It exists only
+private SAIR master id, and it must never be published.  It is keyed by
+the presentation, so it has one row per presentation, not one per
+challenge: ``sac-v1-N`` is the same presentation as ``ac-v1-N`` and is
+covered by the same row.  It exists only
 after ``build/sync_dataset.py`` + ``build/build_manifest_v2.py`` have
 run against the private release, so the whole module is skipped when it
 is absent (e.g. in the exported public package).
@@ -33,8 +36,12 @@ class TestPrivateChallengeMap(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.rows = load_rows()
-        cls.manifest_ids = [c["challenge_id"]
-                            for c in util.load_manifest()["challenges"]]
+        cls.manifest = util.load_manifest()
+        cls.ac_ids = [c["challenge_id"] for c in
+                      util.challenges_by_prefix(cls.manifest, util.AC_PREFIX)]
+        cls.stable_ids = [c["challenge_id"] for c in
+                          util.challenges_by_prefix(cls.manifest,
+                                                    util.STABLE_PREFIX)]
 
     def test_row_count(self):
         self.assertEqual(len(self.rows), POOL_SIZE)
@@ -46,10 +53,25 @@ class TestPrivateChallengeMap(unittest.TestCase):
         self.assertEqual(len(set(mids)), POOL_SIZE)
         self.assertEqual(len({r["public_id"] for r in self.rows}), POOL_SIZE)
 
-    def test_covers_every_manifest_challenge(self):
+    def test_covers_every_manifest_presentation(self):
         self.assertEqual({r["challenge_id"] for r in self.rows},
-                         set(self.manifest_ids))
-        self.assertEqual(len(self.manifest_ids), POOL_SIZE)
+                         set(self.ac_ids))
+        self.assertEqual(len(self.ac_ids), POOL_SIZE)
+        self.assertEqual(len(self.stable_ids), POOL_SIZE)
+        # One row per presentation, and it reaches the stable track by
+        # the shared id number.
+        self.assertEqual(len(self.rows), POOL_SIZE)
+        self.assertEqual(
+            {util.STABLE_PREFIX + r["challenge_id"][len(util.AC_PREFIX):]
+             for r in self.rows},
+            set(self.stable_ids))
+
+    def test_carries_no_stable_track_id(self):
+        """The map is deliberately keyed by the ac-v1 id alone; nothing
+        in it names the stable track."""
+        text = util.PRIVATE_MAP_PATH.read_text(encoding="utf-8")
+        self.assertNotIn(util.STABLE_PREFIX, text)
+        self.assertNotIn("sac-r8-v1", text)
 
     def test_tier_composition_pinned(self):
         self.assertEqual(
