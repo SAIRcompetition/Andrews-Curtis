@@ -48,8 +48,11 @@ or send with a solution. Published move IDs must not be silently reassigned.
 
 ### 1.4 Stable AC problem in Discovery
 
-`stable_move_spec.json` defines `sac-r8-v1`: 257 moves and ranks 0–8.
-The first 14 moves retain AC meanings. Stabilization adds a fresh generator
+`stable_move_spec.json` defines `sac-r8-v1`: 257 operation IDs covering ranks
+0–8. The count is 8 inversions + 112 right multiplications + 128
+generator-letter conjugations + 1 stabilization + 8 destabilizations;
+only IDs applicable to the current state may be used.
+The first 14 IDs retain AC meanings. Stabilization adds a fresh generator
 and its singleton relator; deletion requires an isolated positive singleton,
 removes its generator, and renumbers the remaining generators. The target
 is empty. `stable_core.py` implements replay; `specs.py` dispatches from

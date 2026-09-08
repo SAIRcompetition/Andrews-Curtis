@@ -76,7 +76,7 @@ of an open instance is a new mathematical result.
 A challenge gives you an ordered pair of freely reduced words
 `initial_relators = [r0, r1]` over letters `1 = x, -1 = x^-1, 2 = y,
 -2 = y^-1`. Transform it into the **exact ordered target**
-$T = (x, y) =$ `[[1],[2]]` using the 14 frozen atomic moves of
+$T = (x, y) =$ `[[1],[2]]` using the 14 numbered operations of
 `move_spec_version = "ac-r2-v1"`:
 
 | id | Effect | Inverse | id | Effect | Inverse |
@@ -88,6 +88,10 @@ $T = (x, y) =$ `[[1],[2]]` using the 14 frozen atomic moves of
 | 4 | $r_1 \leftarrow r_1 r_0$ | 5 | 11 | $r_1 \leftarrow x^{-1} r_1 x$ | 10 |
 | 5 | $r_1 \leftarrow r_1 r_0^{-1}$ | 4 | 12 | $r_1 \leftarrow y r_1 y^{-1}$ | 13 |
 | 6 | $r_0 \leftarrow x r_0 x^{-1}$ | 7 | 13 | $r_1 \leftarrow y^{-1} r_1 y$ | 12 |
+
+These IDs encode 2 inversions, 4 right multiplications by the other relator
+or its inverse, and 8 conjugations by a generator letter or its inverse.
+They instantiate the three ordinary AC operation types at rank 2.
 
 Words are freely reduced after every move. The move set is closed under
 inversion, so reachability is symmetric.
@@ -115,8 +119,9 @@ No extra theory is needed — append the matching suffix and you are done.
 
 The matching `sac-v1-` challenge starts at the same rank-two presentation.
 Its target is the **empty presentation** `[]`. States have $0\le k\le8$
-generators and the same number of relators. The 257 moves of `sac-r8-v1`
-are listed in `challenges/stable_move_spec.json`:
+generators and the same number of relators. The `sac-r8-v1` encoding has
+257 operation IDs covering ranks up to 8, listed in
+`challenges/stable_move_spec.json`:
 
 | IDs | Operation |
 |---|---|
@@ -127,8 +132,11 @@ are listed in `challenges/stable_move_spec.json`:
 | 29–136 | Remaining right multiplications by another relator or its inverse |
 | 137–256 | Remaining conjugations by generator letters or their inverses |
 
-Moves must name existing relators and generators. Stabilization at rank 8
-and invalid deletions fail with `E_MOVE_NOT_APPLICABLE`; nothing is skipped.
+The table contains 8 inversion, 112 multiplication, 128 conjugation,
+1 stabilization, and 8 destabilization entries. The 257 IDs are not all
+applicable at every state: moves must name existing relators and generators.
+Stabilization at rank 8 and invalid deletions fail with
+`E_MOVE_NOT_APPLICABLE`; nothing is skipped.
 The rank cap restricts the benchmark, not the mathematical stable conjecture.
 See [evaluation.md](evaluation.md) §1.2 for exact semantics.
 

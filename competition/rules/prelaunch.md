@@ -33,8 +33,8 @@ The challenge has **two tracks: Discovery and Proof**. Each covers two problems:
 
 Find short sequences of moves that simplify given presentations of the trivial group. The AC and Stable AC problems use the same pool of **10,115 two-generator presentations**, with different allowed moves and targets:
 
-- **AC:** use the 14 ordinary Andrews–Curtis moves to reach the standard presentation `(x, y)`. The rank stays fixed at 2.
-- **Stable AC:** use the 257 stable Andrews–Curtis moves to reach the empty presentation. The rank may grow up to 8 along the way.
+- **AC:** use ordinary Andrews–Curtis moves to reach the standard presentation `(x, y)`. The rank stays fixed at 2.
+- **Stable AC:** use Andrews–Curtis moves together with stabilization and destabilization to reach the empty presentation. The rank may grow up to 8 along the way.
 
 Each solution contains only a **challenge ID and a list of moves**. The verifier checks the sequence, and the AC and Stable AC problems have **separate leaderboards**, rewarding the shortest verified paths. Move sequences remain private during the competition and are published afterwards.
 

@@ -14,9 +14,10 @@ ACC is one competition with **two tracks**. Each contains **AC** and
 | **Discovery Track** | Find short verified move sequences for the published presentations |
 | **Proof Track** | Prove or disprove the full AC or Stable AC conjecture |
 
-In Discovery, the AC problem uses 14 moves to reach `(x,y)` at rank 2;
-Stable AC uses 257 moves to reach the empty presentation, with rank at most
-8. Both use the same 10,115 initial presentations, giving 20,230 challenge
+In Discovery, the AC problem encodes its allowed operations as 14 move IDs
+and targets `(x,y)` at rank 2. Stable AC targets the empty presentation,
+using a table of 257 move IDs covering ranks up to 8; applicability depends
+on the current state. Both use the same 10,115 initial presentations, giving 20,230 challenge
 records and **two separate leaderboards**. The 424 solved training
 presentations are outside both scored problem sets. Submitted moves remain
 private until the post-competition release.

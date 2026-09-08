@@ -15,8 +15,8 @@ and are not processed by this path verifier.
 
 | Module | Contents |
 |---|---|
-| `acms_verify/core.py` | frozen 14-move table, free reduction, deterministic `verify()` |
-| `acms_verify/stable_core.py` | 257 stable moves, variable-rank replay up to rank 8, empty target |
+| `acms_verify/core.py` | table of 14 move IDs, free reduction, deterministic `verify()` |
+| `acms_verify/stable_core.py` | table of 257 move IDs, variable-rank replay up to rank 8, empty target |
 | `acms_verify/specs.py` | Dispatch by the challenge's specification; validate both move tables |
 | `acms_verify/canon.py` | explicit byte templates for `instance_hash` / `certificate_hash`, JCS hashing for `move_spec_hash` / `manifest_hash` |
 | `acms_verify/submission.py` | submission parsing, whole-vs-per-item rejection, forbidden result keys, check priority |

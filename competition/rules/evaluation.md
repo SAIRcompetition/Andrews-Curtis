@@ -49,10 +49,12 @@ left-fold: scan left to right, cancel a letter against the top of the
 output stack when they are inverse. Target: the exact ordered pair
 `[[1],[2]]`.
 
-The 14 moves of `ac-r2-v1` and the canonicalization table are published
+The 14 move IDs of `ac-r2-v1` and the canonicalization table are published
 machine-readably in `challenges/move_spec.json`; ids are frozen
-forever. `move_spec_hash` is the SHA-256 of the canonical JSON (sorted
-keys, no whitespace, ASCII) of the `moves` array of that file.
+forever. These encode 2 inversions, 4 right multiplications, and 8
+generator-letter conjugations at rank 2. `move_spec_hash` is the SHA-256 of
+the canonical JSON (sorted keys, no whitespace, ASCII) of the `moves` array
+of that file.
 
 ### 1.2 Stable AC problem
 
@@ -70,7 +72,10 @@ rank 2; the target is the **empty presentation** `[]`.
 | 137–256 | Remaining conjugations by a generator letter or its inverse |
 
 All 257 rows are in `challenges/stable_move_spec.json`; its `moves` array
-is hashed as in §1.1. A move may name only existing relators and generators.
+is hashed as in §1.1. This is the number of operation IDs covering ranks
+up to 8: 8 inversions, 112 right multiplications, 128 generator-letter
+conjugations, 1 stabilization, and 8 destabilizations. Applicability depends
+on the current state. A move may name only existing relators and generators.
 Stabilization requires $k<8$. Destabilization requires the selected relator
 to be exactly a single positive generator $g$, absent from every other
 relator. It deletes that relator and generator, then renumbers generators
