@@ -35,8 +35,8 @@ tracks:
     submission_format: "Conjecture, claim type, and description required; complete argument in description, PDF or paper, GitHub at a fixed commit, or arXiv at a fixed version"
     visibility: public
     versions: immutable
-    review: "Public comments; final mathematical determination by reviewers; Lean does not bypass review"
-    credit: "Earliest complete correct version, with references and contributions recorded; see rules/evaluation.md"
+    review: "Community peer review through public versions and comments, including Lean submissions; organizers may assess selected claims for competition recognition"
+    credit: "Earliest eligible complete correct version, with references and contributions recorded; see rules/evaluation.md"
     leaderboard_points: false
     problems:
       - id: ac

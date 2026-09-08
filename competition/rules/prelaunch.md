@@ -45,9 +45,13 @@ Submit a proof or disproof of either conjecture:
 - **AC:** the full Andrews–Curtis conjecture, using ordinary moves at fixed rank.
 - **Stable AC:** the full stable Andrews–Curtis conjecture, allowing stabilization with no bound on intermediate rank.
 
-Both conjectures concern balanced presentations at every positive finite rank. A proof must establish the full conjecture; a disproof must establish its negation. This may be done by giving a counterexample or by proving that one exists without explicitly identifying it. The Discovery pool and its search limits do not restrict these mathematical claims.
+Both conjectures concern balanced presentations at every positive finite rank. A proof must establish the full conjecture; a disproof must establish its negation. This may be done by giving a counterexample or by proving that one exists without explicitly identifying it.
 
-Submit a description and a complete argument, supplied in the description, a paper or PDF, a GitHub repository containing a Lean proof at a fixed commit, an arXiv version, or a combination. Every submission is public, with timestamped versions and comments for community review. Organizers and reviewers assess every claim, including Lean proofs. Priority belongs to the earliest complete, correct version; contributions from other submissions or comments must be acknowledged.
+Submit a description and a complete argument, supplied in the description, a paper or PDF, a GitHub repository containing a Lean proof at a fixed commit, an arXiv version, or a combination.
+
+Every submission is public, with timestamped versions and comments. We encourage community peer review so participants can examine arguments, identify gaps, suggest corrections, and build on one another's work. Lean formalizations are also open to this scrutiny.
+
+Priority belongs to the earliest complete, correct version; contributions from other submissions or comments must be acknowledged.
 
 A proof or disproof can receive the competition's highest mathematical honor. Results in the Proof Track do not earn Discovery points or automatically end the Discovery Track.
 
@@ -57,8 +61,6 @@ A proof or disproof can receive the competition's highest mathematical honor. Re
 - Discovery Track opens: **September 11, 2026**
 - Proof Track opens: **September 20, 2026**
 - Submission deadline for all tracks: **November 30, 2026**
-
-Exact opening and deadline times will be announced before submissions open.
 
 ## Registration & Teams
 

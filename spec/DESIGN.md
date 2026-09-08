@@ -4,11 +4,12 @@ ACC is one competition on SAIR with **Discovery Track** (`discovery`)
 and **Proof Track** (`proof`). Each has two problems: **AC** (`ac`) and
 **Stable AC** (`stable_ac`). Discovery rewards short verified paths with
 separate problem leaderboards. Proof accepts proofs or disproofs of either
-full conjecture. A Proof result neither automatically ends Discovery nor
-converts into Discovery points.
+full conjecture. Public versions and voluntary community peer review are
+the main Proof workflow. A Proof result neither automatically ends Discovery
+nor converts into Discovery points.
 
 The competition is **prelaunch**. Local data and mathematical checks are
-available; online submission, official scoring, and public Proof review are
+available; online submission, official scoring, and public Proof comments are
 not yet implemented by this repository. SAIR is the decided host platform.
 The remaining platform work is its ACC adapter and integration.
 
@@ -256,9 +257,10 @@ records, approved non-scoring statistics, and bridge summaries. Teams can
 inspect their own submissions. Publish valid certificates at the announced
 post-competition release point.
 
-Proof submissions, versions, supporting materials, decisions, and comments
-are public on submission, with no private/public toggle. This does not
-change Discovery path confidentiality.
+Proof submissions, versions, and supporting materials are public on
+submission, with no private/public toggle. Comments and any recognition
+decisions are public when recorded. This does not change Discovery path
+confidentiality.
 
 The same team identity applies across both tracks and all their problems.
 Each individual or organization may participate in only one team; teams
@@ -310,31 +312,43 @@ as withdrawn without deleting its history or asserting that its argument
 is false. Post-deadline revisions may be published as noncompetitive
 versions; they cannot backfill an earlier version's argument or priority.
 
-The interaction is simple: publish a submission and let participants
-comment underneath it. No separate peer-review portal or elaborate
-assignment workflow is required.
+The interaction is simple: publish a submission and invite voluntary
+community peer review through comments underneath it. Participants may
+examine arguments, raise objections, suggest improvements, and develop
+new versions together. Publication does not assign an organizer reviewer
+or place every submission in a screening or review queue.
 
-### 7.4 Decisions
+### 7.4 Selective recognition and decisions
 
-`accepted`, `rejected`, `revision_requested`, and `retracted` decisions bind
-to a specific version with a public reason. Revisions do not erase earlier
-records. Correct or retract an accepted claim when a substantive flaw is
-established, preserving the prior decision and reason. Community comments
-inform organizer decisions; votes and builds do not decide correctness.
+Organizers may select claims for assessment when considering competition
+recognition, using community discussion as evidence. They do not undertake
+to review every submission. A published version may remain without a formal
+assessment.
+
+For selected claims, `accepted`, `rejected`, `revision_requested`, and
+`retracted` decisions bind to a specific version with a public reason.
+Revisions do not erase earlier records. Correct or retract an accepted claim
+when a substantive flaw is established, preserving its decision history.
+Community discussion helps mathematical progress; comment counts, votes,
+and successful Lean builds do not automatically confer acceptance.
 
 ### 7.5 Lean verification
 
 The public project pins the statement, Lean toolchain, and Mathlib revision.
 `lake build` builds the official statement. `lake build Check` optionally
 runs semantic examples, a compiler check, and an axiom audit. Neither that
-auxiliary command nor Lean itself is required for submission. Formal work
-still needs review of its actual theorem, definitions, scope, dependencies,
-and axioms. A restricted or different proposition is not the official target.
+auxiliary command nor Lean itself is required for submission. Community
+reviewers can inspect the actual theorem, definitions, scope, dependencies,
+and axioms. A claim selected for recognition needs this scrutiny even when
+it builds successfully. A restricted or different proposition is not the
+official target.
 
 ### 7.6 Priority and contributions
 
-Competition priority belongs to the earliest eligible, non-withdrawn and
-non-retracted version confirmed to contain a complete correct argument.
+When competition recognition is assessed, priority belongs to the earliest
+eligible, non-withdrawn and non-retracted version confirmed to contain a
+complete correct argument. Publication alone does not establish priority or
+promise that a formal assessment will occur.
 Eligibility uses its complete server receipt in the UTC window
 `[track_open, submission_deadline)`; review may finish after the
 deadline. An early placeholder or the time review finishes does not confer
@@ -344,8 +358,8 @@ do not erase an earlier complete and correct version's priority.
 
 Authors identify borrowed submission versions, comments, papers, and code,
 and describe their contribution. Credit may recognize original ideas,
-essential completions, and substantive reviewer contributions. Organizers
-resolve disagreements using public history and evidence, without automatic
+essential completions, and substantive reviewer contributions. When assessing
+recognition, organizers resolve disagreements using public history and evidence, without automatic
 percentage allocations. Competition receipts do not replace scientific
 priority established by earlier public work; an external publication date
 does not replace the server receipt used for competition priority.
@@ -356,14 +370,16 @@ honors, but their historical contributions remain visible.
 
 Recognize the first qualifying proof or disproof per conjecture separately
 from Discovery points. An AC proof or Stable AC disproof is recognized for
-both conjectures using the same version and receipt time, once reviewers
-confirm the implication. Contributions and authorship remain attached.
+both conjectures using the same version and receipt time, once a selected
+assessment confirms the result and implication. Contributions and authorship
+remain attached.
 
 Neither result automatically stops Discovery. A stable counterexample
 conflicts with any verified AC or stable path for that presentation;
 an ordinary counterexample conflicts with an ordinary path, but may coexist
 with a stable path. A full proof and disproof of the same conjecture cannot
-both hold. Review must check the exact relation and record corrections.
+both hold. Assessments for recognition must check the exact relation and
+record any corrections.
 
 ## 8. SAIR platform integration
 
@@ -378,8 +394,8 @@ endpoints until integrated and tested.
 | Discovery records | Team-private submissions and approved public challenge/leaderboard summaries |
 | Bridges | Verified records without direct points |
 | Proof submissions | Public immutable versions and their exact supporting materials |
-| Proof discussion | Attributed, version-linked comments and edit history |
-| Proof decisions | Public version-specific reasons, priority, and contribution records |
+| Proof discussion | Voluntary community peer review through attributed, version-linked comments and edit history |
+| Proof recognition | Optional assessment of selected claims, with public version-specific reasons, priority, and contribution records |
 | Replay | Rebuild scoring from immutable events and complete identified configuration |
 
 Route mapping, database design, and authentication plumbing belong to the
@@ -431,7 +447,7 @@ sources change; do not distribute an older package as current rules.
 | Complete immutable scoring configuration record | Missing from the current engine |
 | SAIR adapter, durable receipts, quotas, authorization | Integration outstanding |
 | Bridge service and public/private serialization | Integration outstanding |
-| Public Proof versions, materials, comments, decisions, priority | Platform implementation outstanding |
+| Public Proof versions, community comments, and selective recognition records | Platform implementation outstanding |
 
 Local tests establish only the behavior they exercise. They do not show
 that missing platform operations already exist.
@@ -455,11 +471,12 @@ In addition to existing mathematical and data checks, launch requires:
    authorized teams can retrieve their own records.
 7. Bridges use exact destination presentations and score zero themselves;
    derived full solutions receive ordinary Discovery scoring.
-8. Proof preserves public versions, fixed materials, comments, decisions,
-   reasons, and revisions. Priority distinguishes cosmetic edits from repairs
-   of substantive gaps.
-9. Review checks the full target, prior work, borrowed contributions, and
-   conflicts with accepted results under the relevant ordinary or stable relation.
+8. Proof publishes versions and fixed materials for voluntary community
+   review, with comments and revisions; it does not automatically queue every
+   submission for organizer assessment.
+9. Selected recognition assessments record version-specific reasons and
+   check the full target, prior work, contributions, and conflicting results.
+   Priority distinguishes cosmetic edits from repairs of substantive gaps.
 10. Approved schedule, freeze, public rules, generated metadata, exported
     package, and actual enabled platform operations agree.
 

@@ -405,8 +405,9 @@ selects or changes a statement.
 Descriptions, papers, and formalizations address the same selected target.
 Lean is a means of verification, not an exemption from review. A
 successful build does not automatically accept a mathematical claim:
-reviewers must examine the exact theorem, its scope, dependencies,
-axioms, and trust boundary.
+assessing a formalization includes examining the exact theorem, its scope,
+dependencies, axioms, and trust boundary. Community members are encouraged
+to contribute this scrutiny alongside review of written arguments.
 
 The local project pins Lean `4.29.1` and Mathlib commit
 `5e932f97dd25535344f80f9dd8da3aab83df0fe6`. Its
@@ -425,7 +426,7 @@ Online submissions remain closed during prelaunch.
 
 Every Proof submission is public from receipt. A submission page contains
 the description, materials, author and team attribution, version history,
-comments, and review decisions. Other participants may comment, question
+comments, and any recognition decisions. Other participants may comment, question
 an argument, suggest corrections, and learn from it. Comments and author
 responses identify the version they discuss and carry server timestamps;
 substantive edits retain an accessible history.
@@ -443,22 +444,28 @@ the record as withdrawn rather than erasing it.
 Submission publication and a receipt timestamp are records of a claim;
 they do not certify its correctness.
 
-### 9.5 Review and decisions
+### 9.5 Community peer review and recognition
 
-Review is carried out by the organizers and reviewers they designate,
-informed by public comments and the authors' responses. Community
-discussion is open; acceptance is an organizer decision, not a vote
-count or a successful Lean build. No turnaround is guaranteed.
+Community peer review is the primary way to examine submissions and advance
+the work. Participants are encouraged to discuss arguments, identify gaps,
+suggest corrections, and contribute improvements. Participation in review is
+voluntary. Publication makes a version available for this discussion; it does
+not place it in a mandatory organizer screening or review queue.
 
-| State | Meaning for the identified version |
+Organizers may assess selected claims for competition recognition, drawing
+on community discussion and additional expert review as needed. Organizers
+and designated reviewers are not expected to assess every submission.
+For claims selected for assessment, competition recognition is an organizer
+decision supported by a public explanation. Comment counts, votes, and
+successful Lean builds do not establish mathematical correctness.
+
+When such an assessment takes place, the organizers may record:
+
+| Decision | Meaning for the identified version |
 |---|---|
-| `received` | The version has been recorded and published |
-| `screening` | Organizers check scope and substantive mathematical content |
-| `under_review` | The argument is being assessed |
-| `accepted` | The stated proof or disproof has been accepted, with a public review explanation |
-| `rejected` | The claim has been declined, with a reason |
-| `revision_requested` | Reviewers request changes; a submitted revision creates a new version at `received` |
-| `withdrawn` | The authors have withdrawn this version from review and competition recognition; its history and contribution record remain visible |
+| `accepted` | The stated proof or disproof has been accepted for competition recognition, with a public explanation |
+| `rejected` | The claim has been declined for competition recognition, with a reason |
+| `revision_requested` | The assessment identifies changes needed; a submitted revision is published as a new version |
 | `retracted` | Organizers have withdrawn a prior acceptance, with a public explanation |
 
 Decisions identify the exact version, the reviewers or responsible
@@ -531,7 +538,8 @@ before recording a contradiction. Any correction must be explained publicly;
 incompatible conclusions cannot both remain endorsed.
 
 The planned platform flow is a public submission page with version
-history, comments, and organizer decisions. The local repository supplies
+history and comments, plus organizer decisions when a claim is assessed for
+competition recognition. The local repository supplies
 the mathematical statement and reference tools; the SAIR integration,
-version storage, comments, and review workflow still require implementation
+version storage, comments, and recognition records still require implementation
 and end-to-end acceptance checks before launch.

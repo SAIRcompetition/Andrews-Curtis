@@ -90,12 +90,13 @@ Official submission handling and leaderboard updates belong to the SAIR
 competition platform. Local verification does not register a submission.
 
 Proof submissions identify the conjecture and include a claim type and
-description, with a complete
-argument in the description, PDF or paper, GitHub at a fixed commit, or
-arXiv at a fixed version. Every submitted version is public and immutable,
-with comments for discussion. Reviewers make the final determination;
-Lean does not bypass review. See `competition/rules/evaluation.md` for
-the submission, version, and credit rules.
+description, with a complete argument in the description, PDF or paper,
+GitHub at a fixed commit, or arXiv at a fixed version. Every submitted
+version is public and immutable, with comments for community peer review,
+shared learning, and improvement. Lean submissions are open to the same
+scrutiny. Organizers may assess selected claims for competition recognition.
+Priority follows the earliest eligible complete correct version. See
+`competition/rules/evaluation.md` for submission, version, and credit rules.
 
 ## Start here
 

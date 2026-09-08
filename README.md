@@ -28,13 +28,14 @@ For the full conjectures, start with the
 Proof submissions identify the conjecture, claim type, and description, with a complete
 argument in the description, a PDF or paper, a GitHub repository at a
 fixed commit, or an arXiv paper at a fixed version. Submissions and their
-immutable versions are public, with comments for discussion. Reviewers
-make the final mathematical determination; Lean is not an exemption
-from review. Priority follows the earliest complete correct version,
-with references and contributions recorded separately.
+immutable versions are public, with comments for community peer review,
+shared learning, and improvement. Lean submissions are open to the same
+scrutiny. Organizers may assess selected claims for competition recognition.
+Priority follows the earliest eligible complete correct version, with
+references and contributions recorded separately.
 
 SAIR is the competition platform for registration, teams, submissions,
-review, and leaderboard presentation. The integration and persistent
+community discussion, and leaderboard presentation. The integration and persistent
 submission service remain to be implemented. Outstanding scoring work
 includes event ordering, `current_best_solver` and `solved` semantics,
 and complete configuration snapshots for reproducible scoring. The

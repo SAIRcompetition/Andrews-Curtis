@@ -29,9 +29,10 @@ The Proof Track is part of the Andrews–Curtis Conjecture Challenge (ACC).
 It accepts a proof or disproof with a description and complete argument,
 which may be carried by the description, a PDF or paper, a GitHub
 repository at a fixed commit, or an arXiv paper at a fixed version.
-Submissions and immutable versions are public, with comments for review
-and discussion. Reviewers make the final mathematical determination;
-Lean does not provide an exemption from review. See the
+Submissions and immutable versions are public, with comments for community
+peer review, shared learning, and improvement. Lean arguments are open to
+scrutiny of their statement, scope, and trust boundary. Organizers may assess
+selected claims for competition recognition. See the
 [evaluation rules](../../rules/evaluation.md) for versions and credit.
 
 ## Build

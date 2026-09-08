@@ -27,11 +27,14 @@ and complete argument. The argument may be in the description, a paper/PDF,
 Lean at a fixed GitHub commit, an arXiv version, or a combination. A PDF is
 optional.
 
-The planned platform will make all versions and comments public,
-preserve server timestamps and IDs, and bind reasoned review decisions
-to specific versions. Priority belongs to the earliest version confirmed
-to contain a complete correct argument; borrowed work must be cited with
-an explanation of contributions. Either conclusion can receive the
+The planned platform will make all versions and comments public and
+preserve server timestamps and IDs. Community peer review enables participants
+to scrutinize arguments, learn from one another, and improve their work;
+Lean submissions are open to the same discussion. Organizers may assess
+selected claims for competition recognition, recording the relevant version
+and reasons for any decision. Priority belongs to the earliest eligible
+version containing a complete correct argument; borrowed work must be cited
+with an explanation of contributions. Either conclusion can receive the
 mathematical honor, without Discovery points or automatically ending
 Discovery Track. Both tracks remain closed during prelaunch.
 
@@ -86,7 +89,7 @@ bridge scores normally for the challenge it solves, at its full length.
 
 Proof submission and review details are in
 [rules/evaluation.md](rules/evaluation.md) §9. Lean arguments remain
-subject to review of their statement, scope, and trust boundary.
+open to community scrutiny of their statement, scope, and trust boundary.
 
 ## Reference tools
 
@@ -99,7 +102,7 @@ competition opens. `tools/lean/AC.lean` defines both full conjectures;
 formalizations need only `import AC`. `Check.lean` is an optional
 auxiliary target, run separately with `lake build Check`.
 
-Submission handling, public Proof versions and comments, review records,
+Submission handling, public Proof versions and comments, any recognition records,
 and the leaderboard belong to the planned competition service. This
 preview contains the data, rules, and reference implementations of the
 mathematical checks.

@@ -271,11 +271,14 @@ Supporting links will identify the fixed commit or document version
 being submitted. Comments and review decisions will identify the
 submission version they address.
 
-The organizers and their designated reviewers will consider public
-comments and issue a reasoned `accepted`, `rejected`, or
-`revision_requested` decision for a specific version. They may correct
-a decision publicly while preserving its history. Lean compilation
-does not replace review of the claim, its scope, and its trust boundary.
+Community peer review drives discussion and progress. Participants are
+encouraged to examine arguments, identify gaps, suggest corrections, and
+build on one another's work. Organizers may assess selected claims for
+competition recognition; submission does not create an obligation for
+organizers or designated reviewers to assess every claim. Any recognition
+decision identifies a specific version and preserves the public reasoning
+and history. Lean formalizations are also open to peer review of the claim,
+its scope, and its trust boundary.
 Formal targets are `AC.Conjecture` or `AC.StableConjecture` for a proof,
 and their negations for a disproof (equivalently `AC.Counterexample` or
 `AC.StableCounterexample`). The
@@ -300,7 +303,7 @@ priority rule receives the **Highest Mathematical Achievement of the Competition
 Proof results do not earn Discovery points and do not automatically
 end Discovery Track. A qualifying AC proof or Stable AC disproof
 is recognized for both conjectures using the same version and receipt time.
-Submission fields, review states, public records,
+Submission fields, community review, public records,
 and the full priority and credit rules are in
 [evaluation.md](evaluation.md) §9. Both tracks remain closed during
 prelaunch.
