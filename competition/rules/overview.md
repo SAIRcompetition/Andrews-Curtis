@@ -3,7 +3,7 @@
 **Prelaunch preview — registration and submissions are not open.** You
 can inspect the current rules and data and try the Python verifier
 locally. Registration is announced for September 8, 2026, Discovery for
-September 11, and Proof for September 20. The submission deadline is
+September 11, and Proof for September 21. The submission deadline is
 November 30, 2026; its exact UTC time, opening times, and the official
 data freeze remain pending.
 
@@ -354,7 +354,7 @@ collaboration with [Caltech](https://www.caltech.edu/).
 
 * Registration and team formation: September 8, 2026.
 * Discovery Track: September 11, 2026.
-* Proof Track: September 20, 2026.
+* Proof Track: September 21, 2026.
 * Submission deadline: November 30, 2026; exact UTC time to be announced.
 * Certificate release: to be announced.
 

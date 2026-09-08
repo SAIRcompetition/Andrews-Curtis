@@ -4,7 +4,7 @@
 20,230 challenges: the same **10,115 presentations** in the AC and Stable AC
 problems within Discovery Track. The status is `prelaunch`; exact UTC schedule and
 freeze fields are `null`. Calendar dates in `announced_dates` are September
-8, 2026 for registration, September 11 for Discovery, September 20 for
+8, 2026 for registration, September 11 for Discovery, September 21 for
 Proof, and November 30 for the deadline. Exact UTC times remain pending.
 
 Before public launch, the organizers will freeze `manifest.json`,

@@ -65,7 +65,7 @@ Every submission is public, with timestamped versions and comments. We encourage
 
 - Registration and team formation open: **September 8, 2026**
 - Discovery Track opens: **September 11, 2026**
-- Proof Track opens: **September 20, 2026**
+- Proof Track opens: **September 21, 2026**
 - Submission deadline for all tracks: **November 30, 2026**
 
 ## Registration & Teams
