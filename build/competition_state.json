@@ -1,0 +1,15 @@
+{
+ "status": "prelaunch",
+ "freeze_date": null,
+ "freeze_commit": null,
+ "registration_opens": null,
+ "submissions_open": null,
+ "submission_deadline": null,
+ "certificate_release": null,
+ "announced_dates": {
+  "registration": "2026-09-08",
+  "discovery": "2026-09-11",
+  "prove": "2026-09-20"
+ },
+ "prove_submissions_open": null
+}

@@ -1,6 +1,0 @@
-name = "Competition"
-version = "0.1.0"
-defaultTargets = ["Competition"]
-
-[[lean_lib]]
-name = "Competition"

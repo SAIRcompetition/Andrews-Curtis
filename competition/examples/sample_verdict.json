@@ -1,0 +1,21 @@
+{
+  "accepted": true,
+  "results": [
+    {
+      "certificate_hash": "sha256:80dedf02b91d429b017fb0b3f48e950a9fc5e18363dbdf21c6e27297100c471f",
+      "challenge_id": "ms-train-0160",
+      "length": 7,
+      "ok": true,
+      "peak_total_relator_length": 12,
+      "work": 46
+    },
+    {
+      "certificate_hash": "sha256:e94492471688db5cb52971611a3617e75c165d89e3ed51cea9a3f5d96ccbb77e",
+      "challenge_id": "sac-train-0160",
+      "length": 9,
+      "ok": true,
+      "peak_total_relator_length": 12,
+      "work": 47
+    }
+  ]
+}

@@ -1,7 +1,7 @@
 """Acceptance row 11 + §3.2 byte templates.
 
 Any change to the manifest or to either move spec must change at least
-one hash, and submissions carrying a stale move_spec_version must be
+one hash, and a mismatched internal move_spec_version must be
 rejected with E_SPEC_MISMATCH.
 
 The byte templates in canon.py are frozen: instance_canon already

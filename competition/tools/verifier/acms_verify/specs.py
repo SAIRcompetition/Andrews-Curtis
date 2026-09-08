@@ -9,9 +9,8 @@ ACC runs two trivialization tracks over the same 10,115 presentations:
 
 A challenge names its spec in ``move_spec_version`` and its
 ``challenge_id`` prefix (``ac-v1-`` / ``sac-v1-``) names the track.  A
-submission also names a spec per solution; a solution whose version
-disagrees with its challenge's is rejected with ``E_SPEC_MISMATCH`` by
-the verify function itself, never here.
+submission contains only ``challenge_id`` and ``moves``; the official
+challenge supplies the spec for verification and certificate hashing.
 
 Everything that needs to branch on a spec — the submission layer, the
 golden runner, the CLI, the builders — goes through this registry, so
@@ -67,10 +66,9 @@ def get(move_spec_version):
 def verify_challenge(challenge, moves, move_spec_version, limits):
     """Dispatch on the CHALLENGE's spec, then verify.
 
-    ``move_spec_version`` is what the *solution* claims; the challenge's
-    own ``move_spec_version`` selects the implementation, which is what
-    lets a mismatch come back as ``E_SPEC_MISMATCH`` from inside verify
-    rather than as a lookup failure.
+    The submission layer passes the challenge's own version. The
+    explicit version argument also supports internal conformance tests
+    for ``E_SPEC_MISMATCH``; it is never a contestant submission field.
     """
     return get(challenge["move_spec_version"]).verify(
         challenge, moves, move_spec_version, limits)

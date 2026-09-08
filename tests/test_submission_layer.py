@@ -4,7 +4,7 @@ and the O-5 check priority."""
 import json
 import unittest
 
-from acms_verify import submission
+from acms_verify import core, stable_core, submission
 from tests import util
 
 
@@ -15,48 +15,80 @@ class TestSubmissionLayer(unittest.TestCase):
         cls.index = submission.build_challenge_index(cls.manifest)
         entry = min(util.load_training()["instances"],
                     key=lambda e: e["length"])
-        stable = {e["training_id"]: e
-                  for e in util.load_stable_training()["instances"]}
-        # The stable counterpart carries the same training_id, so give it
-        # a distinct one inside the mini manifest.
-        stable_entry = dict(stable[entry["training_id"]],
-                            training_id="sac-" + entry["training_id"])
-        # A mini manifest that also knows the solvable training instance
-        # in both tracks.
+        # A mini manifest that also knows the solvable training instance.
         cls.mini = {"limits": cls.manifest["limits"],
                     "challenges": cls.manifest["challenges"][:3]
-                    + [util.training_challenge(entry),
-                       util.training_challenge(stable_entry)]}
+                    + [util.training_challenge(entry)]}
         cls.entry = entry
-        cls.stable_entry = stable_entry
         cls.sol = {"challenge_id": entry["training_id"],
-                   "move_spec_version": entry["move_spec_version"],
                    "moves": entry["moves"]}
-        cls.stable_sol = {"challenge_id": stable_entry["training_id"],
-                          "move_spec_version":
-                              stable_entry["move_spec_version"],
-                          "moves": stable_entry["moves"]}
+        stable = dict(entry, training_id="sac-" + entry["training_id"],
+                      move_spec_version=stable_core.MOVE_SPEC_VERSION,
+                      target_relators=[], moves=entry["moves"] + [16, 15])
+        cls.stable_challenge = util.training_challenge(stable)
+        cls.mini["challenges"].append(cls.stable_challenge)
+        cls.stable_sol = {"challenge_id": stable["training_id"],
+                          "moves": stable["moves"]}
 
     def run_sub(self, doc, manifest=None):
         raw = doc if isinstance(doc, bytes) else json.dumps(doc).encode()
         return submission.process_submission(raw, manifest or self.mini)
 
     # -- happy path ------------------------------------------------------
-    def test_accept(self):
+    def test_accept_without_client_version_uses_official_hash(self):
         v = self.run_sub({"method": "bfs", "notes": "hi",
                           "solutions": [self.sol]})
         self.assertTrue(v["accepted"])
         self.assertTrue(v["results"][0]["ok"])
         self.assertEqual(v["results"][0]["certificate_hash"],
                          self.entry["certificate_hash"])
+        official = core.verify(util.training_challenge(self.entry),
+                               self.sol["moves"],
+                               self.entry["move_spec_version"],
+                               self.mini["limits"])
+        self.assertEqual(v["results"][0],
+                         dict(official, challenge_id=self.sol["challenge_id"]))
 
     def test_per_item_errors_do_not_reject_submission(self):
-        good, bad = self.sol, {"challenge_id": "ms-v1-9999",
-                               "move_spec_version": "ac-r2-v1", "moves": []}
-        v = self.run_sub({"solutions": [bad, good]})
+        good, bad = self.sol, {"challenge_id": "ms-v1-9999", "moves": []}
+        bad_move = {"challenge_id": self.mini["challenges"][0]["challenge_id"],
+                    "moves": [14]}
+        wrong_target = {"challenge_id": self.mini["challenges"][1]["challenge_id"],
+                        "moves": []}
+        v = self.run_sub({"solutions": [bad, bad_move, wrong_target, good]})
         self.assertTrue(v["accepted"])
         self.assertEqual(v["results"][0]["code"], "E_UNKNOWN_CHALLENGE")
-        self.assertTrue(v["results"][1]["ok"])
+        self.assertEqual(v["results"][1]["code"], "E_BAD_MOVE_ID")
+        self.assertEqual(v["results"][1]["move_index"], 0)
+        self.assertEqual(v["results"][2]["code"], "E_NOT_TARGET")
+        self.assertTrue(v["results"][3]["ok"])
+
+    def test_mixed_tracks_dispatch_from_challenge_without_client_version(self):
+        v = self.run_sub({"solutions": [self.sol, self.stable_sol]})
+        self.assertTrue(v["accepted"])
+        self.assertEqual([r["ok"] for r in v["results"]], [True, True])
+        expected = stable_core.verify(
+            self.stable_challenge, self.stable_sol["moves"],
+            stable_core.MOVE_SPEC_VERSION, self.mini["limits"])
+        self.assertEqual(v["results"][1], dict(
+            expected, challenge_id=self.stable_sol["challenge_id"]))
+        self.assertEqual(v["results"][1]["length"], self.entry["length"] + 2)
+        self.assertEqual(v["results"][1]["work"], self.entry["work"] + 1)
+
+    def test_challenge_id_selects_target_and_valid_move_ids(self):
+        v = self.run_sub({"solutions": [
+            dict(self.sol, moves=self.stable_sol["moves"]),
+            dict(self.stable_sol, moves=self.sol["moves"])]})
+        self.assertTrue(v["accepted"])
+        self.assertEqual([r["code"] for r in v["results"]],
+                         ["E_BAD_MOVE_ID", "E_NOT_TARGET"])
+
+    def test_stable_client_version_also_rejects_whole_submission(self):
+        v = self.run_sub({"solutions": [self.sol, dict(
+            self.stable_sol, move_spec_version=stable_core.MOVE_SPEC_VERSION)]})
+        self.assertFalse(v["accepted"])
+        self.assertEqual((v["code"], v["detail"], v["key"]),
+                         ("E_MALFORMED", "unknown_key", "move_spec_version"))
 
     # -- acceptance row 4: corrupted certificates -----------------------
     def test_malformed_json(self):
@@ -66,8 +98,7 @@ class TestSubmissionLayer(unittest.TestCase):
         self.assertFalse(v["counts_against_quota"])
 
     def test_missing_moves(self):
-        v = self.run_sub({"solutions": [{"challenge_id": "x",
-                                         "move_spec_version": "ac-r2-v1"}]})
+        v = self.run_sub({"solutions": [{"challenge_id": "x"}]})
         self.assertEqual((v["code"], v["detail"], v["key"]),
                          ("E_MALFORMED", "solution_missing_key", "moves"))
 
@@ -106,9 +137,19 @@ class TestSubmissionLayer(unittest.TestCase):
         self.assertEqual((v["code"], v["detail"], v["key"]),
                          ("E_MALFORMED", "unknown_key", "hint"))
 
+    def test_client_version_rejects_whole_submission_as_unknown_key(self):
+        for version in (self.entry["move_spec_version"], "ac-r1-v0"):
+            with self.subTest(version=version):
+                v = self.run_sub({"solutions": [
+                    dict(self.sol, move_spec_version=version)]})
+                self.assertFalse(v["accepted"])
+                self.assertFalse(v["counts_against_quota"])
+                self.assertEqual((v["code"], v["detail"], v["key"]),
+                                 ("E_MALFORMED", "unknown_key",
+                                  "move_spec_version"))
+
     def test_solution_count_limit(self):
-        sols = [{"challenge_id": "c%d" % i, "move_spec_version": "ac-r2-v1",
-                 "moves": []} for i in range(501)]
+        sols = [{"challenge_id": "c%d" % i, "moves": []} for i in range(501)]
         v = self.run_sub({"solutions": sols})
         self.assertEqual((v["code"], v["detail"]),
                          ("E_MALFORMED", "too_many_solutions"))
@@ -145,8 +186,7 @@ class TestSubmissionLayer(unittest.TestCase):
         self.assertEqual(v["code"], "E_MALFORMED")
 
     def test_structural_limits_configurable(self):
-        sols = [{"challenge_id": "c%d" % i, "move_spec_version": "ac-r2-v1",
-                 "moves": []} for i in range(3)]
+        sols = [{"challenge_id": "c%d" % i, "moves": []} for i in range(3)]
         v = self.run_sub({"solutions": sols})
         self.assertTrue(v["accepted"])
         raw = json.dumps({"solutions": sols}).encode()
@@ -155,57 +195,15 @@ class TestSubmissionLayer(unittest.TestCase):
         self.assertEqual((v["code"], v["detail"]),
                          ("E_MALFORMED", "too_many_solutions"))
 
-    # -- both tracks in one submission ----------------------------------
-    def test_accept_mixed_tracks(self):
-        """One submission may carry ac-v1 and sac-v1 solutions; each is
-        verified by the spec its own challenge names."""
-        v = self.run_sub({"solutions": [self.sol, self.stable_sol]})
-        self.assertTrue(v["accepted"])
-        self.assertEqual([r["ok"] for r in v["results"]], [True, True])
-        self.assertEqual(v["results"][0]["certificate_hash"],
-                         self.entry["certificate_hash"])
-        self.assertEqual(v["results"][1]["length"],
-                         self.entry["length"] + 2)
-        self.assertEqual(v["results"][1]["work"], self.entry["work"] + 1)
-        self.assertEqual([r["challenge_id"] for r in v["results"]],
-                         [self.sol["challenge_id"],
-                          self.stable_sol["challenge_id"]])
-
-    def test_cross_track_spec_version_is_a_per_item_rejection(self):
-        crossed = [dict(self.sol, move_spec_version="sac-r8-v1"),
-                   dict(self.stable_sol, move_spec_version="ac-r2-v1")]
-        v = self.run_sub({"solutions": crossed})
-        self.assertTrue(v["accepted"])
-        self.assertEqual([r["code"] for r in v["results"]],
-                         ["E_SPEC_MISMATCH", "E_SPEC_MISMATCH"])
-        self.assertEqual([r["expected"] for r in v["results"]],
-                         ["ac-r2-v1", "sac-r8-v1"])
-
-    def test_stable_moves_on_an_ac_challenge_are_bad_move_ids(self):
-        """Move id 16 exists only in sac-r8-v1; on an ac-r2-v1 challenge
-        it is out of range."""
-        v = self.run_sub({"solutions": [dict(self.sol,
-                                             moves=self.stable_sol["moves"])]})
-        self.assertTrue(v["accepted"])
-        self.assertEqual(v["results"][0]["code"], "E_BAD_MOVE_ID")
-        self.assertEqual(v["results"][0]["move"], 16)
-
     def test_real_manifest_challenge_wrong_path(self):
-        """Against the real 20,230-challenge manifest any path that
-        merely walks legally but ends elsewhere yields E_NOT_TARGET —
-        on either track, with the track's own final_shape shape."""
-        ac, sac = util.paired_challenges(self.manifest)[0]
-        v = self.run_sub({"solutions": [
-            {"challenge_id": ac["challenge_id"],
-             "move_spec_version": "ac-r2-v1", "moves": [6, 7]},
-            {"challenge_id": sac["challenge_id"],
-             "move_spec_version": "sac-r8-v1", "moves": [6, 7]}]},
-            manifest=self.manifest)
+        """Against the scored manifest any path that merely
+        walks legally but ends elsewhere yields E_NOT_TARGET."""
+        cid = self.manifest["challenges"][0]["challenge_id"]
+        v = self.run_sub({"solutions": [{"challenge_id": cid,
+                                         "moves": [6, 7]}]},
+                         manifest=self.manifest)
         self.assertTrue(v["accepted"])
-        shape = [len(w) for w in ac["initial_relators"]]
-        for r in v["results"]:
-            self.assertEqual(r["code"], "E_NOT_TARGET")
-            self.assertEqual(r["final_shape"], shape)
+        self.assertEqual(v["results"][0]["code"], "E_NOT_TARGET")
 
 
 if __name__ == "__main__":

@@ -29,12 +29,13 @@ Outputs:
   build/private/challenge_map_private.tsv          NEVER published
   build/private/pool_stats.json                    NEVER published
 
-The manifest carries no difficulty or provenance signal: every scored
+The manifest omits internal difficulty labels and direct source mappings: every scored
 challenge is exactly {challenge_id, generators, initial_relators,
 target_relators, move_spec_version, scored, base_score, instance_hash,
 freeze_date}, challenge ids are a seeded shuffle of the pool, and
 :func:`leak_check` re-reads the emitted file to prove no private id or
-provenance token survived.
+provenance token survived. Public relators can still be matched to known
+mathematical sources; this is not an anonymity guarantee.
 
 Deterministic: the only randomness is ``random.Random(CHALLENGE_ID_SEED)``,
 so identical inputs give byte-identical outputs.
@@ -46,6 +47,7 @@ import json
 import random
 import re
 import sys
+from datetime import datetime
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parents[1]
@@ -56,7 +58,7 @@ from acms_verify import (  # noqa: E402
     __version__, canon, core, specs, stable_core)
 
 from build_manifest import (  # noqa: E402
-    FREEZE_DATE, GENERATORS, LIMITS, MOVE_DESCRIPTIONS, TARGET, build_golden,
+    GENERATORS, LIMITS, MOVE_DESCRIPTIONS, TARGET, build_golden,
     build_move_spec, build_training, dump, load_items, ms_initial, stats)
 from sync_dataset import (  # noqa: E402
     DATA_DIR, EXPECTED_ADDED_OPEN, EXPECTED_MS_STATUS,
@@ -73,6 +75,9 @@ STABLE_TARGET = []
 
 CHALLENGES_DIR = REPO / "competition" / "challenges"
 PRIVATE_DIR = REPO / "build" / "private"
+COMPETITION_STATE_PATH = REPO / "build" / "competition_state.json"
+SCHEDULE_FIELDS = ("freeze_date", "registration_opens", "submissions_open", "prove_submissions_open",
+                   "submission_deadline", "certificate_release")
 
 #: Exactly the keys a public challenge record may carry (O-4: no
 #: difficulty, family, or provenance signal reaches contestants).
@@ -98,6 +103,48 @@ PRIVATE_MAP_FIELDS = ("challenge_id", "master_id", "public_id", "pool",
 def serialize(obj):
     """Exactly what :func:`build_manifest.dump` writes."""
     return json.dumps(obj, indent=1) + "\n"
+
+
+def load_competition_state(path=None):
+    """Read the sole source of publication state and dates.
+
+    Unannounced values are JSON null. Dates, when announced, are UTC
+    timestamps; a freeze commit is a full Git object id, never a label.
+    Release readiness and Git verification are enforced by release.py.
+    """
+    path = Path(path) if path is not None else COMPETITION_STATE_PATH
+    state = json.loads(path.read_text(encoding="utf-8"))
+    expected = {"status", "freeze_commit", "announced_dates", *SCHEDULE_FIELDS}
+    if not isinstance(state, dict) or set(state) != expected:
+        raise ValueError("competition state must contain exactly %s" %
+                         ", ".join(sorted(expected)))
+    announced = state["announced_dates"]
+    if not isinstance(announced, dict) or set(announced) != {"registration", "discovery", "prove"}:
+        raise ValueError("announced_dates must contain registration, discovery, and prove")
+    for value in announced.values():
+        if not isinstance(value, str) or not re.fullmatch(r"\d{4}-\d{2}-\d{2}", value):
+            raise ValueError("announced dates must be calendar dates in YYYY-MM-DD form")
+        datetime.strptime(value, "%Y-%m-%d")
+    status = state["status"]
+    if status not in ("prelaunch", "active", "finished"):
+        raise ValueError("competition status must be prelaunch, active, or finished")
+    for field in SCHEDULE_FIELDS:
+        value = state[field]
+        if value is None:
+            continue
+        if not isinstance(value, str) or not re.fullmatch(
+                r"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z", value):
+            raise ValueError("%s must be null or a UTC timestamp" % field)
+        try:
+            datetime.strptime(value, "%Y-%m-%dT%H:%M:%SZ")
+        except ValueError as exc:
+            raise ValueError("%s is not a valid UTC timestamp" % field) from exc
+    commit = state["freeze_commit"]
+    if commit is not None and (not isinstance(commit, str) or not re.fullmatch(
+            r"(?:[0-9a-f]{40}|[0-9a-f]{64})", commit)):
+        raise ValueError("freeze_commit must be null or a full Git object id")
+    return state
+
 
 
 def freeze_guard(name, obj, create_if_missing=False):
@@ -225,7 +272,7 @@ def assign_ids(rows):
     return ordered
 
 
-def challenge_record(challenge_id, initial, target, version, move_spec_hash):
+def challenge_record(challenge_id, initial, target, version, move_spec_hash, freeze_date):
     return {
         "challenge_id": challenge_id,
         "generators": GENERATORS,
@@ -237,11 +284,11 @@ def challenge_record(challenge_id, initial, target, version, move_spec_hash):
         "instance_hash": canon.instance_hash(
             challenge_id, GENERATORS, initial, target, version,
             move_spec_hash),
-        "freeze_date": FREEZE_DATE,
+        "freeze_date": freeze_date,
     }
 
 
-def build_manifest_v3(rows):
+def build_manifest_v3(rows, competition_state=None):
     """One record per (presentation, track): all ac-v1 then all sac-v1.
 
     ``sac-v1-N`` carries the identical generators and initial_relators as
@@ -250,6 +297,9 @@ def build_manifest_v3(rows):
     (canon.instance_canon already covers target + spec version + spec
     hash), so every ac-v1 hash is byte-identical to the acms-v2 build.
     """
+    if competition_state is None:
+        competition_state = load_competition_state()
+    freeze_date = competition_state["freeze_date"]
     ac_hash = specs.SPECS[core.MOVE_SPEC_VERSION].move_spec_hash
     sac_hash = specs.SPECS[stable_core.MOVE_SPEC_VERSION].move_spec_hash
     challenges = []
@@ -257,12 +307,12 @@ def build_manifest_v3(rows):
         initial = [list(w) for w in row["relators_int"]]
         challenges.append(challenge_record(
             row["challenge_id"], initial, TARGET, core.MOVE_SPEC_VERSION,
-            ac_hash))
+            ac_hash, freeze_date))
     for row in rows:
         initial = [list(w) for w in row["relators_int"]]
         challenges.append(challenge_record(
             STABLE_CHALLENGE_ID_FORMAT % row["seq"], initial, STABLE_TARGET,
-            stable_core.MOVE_SPEC_VERSION, sac_hash))
+            stable_core.MOVE_SPEC_VERSION, sac_hash, freeze_date))
     for c in challenges:
         assert set(c) == CHALLENGE_KEYS, sorted(set(c) ^ CHALLENGE_KEYS)
     assert len(challenges) == 2 * len(rows), len(challenges)
@@ -285,7 +335,7 @@ def build_manifest_v3(rows):
         "move_specs": move_specs,
         "manifest_hash": canon.manifest_hash(
             [c["instance_hash"] for c in challenges]),
-        "freeze_date": FREEZE_DATE,
+        "freeze_date": freeze_date,
         "generators": GENERATORS,
         "limits": LIMITS,
         "challenge_count": len(challenges),
@@ -431,8 +481,9 @@ def build_stable_move_spec(move_spec_hash):
             "table and act on r0 and r1 exactly as they do there, so the "
             "two specs agree wherever they overlap.",
             "Consequence: any accepted ac-r2-v1 certificate followed by "
-            "[16, 15] is an accepted sac-r8-v1 certificate for the same "
-            "presentation.  The ac-r2-v1 target is the ordered pair "
+            "[16, 15] reaches the stable target for the same presentation, "
+            "provided the extended path still satisfies the limits: "
+            "length increases by 2 and work by 1.  The ac-r2-v1 target is the ordered pair "
             "(x, y); destabilizing r1 then r0 empties it.  That costs "
             "exactly 2 more moves, 0 more peak total relator length and "
             "1 more work.  competition/challenges/stable_training_424.json "
@@ -671,12 +722,9 @@ def build_golden_v3(manifest, training, stable_training):
 
     # -- submission vectors ---------------------------------------------
     ac_sol = {"challenge_id": short["training_id"],
-              "move_spec_version": core.MOVE_SPEC_VERSION,
               "moves": short["moves"]}
     sac_entry = stable_by_id[short["training_id"]]
-    sac_sol = {"challenge_id": short_sac,
-               "move_spec_version": stable_core.MOVE_SPEC_VERSION,
-               "moves": sac_entry["moves"]}
+    sac_sol = {"challenge_id": short_sac, "moves": sac_entry["moves"]}
     sac_hash = sac_verify(short_sac, sac_sol["moves"])["certificate_hash"]
     sub_vectors += [
         {"name": "sub-accept-mixed-tracks",
@@ -689,10 +737,8 @@ def build_golden_v3(manifest, training, stable_training):
         {"name": "sub-stable-solution-with-ac-spec-version",
          "raw": json.dumps({"solutions": [
              dict(sac_sol, move_spec_version=core.MOVE_SPEC_VERSION)]}),
-         "expected": {"accepted": True, "results": [
-             {"ok": False, "challenge_id": short_sac,
-              "code": "E_SPEC_MISMATCH",
-              "expected": stable_core.MOVE_SPEC_VERSION}]}},
+         "expected": {"accepted": False, "code": "E_MALFORMED",
+                      "detail": "unknown_key", "key": "move_spec_version"}},
     ]
 
     move_specs = move_spec_headers()
@@ -718,7 +764,9 @@ def leak_check(path, private_ids):
     # letter, and the manifest is lowercase ASCII apart from the ISO-8601
     # freeze_date, so no id can occur as a substring.  Both halves are
     # asserted, plus a direct scan for any hypothetical all-lowercase id.
-    hit = re.search(r"[A-Z]", text.replace(FREEZE_DATE, ""))
+    freeze_date = json.loads(text)["freeze_date"]
+    scrubbed = text.replace(freeze_date, "") if freeze_date is not None else text
+    hit = re.search(r"[A-Z]", scrubbed)
     assert hit is None, "unexpected uppercase in %s at offset %d" % (
         path.name, hit.start() if hit else -1)
     for pid in private_ids:
@@ -778,54 +826,84 @@ def write_private(rows, sources):
     print("wrote %s" % path.relative_to(REPO))
 
 
-def write_yaml(manifest):
+def write_yaml(manifest, competition_state=None):
+    if competition_state is None:
+        competition_state = load_competition_state()
+    assert manifest["freeze_date"] == competition_state["freeze_date"], \
+        "manifest freeze date differs from competition state"
+    spec_lines = []
+    for entry in manifest["move_specs"]:
+        spec_lines.append("  - version: %s\n    hash: %s\n    file: challenges/%s\n"
+                          "    target_relators: %s\n    max_rank: %d\n    id_prefix: %s\n"
+                          % (entry["move_spec_version"], json.dumps(entry["move_spec_hash"]),
+                             entry["file"], json.dumps(entry["target_relators"]),
+                             entry["max_rank"], entry["id_prefix"]))
+    specs_yaml = "".join(spec_lines)
     path = REPO / "competition" / "competition.yaml"
-    lines = []
-    for e in manifest["move_specs"]:
-        target = ("the empty presentation" if not e["target_relators"]
-                  else "the exact ordered pair (x, y)")
-        lines.append("  - version: %s\n"
-                     "    hash: \"%s\"\n"
-                     "    file: challenges/%s\n"
-                     "    target: \"%s\"\n"
-                     "    max_rank: %d\n"
-                     "    id_prefix: %s\n"
-                     % (e["move_spec_version"], e["move_spec_hash"],
-                        e["file"], target, e["max_rank"], e["id_prefix"]))
-    specs_yaml = "".join(lines)
     path.write_text(f"""\
 id: acms
-name: "ACC: The Andrews\u2013Curtis Conjecture Competition"
+name: "Andrews–Curtis Conjecture Challenge (ACC)"
 organizer: sairmath
-status: active
+status: {competition_state['status']}
 task_type: mathematical_discovery
 submission_artifact: submission.json
-submission_format: "JSON; solutions[] of {{challenge_id, move_spec_version, moves[]}}; move ids per the challenge's spec (0-13 for ac-r2-v1, 0-256 for sac-r8-v1); the challenge_id prefix (ac-v1-/sac-v1-) selects the track"
-verifier: "Python, competition/tools/verifier (standard library only), acms-verify {__version__}"
-counterexample_verifier: "PDF + expert review per conjecture (AC and stable AC); optional Lean 4 fast-track in development"
+submission_format: "Discovery: JSON; solutions[] of {{challenge_id, moves[]}}; ac-v1- IDs select AC moves 0-13 and sac-v1- IDs select stable AC moves 0-256"
+verifier: "Discovery Track: Python, competition/tools/verifier (standard library only), acms-verify {__version__}"
 primary_metric: leaderboard_score
 scoring_unit: team_challenge
 scoring_formula: "V_i * 2^(1-k_i) for teams at the current shortest length, 0 otherwise"
+tracks:
+  - id: discovery_ac
+    name: Discovery Track — AC
+    opens: {json.dumps(competition_state['announced_dates']['discovery'])}
+    opens_at: {json.dumps(competition_state['submissions_open'])}
+    objective: "Find short verified ordinary AC trivializations"
+    id_prefix: ac-v1-
+  - id: discovery_stable
+    name: Discovery Track — Stable AC
+    opens: {json.dumps(competition_state['announced_dates']['discovery'])}
+    opens_at: {json.dumps(competition_state['submissions_open'])}
+    objective: "Find short verified stable AC trivializations, current rank at most 8"
+    id_prefix: sac-v1-
+  - id: prove_ac
+    name: Prove Track — AC
+    opens: {json.dumps(competition_state['announced_dates']['prove'])}
+    opens_at: {json.dumps(competition_state['prove_submissions_open'])}
+    conjecture: AC.Conjecture
+    claims: [proof, disproof]
+    statement: rules/statement.md
+    submission_format: "Claim type and description required; complete argument in description, PDF or paper, GitHub at a fixed commit, or arXiv at a fixed version"
+    visibility: public
+    versions: immutable
+    review: "Public comments; final mathematical determination by reviewers; Lean does not bypass review"
+    credit: "Earliest complete correct version, with references and contributions recorded; see rules/evaluation.md"
+    leaderboard_points: false
+  - id: prove_stable
+    name: Prove Track — Stable AC
+    opens: {json.dumps(competition_state['announced_dates']['prove'])}
+    opens_at: {json.dumps(competition_state['prove_submissions_open'])}
+    claims: [proof, disproof]
+    statement: rules/statement.md
+    conjecture: AC.StableConjecture
+    submission_format: "Claim type and description required; complete argument in description, PDF or paper, GitHub at a fixed commit, or arXiv at a fixed version"
+    visibility: public
+    versions: immutable
+    review: "Public comments; final mathematical determination by reviewers; Lean does not bypass review"
+    credit: "Earliest complete correct version, with references and contributions recorded; see rules/evaluation.md"
+    leaderboard_points: false
 move_specs:
-{specs_yaml}manifest_hash: "{manifest['manifest_hash']}"
-freeze_date: "{manifest['freeze_date']}"  # D-9 placeholder until the timeline decision lands
-freeze_commit: "TBD \u2014 freeze manifest.json, move_spec.json and stable_move_spec.json in git before public launch"
+{specs_yaml}announced_dates: {json.dumps(competition_state['announced_dates'])}
+manifest_hash: "{manifest['manifest_hash']}"
+freeze_date: {json.dumps(competition_state['freeze_date'])}
+freeze_commit: {json.dumps(competition_state['freeze_commit'])}
+registration_opens: {json.dumps(competition_state['registration_opens'])}
+submissions_open: {json.dumps(competition_state['submissions_open'])}
+prove_submissions_open: {json.dumps(competition_state['prove_submissions_open'])}
+submission_deadline: {json.dumps(competition_state['submission_deadline'])}
+certificate_release: {json.dumps(competition_state['certificate_release'])}
 challenge_count: {manifest['challenge_count']}
 presentation_count: {manifest['presentation_count']}
-challenge_policy: "10,115 presentations \u00d7 2 trivialization tracks = 20,230 challenges over one frozen pool of balanced presentations of the trivial group (SAIR dataset draw plus the full MS-1190 open set, minus instances with public certificates); sac-v1-N is the same presentation as ac-v1-N; per-instance difficulty and provenance withheld; base_score 1 each"
-tracks:
-  ac_trivialization:
-    opens: "2026-09-11"
-    challenges: challenges/manifest.json (ac-v1- ids, move spec ac-r2-v1)
-  stable_ac_trivialization:
-    opens: "2026-09-11"
-    challenges: challenges/manifest.json (sac-v1- ids, move spec sac-r8-v1)
-  ac_proof_or_disproof:
-    opens: "2026-09-20"
-    submission: PDF + expert review per conjecture
-  stable_ac_proof_or_disproof:
-    opens: "2026-09-20"
-    submission: PDF + expert review per conjecture
+challenge_policy: "10,115 balanced presentations in each of two Discovery variants: 20,230 separately scored challenges; base_score 1 each. Internal difficulty labels and direct source-ID mappings are omitted; public MS metadata and relators may reveal origins"
 overview: rules/overview.md
 evaluation: rules/evaluation.md
 manifest: challenges/manifest.json
@@ -834,6 +912,7 @@ manifest: challenges/manifest.json
 
 
 def main():
+    competition_state = load_competition_state()
     items = load_items()
     ac_hash = specs.SPECS[core.MOVE_SPEC_VERSION].move_spec_hash
     sac_hash = specs.SPECS[stable_core.MOVE_SPEC_VERSION].move_spec_hash
@@ -857,7 +936,7 @@ def main():
     # 2. the scored pool, twice: once per trivialization track.
     rows, sources = load_pool(items, training)
     rows = assign_ids(rows)
-    manifest = build_manifest_v3(rows)
+    manifest = build_manifest_v3(rows, competition_state)
     golden = build_golden_v3(manifest, training, stable_training)
 
     dump(CHALLENGES_DIR / "manifest.json", manifest)
@@ -881,7 +960,7 @@ def main():
         writer.writerows(meta_rows)
     print("wrote %s (%d rows)" % (csv_path.relative_to(REPO), len(meta_rows)))
 
-    write_yaml(manifest)
+    write_yaml(manifest, competition_state)
 
     # 4. private side tables, then prove the public manifest is clean.
     write_private(rows, sources)

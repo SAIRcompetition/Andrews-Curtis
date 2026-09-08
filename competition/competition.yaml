@@ -1,47 +1,78 @@
 id: acms
-name: "ACC: The Andrews–Curtis Conjecture Competition"
+name: "Andrews–Curtis Conjecture Challenge (ACC)"
 organizer: sairmath
-status: active
+status: prelaunch
 task_type: mathematical_discovery
 submission_artifact: submission.json
-submission_format: "JSON; solutions[] of {challenge_id, move_spec_version, moves[]}; move ids per the challenge's spec (0-13 for ac-r2-v1, 0-256 for sac-r8-v1); the challenge_id prefix (ac-v1-/sac-v1-) selects the track"
-verifier: "Python, competition/tools/verifier (standard library only), acms-verify 0.2.0"
-counterexample_verifier: "PDF + expert review per conjecture (AC and stable AC); optional Lean 4 fast-track in development"
+submission_format: "Discovery: JSON; solutions[] of {challenge_id, moves[]}; ac-v1- IDs select AC moves 0-13 and sac-v1- IDs select stable AC moves 0-256"
+verifier: "Discovery Track: Python, competition/tools/verifier (standard library only), acms-verify 0.2.0"
 primary_metric: leaderboard_score
 scoring_unit: team_challenge
 scoring_formula: "V_i * 2^(1-k_i) for teams at the current shortest length, 0 otherwise"
+tracks:
+  - id: discovery_ac
+    name: Discovery Track — AC
+    opens: "2026-09-11"
+    opens_at: null
+    objective: "Find short verified ordinary AC trivializations"
+    id_prefix: ac-v1-
+  - id: discovery_stable
+    name: Discovery Track — Stable AC
+    opens: "2026-09-11"
+    opens_at: null
+    objective: "Find short verified stable AC trivializations, current rank at most 8"
+    id_prefix: sac-v1-
+  - id: prove_ac
+    name: Prove Track — AC
+    opens: "2026-09-20"
+    opens_at: null
+    conjecture: AC.Conjecture
+    claims: [proof, disproof]
+    statement: rules/statement.md
+    submission_format: "Claim type and description required; complete argument in description, PDF or paper, GitHub at a fixed commit, or arXiv at a fixed version"
+    visibility: public
+    versions: immutable
+    review: "Public comments; final mathematical determination by reviewers; Lean does not bypass review"
+    credit: "Earliest complete correct version, with references and contributions recorded; see rules/evaluation.md"
+    leaderboard_points: false
+  - id: prove_stable
+    name: Prove Track — Stable AC
+    opens: "2026-09-20"
+    opens_at: null
+    claims: [proof, disproof]
+    statement: rules/statement.md
+    conjecture: AC.StableConjecture
+    submission_format: "Claim type and description required; complete argument in description, PDF or paper, GitHub at a fixed commit, or arXiv at a fixed version"
+    visibility: public
+    versions: immutable
+    review: "Public comments; final mathematical determination by reviewers; Lean does not bypass review"
+    credit: "Earliest complete correct version, with references and contributions recorded; see rules/evaluation.md"
+    leaderboard_points: false
 move_specs:
   - version: ac-r2-v1
     hash: "sha256:e13f57d82b5db1a79c1bd9d5ee1f6665ac4d96a634a3656ea20c0ada82e07643"
     file: challenges/move_spec.json
-    target: "the exact ordered pair (x, y)"
+    target_relators: [[1], [2]]
     max_rank: 2
     id_prefix: ac-v1-
   - version: sac-r8-v1
     hash: "sha256:27ecd0ebd4af39871cbfb23ecbd8be73710e85e04d8be788c1d81117d9f4b2b0"
     file: challenges/stable_move_spec.json
-    target: "the empty presentation"
+    target_relators: []
     max_rank: 8
     id_prefix: sac-v1-
+announced_dates: {"registration": "2026-09-08", "discovery": "2026-09-11", "prove": "2026-09-20"}
 manifest_hash: "sha256:7e597db7bdf715f696f1e0b9f20b234cffe73f0e9d279f392aba7a59af673646"
-freeze_date: "2026-09-01T00:00:00Z"  # D-9 placeholder until the timeline decision lands
-freeze_commit: "TBD — freeze manifest.json, move_spec.json and stable_move_spec.json in git before public launch"
+freeze_date: null
+freeze_commit: null
+registration_opens: null
+submissions_open: null
+prove_submissions_open: null
+submission_deadline: null
+certificate_release: null
 challenge_count: 20230
 presentation_count: 10115
-challenge_policy: "10,115 presentations × 2 trivialization tracks = 20,230 challenges over one frozen pool of balanced presentations of the trivial group (SAIR dataset draw plus the full MS-1190 open set, minus instances with public certificates); sac-v1-N is the same presentation as ac-v1-N; per-instance difficulty and provenance withheld; base_score 1 each"
-tracks:
-  ac_trivialization:
-    opens: "2026-09-11"
-    challenges: challenges/manifest.json (ac-v1- ids, move spec ac-r2-v1)
-  stable_ac_trivialization:
-    opens: "2026-09-11"
-    challenges: challenges/manifest.json (sac-v1- ids, move spec sac-r8-v1)
-  ac_proof_or_disproof:
-    opens: "2026-09-20"
-    submission: PDF + expert review per conjecture
-  stable_ac_proof_or_disproof:
-    opens: "2026-09-20"
-    submission: PDF + expert review per conjecture
+challenge_policy: "10,115 balanced presentations in each of two Discovery variants: 20,230 separately scored challenges; base_score 1 each. Internal difficulty labels and direct source-ID mappings are omitted; public MS metadata and relators may reveal origins"
 overview: rules/overview.md
 evaluation: rules/evaluation.md
 manifest: challenges/manifest.json

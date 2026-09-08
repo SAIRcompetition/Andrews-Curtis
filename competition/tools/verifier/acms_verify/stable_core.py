@@ -27,7 +27,8 @@ from . import canon, core
 MOVE_SPEC_VERSION = "sac-r8-v1"
 
 #: Highest rank reachable by stabilization.  Rank starts at 2 for every
-#: published challenge, so a path may stabilize at most six times.
+#: published challenge; repeated additions and deletions are allowed,
+#: provided the current rank never exceeds this bound.
 MAX_RANK = 8
 
 NUM_MOVES = 257

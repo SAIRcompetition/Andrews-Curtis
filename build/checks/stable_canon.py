@@ -16,8 +16,10 @@ The law asserts a *minimum*, so the search must be exhaustive to be
 worth anything.  It is exhaustive inside a stated envelope: paths that
 never let the summed relator length exceed ``k + 3`` and never stabilize
 past rank ``k + 1``.  Nothing outside that envelope can help — every
-path must spend k destabilizations to reach rank 0 and one inversion per
-inverted relator, which already accounts for the whole cost — but the
+path must spend at least k destabilizations to reach rank 0. Each
+initially inverted single-letter relator must also be changed before it
+can be deleted; a non-destabilization move changes at most one such
+relator. These lower bounds already account for the whole cost — but the
 envelope is what the search actually proves, so it is named here rather
 than implied.
 

@@ -1,26 +1,124 @@
-# Sample submission
+# Runnable Discovery submission examples
 
-`sample_submission.json` shows the exact accepted shape. Submit only
-`challenge_id`, `move_spec_version`, and `moves` — the verifier
-computes everything else; client-asserted result fields reject the
-whole submission.
+Start with `sample_submission.json`: a complete, successful submission for
+both Discovery variants of the published training instance `ms-train-0160`. The AC
+path uses 7 moves from [`training_424.json`](../challenges/training_424.json);
+the Stable AC path appends `[16, 15]` from
+[`stable_training_424.json`](../challenges/stable_training_424.json), reaching
+the empty presentation. Both use the official verifier and JSON format.
 
-One submission may mix both trivialization tracks: the `challenge_id`
-prefix picks the track (`ac-v1-` / `sac-v1-`) and `move_spec_version`
-must be the one that challenge declares (`ac-r2-v1` / `sac-r8-v1`), or
-that solution alone is rejected with `E_SPEC_MISMATCH`. Move ids 0–13
-mean the same thing in both specs, which is why the same two moves work
-as an illustration on either side.
+This is **local training only and earns no points**. The accompanying
+`training_manifest.json` contains the two variants of this instance, each
+marked `scored: false` with `base_score: 0`; its limits and move specifications
+match the official manifest. The Stable example ID is `sac-train-0160`;
+training files share `ms-train-0160`, so the example gives each variant a
+distinct ID for mixed submissions. Its instance and manifest hashes are independently
+checkable. It is not a new official challenge pool or freeze.
 
-Both sample solutions' two moves (conjugate r0 by x, then undo it) are
-legal but end where they started, so the official verdict on each of
-the scored challenges they name is `E_NOT_TARGET` with `final_shape` —
-useful for testing the pipeline end to end without needing a real
-solution. `ac-v1-00001` and `sac-v1-00001` are the same presentation,
-so both report `final_shape: [9, 18]`; they differ only in the target
-(the ordered pair `(x, y)` versus the empty presentation).
+## Run a successful submission
 
-For accepted examples, verify any entry of
-`../challenges/training_424.json` or of
-`../challenges/stable_training_424.json` against its own
-`initial_relators` with the downloadable verifier.
+From the development repository root **or the unpacked public package root**
+(the directory containing `competition/`), run:
+
+```sh
+PYTHONPATH=competition/tools/verifier python3 -m acms_verify \
+  --manifest competition/examples/training_manifest.json \
+  --submission competition/examples/sample_submission.json --pretty
+```
+
+The full input, [`sample_submission.json`](sample_submission.json), is:
+
+```json
+{
+  "solutions": [
+    {
+      "challenge_id": "ms-train-0160",
+      "moves": [
+        6,
+        4,
+        2,
+        9,
+        1,
+        4,
+        1
+      ]
+    },
+    {
+      "challenge_id": "sac-train-0160",
+      "moves": [
+        6,
+        4,
+        2,
+        9,
+        1,
+        4,
+        1,
+        16,
+        15
+      ]
+    }
+  ]
+}
+```
+
+Expected output, also saved as [`sample_verdict.json`](sample_verdict.json):
+
+```json
+{
+  "accepted": true,
+  "results": [
+    {
+      "certificate_hash": "sha256:80dedf02b91d429b017fb0b3f48e950a9fc5e18363dbdf21c6e27297100c471f",
+      "challenge_id": "ms-train-0160",
+      "length": 7,
+      "ok": true,
+      "peak_total_relator_length": 12,
+      "work": 46
+    },
+    {
+      "certificate_hash": "sha256:e94492471688db5cb52971611a3617e75c165d89e3ed51cea9a3f5d96ccbb77e",
+      "challenge_id": "sac-train-0160",
+      "length": 9,
+      "ok": true,
+      "peak_total_relator_length": 12,
+      "work": 47
+    }
+  ]
+}
+```
+
+The command exits with **status 0**. `accepted: true` means the document
+passed submission-level checks; each solution must also have `ok: true` to
+count as a verified path. Only `challenge_id` and `moves` belong in each
+solution. The verifier obtains the move-spec version from the manifest and
+computes all result fields itself. Do not upload the verdict as a submission.
+
+You can also check the training manifest's hashes:
+
+```sh
+PYTHONPATH=competition/tools/verifier python3 -m acms_verify \
+  --manifest competition/examples/training_manifest.json --check-hashes
+```
+
+Do **not** upload this training solution to the scored competition. Training
+IDs are absent from `competition/challenges/manifest.json`; checking this
+same sample against that official manifest returns `E_UNKNOWN_CHALLENGE`
+and exit status 1. For your scored entries, use IDs from the official manifest
+and verify your own submission against it.
+
+## Run the deliberately invalid submission
+
+[`invalid_submission.json`](invalid_submission.json) preserves the old sample:
+on scored challenge `ac-v1-00001`, move 6 conjugates the first relator by `x`
+and move 7 undoes it. The path returns to its initial state, not the target.
+
+```sh
+PYTHONPATH=competition/tools/verifier python3 -m acms_verify \
+  --manifest competition/challenges/manifest.json \
+  --submission competition/examples/invalid_submission.json --pretty
+```
+
+Expected: **exit status 1**, top-level `accepted: true`, and a per-solution
+verdict of `ok: false`, `code: "E_NOT_TARGET"`, `final_shape: [9, 18]`.
+This checks that a well-formed document with legal moves can still contain
+a mathematically unsuccessful path.

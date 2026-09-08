@@ -380,9 +380,7 @@ def build_golden(manifest, training, move_spec_hash):
                                  "move_index": verdict["move_index"]}})
 
     sid = short["training_id"]
-    sol = {"challenge_id": sid,
-           "move_spec_version": core.MOVE_SPEC_VERSION,
-           "moves": short["moves"]}
+    sol = {"challenge_id": sid, "moves": short["moves"]}
     submission_vectors = [
         {"name": "sub-accept-one",
          "raw": json.dumps({"solutions": [sol]}),
@@ -395,8 +393,7 @@ def build_golden(manifest, training, move_spec_hash):
                       "detail": "bad_json"}},
         {"name": "sub-missing-moves",
          "raw": json.dumps({"solutions": [
-             {"challenge_id": sid,
-              "move_spec_version": core.MOVE_SPEC_VERSION}]}),
+             {"challenge_id": sid}]}),
          "expected": {"accepted": False, "code": "E_MALFORMED",
                       "detail": "solution_missing_key", "key": "moves"}},
         {"name": "sub-moves-not-array",
@@ -416,20 +413,25 @@ def build_golden(manifest, training, move_spec_hash):
          "expected": {"accepted": False, "code": "E_CLIENT_ASSERTED_RESULT",
                       "key_path": "solutions[0].length"}},
         {"name": "sub-unknown-challenge",
-         "raw": json.dumps({"solutions": [dict(sol, challenge_id="ac-v1-99999")]}),
+         "raw": json.dumps({"solutions": [
+             dict(sol, challenge_id="ac-v1-99999"),
+             {"challenge_id": "golden-pump", "moves": [14]}, sol]}),
          "expected": {"accepted": True,
                       "results": [{"ok": False,
-                                   "code": "E_UNKNOWN_CHALLENGE"}]}},
-        {"name": "sub-spec-mismatch-per-item",
+                                   "code": "E_UNKNOWN_CHALLENGE"},
+                                  {"ok": False, "code": "E_BAD_MOVE_ID",
+                                   "move_index": 0},
+                                  {"ok": True, "challenge_id": sid,
+                                   "certificate_hash": short["certificate_hash"]}]}},
+        {"name": "sub-client-version-unknown-key",
          "raw": json.dumps({"solutions": [
              dict(sol, move_spec_version="ac-r1-v0")]}),
-         "expected": {"accepted": True,
-                      "results": [{"ok": False,
-                                   "code": "E_SPEC_MISMATCH"}]}},
+         "expected": {"accepted": False, "code": "E_MALFORMED",
+                      "detail": "unknown_key", "key": "move_spec_version"}},
         {"name": "sub-too-many-solutions",
          "raw": json.dumps({"solutions": [
              {"challenge_id": "ac-v1-%05d" % (i + 1),
-              "move_spec_version": core.MOVE_SPEC_VERSION, "moves": []}
+              "moves": []}
              for i in range(501)]}),
          "expected": {"accepted": False, "code": "E_MALFORMED",
                       "detail": "too_many_solutions"}},

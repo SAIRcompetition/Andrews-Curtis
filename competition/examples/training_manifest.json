@@ -1,0 +1,114 @@
+{
+  "manifest_version": "acms-example-training-v2",
+  "competition": "acms",
+  "move_specs": [
+    {
+      "move_spec_version": "ac-r2-v1",
+      "move_spec_hash": "sha256:e13f57d82b5db1a79c1bd9d5ee1f6665ac4d96a634a3656ea20c0ada82e07643",
+      "file": "move_spec.json",
+      "target_relators": [
+        [
+          1
+        ],
+        [
+          2
+        ]
+      ],
+      "max_rank": 2,
+      "id_prefix": "ac-v1-"
+    },
+    {
+      "move_spec_version": "sac-r8-v1",
+      "move_spec_hash": "sha256:27ecd0ebd4af39871cbfb23ecbd8be73710e85e04d8be788c1d81117d9f4b2b0",
+      "file": "stable_move_spec.json",
+      "target_relators": [],
+      "max_rank": 8,
+      "id_prefix": "sac-v1-"
+    }
+  ],
+  "manifest_hash": "sha256:653ebc9a4056f300ed5e8bced47a4519c972262c511578282aad9d1f20168a32",
+  "freeze_date": null,
+  "generators": [
+    "x",
+    "y"
+  ],
+  "limits": {
+    "max_path_length": 100000,
+    "max_total_relator_length": 10000,
+    "max_work": 5000000
+  },
+  "challenge_count": 2,
+  "presentation_count": 1,
+  "note": "Local training examples only; not part of the scored challenge pool.",
+  "challenges": [
+    {
+      "challenge_id": "ms-train-0160",
+      "generators": [
+        "x",
+        "y"
+      ],
+      "initial_relators": [
+        [
+          -1,
+          2,
+          1,
+          -2,
+          -2
+        ],
+        [
+          1,
+          2,
+          1,
+          2,
+          2,
+          -1,
+          -2
+        ]
+      ],
+      "target_relators": [
+        [
+          1
+        ],
+        [
+          2
+        ]
+      ],
+      "move_spec_version": "ac-r2-v1",
+      "scored": false,
+      "base_score": 0,
+      "instance_hash": "sha256:6c89fc6df12da1f62be7b30ffe45bec0e1468614e50db1410bb841f803fc4b58",
+      "freeze_date": null
+    },
+    {
+      "challenge_id": "sac-train-0160",
+      "generators": [
+        "x",
+        "y"
+      ],
+      "initial_relators": [
+        [
+          -1,
+          2,
+          1,
+          -2,
+          -2
+        ],
+        [
+          1,
+          2,
+          1,
+          2,
+          2,
+          -1,
+          -2
+        ]
+      ],
+      "target_relators": [],
+      "move_spec_version": "sac-r8-v1",
+      "scored": false,
+      "base_score": 0,
+      "instance_hash": "sha256:fae6feef2af388a7f32cf39606c4c641e700949e536328e2067236f2699b5e74",
+      "freeze_date": null
+    }
+  ]
+}

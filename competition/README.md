@@ -1,28 +1,45 @@
-# ACC: The Andrews–Curtis Conjecture Competition
+# Andrews–Curtis Conjecture Challenge (ACC)
 
-ACC is a mathematical discovery competition on the Andrews–Curtis
-conjecture and its stable version, both open since 1965. The ordinary
-conjecture is widely expected to be false, though no counterexample has
-ever been verified. Teams are given a frozen pool of 10,115 balanced
-presentations of the trivial group — from warm-up exercises to
-instances that are open research problems — and compete in four tracks:
+**Prelaunch preview — registration and submissions are not open.** Rules,
+data, and the reference verifier can be tried locally. Announced dates are
+September 8, 2026 for registration, September 11 for Discovery, and September
+20 for Prove; exact UTC times, the deadline, and the official freeze remain
+pending.
 
-| Track | Task | Outcome |
-|---|---|---|
-| 1 — AC trivialization | reduce a presentation to $\langle x,y \mid x,y\rangle$ with the 14 atomic AC moves of `ac-r2-v1` | leaderboard, shortest verified path wins |
-| 2 — stable AC trivialization | reduce the *same* presentation to the empty presentation with the 257 moves of `sac-r8-v1`, which add stabilization and destabilization | separate leaderboard, same formula |
-| 3 — AC proof or disproof | a self-contained PDF settling the Andrews–Curtis conjecture | expert review by the organizer panel |
-| 4 — stable AC proof or disproof | a self-contained PDF settling the stable Andrews–Curtis conjecture | expert review by the organizer panel |
+ACC is one competition with four tracks:
 
-The two trivialization tracks run on the same presentations and the
-same verifier: `sac-v1-N` is the same presentation as `ac-v1-N`. They
-are scored independently, on separate leaderboards that are never
-summed, with a permanent **First Solver** honor on each.
+| Track | Task |
+|---|---|
+| **AC Discovery** | Reduce rank-two presentations to `(x,y)` using 14 ordinary AC moves |
+| **Stable AC Discovery** | Reduce the same presentations to empty using 257 moves, permitting ranks up to 8 |
+| **AC Prove** | Prove or disprove the full ordinary conjecture |
+| **Stable AC Prove** | Prove or disprove the full stable conjecture, with no rank bound |
+
+The Discovery tracks share 10,115 initial presentations, giving 20,230
+challenge records with **separate leaderboards**. The 424 solved training
+presentations are outside both scored tracks. Submitted moves remain
+private until the post-competition release. Prove submissions include the
+conjecture, claim type, description, and complete argument in the description,
+a paper/PDF, Lean at a fixed GitHub commit, an arXiv version, or a combination.
+A PDF is optional.
+
+The planned Prove platform will make all versions and comments public,
+preserve server timestamps and IDs, and bind reasoned review decisions
+to specific versions. Priority belongs to the earliest version confirmed
+to contain a complete correct argument; borrowed work must be cited with
+an explanation of contributions. Either conclusion can receive the
+mathematical honor, without Discovery points or automatically ending
+either Discovery track. All four tracks remain closed during prelaunch.
 
 The full contestant-facing rules are in [rules/overview.md](rules/overview.md);
-verification, scoring, hashes, and confidentiality are specified
+verification, scoring, hashes, Discovery confidentiality, and Prove's
+public review, priority, and credit rules are specified
 normatively in [rules/evaluation.md](rules/evaluation.md). Machine-readable
 metadata is in `competition.yaml`.
+
+For a proof or disproof of either full conjecture, use the
+[official statement](rules/statement.md) and
+[Lean build instructions](tools/lean/README.md).
 
 ## Organizers
 
@@ -32,34 +49,53 @@ ACC is co-organized by (in alphabetical order by surname):
 * Sergei Gukov
 * Terence Tao
 
-## Submission format
+## Discovery submission format
 
 A submission is a single JSON document, `submission.json`, carrying a
-`solutions[]` array of objects `{challenge_id, move_spec_version,
-moves[]}`, where `moves` are atomic move ids under the specification
-the challenge carries: **0–13 under `ac-r2-v1`, 0–256 under
-`sac-r8-v1`**. The `challenge_id` prefix selects the track — `ac-v1-`
-is track 1, `sac-v1-` is track 2 — and one file may mix solutions to
-both. Submit only the moves: the server replays each path
-deterministically from the challenge's `initial_relators` and computes
-length, peak, and work itself, so any client-asserted result field
-rejects the whole submission. The move tables, the targets (the exact
-ordered pair `[[1],[2]]` for `ac-r2-v1`, the empty presentation `[]`
-for `sac-r8-v1`), the limits, and the full error-code contract are in
-[rules/overview.md](rules/overview.md) and
-[rules/evaluation.md](rules/evaluation.md);
-`examples/sample_submission.json` shows the accepted shape.
+`solutions[]` array of objects `{challenge_id, moves[]}`, where `moves`
+are move IDs 0–13 for `ac-v1-` challenges (`ac-r2-v1`) or 0–256 for
+`sac-v1-` challenges (`sac-r8-v1`). A batch may mix both tracks.
+Each solution contains only the challenge id
+and moves; optional `method` and `notes` belong to the top-level
+document. The verifier reads the move-spec version from the official
+challenge and replays each path deterministically from its
+`initial_relators` and computes length, peak, and work itself, so any
+client-asserted result field rejects the whole submission. The move
+tables, exact targets, limits, and the full error-code
+contract are in [rules/overview.md](rules/overview.md) and
+[rules/evaluation.md](rules/evaluation.md).
+The [examples guide](examples/README.md) includes a successful training
+submission covering both tracks, its expected receipt, and a separate rejection example.
+
+From the repository or exported package root:
+
+```sh
+PYTHONPATH=competition/tools/verifier python3 -m acms_verify \
+  --manifest competition/examples/training_manifest.json \
+  --submission competition/examples/sample_submission.json --pretty
+```
+
+The training example is unscored and uses its own manifest; it is not
+a solution to a challenge in the competition pool. Bridge certificates
+themselves score zero; a complete valid trivialization derived using a
+bridge scores normally for the challenge it solves, at its full length.
+
+Prove submission and review details are in
+[rules/evaluation.md](rules/evaluation.md) §9. Lean arguments remain
+subject to review of their statement, scope, and trust boundary.
 
 ## Reference tools
 
 `tools/verifier/` is the reference verifier — pure Python, standard
-library only — which replays a submission against the frozen manifest
-under either move specification, recomputes every hash, and runs the
-published golden vectors. The production system runs the same sources;
-the server-side verifier remains the sole authority for official
-results. `tools/lean/` covers the optional Lean 4 fast track of the
-proof-or-disproof tracks.
+library only — which replays a submission against the supplied manifest,
+recomputes every hash, and runs the included golden vectors. The
+planned competition service will use the same verifier sources; only
+its server-side verdicts will count as official results once the
+competition opens. `tools/lean/AC.lean` defines both full conjectures;
+formalizations need only `import AC`. `Check.lean` is an optional
+auxiliary target, run separately with `lake build Check`.
 
-The production submission validator and leaderboard system run inside
-the competition system; this tree contains the frozen data and the
-reference implementations of the mathematical checks only.
+Submission handling, public Prove versions and comments, review records,
+and the leaderboard belong to the planned competition service. This
+preview contains the data, rules, and reference implementations of the
+mathematical checks.
