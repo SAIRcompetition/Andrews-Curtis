@@ -118,7 +118,7 @@ class TestFinalFreeze(unittest.TestCase):
         cls.repo = Path(cls.tmp.name)
         data = cls.repo / "competition/challenges"
         data.mkdir(parents=True)
-        for name in ("manifest.json", "move_spec.json"):
+        for name in ("manifest.json", "move_spec.json", "stable_move_spec.json"):
             (data / name).write_text('{"frozen":true}\n')
         cls.git("init", "-q")
         cls.git("add", "competition")
@@ -129,6 +129,7 @@ class TestFinalFreeze(unittest.TestCase):
             "freeze_date": "2026-10-01T00:00:00Z",
             "registration_opens": "2026-10-02T00:00:00Z",
             "submissions_open": "2026-10-03T00:00:00Z",
+            "prove_submissions_open": "2026-10-03T12:00:00Z",
             "submission_deadline": "2026-10-04T00:00:00Z",
             "certificate_release": "2026-10-05T00:00:00Z",
         }
@@ -159,7 +160,7 @@ class TestFinalFreeze(unittest.TestCase):
     def test_missing_commit_and_changed_frozen_files_are_rejected(self):
         with self.assertRaisesRegex(ValueError, "not an available Git commit"):
             release.validate_final_state(dict(self.state, freeze_commit="f" * 40), self.repo)
-        for name in ("manifest.json", "move_spec.json"):
+        for name in ("manifest.json", "move_spec.json", "stable_move_spec.json"):
             path = self.repo / "competition/challenges" / name
             original = path.read_bytes()
             try:
@@ -168,6 +169,13 @@ class TestFinalFreeze(unittest.TestCase):
                     release.validate_final_state(self.state, self.repo)
             finally:
                 path.write_bytes(original)
+    def test_prove_opening_must_follow_discovery_and_precede_deadline(self):
+        for invalid in ("2026-10-02T12:00:00Z", self.state["submission_deadline"]):
+            with self.subTest(prove_opening=invalid), self.assertRaisesRegex(
+                    ValueError, "competition dates must follow"):
+                release.validate_final_state(
+                    dict(self.state, prove_submissions_open=invalid), self.repo)
+
 
 
 if __name__ == "__main__":

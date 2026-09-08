@@ -1,10 +1,11 @@
 # Andrews–Curtis Conjecture Challenge (ACC) — Internal Design Guide
 
-ACC is one competition on the SAIR competition platform, with a **Discovery
-Track** and a **Prove Track**. Discovery rewards verified short trivialization
-paths for specific presentations. Prove accepts arguments for or against the
-full Andrews–Curtis conjecture. A Prove result neither automatically ends
-Discovery nor converts into Discovery points.
+ACC is one competition on SAIR, with four tracks: **AC Discovery**
+(`discovery_ac`), **Stable AC Discovery** (`discovery_stable`), **AC Prove**
+(`prove_ac`), and **Stable AC Prove** (`prove_stable`). Discovery rewards
+short verified paths under its selected move specification. Prove accepts
+proofs or disproofs of the full selected conjecture. A Prove result neither
+automatically ends Discovery nor converts into Discovery points.
 
 The competition is **prelaunch**. Local data and mathematical checks are
 available; online submission, official scoring, and public Prove review are
@@ -21,19 +22,19 @@ set of competition rules. Earlier designs remain available in Git history.
 
 ### 1.1 Discovery encoding
 
-A Discovery state is an ordered pair of freely reduced words over
+An AC Discovery state is an ordered pair of freely reduced words over
 `1 = x`, `-1 = x^-1`, `2 = y`, and `-2 = y^-1`. No other letters occur in
 this rank-two encoding. Free reduction scans left to right and cancels
 adjacent inverse letters using a stack.
 
-### 1.2 Exact target
+### 1.2 AC target
 
 The target is exactly `[[1], [2]]`. Swapped or inverted basis tuples require
 final moves. The published canonicalization table supplies shortest suffixes
 for the eight signed basis tuples; the largest suffix has five moves.
 Those moves count toward length and all resource limits.
 
-### 1.3 Atomic moves
+### 1.3 AC moves
 
 The authoritative table is [move_spec.json](../competition/challenges/move_spec.json).
 Its 14 move IDs describe inversion, right multiplication by the other relator
@@ -44,26 +45,40 @@ Every move has an inverse in the table. The Python implementation is
 `ac-r2-v1` is organizer-maintained metadata, not a field contestants select
 or send with a solution. Published move IDs must not be silently reassigned.
 
-### 1.4 Relation to the full conjecture
+### 1.4 Stable AC Discovery
 
-[AC.lean](../competition/tools/lean/AC.lean) defines the full Prove target for
-every positive finite rank, using an ambient free group, genuine
-presented-group triviality, and unbounded finite sequences of non-stable AC
-moves. Discovery's rank and operational limits do not restrict this target.
+`stable_move_spec.json` defines `sac-r8-v1`: 257 moves and ranks 0–8.
+The first 14 moves retain AC meanings. Stabilization adds a fresh generator
+and its singleton relator; deletion requires an isolated positive singleton,
+removes its generator, and renumbers the remaining generators. The target
+is empty. `stable_core.py` implements replay; `specs.py` dispatches from
+the challenge's specification. Out-of-rank moves fail applicability checks.
 
-The general target is defined directly; a formal bridge to the Python
-14-move encoding is not an admission requirement. An argument about a pool
-instance must identify it and accurately translate its words into the
-mathematical presentation.
+An AC path extended by `[16,15]` reaches empty, but it must still meet the
+stable limits and be submitted under the stable challenge ID. No automatic
+credit transfers between tracks. The suffix adds two moves and one work unit.
+
+### 1.5 Full conjectures
+
+[AC.lean](../competition/tools/lean/AC.lean) defines `AC.Conjecture` and
+`AC.StableConjecture` for every positive finite rank. The former fixes rank;
+the latter permits finite sequences of stabilization and deletion without
+any rank bound. Both use genuine presented-group triviality. Discovery's
+rank and operational limits do not restrict these targets.
+
+A formal bridge to Python's finite encoding is not an admission requirement.
+A pool claim must identify its challenge and accurately map its words to
+the mathematical presentation.
 
 ## 2. Challenge and training data
 
-The current [manifest](../competition/challenges/manifest.json) has **10,115
-scored challenges**, `ac-v1-00001` through `ac-v1-10115`, each with
-`base_score = 1`. [training_424.json](../competition/challenges/training_424.json)
-contains **424 separate, unscored instances** with replayable paths. The two
-sets have no common initial presentation. Training IDs are absent from the
-official scored manifest.
+The [manifest](../competition/challenges/manifest.json) has **20,230 scored
+challenges** over **10,115 presentations**, with `base_score = 1` each.
+`ac-v1-N` and `sac-v1-N` share initial relators, with distinct targets,
+specifications, and hashes. Original AC hashes remain unchanged.
+`training_424.json` and `stable_training_424.json` contain the same **424
+separate, unscored presentations**, certified under each specification.
+These presentations and their training IDs are absent from both scored tracks.
 
 `build/data/SOURCES.json` tracks the source release. `build/sync_dataset.py`
 and `build/build_manifest_v2.py` regenerate the pool. Internal classifications
@@ -117,7 +132,8 @@ scoring policy, flags and base scores, and replay/submission limits.
 A JSON document contains a nonempty `solutions` array. Each entry has
 exactly `challenge_id` and `moves`; optional `method` and `notes` belong to
 the outer document. Contestants supply no version or claimed result fields.
-Duplicate challenge IDs within one document are rejected. The public
+Duplicate challenge IDs within one document are rejected; matching AC and
+stable IDs are distinct and may be included together. The public
 contract and [submission.py](../competition/tools/verifier/acms_verify/submission.py)
 define structural errors and their precedence.
 
@@ -135,15 +151,15 @@ submission ID to each complete submission. Verification completion time does not
 priority. Persist inputs and results so retries and delayed verification
 refer to the same recorded event.
 
-Competition eligibility uses the complete server receipt in the UTC window
-`[submissions_open, submission_deadline)`. Verification may finish after
+Competition eligibility uses the complete server receipt in the selected
+track's UTC window `[track_open, submission_deadline)`. Verification may finish after
 the deadline without changing the original receipt or eligibility.
 
 ### 4.3 Limits
 
-Current limits are 100 submissions per team per UTC day, 500 solutions per
+Current limits are shared across both Discovery tracks: 100 submissions per team per UTC day, 500 solutions per
 submission, a 4 MiB (4,194,304-byte) body, 100,000 moves per path, 10,000 letters in the
-reduced pair, and cumulative work of 5,000,000. Work includes the initial
+reduced relator tuple, and cumulative work of 5,000,000. Work includes the initial
 length and each reduced state after a move. Structural rejection does not
 consume quota. A structurally accepted document counts once even if every
 path fails verification. The public contract governs accounting and error
@@ -155,7 +171,8 @@ presentation has no AC trivialization.
 ### 4.4 Bridge certificates
 
 A bridge names two official challenge IDs and a move list. Replay uses the
-second challenge's initial relators as the exact target. Record a verified
+second challenge's initial relators as the exact target. Both challenges
+must have the same move specification. Record a verified
 bridge against both problems, without direct points. A derived full solution
 is scored normally (§2). No automatic merging of challenge scores is implied.
 
@@ -173,8 +190,11 @@ register a submission on SAIR.
 For challenge `i`, `V_i` is its base score, `L[t,i]` is a team's shortest
 accepted path, `L_best[i]` is the minimum across teams, and `k[i]` counts
 teams attaining that minimum. Such a team receives `V_i * 2^(1-k[i])`;
-other teams receive zero for that challenge. Totals sum across scored
-challenges; unsolved challenges contribute zero. The formula is unchanged.
+other teams receive zero for that challenge. Totals sum only across scored
+challenges in the selected track; there is no combined ranking. Unsolved
+challenges contribute zero. `ScoringEngine` takes a `move_spec_version`
+selector and rejects an unselected mixed-spec manifest. Run one engine per
+Discovery track; it rejects challenges belonging to the other specification.
 
 ### 5.2 Ordered replay and publication
 
@@ -240,7 +260,7 @@ Prove submissions, versions, supporting materials, decisions, and comments
 are public on submission, with no private/public toggle. This does not
 change Discovery path confidentiality.
 
-The same team identity applies across both tracks. Apply the public rules
+The same team identity applies across all four tracks. Apply the public rules
 on membership, no multiple-team participation, and no merging after a team
 has submitted. Learning from public work is allowed. Identify borrowed
 arguments, code, certificates, and comments; shared work must not be
@@ -249,17 +269,17 @@ independence: provenance review remains an organizer responsibility.
 
 ## 7. Prove submissions, review, and credit
 
-### 7.1 Common target
+### 7.1 Targets
 
-A proof establishes the full arbitrary-positive-rank non-stable conjecture.
-A disproof establishes its negation: some balanced presentation of the
-trivial group has no finite standard AC path to its standard tuple. It can
-lie outside the Discovery pool. The Lean targets are `AC.Conjecture` and
-`¬ AC.Conjecture`; `AC.Counterexample` is the equivalent witness form.
+Select `ac` or `stable_ac`. Proof targets are `AC.Conjecture` and
+`AC.StableConjecture`; disproof targets are their negations, equivalently
+`AC.Counterexample` and `AC.StableCounterexample`. All quantify over positive
+finite ranks, with no word/path bound. Stable rank may vary without a cap;
+ordinary rank stays fixed. A counterexample may lie outside the pool.
 
 ### 7.2 Materials
 
-Identify proof or disproof, authors/team, a description, and a complete
+Identify the conjecture, proof or disproof, authors/team, a description, and a complete
 argument. The description, paper/PDF, GitHub repository containing Lean
 work, arXiv paper, or a combination can carry that argument. Neither PDF
 nor Lean is mandatory; an uploaded PDF must be at most 25 MB, as specified
@@ -307,7 +327,7 @@ and axioms. A restricted or different proposition is not the official target.
 Competition priority belongs to the earliest eligible, non-withdrawn and
 non-retracted version confirmed to contain a complete correct argument.
 Eligibility uses its complete server receipt in the UTC window
-`[submissions_open, submission_deadline)`; review may finish after the
+`[track_open, submission_deadline)`; review may finish after the
 deadline. An early placeholder or the time review finishes does not confer
 priority. A material gap repaired in a later eligible version gives
 that completed argument the later version's priority. Cosmetic revisions
@@ -325,12 +345,16 @@ honors, but their historical contributions remain visible.
 
 ### 7.7 Relationship to Discovery
 
-Recognize Prove achievements separately from Discovery points, within the
-same competition. A proof need not supply short paths; a disproof does not
-invalidate verified paths for other presentations. Neither automatically
-stops Discovery. However, a valid path and a valid non-reachability claim
-for the same presentation cannot both hold; nor can a full proof and a
-full disproof. Review must check these conflicts and record corrections.
+Recognize the first qualifying proof or disproof per conjecture separately
+from Discovery points. An AC proof or Stable AC disproof is recognized for
+both conjectures using the same version and receipt time, once reviewers
+confirm the implication. Contributions and authorship remain attached.
+
+Neither result automatically stops Discovery. A stable counterexample
+conflicts with any verified AC or stable path for that presentation;
+an ordinary counterexample conflicts with an ordinary path, but may coexist
+with a stable path. A full proof and disproof of the same conjecture cannot
+both hold. Review must check the exact relation and record corrections.
 
 ## 8. SAIR platform integration
 
@@ -368,7 +392,11 @@ integration, private maps, and this guide are not in the export.
 `dist/ACMS-public`. The default release command requires a complete approved
 schedule and verified Git data freeze. Maintain release state in
 `build/competition_state.json` and synchronize generated metadata. During
-prelaunch, unannounced dates and `freeze_commit` remain `null`.
+prelaunch, exact UTC dates and `freeze_commit` remain `null`. Calendar plans
+are separately recorded in `announced_dates`: registration September 8,
+Discovery September 11, and Prove September 20, 2026. Exact track opening
+uses `opens_at`, supplied by `submissions_open` for Discovery and
+`prove_submissions_open` for Prove.
 
 ### 9.3 Export checks
 
@@ -382,9 +410,9 @@ sources change; do not distribute an older package as current rules.
 
 | Component | Current status |
 |---|---|
-| 10,115 scored instances and 424 disjoint training instances | Published locally with data checks |
+| 10,115 presentations in two scored tracks and 424 disjoint training presentations | Published locally with data checks |
 | Python verifier and successful training example | Implemented and runnable |
-| Full conjecture statement in Lean | Implemented; optional checks available |
+| Full ordinary and stable conjecture statements in Lean | Implemented; optional checks available |
 | Preview/export and metadata gates | Implemented |
 | Score formula and exact arithmetic | Implemented in an in-memory reference engine |
 | Ordered replay, best-length receipt handling, solved count | Known gaps requiring correction before launch |
@@ -400,10 +428,11 @@ that missing platform operations already exist.
 
 In addition to existing mathematical and data checks, launch requires:
 
-1. The 10,115-instance manifest and separate 424-instance training material
-   reproduce expected hashes; examples run correctly from the public export.
+1. Both 10,115-challenge tracks and their separate 424-instance training
+   material reproduce expected hashes; examples run from the public export.
 2. Actual SAIR authentication and team identity lead to durable receipts,
-   quota enforcement, per-solution verification, and leaderboard publication.
+   shared quota enforcement, per-solution verification, and separate Discovery
+   leaderboards. Mixed batches must not combine scores across tracks.
 3. Accepted-event replay is independent of completion order; earlier
    same-length receipts, same-time IDs, duplicates, and batches obey the rules.
 4. Solved counts survive shorter competing solutions. Current-best counts
@@ -418,7 +447,7 @@ In addition to existing mathematical and data checks, launch requires:
    reasons, and revisions. Priority distinguishes cosmetic edits from repairs
    of substantive gaps.
 9. Review checks the full target, prior work, borrowed contributions, and
-   conflicts with accepted results, including same-presentation Discovery paths.
+   conflicts with accepted results under the relevant ordinary or stable relation.
 10. Approved schedule, freeze, public rules, generated metadata, exported
     package, and actual enabled platform operations agree.
 

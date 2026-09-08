@@ -1,22 +1,25 @@
 # Andrews–Curtis Conjecture Challenge (ACC) — development repository
 
 **Prelaunch development preview.** Registration and submissions are not
-open. The release schedule and official data freeze have not been set.
+open. Calendar dates are announced for September 8, 11, and 20, 2026;
+exact UTC opening times, the deadline, and official freeze remain pending.
 
-ACC is one competition with two tracks. The **Discovery Track** rewards
-short verified trivializations in a 10,115-instance pool. The **Prove
-Track** accepts proofs and disproofs of the full conjecture. Both tracks
-continue independently; a result in one does not end the other. The
-public package follows the structure of SAIR's IGP24 competition.
+ACC is one competition with four tracks: **AC Discovery**, **Stable AC
+Discovery**, **AC Prove**, and **Stable AC Prove**. The two Discovery
+tracks use the same 10,115 presentations and separate leaderboards;
+Stable AC adds stabilization with a benchmark rank cap of 8. The two
+Prove tracks accept proofs or disproofs of the full ordinary and stable
+conjectures, without search bounds. A Prove result does not automatically
+end Discovery. The public package follows SAIR's IGP24 structure.
 
 ACC is co-organized by (in alphabetical order by surname): Lucas Fagan,
 Sergei Gukov, Terence Tao.
 
-For the full conjecture, start with the
+For the full conjectures, start with the
 [mathematical statement](competition/rules/statement.md) and
 [Lean build instructions](competition/tools/lean/README.md).
 
-Prove submissions include a claim type and description, with a complete
+Prove submissions identify the conjecture, claim type, and description, with a complete
 argument in the description, a PDF or paper, a GitHub repository at a
 fixed commit, or an arXiv paper at a fixed version. Submissions and their
 immutable versions are public, with comments for discussion. Reviewers
@@ -29,6 +32,8 @@ review, and leaderboard presentation. The integration and persistent
 submission service remain to be implemented. Outstanding scoring work
 includes event ordering, `current_best_solver` and `solved` semantics,
 and complete configuration snapshots for reproducible scoring. The
+reference engine requires a separate move-spec selection for each Discovery
+leaderboard and rejects an unselected mixed manifest. The
 local verifier and release checks do not establish that these platform
 features are ready.
 
@@ -63,7 +68,7 @@ python3 build/build_examples.py
 python3 -m unittest discover -s tests -t .
 (cd server && python3 -m unittest discover -s tests)
 
-# official full-conjecture statement (first-use setup: competition/tools/lean/README.md)
+# official full-conjecture statements (first-use setup: competition/tools/lean/README.md)
 (cd competition/tools/lean && lake build)
 
 # run the successful, unscored training example
@@ -81,15 +86,19 @@ python3 build/release.py
 Release metadata is maintained in `build/competition_state.json`, not
 edited independently in generated files. Current `status` is
 `prelaunch`; `freeze_date`, `freeze_commit`, `registration_opens`,
-`submissions_open`, `submission_deadline`, and `certificate_release`
-are all `null`. `build/build_manifest_v2.py` synchronizes the manifest
+`submissions_open`, `prove_submissions_open`, `submission_deadline`, and `certificate_release`
+are all `null`. Date-only plans are recorded separately in `announced_dates`:
+registration September 8, Discovery September 11, and Prove September 20,
+2026. `submissions_open` supplies Discovery UTC opening and
+`prove_submissions_open` supplies Prove UTC opening; each track exposes its
+relevant `opens_at`. `build/build_manifest_v2.py` synchronizes the manifest
 and `competition.yaml` from that state.
 
 Before an official release:
 
 1. Set the approved schedule and freeze date in the maintained state,
    then run `python3 build/build_manifest_v2.py`.
-2. Freeze the generated `manifest.json` and `move_spec.json` in git.
+2. Freeze `manifest.json`, `move_spec.json`, and `stable_move_spec.json` in git.
 3. Record that commit as `freeze_commit` in `build/competition_state.json`,
    then run `python3 build/build_manifest_v2.py` again to synchronize YAML.
 4. Run `python3 build/release.py`.

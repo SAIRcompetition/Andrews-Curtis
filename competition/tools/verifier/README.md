@@ -1,7 +1,7 @@
 # Discovery Track reference verifier (`acms_verify`)
 
 **Prelaunch preview.** This Python reference verifier is available for
-local self-checking now for the Discovery Track of the Andrews–Curtis
+local self-checking now for both Discovery tracks of the Andrews–Curtis
 Conjecture Challenge (ACC); competition submissions are not open.
 The SAIR integration will use these same standard-library-only sources,
 with no separate port. Proofs and disproofs belong to the Prove Track
@@ -15,6 +15,8 @@ and are not processed by this path verifier.
 | Module | Contents |
 |---|---|
 | `acms_verify/core.py` | frozen 14-move table, free reduction, deterministic `verify()` |
+| `acms_verify/stable_core.py` | 257 stable moves, variable-rank replay up to rank 8, empty target |
+| `acms_verify/specs.py` | Dispatch by the challenge's specification; validate both move tables |
 | `acms_verify/canon.py` | explicit byte templates for `instance_hash` / `certificate_hash`, JCS hashing for `move_spec_hash` / `manifest_hash` |
 | `acms_verify/submission.py` | submission parsing, whole-vs-per-item rejection, forbidden result keys, check priority |
 | `acms_verify/golden.py` | self-contained conformance vector runner |
@@ -27,7 +29,10 @@ semantics, the submission contract, limits, hashes, and error codes.
 
 Each entry in a submission's `solutions` array contains only
 `challenge_id` and `moves`. The verifier obtains the move-spec version
-from the official challenge for replay and certificate hashing.
+from the official challenge for replay and certificate hashing. `ac-v1-`
+IDs use `ac-r2-v1` (0–13); `sac-v1-` IDs use `sac-r8-v1` (0–256).
+One submission may contain both. The rank cap applies only to Stable AC
+Discovery; proving either conjecture uses the separate Lean targets.
 
 Start with a successful, unscored training example. Run from the
 repository or exported package root:
@@ -69,5 +74,5 @@ usage or IO error.
 The acceptance suite lives in the development repository
 (`tests/`, run with `python3 -m unittest discover -s tests -t .` from
 its root). It covers move replay, parsing, limits, errors, hashes, and
-all 424 training paths. The public package includes golden vectors
+all 424 training paths under each specification. The public package includes golden vectors
 that anyone can run with the `--golden` command above.

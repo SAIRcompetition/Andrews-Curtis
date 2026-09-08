@@ -2,40 +2,51 @@
 
 **Prelaunch preview — registration and submissions are not open.** You
 can inspect the current rules and data and try the Python verifier
-locally. The official data freeze and competition dates have not yet
-been announced.
+locally. Registration is announced for September 8, 2026, Discovery for
+September 11, and Prove for September 20. Exact UTC opening times, the
+deadline, and the official data freeze remain pending.
 
-ACC is one competition with two tracks: **Discovery Track** rewards
-short verified trivializations of the published instances; **Prove
-Track** accepts proofs or disproofs of the full conjecture.
+ACC is one competition with four tracks:
+
+| Track | Task |
+|---|---|
+| **AC Discovery** | Short paths using ordinary AC moves, with a scored leaderboard |
+| **Stable AC Discovery** | Short paths allowing stabilization, with a separate scored leaderboard |
+| **AC Prove** | Prove or disprove the full ordinary AC conjecture |
+| **Stable AC Prove** | Prove or disprove the full stable AC conjecture |
+
+Discovery and Prove share the same competition, team identities, and
+attribution rules. A Prove result does not automatically end Discovery.
 
 ## The mathematics
 
 The **Andrews–Curtis conjecture** (1965) asserts that every balanced
 presentation of the trivial group can be transformed into the trivial
-presentation by a sequence of elementary moves — relator inversion,
+presentation at the same rank by a sequence of elementary moves — relator inversion,
 relator multiplication, and conjugation. It has been open for sixty
 years; most experts expect it to be false, but no counterexample has
 ever been verified.
 
-The [official statement](statement.md) fixes the full conjecture for
-every positive finite rank and maps it to the
-[Lean project](../tools/lean/README.md). A proof must cover that full
-statement; a disproof must establish its negation. An explicit
-counterexample must present the trivial group and rule out reachability
-under the full, unbounded, non-stable relation. The finite rank-two pool
-below is a separate search task.
+The **stable conjecture** additionally allows adding a fresh generator
+and a relator equal to it, or removing such a pair when the generator
+occurs in no other relator. There is no bound on how many auxiliary
+generators may be used. Ordinary AC implies Stable AC; a stable
+counterexample is also an ordinary counterexample.
 
-Discovery Track uses a **pool of 10,115 balanced
-presentations of the trivial group**, `ac-v1-00001` … `ac-v1-10115`,
-spanning warm-up exercises to the research frontier. Its official
-publication freeze is still pending. The pool draws on
-an extended Miller–Schupp family, on automorphic disguises of known
-hard classes, and on presentations that are solvable by construction.
-It includes **all 550 Miller–Schupp instances with no publicly known
-trivialization** — the MS-1190 dataset (Shehper et al. 2025; status per
-Fagan et al., *The Two-Hump Problem*, ICML 2026) — and excludes from
-scoring every instance whose trivialization is already publicly known.
+The [official statements](statement.md) and [Lean project](../tools/lean/README.md)
+cover every positive finite rank. Discovery is a separate bounded search
+benchmark on rank-two inputs.
+
+The Discovery tracks share **10,115 balanced presentations of the trivial
+group**. `ac-v1-00001` … `ac-v1-10115` are AC challenges; the matching
+`sac-v1-` IDs have exactly the same initial relators. This gives 20,230
+challenge records, with one leaderboard per move specification. The
+publication freeze is pending. The pool draws on an extended Miller–Schupp
+family, automorphic disguises of hard classes, and presentations solvable
+by construction. It includes **all 550 Miller–Schupp instances with no
+publicly known trivialization** in the MS-1190 dataset (Shehper et al. 2025;
+status per Fagan et al., *The Two-Hump Problem*, ICML 2026), and excludes
+instances with public replayable certificates.
 
 The Miller–Schupp family itself is the most studied source of potential
 counterexamples:
@@ -58,7 +69,7 @@ of an open instance is a new mathematical result.
 > is a counterexample, and it does **not** mean the instance is
 > unsolvable.
 
-## Discovery Track
+## AC Discovery
 
 A challenge gives you an ordered pair of freely reduced words
 `initial_relators = [r0, r1]` over letters `1 = x, -1 = x^-1, 2 = y,
@@ -98,11 +109,40 @@ shortest suffixes (also machine-readable in `challenges/move_spec.json`,
 
 No extra theory is needed — append the matching suffix and you are done.
 
-**Warm-up data.** `challenges/training_424.json` publishes 424 solved
-Miller–Schupp instances with full atomic-move certificates, in exactly
-the frozen encoding. It is training material: replay it to validate a
-pipeline, or mine it for search heuristics. Those instances are **not**
-in the scored pool.
+## Stable AC Discovery
+
+The matching `sac-v1-` challenge starts at the same rank-two presentation.
+Its target is the **empty presentation** `[]`. States have $0\le k\le8$
+generators and the same number of relators. The 257 moves of `sac-r8-v1`
+are listed in `challenges/stable_move_spec.json`:
+
+| IDs | Operation |
+|---|---|
+| 0–13 | The original AC block, unchanged |
+| 14 | Add a fresh generator and its singleton relator |
+| 15–22 | Delete the selected singleton positive relator and its generator, if absent elsewhere; renumber the remaining generators |
+| 23–28 | Inversion on the remaining relator indices |
+| 29–136 | Remaining right multiplications by another relator or its inverse |
+| 137–256 | Remaining conjugations by generator letters or their inverses |
+
+Moves must name existing relators and generators. Stabilization at rank 8
+and invalid deletions fail with `E_MOVE_NOT_APPLICABLE`; nothing is skipped.
+The rank cap restricts the benchmark, not the mathematical stable conjecture.
+See [evaluation.md](evaluation.md) §1.2 for exact semantics.
+
+From either `(x,y)` or `(y,x)`, `[16,15]` reaches `[]`. In general, invert
+the negative entries of a signed basis tuple, then destabilize from the
+highest relator index down. Appending `[16,15]` to an AC solution gives a
+stable path; acceptance requires room for two more moves and one more work
+unit under the same limits. Submit it under the `sac-v1-` ID to earn stable
+points; points are never transferred automatically.
+
+### Warm-up data
+
+`challenges/training_424.json` contains 424 solved AC presentations and
+`stable_training_424.json` contains the same instances with certificates
+extended by `[16,15]`. These 424 presentations are **outside both scored
+tracks**. The runnable example exercises both specifications.
 
 ### Submitting
 
@@ -113,7 +153,8 @@ manifest:
 ```json
 {
   "solutions": [
-    { "challenge_id": "ms-train-0160", "moves": [6, 4, 2, 9, 1, 4, 1] }
+    { "challenge_id": "ms-train-0160", "moves": [6, 4, 2, 9, 1, 4, 1] },
+    { "challenge_id": "sac-train-0160", "moves": [6, 4, 2, 9, 1, 4, 1, 16, 15] }
   ]
 }
 ```
@@ -133,7 +174,8 @@ the competition, use the `challenge_id` of a scored pool instance and
 the moves that solve it; online submission will open on the announced
 date.
 
-Each solution contains only `challenge_id` and `moves`. You may also
+Each solution contains only `challenge_id` and `moves`. Its challenge
+selects the specification; a batch may mix both Discovery tracks. You may also
 include optional top-level `method` (a method name) and `notes` (free
 text, at most 2000 characters). The verifier reads the move-spec version
 from the supplied challenge, verifies deterministically, and computes
@@ -145,6 +187,9 @@ downloadable reference verifier lets you self-check now; the planned
 competition service will use the same Python sources.
 
 ### Scoring
+
+The two Discovery tracks have **separate scores and rankings**, with no
+combined leaderboard. Upload quotas are shared across them.
 
 Each challenge $i$ has a base score $V_i$ (v1: all $V_i = 1$). Let
 $L^\star_i$ be the shortest accepted path across all teams and $k_i$
@@ -174,6 +219,7 @@ else instantly, maximizing the incentive to keep optimizing.
 receipt, with submission ID breaking ties. A later, shorter solution
 does not take this honor away. Delayed validation of an earlier receipt
 may correct a provisional display; the honor does not guarantee points.
+First Solver is recorded separately for each track.
 See [evaluation.md](evaluation.md) §6.
 
 During Discovery Track, path length, peak relator length, certificate
@@ -186,21 +232,25 @@ published openly after the competition, forming a new public benchmark.
 **Bridge certificates**: a verified path from one challenge's initial
 state to another's is a real, machine-checked mathematical fact. It is
 registered and displayed (length, team, hash) but scores no points.
+Both endpoints must use the same move specification.
 If a bridge is composed into a valid submitted trivialization, that
 full solution is scored normally for the challenge it solves, using
 its full move length.
 
-## Prove Track
+## AC Prove and Stable AC Prove
 
-Prove Track accepts **proofs and disproofs** of the
-[official statement](statement.md). A proof must cover every positive
-finite rank; a disproof must establish the negation of that statement.
-An explicit counterexample must be a balanced presentation of the
-trivial group that cannot reach the standard presentation under the
-full, unbounded, non-stable Andrews–Curtis relation. It may lie outside
-the Discovery pool; if it uses a pool instance, identify its challenge.
+Each accepts **proofs and disproofs** of its [official statement](statement.md).
+A proof must cover all positive finite ranks. A counterexample must present
+the trivial group and rule out the full unbounded relation of that
+conjecture. Ordinary AC keeps the rank fixed; Stable AC permits unrestricted
+stabilization. The counterexample may lie outside the Discovery pool.
 
-**Planned submission after opening.** Set `claim_type` to `proof` or `disproof` and
+An AC proof also settles Stable AC. A Stable AC disproof also settles AC.
+The reverse implications are not assumed: an ordinary counterexample may
+still have a stable trivialization.
+
+**Planned submission after opening.** Select `conjecture: ac` or
+`stable_ac`, set `claim_type` to `proof` or `disproof`, and
 provide a description stating the claim and summarizing the argument.
 The complete argument may be in the description, a paper/PDF, Lean
 material at a fixed GitHub commit, an identified arXiv version, or a
@@ -220,8 +270,9 @@ comments and issue a reasoned `accepted`, `rejected`, or
 `revision_requested` decision for a specific version. They may correct
 a decision publicly while preserving its history. Lean compilation
 does not replace review of the claim, its scope, and its trust boundary.
-A formal proof targets `AC.Conjecture`; a formal disproof targets
-`¬ AC.Conjecture`, equivalently `AC.Counterexample`. The
+Formal targets are `AC.Conjecture` or `AC.StableConjecture` for a proof,
+and their negations for a disproof (equivalently `AC.Counterexample` or
+`AC.StableCounterexample`). The
 [Lean guide](../tools/lean/README.md) builds `AC`; `lake build Check`
 is optional and is not a submission requirement.
 
@@ -238,12 +289,15 @@ percentages are not assigned automatically.
 > trivialization — under any compute budget, length bound, peak bound,
 > or restricted move set — is **not** a counterexample.
 
-The first accepted proof or disproof under this priority rule receives
+For each conjecture, the first accepted proof or disproof under this
+priority rule receives
 the **Highest Mathematical Achievement of the Competition** honor.
 Prove results do not earn Discovery points and do not automatically
-end Discovery Track. Submission fields, review states, public records,
+end either Discovery track. A qualifying AC proof or Stable AC disproof
+is recognized for both conjectures using the same version and receipt time.
+Submission fields, review states, public records,
 and the full priority and credit rules are in
-[evaluation.md](evaluation.md) §9. Both tracks remain closed during
+[evaluation.md](evaluation.md) §9. All four tracks remain closed during
 prelaunch.
 
 ## Teams and integrity
@@ -280,13 +334,15 @@ collaboration with [Caltech](https://www.caltech.edu/).
 
 ## Timeline
 
-* Registration opens: to be announced.
-* Submissions open: to be announced.
-* Submission deadline: to be announced.
-* Discovery certificate release (post-competition): to be announced.
+* Registration and team formation: September 8, 2026.
+* AC Discovery and Stable AC Discovery: September 11, 2026.
+* AC Prove and Stable AC Prove: September 20, 2026.
+* Submission deadline and certificate release: to be announced.
 
-Current status is `prelaunch`. In `competition.yaml`, `freeze_date`,
-`freeze_commit`, `registration_opens`, `submissions_open`,
-`submission_deadline`, and `certificate_release` are all `null` until
-announced. The manifest's `freeze_date` is also `null`; the official
-freeze commit will be published before the formal release.
+These calendar dates are recorded in `competition.yaml` under
+`announced_dates`. Exact UTC opening times, deadline, release time,
+`freeze_date`, and `freeze_commit` remain `null`; status is `prelaunch`.
+`submissions_open` records Discovery's UTC start and `prove_submissions_open`
+Prove's; each track's `opens_at` uses the relevant field.
+The official schedule and verified freeze must be complete before formal
+release and online submissions open.

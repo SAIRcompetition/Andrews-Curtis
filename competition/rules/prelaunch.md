@@ -2,10 +2,11 @@
 
 **Prelaunch preview — registration and submissions are not open.**
 Rules, training data, and the reference verifier are available here for
-local trials. The official data freeze and all dates are to be announced.
+local trials. Calendar dates are announced below; the official data freeze
+and exact UTC schedule remain pending.
 
-*One competition, two tracks: discover short trivializations in Discovery
-Track, or prove or disprove the full conjecture in Prove Track.*
+*One competition, four tracks: AC and Stable AC, each with Discovery
+for short trivializations and Prove for proofs or disproofs.*
 
 ## Co-organizers
 
@@ -30,10 +31,13 @@ The co-organizing institutions are
 
 The [Andrews–Curtis conjecture](https://en.wikipedia.org/wiki/Andrews%E2%80%93Curtis_conjecture)
 has been open since 1965. It says that every
-balanced presentation of the trivial group can be reduced to the trivial presentation by a sequence of elementary moves:
+balanced presentation of the trivial group can be reduced to its standard
+presentation at the same rank by a sequence of elementary moves:
 inverting a relator, multiplying one relator by another, conjugating a
 relator. Most experts expect the conjecture to be false, yet in sixty years no
-counterexample has ever been verified.
+counterexample has ever been verified. The stable conjecture additionally
+allows adding or removing a fresh generator together with a relation
+setting it to the identity, with no bound on intermediate rank.
 
 ACC turns that problem into a competition. Discovery certificates are
 checked deterministically by an open reference verifier; a trivialization
@@ -43,16 +47,18 @@ will be public by default from submission, with expert review of each claim.
 
 ## Task
 
-**Discovery Track** uses a pool of **10,115 balanced presentations of the
-trivial group**, ranging from warm-up exercises to open research problems.
-Internal labels and maps are withheld, though instances may be recognized
-from public mathematical sources. A solution is a sequence
-of atomic Andrews–Curtis moves, submitted as a list of integers, that
-transforms a presentation into the trivial presentation; the leaderboard
-rewards the shortest verified path. The 424 solved training instances are
-separate from the scored pool. Moves remain private during the competition.
+**AC Discovery** and **Stable AC Discovery** share a pool of **10,115
+balanced rank-two presentations of the trivial group**. Internal labels
+and maps are withheld, though public mathematical sources may reveal origins.
+AC Discovery uses 14 moves and the target `(x,y)`; Stable AC Discovery uses
+257 moves, allows ranks up to 8, and ends at the empty presentation. The
+two tracks have separate leaderboards and First Solver honors. Submissions
+contain only a challenge ID and move list. The 424 solved training
+presentations are outside both scored pools; their examples cover both move
+specifications. Moves remain private during the competition.
 
-**Prove Track** accepts a proof or disproof with a description of the claim
+**AC Prove** and **Stable AC Prove** accept a proof or disproof of the
+selected full conjecture, with a description of the claim
 and argument. The complete argument may be in that description, a
 paper/PDF, Lean material at a fixed GitHub commit, an arXiv version, or a
 combination. The planned platform will preserve and publish every version
@@ -61,12 +67,14 @@ reasoned review decisions. Priority belongs to the earliest version
 confirmed to contain a complete correct argument; borrowing from other
 submissions or comments must be cited with an explanation of contributions.
 Either a proof or disproof can receive the mathematical honor; neither
-earns Discovery points nor automatically ends Discovery Track.
+earns Discovery points nor automatically ends either Discovery track.
+An AC proof also settles Stable AC; a Stable AC disproof also settles AC,
+with the same qualifying version and receipt time recognized for both.
 
 The [official mathematical statement](statement.md) and
 [Lean project](../tools/lean/README.md) are available for local use.
 Lean compilation does not replace expert review; auxiliary checks are
-optional. Online submissions for both tracks are not open yet.
+optional. Online submissions for all four tracks are not open yet.
 
 The full move specification, submission format, scoring formula, and
 Prove submission, review, priority, and credit rules can be inspected in
@@ -77,14 +85,16 @@ release and online submissions await the announced schedule and data freeze.
 
 ## Key Dates
 
-- Registration and team formation open: to be announced.
-- Official launch (submissions open): to be announced.
+- Registration and team formation: September 8, 2026.
+- AC Discovery and Stable AC Discovery: September 11, 2026.
+- AC Prove and Stable AC Prove: September 20, 2026.
 - Submission deadline: to be announced.
 - Discovery certificate release (post-competition): to be announced.
 
-`competition.yaml` records status `prelaunch`; all four schedule fields,
-`freeze_date`, and `freeze_commit` are currently `null`. Dates and the
-official freeze commit will be announced before formal release.
+`competition.yaml` records these calendar dates in `announced_dates`.
+Status remains `prelaunch`; exact UTC schedule fields, `freeze_date`, and
+`freeze_commit` are currently `null`. The complete schedule and verified
+freeze must be set before formal release and online submission.
 
 ## Registration & Teams
 

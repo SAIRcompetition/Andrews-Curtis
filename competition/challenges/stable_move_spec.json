@@ -1,0 +1,2335 @@
+{
+ "move_spec_version": "sac-r8-v1",
+ "move_spec_hash": "sha256:27ecd0ebd4af39871cbfb23ecbd8be73710e85e04d8be788c1d81117d9f4b2b0",
+ "hash_covers": "moves",
+ "max_rank": 8,
+ "generators": [
+  "x",
+  "y"
+ ],
+ "extra_generators": [
+  "g3",
+  "g4",
+  "g5",
+  "g6",
+  "g7",
+  "g8"
+ ],
+ "letter_encoding": {
+  "x": 1,
+  "x^-1": -1,
+  "y": 2,
+  "y^-1": -2,
+  "g3": 3,
+  "g3^-1": -3,
+  "g4": 4,
+  "g4^-1": -4,
+  "g5": 5,
+  "g5^-1": -5,
+  "g6": 6,
+  "g6^-1": -6,
+  "g7": 7,
+  "g7^-1": -7,
+  "g8": 8,
+  "g8^-1": -8
+ },
+ "target_relators": [],
+ "moves": [
+  {
+   "id": 0,
+   "category": "inversion",
+   "relator": 0,
+   "inverse": 0
+  },
+  {
+   "id": 1,
+   "category": "inversion",
+   "relator": 1,
+   "inverse": 1
+  },
+  {
+   "id": 2,
+   "category": "multiplication",
+   "relator": 0,
+   "other": 1,
+   "invert_other": false,
+   "inverse": 3
+  },
+  {
+   "id": 3,
+   "category": "multiplication",
+   "relator": 0,
+   "other": 1,
+   "invert_other": true,
+   "inverse": 2
+  },
+  {
+   "id": 4,
+   "category": "multiplication",
+   "relator": 1,
+   "other": 0,
+   "invert_other": false,
+   "inverse": 5
+  },
+  {
+   "id": 5,
+   "category": "multiplication",
+   "relator": 1,
+   "other": 0,
+   "invert_other": true,
+   "inverse": 4
+  },
+  {
+   "id": 6,
+   "category": "conjugation",
+   "relator": 0,
+   "conjugator": 1,
+   "inverse": 7
+  },
+  {
+   "id": 7,
+   "category": "conjugation",
+   "relator": 0,
+   "conjugator": -1,
+   "inverse": 6
+  },
+  {
+   "id": 8,
+   "category": "conjugation",
+   "relator": 0,
+   "conjugator": 2,
+   "inverse": 9
+  },
+  {
+   "id": 9,
+   "category": "conjugation",
+   "relator": 0,
+   "conjugator": -2,
+   "inverse": 8
+  },
+  {
+   "id": 10,
+   "category": "conjugation",
+   "relator": 1,
+   "conjugator": 1,
+   "inverse": 11
+  },
+  {
+   "id": 11,
+   "category": "conjugation",
+   "relator": 1,
+   "conjugator": -1,
+   "inverse": 10
+  },
+  {
+   "id": 12,
+   "category": "conjugation",
+   "relator": 1,
+   "conjugator": 2,
+   "inverse": 13
+  },
+  {
+   "id": 13,
+   "category": "conjugation",
+   "relator": 1,
+   "conjugator": -2,
+   "inverse": 12
+  },
+  {
+   "id": 14,
+   "category": "stabilize",
+   "inverse": null
+  },
+  {
+   "id": 15,
+   "category": "destabilize",
+   "relator": 0,
+   "inverse": null
+  },
+  {
+   "id": 16,
+   "category": "destabilize",
+   "relator": 1,
+   "inverse": null
+  },
+  {
+   "id": 17,
+   "category": "destabilize",
+   "relator": 2,
+   "inverse": null
+  },
+  {
+   "id": 18,
+   "category": "destabilize",
+   "relator": 3,
+   "inverse": null
+  },
+  {
+   "id": 19,
+   "category": "destabilize",
+   "relator": 4,
+   "inverse": null
+  },
+  {
+   "id": 20,
+   "category": "destabilize",
+   "relator": 5,
+   "inverse": null
+  },
+  {
+   "id": 21,
+   "category": "destabilize",
+   "relator": 6,
+   "inverse": null
+  },
+  {
+   "id": 22,
+   "category": "destabilize",
+   "relator": 7,
+   "inverse": null
+  },
+  {
+   "id": 23,
+   "category": "inversion",
+   "relator": 2,
+   "inverse": 23
+  },
+  {
+   "id": 24,
+   "category": "inversion",
+   "relator": 3,
+   "inverse": 24
+  },
+  {
+   "id": 25,
+   "category": "inversion",
+   "relator": 4,
+   "inverse": 25
+  },
+  {
+   "id": 26,
+   "category": "inversion",
+   "relator": 5,
+   "inverse": 26
+  },
+  {
+   "id": 27,
+   "category": "inversion",
+   "relator": 6,
+   "inverse": 27
+  },
+  {
+   "id": 28,
+   "category": "inversion",
+   "relator": 7,
+   "inverse": 28
+  },
+  {
+   "id": 29,
+   "category": "multiplication",
+   "relator": 0,
+   "other": 2,
+   "invert_other": false,
+   "inverse": 30
+  },
+  {
+   "id": 30,
+   "category": "multiplication",
+   "relator": 0,
+   "other": 2,
+   "invert_other": true,
+   "inverse": 29
+  },
+  {
+   "id": 31,
+   "category": "multiplication",
+   "relator": 0,
+   "other": 3,
+   "invert_other": false,
+   "inverse": 32
+  },
+  {
+   "id": 32,
+   "category": "multiplication",
+   "relator": 0,
+   "other": 3,
+   "invert_other": true,
+   "inverse": 31
+  },
+  {
+   "id": 33,
+   "category": "multiplication",
+   "relator": 0,
+   "other": 4,
+   "invert_other": false,
+   "inverse": 34
+  },
+  {
+   "id": 34,
+   "category": "multiplication",
+   "relator": 0,
+   "other": 4,
+   "invert_other": true,
+   "inverse": 33
+  },
+  {
+   "id": 35,
+   "category": "multiplication",
+   "relator": 0,
+   "other": 5,
+   "invert_other": false,
+   "inverse": 36
+  },
+  {
+   "id": 36,
+   "category": "multiplication",
+   "relator": 0,
+   "other": 5,
+   "invert_other": true,
+   "inverse": 35
+  },
+  {
+   "id": 37,
+   "category": "multiplication",
+   "relator": 0,
+   "other": 6,
+   "invert_other": false,
+   "inverse": 38
+  },
+  {
+   "id": 38,
+   "category": "multiplication",
+   "relator": 0,
+   "other": 6,
+   "invert_other": true,
+   "inverse": 37
+  },
+  {
+   "id": 39,
+   "category": "multiplication",
+   "relator": 0,
+   "other": 7,
+   "invert_other": false,
+   "inverse": 40
+  },
+  {
+   "id": 40,
+   "category": "multiplication",
+   "relator": 0,
+   "other": 7,
+   "invert_other": true,
+   "inverse": 39
+  },
+  {
+   "id": 41,
+   "category": "multiplication",
+   "relator": 1,
+   "other": 2,
+   "invert_other": false,
+   "inverse": 42
+  },
+  {
+   "id": 42,
+   "category": "multiplication",
+   "relator": 1,
+   "other": 2,
+   "invert_other": true,
+   "inverse": 41
+  },
+  {
+   "id": 43,
+   "category": "multiplication",
+   "relator": 1,
+   "other": 3,
+   "invert_other": false,
+   "inverse": 44
+  },
+  {
+   "id": 44,
+   "category": "multiplication",
+   "relator": 1,
+   "other": 3,
+   "invert_other": true,
+   "inverse": 43
+  },
+  {
+   "id": 45,
+   "category": "multiplication",
+   "relator": 1,
+   "other": 4,
+   "invert_other": false,
+   "inverse": 46
+  },
+  {
+   "id": 46,
+   "category": "multiplication",
+   "relator": 1,
+   "other": 4,
+   "invert_other": true,
+   "inverse": 45
+  },
+  {
+   "id": 47,
+   "category": "multiplication",
+   "relator": 1,
+   "other": 5,
+   "invert_other": false,
+   "inverse": 48
+  },
+  {
+   "id": 48,
+   "category": "multiplication",
+   "relator": 1,
+   "other": 5,
+   "invert_other": true,
+   "inverse": 47
+  },
+  {
+   "id": 49,
+   "category": "multiplication",
+   "relator": 1,
+   "other": 6,
+   "invert_other": false,
+   "inverse": 50
+  },
+  {
+   "id": 50,
+   "category": "multiplication",
+   "relator": 1,
+   "other": 6,
+   "invert_other": true,
+   "inverse": 49
+  },
+  {
+   "id": 51,
+   "category": "multiplication",
+   "relator": 1,
+   "other": 7,
+   "invert_other": false,
+   "inverse": 52
+  },
+  {
+   "id": 52,
+   "category": "multiplication",
+   "relator": 1,
+   "other": 7,
+   "invert_other": true,
+   "inverse": 51
+  },
+  {
+   "id": 53,
+   "category": "multiplication",
+   "relator": 2,
+   "other": 0,
+   "invert_other": false,
+   "inverse": 54
+  },
+  {
+   "id": 54,
+   "category": "multiplication",
+   "relator": 2,
+   "other": 0,
+   "invert_other": true,
+   "inverse": 53
+  },
+  {
+   "id": 55,
+   "category": "multiplication",
+   "relator": 2,
+   "other": 1,
+   "invert_other": false,
+   "inverse": 56
+  },
+  {
+   "id": 56,
+   "category": "multiplication",
+   "relator": 2,
+   "other": 1,
+   "invert_other": true,
+   "inverse": 55
+  },
+  {
+   "id": 57,
+   "category": "multiplication",
+   "relator": 2,
+   "other": 3,
+   "invert_other": false,
+   "inverse": 58
+  },
+  {
+   "id": 58,
+   "category": "multiplication",
+   "relator": 2,
+   "other": 3,
+   "invert_other": true,
+   "inverse": 57
+  },
+  {
+   "id": 59,
+   "category": "multiplication",
+   "relator": 2,
+   "other": 4,
+   "invert_other": false,
+   "inverse": 60
+  },
+  {
+   "id": 60,
+   "category": "multiplication",
+   "relator": 2,
+   "other": 4,
+   "invert_other": true,
+   "inverse": 59
+  },
+  {
+   "id": 61,
+   "category": "multiplication",
+   "relator": 2,
+   "other": 5,
+   "invert_other": false,
+   "inverse": 62
+  },
+  {
+   "id": 62,
+   "category": "multiplication",
+   "relator": 2,
+   "other": 5,
+   "invert_other": true,
+   "inverse": 61
+  },
+  {
+   "id": 63,
+   "category": "multiplication",
+   "relator": 2,
+   "other": 6,
+   "invert_other": false,
+   "inverse": 64
+  },
+  {
+   "id": 64,
+   "category": "multiplication",
+   "relator": 2,
+   "other": 6,
+   "invert_other": true,
+   "inverse": 63
+  },
+  {
+   "id": 65,
+   "category": "multiplication",
+   "relator": 2,
+   "other": 7,
+   "invert_other": false,
+   "inverse": 66
+  },
+  {
+   "id": 66,
+   "category": "multiplication",
+   "relator": 2,
+   "other": 7,
+   "invert_other": true,
+   "inverse": 65
+  },
+  {
+   "id": 67,
+   "category": "multiplication",
+   "relator": 3,
+   "other": 0,
+   "invert_other": false,
+   "inverse": 68
+  },
+  {
+   "id": 68,
+   "category": "multiplication",
+   "relator": 3,
+   "other": 0,
+   "invert_other": true,
+   "inverse": 67
+  },
+  {
+   "id": 69,
+   "category": "multiplication",
+   "relator": 3,
+   "other": 1,
+   "invert_other": false,
+   "inverse": 70
+  },
+  {
+   "id": 70,
+   "category": "multiplication",
+   "relator": 3,
+   "other": 1,
+   "invert_other": true,
+   "inverse": 69
+  },
+  {
+   "id": 71,
+   "category": "multiplication",
+   "relator": 3,
+   "other": 2,
+   "invert_other": false,
+   "inverse": 72
+  },
+  {
+   "id": 72,
+   "category": "multiplication",
+   "relator": 3,
+   "other": 2,
+   "invert_other": true,
+   "inverse": 71
+  },
+  {
+   "id": 73,
+   "category": "multiplication",
+   "relator": 3,
+   "other": 4,
+   "invert_other": false,
+   "inverse": 74
+  },
+  {
+   "id": 74,
+   "category": "multiplication",
+   "relator": 3,
+   "other": 4,
+   "invert_other": true,
+   "inverse": 73
+  },
+  {
+   "id": 75,
+   "category": "multiplication",
+   "relator": 3,
+   "other": 5,
+   "invert_other": false,
+   "inverse": 76
+  },
+  {
+   "id": 76,
+   "category": "multiplication",
+   "relator": 3,
+   "other": 5,
+   "invert_other": true,
+   "inverse": 75
+  },
+  {
+   "id": 77,
+   "category": "multiplication",
+   "relator": 3,
+   "other": 6,
+   "invert_other": false,
+   "inverse": 78
+  },
+  {
+   "id": 78,
+   "category": "multiplication",
+   "relator": 3,
+   "other": 6,
+   "invert_other": true,
+   "inverse": 77
+  },
+  {
+   "id": 79,
+   "category": "multiplication",
+   "relator": 3,
+   "other": 7,
+   "invert_other": false,
+   "inverse": 80
+  },
+  {
+   "id": 80,
+   "category": "multiplication",
+   "relator": 3,
+   "other": 7,
+   "invert_other": true,
+   "inverse": 79
+  },
+  {
+   "id": 81,
+   "category": "multiplication",
+   "relator": 4,
+   "other": 0,
+   "invert_other": false,
+   "inverse": 82
+  },
+  {
+   "id": 82,
+   "category": "multiplication",
+   "relator": 4,
+   "other": 0,
+   "invert_other": true,
+   "inverse": 81
+  },
+  {
+   "id": 83,
+   "category": "multiplication",
+   "relator": 4,
+   "other": 1,
+   "invert_other": false,
+   "inverse": 84
+  },
+  {
+   "id": 84,
+   "category": "multiplication",
+   "relator": 4,
+   "other": 1,
+   "invert_other": true,
+   "inverse": 83
+  },
+  {
+   "id": 85,
+   "category": "multiplication",
+   "relator": 4,
+   "other": 2,
+   "invert_other": false,
+   "inverse": 86
+  },
+  {
+   "id": 86,
+   "category": "multiplication",
+   "relator": 4,
+   "other": 2,
+   "invert_other": true,
+   "inverse": 85
+  },
+  {
+   "id": 87,
+   "category": "multiplication",
+   "relator": 4,
+   "other": 3,
+   "invert_other": false,
+   "inverse": 88
+  },
+  {
+   "id": 88,
+   "category": "multiplication",
+   "relator": 4,
+   "other": 3,
+   "invert_other": true,
+   "inverse": 87
+  },
+  {
+   "id": 89,
+   "category": "multiplication",
+   "relator": 4,
+   "other": 5,
+   "invert_other": false,
+   "inverse": 90
+  },
+  {
+   "id": 90,
+   "category": "multiplication",
+   "relator": 4,
+   "other": 5,
+   "invert_other": true,
+   "inverse": 89
+  },
+  {
+   "id": 91,
+   "category": "multiplication",
+   "relator": 4,
+   "other": 6,
+   "invert_other": false,
+   "inverse": 92
+  },
+  {
+   "id": 92,
+   "category": "multiplication",
+   "relator": 4,
+   "other": 6,
+   "invert_other": true,
+   "inverse": 91
+  },
+  {
+   "id": 93,
+   "category": "multiplication",
+   "relator": 4,
+   "other": 7,
+   "invert_other": false,
+   "inverse": 94
+  },
+  {
+   "id": 94,
+   "category": "multiplication",
+   "relator": 4,
+   "other": 7,
+   "invert_other": true,
+   "inverse": 93
+  },
+  {
+   "id": 95,
+   "category": "multiplication",
+   "relator": 5,
+   "other": 0,
+   "invert_other": false,
+   "inverse": 96
+  },
+  {
+   "id": 96,
+   "category": "multiplication",
+   "relator": 5,
+   "other": 0,
+   "invert_other": true,
+   "inverse": 95
+  },
+  {
+   "id": 97,
+   "category": "multiplication",
+   "relator": 5,
+   "other": 1,
+   "invert_other": false,
+   "inverse": 98
+  },
+  {
+   "id": 98,
+   "category": "multiplication",
+   "relator": 5,
+   "other": 1,
+   "invert_other": true,
+   "inverse": 97
+  },
+  {
+   "id": 99,
+   "category": "multiplication",
+   "relator": 5,
+   "other": 2,
+   "invert_other": false,
+   "inverse": 100
+  },
+  {
+   "id": 100,
+   "category": "multiplication",
+   "relator": 5,
+   "other": 2,
+   "invert_other": true,
+   "inverse": 99
+  },
+  {
+   "id": 101,
+   "category": "multiplication",
+   "relator": 5,
+   "other": 3,
+   "invert_other": false,
+   "inverse": 102
+  },
+  {
+   "id": 102,
+   "category": "multiplication",
+   "relator": 5,
+   "other": 3,
+   "invert_other": true,
+   "inverse": 101
+  },
+  {
+   "id": 103,
+   "category": "multiplication",
+   "relator": 5,
+   "other": 4,
+   "invert_other": false,
+   "inverse": 104
+  },
+  {
+   "id": 104,
+   "category": "multiplication",
+   "relator": 5,
+   "other": 4,
+   "invert_other": true,
+   "inverse": 103
+  },
+  {
+   "id": 105,
+   "category": "multiplication",
+   "relator": 5,
+   "other": 6,
+   "invert_other": false,
+   "inverse": 106
+  },
+  {
+   "id": 106,
+   "category": "multiplication",
+   "relator": 5,
+   "other": 6,
+   "invert_other": true,
+   "inverse": 105
+  },
+  {
+   "id": 107,
+   "category": "multiplication",
+   "relator": 5,
+   "other": 7,
+   "invert_other": false,
+   "inverse": 108
+  },
+  {
+   "id": 108,
+   "category": "multiplication",
+   "relator": 5,
+   "other": 7,
+   "invert_other": true,
+   "inverse": 107
+  },
+  {
+   "id": 109,
+   "category": "multiplication",
+   "relator": 6,
+   "other": 0,
+   "invert_other": false,
+   "inverse": 110
+  },
+  {
+   "id": 110,
+   "category": "multiplication",
+   "relator": 6,
+   "other": 0,
+   "invert_other": true,
+   "inverse": 109
+  },
+  {
+   "id": 111,
+   "category": "multiplication",
+   "relator": 6,
+   "other": 1,
+   "invert_other": false,
+   "inverse": 112
+  },
+  {
+   "id": 112,
+   "category": "multiplication",
+   "relator": 6,
+   "other": 1,
+   "invert_other": true,
+   "inverse": 111
+  },
+  {
+   "id": 113,
+   "category": "multiplication",
+   "relator": 6,
+   "other": 2,
+   "invert_other": false,
+   "inverse": 114
+  },
+  {
+   "id": 114,
+   "category": "multiplication",
+   "relator": 6,
+   "other": 2,
+   "invert_other": true,
+   "inverse": 113
+  },
+  {
+   "id": 115,
+   "category": "multiplication",
+   "relator": 6,
+   "other": 3,
+   "invert_other": false,
+   "inverse": 116
+  },
+  {
+   "id": 116,
+   "category": "multiplication",
+   "relator": 6,
+   "other": 3,
+   "invert_other": true,
+   "inverse": 115
+  },
+  {
+   "id": 117,
+   "category": "multiplication",
+   "relator": 6,
+   "other": 4,
+   "invert_other": false,
+   "inverse": 118
+  },
+  {
+   "id": 118,
+   "category": "multiplication",
+   "relator": 6,
+   "other": 4,
+   "invert_other": true,
+   "inverse": 117
+  },
+  {
+   "id": 119,
+   "category": "multiplication",
+   "relator": 6,
+   "other": 5,
+   "invert_other": false,
+   "inverse": 120
+  },
+  {
+   "id": 120,
+   "category": "multiplication",
+   "relator": 6,
+   "other": 5,
+   "invert_other": true,
+   "inverse": 119
+  },
+  {
+   "id": 121,
+   "category": "multiplication",
+   "relator": 6,
+   "other": 7,
+   "invert_other": false,
+   "inverse": 122
+  },
+  {
+   "id": 122,
+   "category": "multiplication",
+   "relator": 6,
+   "other": 7,
+   "invert_other": true,
+   "inverse": 121
+  },
+  {
+   "id": 123,
+   "category": "multiplication",
+   "relator": 7,
+   "other": 0,
+   "invert_other": false,
+   "inverse": 124
+  },
+  {
+   "id": 124,
+   "category": "multiplication",
+   "relator": 7,
+   "other": 0,
+   "invert_other": true,
+   "inverse": 123
+  },
+  {
+   "id": 125,
+   "category": "multiplication",
+   "relator": 7,
+   "other": 1,
+   "invert_other": false,
+   "inverse": 126
+  },
+  {
+   "id": 126,
+   "category": "multiplication",
+   "relator": 7,
+   "other": 1,
+   "invert_other": true,
+   "inverse": 125
+  },
+  {
+   "id": 127,
+   "category": "multiplication",
+   "relator": 7,
+   "other": 2,
+   "invert_other": false,
+   "inverse": 128
+  },
+  {
+   "id": 128,
+   "category": "multiplication",
+   "relator": 7,
+   "other": 2,
+   "invert_other": true,
+   "inverse": 127
+  },
+  {
+   "id": 129,
+   "category": "multiplication",
+   "relator": 7,
+   "other": 3,
+   "invert_other": false,
+   "inverse": 130
+  },
+  {
+   "id": 130,
+   "category": "multiplication",
+   "relator": 7,
+   "other": 3,
+   "invert_other": true,
+   "inverse": 129
+  },
+  {
+   "id": 131,
+   "category": "multiplication",
+   "relator": 7,
+   "other": 4,
+   "invert_other": false,
+   "inverse": 132
+  },
+  {
+   "id": 132,
+   "category": "multiplication",
+   "relator": 7,
+   "other": 4,
+   "invert_other": true,
+   "inverse": 131
+  },
+  {
+   "id": 133,
+   "category": "multiplication",
+   "relator": 7,
+   "other": 5,
+   "invert_other": false,
+   "inverse": 134
+  },
+  {
+   "id": 134,
+   "category": "multiplication",
+   "relator": 7,
+   "other": 5,
+   "invert_other": true,
+   "inverse": 133
+  },
+  {
+   "id": 135,
+   "category": "multiplication",
+   "relator": 7,
+   "other": 6,
+   "invert_other": false,
+   "inverse": 136
+  },
+  {
+   "id": 136,
+   "category": "multiplication",
+   "relator": 7,
+   "other": 6,
+   "invert_other": true,
+   "inverse": 135
+  },
+  {
+   "id": 137,
+   "category": "conjugation",
+   "relator": 0,
+   "conjugator": 3,
+   "inverse": 138
+  },
+  {
+   "id": 138,
+   "category": "conjugation",
+   "relator": 0,
+   "conjugator": -3,
+   "inverse": 137
+  },
+  {
+   "id": 139,
+   "category": "conjugation",
+   "relator": 0,
+   "conjugator": 4,
+   "inverse": 140
+  },
+  {
+   "id": 140,
+   "category": "conjugation",
+   "relator": 0,
+   "conjugator": -4,
+   "inverse": 139
+  },
+  {
+   "id": 141,
+   "category": "conjugation",
+   "relator": 0,
+   "conjugator": 5,
+   "inverse": 142
+  },
+  {
+   "id": 142,
+   "category": "conjugation",
+   "relator": 0,
+   "conjugator": -5,
+   "inverse": 141
+  },
+  {
+   "id": 143,
+   "category": "conjugation",
+   "relator": 0,
+   "conjugator": 6,
+   "inverse": 144
+  },
+  {
+   "id": 144,
+   "category": "conjugation",
+   "relator": 0,
+   "conjugator": -6,
+   "inverse": 143
+  },
+  {
+   "id": 145,
+   "category": "conjugation",
+   "relator": 0,
+   "conjugator": 7,
+   "inverse": 146
+  },
+  {
+   "id": 146,
+   "category": "conjugation",
+   "relator": 0,
+   "conjugator": -7,
+   "inverse": 145
+  },
+  {
+   "id": 147,
+   "category": "conjugation",
+   "relator": 0,
+   "conjugator": 8,
+   "inverse": 148
+  },
+  {
+   "id": 148,
+   "category": "conjugation",
+   "relator": 0,
+   "conjugator": -8,
+   "inverse": 147
+  },
+  {
+   "id": 149,
+   "category": "conjugation",
+   "relator": 1,
+   "conjugator": 3,
+   "inverse": 150
+  },
+  {
+   "id": 150,
+   "category": "conjugation",
+   "relator": 1,
+   "conjugator": -3,
+   "inverse": 149
+  },
+  {
+   "id": 151,
+   "category": "conjugation",
+   "relator": 1,
+   "conjugator": 4,
+   "inverse": 152
+  },
+  {
+   "id": 152,
+   "category": "conjugation",
+   "relator": 1,
+   "conjugator": -4,
+   "inverse": 151
+  },
+  {
+   "id": 153,
+   "category": "conjugation",
+   "relator": 1,
+   "conjugator": 5,
+   "inverse": 154
+  },
+  {
+   "id": 154,
+   "category": "conjugation",
+   "relator": 1,
+   "conjugator": -5,
+   "inverse": 153
+  },
+  {
+   "id": 155,
+   "category": "conjugation",
+   "relator": 1,
+   "conjugator": 6,
+   "inverse": 156
+  },
+  {
+   "id": 156,
+   "category": "conjugation",
+   "relator": 1,
+   "conjugator": -6,
+   "inverse": 155
+  },
+  {
+   "id": 157,
+   "category": "conjugation",
+   "relator": 1,
+   "conjugator": 7,
+   "inverse": 158
+  },
+  {
+   "id": 158,
+   "category": "conjugation",
+   "relator": 1,
+   "conjugator": -7,
+   "inverse": 157
+  },
+  {
+   "id": 159,
+   "category": "conjugation",
+   "relator": 1,
+   "conjugator": 8,
+   "inverse": 160
+  },
+  {
+   "id": 160,
+   "category": "conjugation",
+   "relator": 1,
+   "conjugator": -8,
+   "inverse": 159
+  },
+  {
+   "id": 161,
+   "category": "conjugation",
+   "relator": 2,
+   "conjugator": 1,
+   "inverse": 162
+  },
+  {
+   "id": 162,
+   "category": "conjugation",
+   "relator": 2,
+   "conjugator": -1,
+   "inverse": 161
+  },
+  {
+   "id": 163,
+   "category": "conjugation",
+   "relator": 2,
+   "conjugator": 2,
+   "inverse": 164
+  },
+  {
+   "id": 164,
+   "category": "conjugation",
+   "relator": 2,
+   "conjugator": -2,
+   "inverse": 163
+  },
+  {
+   "id": 165,
+   "category": "conjugation",
+   "relator": 2,
+   "conjugator": 3,
+   "inverse": 166
+  },
+  {
+   "id": 166,
+   "category": "conjugation",
+   "relator": 2,
+   "conjugator": -3,
+   "inverse": 165
+  },
+  {
+   "id": 167,
+   "category": "conjugation",
+   "relator": 2,
+   "conjugator": 4,
+   "inverse": 168
+  },
+  {
+   "id": 168,
+   "category": "conjugation",
+   "relator": 2,
+   "conjugator": -4,
+   "inverse": 167
+  },
+  {
+   "id": 169,
+   "category": "conjugation",
+   "relator": 2,
+   "conjugator": 5,
+   "inverse": 170
+  },
+  {
+   "id": 170,
+   "category": "conjugation",
+   "relator": 2,
+   "conjugator": -5,
+   "inverse": 169
+  },
+  {
+   "id": 171,
+   "category": "conjugation",
+   "relator": 2,
+   "conjugator": 6,
+   "inverse": 172
+  },
+  {
+   "id": 172,
+   "category": "conjugation",
+   "relator": 2,
+   "conjugator": -6,
+   "inverse": 171
+  },
+  {
+   "id": 173,
+   "category": "conjugation",
+   "relator": 2,
+   "conjugator": 7,
+   "inverse": 174
+  },
+  {
+   "id": 174,
+   "category": "conjugation",
+   "relator": 2,
+   "conjugator": -7,
+   "inverse": 173
+  },
+  {
+   "id": 175,
+   "category": "conjugation",
+   "relator": 2,
+   "conjugator": 8,
+   "inverse": 176
+  },
+  {
+   "id": 176,
+   "category": "conjugation",
+   "relator": 2,
+   "conjugator": -8,
+   "inverse": 175
+  },
+  {
+   "id": 177,
+   "category": "conjugation",
+   "relator": 3,
+   "conjugator": 1,
+   "inverse": 178
+  },
+  {
+   "id": 178,
+   "category": "conjugation",
+   "relator": 3,
+   "conjugator": -1,
+   "inverse": 177
+  },
+  {
+   "id": 179,
+   "category": "conjugation",
+   "relator": 3,
+   "conjugator": 2,
+   "inverse": 180
+  },
+  {
+   "id": 180,
+   "category": "conjugation",
+   "relator": 3,
+   "conjugator": -2,
+   "inverse": 179
+  },
+  {
+   "id": 181,
+   "category": "conjugation",
+   "relator": 3,
+   "conjugator": 3,
+   "inverse": 182
+  },
+  {
+   "id": 182,
+   "category": "conjugation",
+   "relator": 3,
+   "conjugator": -3,
+   "inverse": 181
+  },
+  {
+   "id": 183,
+   "category": "conjugation",
+   "relator": 3,
+   "conjugator": 4,
+   "inverse": 184
+  },
+  {
+   "id": 184,
+   "category": "conjugation",
+   "relator": 3,
+   "conjugator": -4,
+   "inverse": 183
+  },
+  {
+   "id": 185,
+   "category": "conjugation",
+   "relator": 3,
+   "conjugator": 5,
+   "inverse": 186
+  },
+  {
+   "id": 186,
+   "category": "conjugation",
+   "relator": 3,
+   "conjugator": -5,
+   "inverse": 185
+  },
+  {
+   "id": 187,
+   "category": "conjugation",
+   "relator": 3,
+   "conjugator": 6,
+   "inverse": 188
+  },
+  {
+   "id": 188,
+   "category": "conjugation",
+   "relator": 3,
+   "conjugator": -6,
+   "inverse": 187
+  },
+  {
+   "id": 189,
+   "category": "conjugation",
+   "relator": 3,
+   "conjugator": 7,
+   "inverse": 190
+  },
+  {
+   "id": 190,
+   "category": "conjugation",
+   "relator": 3,
+   "conjugator": -7,
+   "inverse": 189
+  },
+  {
+   "id": 191,
+   "category": "conjugation",
+   "relator": 3,
+   "conjugator": 8,
+   "inverse": 192
+  },
+  {
+   "id": 192,
+   "category": "conjugation",
+   "relator": 3,
+   "conjugator": -8,
+   "inverse": 191
+  },
+  {
+   "id": 193,
+   "category": "conjugation",
+   "relator": 4,
+   "conjugator": 1,
+   "inverse": 194
+  },
+  {
+   "id": 194,
+   "category": "conjugation",
+   "relator": 4,
+   "conjugator": -1,
+   "inverse": 193
+  },
+  {
+   "id": 195,
+   "category": "conjugation",
+   "relator": 4,
+   "conjugator": 2,
+   "inverse": 196
+  },
+  {
+   "id": 196,
+   "category": "conjugation",
+   "relator": 4,
+   "conjugator": -2,
+   "inverse": 195
+  },
+  {
+   "id": 197,
+   "category": "conjugation",
+   "relator": 4,
+   "conjugator": 3,
+   "inverse": 198
+  },
+  {
+   "id": 198,
+   "category": "conjugation",
+   "relator": 4,
+   "conjugator": -3,
+   "inverse": 197
+  },
+  {
+   "id": 199,
+   "category": "conjugation",
+   "relator": 4,
+   "conjugator": 4,
+   "inverse": 200
+  },
+  {
+   "id": 200,
+   "category": "conjugation",
+   "relator": 4,
+   "conjugator": -4,
+   "inverse": 199
+  },
+  {
+   "id": 201,
+   "category": "conjugation",
+   "relator": 4,
+   "conjugator": 5,
+   "inverse": 202
+  },
+  {
+   "id": 202,
+   "category": "conjugation",
+   "relator": 4,
+   "conjugator": -5,
+   "inverse": 201
+  },
+  {
+   "id": 203,
+   "category": "conjugation",
+   "relator": 4,
+   "conjugator": 6,
+   "inverse": 204
+  },
+  {
+   "id": 204,
+   "category": "conjugation",
+   "relator": 4,
+   "conjugator": -6,
+   "inverse": 203
+  },
+  {
+   "id": 205,
+   "category": "conjugation",
+   "relator": 4,
+   "conjugator": 7,
+   "inverse": 206
+  },
+  {
+   "id": 206,
+   "category": "conjugation",
+   "relator": 4,
+   "conjugator": -7,
+   "inverse": 205
+  },
+  {
+   "id": 207,
+   "category": "conjugation",
+   "relator": 4,
+   "conjugator": 8,
+   "inverse": 208
+  },
+  {
+   "id": 208,
+   "category": "conjugation",
+   "relator": 4,
+   "conjugator": -8,
+   "inverse": 207
+  },
+  {
+   "id": 209,
+   "category": "conjugation",
+   "relator": 5,
+   "conjugator": 1,
+   "inverse": 210
+  },
+  {
+   "id": 210,
+   "category": "conjugation",
+   "relator": 5,
+   "conjugator": -1,
+   "inverse": 209
+  },
+  {
+   "id": 211,
+   "category": "conjugation",
+   "relator": 5,
+   "conjugator": 2,
+   "inverse": 212
+  },
+  {
+   "id": 212,
+   "category": "conjugation",
+   "relator": 5,
+   "conjugator": -2,
+   "inverse": 211
+  },
+  {
+   "id": 213,
+   "category": "conjugation",
+   "relator": 5,
+   "conjugator": 3,
+   "inverse": 214
+  },
+  {
+   "id": 214,
+   "category": "conjugation",
+   "relator": 5,
+   "conjugator": -3,
+   "inverse": 213
+  },
+  {
+   "id": 215,
+   "category": "conjugation",
+   "relator": 5,
+   "conjugator": 4,
+   "inverse": 216
+  },
+  {
+   "id": 216,
+   "category": "conjugation",
+   "relator": 5,
+   "conjugator": -4,
+   "inverse": 215
+  },
+  {
+   "id": 217,
+   "category": "conjugation",
+   "relator": 5,
+   "conjugator": 5,
+   "inverse": 218
+  },
+  {
+   "id": 218,
+   "category": "conjugation",
+   "relator": 5,
+   "conjugator": -5,
+   "inverse": 217
+  },
+  {
+   "id": 219,
+   "category": "conjugation",
+   "relator": 5,
+   "conjugator": 6,
+   "inverse": 220
+  },
+  {
+   "id": 220,
+   "category": "conjugation",
+   "relator": 5,
+   "conjugator": -6,
+   "inverse": 219
+  },
+  {
+   "id": 221,
+   "category": "conjugation",
+   "relator": 5,
+   "conjugator": 7,
+   "inverse": 222
+  },
+  {
+   "id": 222,
+   "category": "conjugation",
+   "relator": 5,
+   "conjugator": -7,
+   "inverse": 221
+  },
+  {
+   "id": 223,
+   "category": "conjugation",
+   "relator": 5,
+   "conjugator": 8,
+   "inverse": 224
+  },
+  {
+   "id": 224,
+   "category": "conjugation",
+   "relator": 5,
+   "conjugator": -8,
+   "inverse": 223
+  },
+  {
+   "id": 225,
+   "category": "conjugation",
+   "relator": 6,
+   "conjugator": 1,
+   "inverse": 226
+  },
+  {
+   "id": 226,
+   "category": "conjugation",
+   "relator": 6,
+   "conjugator": -1,
+   "inverse": 225
+  },
+  {
+   "id": 227,
+   "category": "conjugation",
+   "relator": 6,
+   "conjugator": 2,
+   "inverse": 228
+  },
+  {
+   "id": 228,
+   "category": "conjugation",
+   "relator": 6,
+   "conjugator": -2,
+   "inverse": 227
+  },
+  {
+   "id": 229,
+   "category": "conjugation",
+   "relator": 6,
+   "conjugator": 3,
+   "inverse": 230
+  },
+  {
+   "id": 230,
+   "category": "conjugation",
+   "relator": 6,
+   "conjugator": -3,
+   "inverse": 229
+  },
+  {
+   "id": 231,
+   "category": "conjugation",
+   "relator": 6,
+   "conjugator": 4,
+   "inverse": 232
+  },
+  {
+   "id": 232,
+   "category": "conjugation",
+   "relator": 6,
+   "conjugator": -4,
+   "inverse": 231
+  },
+  {
+   "id": 233,
+   "category": "conjugation",
+   "relator": 6,
+   "conjugator": 5,
+   "inverse": 234
+  },
+  {
+   "id": 234,
+   "category": "conjugation",
+   "relator": 6,
+   "conjugator": -5,
+   "inverse": 233
+  },
+  {
+   "id": 235,
+   "category": "conjugation",
+   "relator": 6,
+   "conjugator": 6,
+   "inverse": 236
+  },
+  {
+   "id": 236,
+   "category": "conjugation",
+   "relator": 6,
+   "conjugator": -6,
+   "inverse": 235
+  },
+  {
+   "id": 237,
+   "category": "conjugation",
+   "relator": 6,
+   "conjugator": 7,
+   "inverse": 238
+  },
+  {
+   "id": 238,
+   "category": "conjugation",
+   "relator": 6,
+   "conjugator": -7,
+   "inverse": 237
+  },
+  {
+   "id": 239,
+   "category": "conjugation",
+   "relator": 6,
+   "conjugator": 8,
+   "inverse": 240
+  },
+  {
+   "id": 240,
+   "category": "conjugation",
+   "relator": 6,
+   "conjugator": -8,
+   "inverse": 239
+  },
+  {
+   "id": 241,
+   "category": "conjugation",
+   "relator": 7,
+   "conjugator": 1,
+   "inverse": 242
+  },
+  {
+   "id": 242,
+   "category": "conjugation",
+   "relator": 7,
+   "conjugator": -1,
+   "inverse": 241
+  },
+  {
+   "id": 243,
+   "category": "conjugation",
+   "relator": 7,
+   "conjugator": 2,
+   "inverse": 244
+  },
+  {
+   "id": 244,
+   "category": "conjugation",
+   "relator": 7,
+   "conjugator": -2,
+   "inverse": 243
+  },
+  {
+   "id": 245,
+   "category": "conjugation",
+   "relator": 7,
+   "conjugator": 3,
+   "inverse": 246
+  },
+  {
+   "id": 246,
+   "category": "conjugation",
+   "relator": 7,
+   "conjugator": -3,
+   "inverse": 245
+  },
+  {
+   "id": 247,
+   "category": "conjugation",
+   "relator": 7,
+   "conjugator": 4,
+   "inverse": 248
+  },
+  {
+   "id": 248,
+   "category": "conjugation",
+   "relator": 7,
+   "conjugator": -4,
+   "inverse": 247
+  },
+  {
+   "id": 249,
+   "category": "conjugation",
+   "relator": 7,
+   "conjugator": 5,
+   "inverse": 250
+  },
+  {
+   "id": 250,
+   "category": "conjugation",
+   "relator": 7,
+   "conjugator": -5,
+   "inverse": 249
+  },
+  {
+   "id": 251,
+   "category": "conjugation",
+   "relator": 7,
+   "conjugator": 6,
+   "inverse": 252
+  },
+  {
+   "id": 252,
+   "category": "conjugation",
+   "relator": 7,
+   "conjugator": -6,
+   "inverse": 251
+  },
+  {
+   "id": 253,
+   "category": "conjugation",
+   "relator": 7,
+   "conjugator": 7,
+   "inverse": 254
+  },
+  {
+   "id": 254,
+   "category": "conjugation",
+   "relator": 7,
+   "conjugator": -7,
+   "inverse": 253
+  },
+  {
+   "id": 255,
+   "category": "conjugation",
+   "relator": 7,
+   "conjugator": 8,
+   "inverse": 256
+  },
+  {
+   "id": 256,
+   "category": "conjugation",
+   "relator": 7,
+   "conjugator": -8,
+   "inverse": 255
+  }
+ ],
+ "descriptions": {
+  "0": "r0 <- r0^-1",
+  "1": "r1 <- r1^-1",
+  "2": "r0 <- r0 r1",
+  "3": "r0 <- r0 r1^-1",
+  "4": "r1 <- r1 r0",
+  "5": "r1 <- r1 r0^-1",
+  "6": "r0 <- x r0 x^-1",
+  "7": "r0 <- x^-1 r0 x",
+  "8": "r0 <- y r0 y^-1",
+  "9": "r0 <- y^-1 r0 y",
+  "10": "r1 <- x r1 x^-1",
+  "11": "r1 <- x^-1 r1 x",
+  "12": "r1 <- y r1 y^-1",
+  "13": "r1 <- y^-1 r1 y",
+  "14": "stabilize: rank k -> k+1; append the relator r_k = g(k+1), a generator not used so far",
+  "15": "destabilize r0: requires r0 to be exactly one positive generator letter that occurs in no other relator; drops r0 and that generator, rank k -> k-1, renumbering every larger generator down by one",
+  "16": "destabilize r1: requires r1 to be exactly one positive generator letter that occurs in no other relator; drops r1 and that generator, rank k -> k-1, renumbering every larger generator down by one",
+  "17": "destabilize r2: requires r2 to be exactly one positive generator letter that occurs in no other relator; drops r2 and that generator, rank k -> k-1, renumbering every larger generator down by one",
+  "18": "destabilize r3: requires r3 to be exactly one positive generator letter that occurs in no other relator; drops r3 and that generator, rank k -> k-1, renumbering every larger generator down by one",
+  "19": "destabilize r4: requires r4 to be exactly one positive generator letter that occurs in no other relator; drops r4 and that generator, rank k -> k-1, renumbering every larger generator down by one",
+  "20": "destabilize r5: requires r5 to be exactly one positive generator letter that occurs in no other relator; drops r5 and that generator, rank k -> k-1, renumbering every larger generator down by one",
+  "21": "destabilize r6: requires r6 to be exactly one positive generator letter that occurs in no other relator; drops r6 and that generator, rank k -> k-1, renumbering every larger generator down by one",
+  "22": "destabilize r7: requires r7 to be exactly one positive generator letter that occurs in no other relator; drops r7 and that generator, rank k -> k-1, renumbering every larger generator down by one",
+  "23": "r2 <- r2^-1",
+  "24": "r3 <- r3^-1",
+  "25": "r4 <- r4^-1",
+  "26": "r5 <- r5^-1",
+  "27": "r6 <- r6^-1",
+  "28": "r7 <- r7^-1",
+  "29": "r0 <- r0 r2",
+  "30": "r0 <- r0 r2^-1",
+  "31": "r0 <- r0 r3",
+  "32": "r0 <- r0 r3^-1",
+  "33": "r0 <- r0 r4",
+  "34": "r0 <- r0 r4^-1",
+  "35": "r0 <- r0 r5",
+  "36": "r0 <- r0 r5^-1",
+  "37": "r0 <- r0 r6",
+  "38": "r0 <- r0 r6^-1",
+  "39": "r0 <- r0 r7",
+  "40": "r0 <- r0 r7^-1",
+  "41": "r1 <- r1 r2",
+  "42": "r1 <- r1 r2^-1",
+  "43": "r1 <- r1 r3",
+  "44": "r1 <- r1 r3^-1",
+  "45": "r1 <- r1 r4",
+  "46": "r1 <- r1 r4^-1",
+  "47": "r1 <- r1 r5",
+  "48": "r1 <- r1 r5^-1",
+  "49": "r1 <- r1 r6",
+  "50": "r1 <- r1 r6^-1",
+  "51": "r1 <- r1 r7",
+  "52": "r1 <- r1 r7^-1",
+  "53": "r2 <- r2 r0",
+  "54": "r2 <- r2 r0^-1",
+  "55": "r2 <- r2 r1",
+  "56": "r2 <- r2 r1^-1",
+  "57": "r2 <- r2 r3",
+  "58": "r2 <- r2 r3^-1",
+  "59": "r2 <- r2 r4",
+  "60": "r2 <- r2 r4^-1",
+  "61": "r2 <- r2 r5",
+  "62": "r2 <- r2 r5^-1",
+  "63": "r2 <- r2 r6",
+  "64": "r2 <- r2 r6^-1",
+  "65": "r2 <- r2 r7",
+  "66": "r2 <- r2 r7^-1",
+  "67": "r3 <- r3 r0",
+  "68": "r3 <- r3 r0^-1",
+  "69": "r3 <- r3 r1",
+  "70": "r3 <- r3 r1^-1",
+  "71": "r3 <- r3 r2",
+  "72": "r3 <- r3 r2^-1",
+  "73": "r3 <- r3 r4",
+  "74": "r3 <- r3 r4^-1",
+  "75": "r3 <- r3 r5",
+  "76": "r3 <- r3 r5^-1",
+  "77": "r3 <- r3 r6",
+  "78": "r3 <- r3 r6^-1",
+  "79": "r3 <- r3 r7",
+  "80": "r3 <- r3 r7^-1",
+  "81": "r4 <- r4 r0",
+  "82": "r4 <- r4 r0^-1",
+  "83": "r4 <- r4 r1",
+  "84": "r4 <- r4 r1^-1",
+  "85": "r4 <- r4 r2",
+  "86": "r4 <- r4 r2^-1",
+  "87": "r4 <- r4 r3",
+  "88": "r4 <- r4 r3^-1",
+  "89": "r4 <- r4 r5",
+  "90": "r4 <- r4 r5^-1",
+  "91": "r4 <- r4 r6",
+  "92": "r4 <- r4 r6^-1",
+  "93": "r4 <- r4 r7",
+  "94": "r4 <- r4 r7^-1",
+  "95": "r5 <- r5 r0",
+  "96": "r5 <- r5 r0^-1",
+  "97": "r5 <- r5 r1",
+  "98": "r5 <- r5 r1^-1",
+  "99": "r5 <- r5 r2",
+  "100": "r5 <- r5 r2^-1",
+  "101": "r5 <- r5 r3",
+  "102": "r5 <- r5 r3^-1",
+  "103": "r5 <- r5 r4",
+  "104": "r5 <- r5 r4^-1",
+  "105": "r5 <- r5 r6",
+  "106": "r5 <- r5 r6^-1",
+  "107": "r5 <- r5 r7",
+  "108": "r5 <- r5 r7^-1",
+  "109": "r6 <- r6 r0",
+  "110": "r6 <- r6 r0^-1",
+  "111": "r6 <- r6 r1",
+  "112": "r6 <- r6 r1^-1",
+  "113": "r6 <- r6 r2",
+  "114": "r6 <- r6 r2^-1",
+  "115": "r6 <- r6 r3",
+  "116": "r6 <- r6 r3^-1",
+  "117": "r6 <- r6 r4",
+  "118": "r6 <- r6 r4^-1",
+  "119": "r6 <- r6 r5",
+  "120": "r6 <- r6 r5^-1",
+  "121": "r6 <- r6 r7",
+  "122": "r6 <- r6 r7^-1",
+  "123": "r7 <- r7 r0",
+  "124": "r7 <- r7 r0^-1",
+  "125": "r7 <- r7 r1",
+  "126": "r7 <- r7 r1^-1",
+  "127": "r7 <- r7 r2",
+  "128": "r7 <- r7 r2^-1",
+  "129": "r7 <- r7 r3",
+  "130": "r7 <- r7 r3^-1",
+  "131": "r7 <- r7 r4",
+  "132": "r7 <- r7 r4^-1",
+  "133": "r7 <- r7 r5",
+  "134": "r7 <- r7 r5^-1",
+  "135": "r7 <- r7 r6",
+  "136": "r7 <- r7 r6^-1",
+  "137": "r0 <- g3 r0 g3^-1",
+  "138": "r0 <- g3^-1 r0 g3",
+  "139": "r0 <- g4 r0 g4^-1",
+  "140": "r0 <- g4^-1 r0 g4",
+  "141": "r0 <- g5 r0 g5^-1",
+  "142": "r0 <- g5^-1 r0 g5",
+  "143": "r0 <- g6 r0 g6^-1",
+  "144": "r0 <- g6^-1 r0 g6",
+  "145": "r0 <- g7 r0 g7^-1",
+  "146": "r0 <- g7^-1 r0 g7",
+  "147": "r0 <- g8 r0 g8^-1",
+  "148": "r0 <- g8^-1 r0 g8",
+  "149": "r1 <- g3 r1 g3^-1",
+  "150": "r1 <- g3^-1 r1 g3",
+  "151": "r1 <- g4 r1 g4^-1",
+  "152": "r1 <- g4^-1 r1 g4",
+  "153": "r1 <- g5 r1 g5^-1",
+  "154": "r1 <- g5^-1 r1 g5",
+  "155": "r1 <- g6 r1 g6^-1",
+  "156": "r1 <- g6^-1 r1 g6",
+  "157": "r1 <- g7 r1 g7^-1",
+  "158": "r1 <- g7^-1 r1 g7",
+  "159": "r1 <- g8 r1 g8^-1",
+  "160": "r1 <- g8^-1 r1 g8",
+  "161": "r2 <- x r2 x^-1",
+  "162": "r2 <- x^-1 r2 x",
+  "163": "r2 <- y r2 y^-1",
+  "164": "r2 <- y^-1 r2 y",
+  "165": "r2 <- g3 r2 g3^-1",
+  "166": "r2 <- g3^-1 r2 g3",
+  "167": "r2 <- g4 r2 g4^-1",
+  "168": "r2 <- g4^-1 r2 g4",
+  "169": "r2 <- g5 r2 g5^-1",
+  "170": "r2 <- g5^-1 r2 g5",
+  "171": "r2 <- g6 r2 g6^-1",
+  "172": "r2 <- g6^-1 r2 g6",
+  "173": "r2 <- g7 r2 g7^-1",
+  "174": "r2 <- g7^-1 r2 g7",
+  "175": "r2 <- g8 r2 g8^-1",
+  "176": "r2 <- g8^-1 r2 g8",
+  "177": "r3 <- x r3 x^-1",
+  "178": "r3 <- x^-1 r3 x",
+  "179": "r3 <- y r3 y^-1",
+  "180": "r3 <- y^-1 r3 y",
+  "181": "r3 <- g3 r3 g3^-1",
+  "182": "r3 <- g3^-1 r3 g3",
+  "183": "r3 <- g4 r3 g4^-1",
+  "184": "r3 <- g4^-1 r3 g4",
+  "185": "r3 <- g5 r3 g5^-1",
+  "186": "r3 <- g5^-1 r3 g5",
+  "187": "r3 <- g6 r3 g6^-1",
+  "188": "r3 <- g6^-1 r3 g6",
+  "189": "r3 <- g7 r3 g7^-1",
+  "190": "r3 <- g7^-1 r3 g7",
+  "191": "r3 <- g8 r3 g8^-1",
+  "192": "r3 <- g8^-1 r3 g8",
+  "193": "r4 <- x r4 x^-1",
+  "194": "r4 <- x^-1 r4 x",
+  "195": "r4 <- y r4 y^-1",
+  "196": "r4 <- y^-1 r4 y",
+  "197": "r4 <- g3 r4 g3^-1",
+  "198": "r4 <- g3^-1 r4 g3",
+  "199": "r4 <- g4 r4 g4^-1",
+  "200": "r4 <- g4^-1 r4 g4",
+  "201": "r4 <- g5 r4 g5^-1",
+  "202": "r4 <- g5^-1 r4 g5",
+  "203": "r4 <- g6 r4 g6^-1",
+  "204": "r4 <- g6^-1 r4 g6",
+  "205": "r4 <- g7 r4 g7^-1",
+  "206": "r4 <- g7^-1 r4 g7",
+  "207": "r4 <- g8 r4 g8^-1",
+  "208": "r4 <- g8^-1 r4 g8",
+  "209": "r5 <- x r5 x^-1",
+  "210": "r5 <- x^-1 r5 x",
+  "211": "r5 <- y r5 y^-1",
+  "212": "r5 <- y^-1 r5 y",
+  "213": "r5 <- g3 r5 g3^-1",
+  "214": "r5 <- g3^-1 r5 g3",
+  "215": "r5 <- g4 r5 g4^-1",
+  "216": "r5 <- g4^-1 r5 g4",
+  "217": "r5 <- g5 r5 g5^-1",
+  "218": "r5 <- g5^-1 r5 g5",
+  "219": "r5 <- g6 r5 g6^-1",
+  "220": "r5 <- g6^-1 r5 g6",
+  "221": "r5 <- g7 r5 g7^-1",
+  "222": "r5 <- g7^-1 r5 g7",
+  "223": "r5 <- g8 r5 g8^-1",
+  "224": "r5 <- g8^-1 r5 g8",
+  "225": "r6 <- x r6 x^-1",
+  "226": "r6 <- x^-1 r6 x",
+  "227": "r6 <- y r6 y^-1",
+  "228": "r6 <- y^-1 r6 y",
+  "229": "r6 <- g3 r6 g3^-1",
+  "230": "r6 <- g3^-1 r6 g3",
+  "231": "r6 <- g4 r6 g4^-1",
+  "232": "r6 <- g4^-1 r6 g4",
+  "233": "r6 <- g5 r6 g5^-1",
+  "234": "r6 <- g5^-1 r6 g5",
+  "235": "r6 <- g6 r6 g6^-1",
+  "236": "r6 <- g6^-1 r6 g6",
+  "237": "r6 <- g7 r6 g7^-1",
+  "238": "r6 <- g7^-1 r6 g7",
+  "239": "r6 <- g8 r6 g8^-1",
+  "240": "r6 <- g8^-1 r6 g8",
+  "241": "r7 <- x r7 x^-1",
+  "242": "r7 <- x^-1 r7 x",
+  "243": "r7 <- y r7 y^-1",
+  "244": "r7 <- y^-1 r7 y",
+  "245": "r7 <- g3 r7 g3^-1",
+  "246": "r7 <- g3^-1 r7 g3",
+  "247": "r7 <- g4 r7 g4^-1",
+  "248": "r7 <- g4^-1 r7 g4",
+  "249": "r7 <- g5 r7 g5^-1",
+  "250": "r7 <- g5^-1 r7 g5",
+  "251": "r7 <- g6 r7 g6^-1",
+  "252": "r7 <- g6^-1 r7 g6",
+  "253": "r7 <- g7 r7 g7^-1",
+  "254": "r7 <- g7^-1 r7 g7",
+  "255": "r7 <- g8 r7 g8^-1",
+  "256": "r7 <- g8^-1 r7 g8"
+ },
+ "canonicalization_table": {
+  "rule": "From any rank-k state whose k relators are the k generators as single letters, each of g1..gk occurring exactly once and possibly inverted, the minimal cost to the empty presentation is k + (number of inverted letters): invert each inverted relator, then destabilize from the highest relator index down to 0.  The rows below are the k = 2 instance of that law, exhaustively verified by breadth-first search.",
+  "rows": [
+   {
+    "final_state": [
+     [
+      1
+     ],
+     [
+      2
+     ]
+    ],
+    "cost": 2,
+    "path": [
+     16,
+     15
+    ]
+   },
+   {
+    "final_state": [
+     [
+      2
+     ],
+     [
+      1
+     ]
+    ],
+    "cost": 2,
+    "path": [
+     16,
+     15
+    ]
+   },
+   {
+    "final_state": [
+     [
+      -2
+     ],
+     [
+      1
+     ]
+    ],
+    "cost": 3,
+    "path": [
+     0,
+     16,
+     15
+    ]
+   },
+   {
+    "final_state": [
+     [
+      -1
+     ],
+     [
+      2
+     ]
+    ],
+    "cost": 3,
+    "path": [
+     0,
+     16,
+     15
+    ]
+   },
+   {
+    "final_state": [
+     [
+      1
+     ],
+     [
+      -2
+     ]
+    ],
+    "cost": 3,
+    "path": [
+     1,
+     16,
+     15
+    ]
+   },
+   {
+    "final_state": [
+     [
+      2
+     ],
+     [
+      -1
+     ]
+    ],
+    "cost": 3,
+    "path": [
+     1,
+     16,
+     15
+    ]
+   },
+   {
+    "final_state": [
+     [
+      -2
+     ],
+     [
+      -1
+     ]
+    ],
+    "cost": 4,
+    "path": [
+     0,
+     1,
+     16,
+     15
+    ]
+   },
+   {
+    "final_state": [
+     [
+      -1
+     ],
+     [
+      -2
+     ]
+    ],
+    "cost": 4,
+    "path": [
+     0,
+     1,
+     16,
+     15
+    ]
+   }
+  ]
+ },
+ "notes": [
+  "A state is an ordered list of k freely reduced relators over the k generators g1..gk, written as nonzero integers: +g for the generator, -g for its inverse.  g1 is x and g2 is y, matching ac-r2-v1; g3..g8 are the generators that only stabilization can introduce.  Every challenge starts at k = 2 and k never exceeds max_rank = 8.",
+  "Words are freely reduced after every move (single left-fold stack cancellation).",
+  "Move ids 0-13 are row for row identical to the ac-r2-v1 move table and act on r0 and r1 exactly as they do there, so the two specs agree wherever they overlap.",
+  "Consequence: any accepted ac-r2-v1 certificate followed by [16, 15] reaches the stable target for the same presentation, provided the extended path still satisfies the limits: length increases by 2 and work by 1.  The ac-r2-v1 target is the ordered pair (x, y); destabilizing r1 then r0 empties it.  That costs exactly 2 more moves, 0 more peak total relator length and 1 more work.  competition/challenges/stable_training_424.json is that construction applied to all 424 published paths.",
+  "stabilize (14) and destabilize (15-22) are inverse only up to relabeling: dropping generator g renumbers every larger generator down by one, so neither move has a fixed partner id and both carry inverse: null.  Every other row is closed under inversion, as in ac-r2-v1.",
+  "destabilize requires the relator to be EXACTLY one positive generator letter -- (g), never (g^-1) and never a longer word -- and requires that generator to occur in no other relator.  Invert the relator first (ids 0, 1, 23-28) if it reads as an inverse.",
+  "A move whose relator index is beyond the current rank, whose generator is beyond the current rank, that would stabilize past max_rank, or that fails the destabilize precondition is not applicable: the path is rejected with E_MOVE_NOT_APPLICABLE, carrying move_index, move and one of the reasons relator_out_of_rank, generator_out_of_rank, max_rank_exceeded, destabilize_precondition.  Applicability is checked at replay time, so the same move id means the same thing at every rank.",
+  "The target is the EMPTY presentation, target_relators = []; a rejected path reports final_shape, the list of relator lengths it actually ended on.",
+  "move_spec_hash = sha256 of the canonical JSON (RFC 8785 compatible: sorted keys, no whitespace, ASCII) of the 'moves' array only."
+ ]
+}

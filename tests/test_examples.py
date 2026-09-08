@@ -6,6 +6,7 @@ import subprocess
 import sys
 import unittest
 
+from acms_verify import canon
 from tests import util
 
 
@@ -34,34 +35,41 @@ class TestExamples(unittest.TestCase):
                          (EXAMPLES / "sample_verdict.json").read_text())
         verdict = json.loads(result.stdout)
         self.assertTrue(verdict["accepted"])
-        self.assertTrue(verdict["results"][0]["ok"])
+        self.assertEqual(len(verdict["results"]), 2)
+        self.assertTrue(all(v["ok"] for v in verdict["results"]))
 
     def test_training_manifest_matches_published_data_and_has_valid_hashes(self):
         manifest = util.load(EXAMPLES / "training_manifest.json")
         sample = util.load(EXAMPLES / "sample_submission.json")
-        self.assertEqual(manifest["challenge_count"], 1)
-        self.assertEqual(len(manifest["challenges"]), 1)
-        challenge = manifest["challenges"][0]
-        source = next(e for e in util.load_training()["instances"]
-                      if e["training_id"] == challenge["challenge_id"])
-        self.assertIs(challenge["scored"], False)
-        self.assertEqual(challenge["base_score"], 0)
-        self.assertIsNone(challenge["freeze_date"])
+        self.assertEqual(manifest["challenge_count"], 2)
+        self.assertEqual(manifest["presentation_count"], 1)
+        self.assertEqual(len(manifest["challenges"]), 2)
+        sources = (util.load_training(), util.load_stable_training())
+        receipts = util.load(EXAMPLES / "sample_verdict.json")["results"]
+        for challenge, solution, source_doc, receipt in zip(
+                manifest["challenges"], sample["solutions"], sources, receipts):
+            source = next(e for e in source_doc["instances"]
+                          if e["initial_relators"] == challenge["initial_relators"])
+            self.assertIs(challenge["scored"], False)
+            self.assertEqual(challenge["base_score"], 0)
+            self.assertIsNone(challenge["freeze_date"])
+            for key in ("generators", "initial_relators", "target_relators", "move_spec_version"):
+                self.assertEqual(challenge[key], source[key], key)
+            self.assertEqual(solution, {"challenge_id": challenge["challenge_id"],
+                                        "moves": source["moves"]})
+            self.assertEqual(receipt["certificate_hash"], canon.certificate_hash(
+                challenge["challenge_id"], challenge["move_spec_version"], source["moves"]))
         self.assertIsNone(manifest["freeze_date"])
-        for key in ("generators", "initial_relators", "target_relators",
-                    "move_spec_version"):
-            self.assertEqual(challenge[key], source[key], key)
+        self.assertEqual(manifest["challenges"][0]["initial_relators"],
+                         manifest["challenges"][1]["initial_relators"])
+        self.assertNotEqual(sample["solutions"][0]["challenge_id"],
+                            sample["solutions"][1]["challenge_id"])
         official = util.load_manifest()
         self.assertEqual(manifest["limits"], official["limits"])
-        self.assertEqual(manifest["move_spec_hash"], official["move_spec_hash"])
-        self.assertEqual(sample, {"solutions": [{
-            "challenge_id": source["training_id"], "moves": source["moves"]}]})
-        self.assertEqual(util.load(EXAMPLES / "sample_verdict.json")
-                         ["results"][0]["certificate_hash"],
-                         source["certificate_hash"])
+        self.assertEqual(manifest["move_specs"], official["move_specs"])
         checked = self.run_cli(EXAMPLES / "training_manifest.json", check_hashes=True)
         self.assertEqual(checked.returncode, 0, checked.stdout)
-        self.assertIn("OK  1 challenges", checked.stdout)
+        self.assertIn("OK  2 challenges", checked.stdout)
 
     def test_deliberately_invalid_example_returns_not_target(self):
         result = self.run_cli(util.MANIFEST_PATH,
@@ -80,8 +88,10 @@ class TestExamples(unittest.TestCase):
         self.assertEqual(result.returncode, 1, result.stdout)
         verdict = json.loads(result.stdout)
         self.assertTrue(verdict["accepted"])
-        self.assertFalse(verdict["results"][0]["ok"])
-        self.assertEqual(verdict["results"][0]["code"], "E_UNKNOWN_CHALLENGE")
+        self.assertEqual(len(verdict["results"]), 2)
+        for result in verdict["results"]:
+            self.assertFalse(result["ok"])
+            self.assertEqual(result["code"], "E_UNKNOWN_CHALLENGE")
 
 
 if __name__ == "__main__":

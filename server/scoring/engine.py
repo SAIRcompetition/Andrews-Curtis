@@ -30,13 +30,25 @@ def display_score(value):
 
 
 class ScoringEngine:
-    def __init__(self, manifest, verifier_version):
+    def __init__(self, manifest, verifier_version, move_spec_version=None):
+        """Score one Discovery track; a mixed manifest requires a selector."""
         self.manifest_hash = manifest["manifest_hash"]
         self.verifier_version = verifier_version
+        challenges = [c for c in manifest["challenges"] if c["scored"]]
+        versions = {c.get("move_spec_version") for c in challenges}
+        if move_spec_version is None:
+            if len(versions) > 1:
+                raise ValueError("select move_spec_version for a mixed-track manifest")
+            move_spec_version = next(iter(versions), None)
+        elif move_spec_version not in versions:
+            raise ValueError("no scored challenges for move_spec_version: %r"
+                             % (move_spec_version,))
+        self.move_spec_version = move_spec_version
         # V_i is read from the manifest and multiplied through, never
         # assumed uniform (D-8).
         self.base_score = {c["challenge_id"]: Fraction(c["base_score"])
-                           for c in manifest["challenges"] if c["scored"]}
+                           for c in challenges
+                           if c.get("move_spec_version") == move_spec_version}
         self.best = {}          # (team, challenge_id) -> min length
         self.best_since = {}    # (team, challenge_id) -> (received_at, submission_id)
         self.first_solver = {}  # challenge_id -> frozen dict (§5.3)
@@ -109,6 +121,7 @@ class ScoringEngine:
             "scoring_run_id": len(self.scoring_runs) + 1,
             "manifest_hash": self.manifest_hash,
             "verifier_version": self.verifier_version,
+            "move_spec_version": self.move_spec_version,
             "event": {"received_at": event_key[0],
                       "submission_id": event_key[1]},
             "leaderboard": [

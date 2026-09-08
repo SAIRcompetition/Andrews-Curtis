@@ -13,7 +13,7 @@ Check priority (DESIGN.md O-5, frozen):
 
 import json
 
-from . import core
+from . import specs
 
 #: Structural limits (DESIGN.md §4.3).  These are the frozen v1
 #: defaults; production overrides them per deployment via the
@@ -159,8 +159,8 @@ def process_submission(raw_bytes, manifest, challenge_index=None,
             results.append({"challenge_id": cid, "ok": False,
                             "code": "E_UNKNOWN_CHALLENGE", "move_index": None})
             continue
-        verdict = core.verify(challenge, sol["moves"],
-                              challenge["move_spec_version"], limits)
+        verdict = specs.verify_challenge(challenge, sol["moves"],
+                                         challenge["move_spec_version"], limits)
         verdict = dict(verdict)
         verdict["challenge_id"] = cid
         results.append(verdict)

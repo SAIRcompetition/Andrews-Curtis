@@ -1,6 +1,7 @@
 """The published Lean target must match its reviewed sources and dependency pins."""
 
 import importlib.util
+import json
 from pathlib import Path
 import tempfile
 import unittest
@@ -47,6 +48,20 @@ class TestFormalizationLock(unittest.TestCase):
             copied = self.copy_project(Path(tmp))
             (copied / "Submission.lean").write_text("import AC\n#check AC.Conjecture\n")
             release.verify_lean_statement(copied)
+
+    def test_stable_claim_cannot_be_replaced_by_ordinary_target_in_lock(self):
+        for field, wrong_target in (
+                ("stable_conjecture", "AC.Conjecture"),
+                ("stable_disproof", "Not AC.Conjecture"),
+                ("stable_counterexample", "AC.Counterexample")):
+            with self.subTest(field=field), tempfile.TemporaryDirectory() as tmp:
+                copied = self.copy_project(Path(tmp))
+                path = copied / "statement-lock.json"
+                lock = json.loads(path.read_text())
+                lock[field] = wrong_target
+                path.write_text(json.dumps(lock))
+                with self.assertRaisesRegex(ValueError, "statement lock mismatch"):
+                    release.verify_lean_statement(copied)
 
     def test_optional_checks_are_not_part_of_the_official_statement_lock(self):
         with tempfile.TemporaryDirectory() as tmp:

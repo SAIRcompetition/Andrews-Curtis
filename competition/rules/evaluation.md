@@ -7,30 +7,40 @@ scoring are not open. The competition service is planned to use the
 reference verifier sources in `tools/verifier/`; its server-side
 verdicts will be the authority for Discovery results once submissions open.
 
-ACC is one competition with **Discovery Track** and **Prove Track**.
-Sections 1–8 specify Discovery; §9 specifies Prove, which accepts both
-proofs and disproofs of the shared [mathematical statement](statement.md).
+ACC is one competition with four tracks: **AC Discovery**, **Stable AC
+Discovery**, **AC Prove**, and **Stable AC Prove**. Sections 1–8 specify
+the two Discovery tracks; §9 specifies the two Prove tracks, each accepting
+proofs and disproofs of its [mathematical statement](statement.md).
 Prove submissions and their versions are public from submission, with
 comments for community review. Discovery move sequences remain private
 during the competition and are released afterwards (§7).
 
-The official freeze and schedule are not yet set. `competition.yaml`
-records `status: prelaunch` and `null` for `freeze_date`,
-`freeze_commit`, `registration_opens`, `submissions_open`,
-`submission_deadline`, and `certificate_release`. The competition
-manifest also carries `freeze_date: null` during this preview.
+Announced calendar dates are September 8, 2026 for registration, September
+11 for both Discovery tracks, and September 20 for both Prove tracks.
+Exact UTC opening times, the deadline, certificate release, and official
+freeze remain to be set. Their timestamp fields remain `null` and the
+status remains `prelaunch` until the release requirements are met.
+`submissions_open` is Discovery's UTC opening; `prove_submissions_open` is
+Prove's. Each track's `opens_at` uses its corresponding timestamp.
 
-For both tracks, competition eligibility uses the time the server receives
-the complete submission: at or after `submissions_open` and before
-`submission_deadline`. A qualifying submission may finish verification or
-review after the deadline. A late Discovery submission earns no points;
-Prove corrections after the deadline are addressed in §9.6.
+For each track, eligibility uses the time the server receives the complete
+submission: at or after that track's published UTC opening time and before
+`submission_deadline`. Verification or review may finish after the deadline.
+A late Discovery submission earns no points; Prove corrections after the
+deadline are addressed in §9.6. A calendar date alone does not open an endpoint.
 
 For a complete local success case and expected receipt, see the
 [training example](../examples/README.md). It uses an unscored example
 manifest and does not count as a competition submission.
 
 ## 1. Encoding and frozen objects
+
+The challenge determines the move specification: `ac-v1-` IDs use
+`ac-r2-v1`; `sac-v1-` IDs use `sac-r8-v1`. Corresponding IDs contain the
+same initial presentation. The manifest has 20,230 challenge records for
+10,115 presentations, scored separately in the two Discovery tracks.
+
+### 1.1 AC Discovery
 
 Letters: `1 = x, -1 = x^-1, 2 = y, -2 = y^-1`. A word is an array of
 nonzero integers; a presentation state is the ordered pair
@@ -43,6 +53,39 @@ The 14 moves of `ac-r2-v1` and the canonicalization table are published
 machine-readably in `challenges/move_spec.json`; ids are frozen
 forever. `move_spec_hash` is the SHA-256 of the canonical JSON (sorted
 keys, no whitespace, ASCII) of the `moves` array of that file.
+
+### 1.2 Stable AC Discovery
+
+A state is an ordered list of $k$ freely reduced relators over letters
+$\pm1,\ldots,\pm k$, where $0\le k\le8$. Each challenge starts at
+rank 2; the target is the **empty presentation** `[]`.
+
+| Move IDs | Operation |
+|---|---|
+| 0–13 | The original AC block, with unchanged meanings |
+| 14 | Stabilize: append generator $k+1$ and relator `[k+1]` |
+| 15–22 | Destabilize relator $i=0,\ldots,7$ |
+| 23–28 | Invert relator $i=2,\ldots,7$ |
+| 29–136 | Remaining right multiplications by another relator or its inverse |
+| 137–256 | Remaining conjugations by a generator letter or its inverse |
+
+All 257 rows are in `challenges/stable_move_spec.json`; its `moves` array
+is hashed as in §1.1. A move may name only existing relators and generators.
+Stabilization requires $k<8$. Destabilization requires the selected relator
+to be exactly a single positive generator $g$, absent from every other
+relator. It deletes that relator and generator, then renumbers generators
+above $g$ down by one, preserving the order of the remaining relators.
+
+The rank cap is frozen in `sac-r8-v1`. It restricts this search benchmark,
+not the stable conjecture of §9. From a signed permutation of the $k$
+generators, invert negative relators and then destabilize from the highest
+relator index down; the shortest finish has $k$ plus the number of negative
+relators moves. From either `(x,y)` or `(y,x)`, the suffix is `[16,15]`.
+
+An AC solution followed by `[16,15]` reaches the stable target. It is
+accepted in Stable AC Discovery only if the extended path also satisfies
+its limits: the suffix adds two moves and one unit of work. Submit it
+under the corresponding `sac-v1-` ID; no cross-track points are automatic.
 
 ## 2. Verifier semantics
 
@@ -57,18 +100,22 @@ top-level submission document.
 ```
 assert len(moves) <= max_path_length       else E_PATH_TOO_LONG
 s    = challenge.initial_relators          # freely reduced, from the manifest
-work = peak = |s0| + |s1|                  # the initial state counts toward work
+work = peak = sum(len(r) for r in s)       # the initial state counts toward work
 for k, m in enumerate(moves):
-    assert m is an integer in 0..13        else E_BAD_MOVE_ID(move_index=k)
+    assert m is an integer in the spec     else E_BAD_MOVE_ID(move_index=k)
+    assert m is applicable to s            else E_MOVE_NOT_APPLICABLE(move_index=k)
     s = free_reduce(apply(s, m))
-    tot = |s0| + |s1|
+    tot = sum(len(r) for r in s)
     assert tot <= max_total_relator_length else E_LENGTH_LIMIT(move_index=k)
     peak = max(peak, tot); work += tot
     assert work <= max_work                else E_WORK_BUDGET(move_index=k)
-assert s == challenge.target_relators      else E_NOT_TARGET(final_shape=(|s0|,|s1|))
+assert s == challenge.target_relators      else E_NOT_TARGET(final_shape=[len(r) for r in s])
 return { ok, length = len(moves), peak_total_relator_length = peak, work,
          certificate_hash }
 ```
+
+The move-ID range is 0–13 for AC and 0–256 for Stable AC. Every AC move
+is applicable at rank 2; Stable AC additionally checks the conditions in §1.2.
 
 JSON type strictness: `1.0` is a float and is **not** a valid move id;
 `true`/`false` are booleans, not integers; `"3"` is a string. All are
@@ -99,18 +146,26 @@ processed normally):
 |---|---|
 | `E_UNKNOWN_CHALLENGE` | `challenge_id` not in the manifest |
 | `E_PATH_TOO_LONG` | more than `max_path_length` moves |
-| `E_BAD_MOVE_ID` | non-integer or out-of-range move (carries `move_index`) |
+| `E_BAD_MOVE_ID` | non-integer or move outside the challenge specification (carries `move_index`) |
+| `E_MOVE_NOT_APPLICABLE` | Stable AC: unavailable relator/generator, stabilization at rank 8, or failed destabilization condition (carries `move_index`, `move`, and `reason`) |
 | `E_LENGTH_LIMIT` | intermediate total relator length exceeds the limit (carries `move_index`) |
 | `E_WORK_BUDGET` | cumulative work exceeds `max_work` (carries `move_index`) |
-| `E_NOT_TARGET` | every move legal but endpoint ≠ `[[1],[2]]` (carries `final_shape`) |
+| `E_NOT_TARGET` | every move legal but endpoint differs from the challenge target: `[[1],[2]]` for AC or `[]` for Stable AC (carries `final_shape`) |
 
 **Check priority (frozen):** body byte limit → JSON parse →
 client-asserted-result scan → structural shape → solutions count →
 duplicates → then per solution: challenge lookup → path length → per-move
-id → relator length → work budget → target. The first triggered check
+id → applicability → relator length → work budget → target. The first triggered check
 is the one reported.
 
+`E_MOVE_NOT_APPLICABLE.reason` is `relator_out_of_rank`,
+`generator_out_of_rank`, `max_rank_exceeded`, or `destabilize_precondition`.
+
 ## 4. Limits
+
+The same path limits apply to both Discovery tracks. Upload quotas and
+batch/body limits are shared per team across both tracks, not duplicated.
+A batch may mix `ac-v1-` and `sac-v1-` IDs; they are distinct challenges.
 
 | Limit | v1 value |
 |---|---:|
@@ -129,8 +184,8 @@ rejections do not count. Local self-checks do not consume platform quota.
 
 The work
 budget exists because path length × relator length alone admits ~10⁹
-character operations; the 424 published training certificates have
-work ≤ 2 161, so
+character operations; the 424 AC training certificates have work ≤ 2 161
+and their stable extensions have work ≤ 2 162, so
 5 000 000 leaves three orders of magnitude of headroom while bounding
 verification cost.
 
@@ -142,7 +197,7 @@ shortest-decimal integers (`-1` never `-01`, `-0` forbidden):
 ```
 instance_canon    = {"challenge_id":"<id>","generators":["x","y"],
                      "initial_relators":[[...],[...]],
-                     "target_relators":[[1],[2]],
+                     "target_relators":<target>,
                      "move_spec_version":"<ver>","move_spec_hash":"<sha256:...>"}
 certificate_canon = {"challenge_id":"<id>","move_spec_version":"<ver>",
                      "moves":[m0,m1,...]}
@@ -151,6 +206,10 @@ hash              = "sha256:" + lowercase_hex(SHA256(utf8(canon)))
 
 (Line breaks above are illustrative only; the canonical byte strings
 contain none.)
+
+`<target>` is `[[1],[2]]` for AC or `[]` for Stable AC. The two records
+for a presentation have distinct IDs, targets, and instance hashes. Original
+AC instance hashes are unchanged. The manifest hash covers all 20,230 records.
 
 The `<ver>` in both templates is the official challenge's
 `move_spec_version`. It remains part of the certificate hash but is
@@ -181,6 +240,11 @@ $L^\star_i = \min_t L_{t,i}$;
 $k_i = \#\{t : L_{t,i} = L^\star_i\}$;
 $P_{t,i} = V_i\,2^{1-k_i}$ if $L_{t,i}=L^\star_i$, else 0;
 $P_t = \sum_i P_{t,i}$.
+
+Scores, totals, ranks, First Solver, and solved counters are computed
+**separately for each Discovery track**. There is no combined ranking.
+Submission IDs and quota accounting remain shared; an event affects only
+the leaderboard selected by its challenge.
 
 The server timestamps each complete submission and assigns a monotonically
 increasing `submission_id`. Accepted solutions are processed in the total
@@ -249,7 +313,8 @@ may recognize presentations or match them to public mathematical sources.
 
 The planned Discovery bridge submission accepts
 `{from_challenge_id, to_challenge_id, moves}`. The server determines
-the move-spec version from the official challenges.
+the move-spec version from the official challenges. Both endpoints must
+use the same specification; a mixed pair is rejected with `E_SPEC_MISMATCH`.
 Verified exactly as §2 with the target replaced by
 `to_challenge.initial_relators` (exact ordered). A verified bridge is
 listed on both challenges with its length, team, time, and hash;
@@ -267,18 +332,22 @@ does not prevent this. A bridge does not merge challenges in v1.
 
 ### 9.1 What is claimed
 
-A **proof** establishes the full conjecture for every positive finite
-rank. A **disproof** establishes its negation; an explicit counterexample
-must give a balanced presentation of the trivial group and prove that
-it is not related to the standard presentation by the full, unbounded,
-non-stable AC relation. A counterexample may lie outside the Discovery
-pool. If it is a pool instance, identify the `challenge_id` and its
-exact presentation.
+Select `ac` or `stable_ac`. A **proof** establishes that conjecture for
+all positive finite ranks. A **disproof** establishes its negation:
+a balanced presentation of the trivial group that cannot reach its
+standard presentation under the relevant full, unbounded relation.
+For ordinary AC the rank stays fixed; Stable AC permits adding and removing
+trivial generator–relator pairs with no rank cap. See [statement.md](statement.md).
 
-Neither a proof for only the rank-two pool nor a successful finite
-collection of searches proves the full conjecture. Failure to find a
-path, nonexistence of paths of length ≤ N or peak ≤ B, and unreachability
-under a restricted move set do not constitute a disproof.
+A counterexample may lie outside the Discovery pool. Identify its rank and
+exact presentation; name the challenge if it is a pool instance. A proof
+of the whole conjecture does not need a particular counterexample or pool ID.
+
+An AC proof also proves Stable AC; a Stable AC disproof also disproves AC.
+An AC disproof alone does not settle Stable AC, and a Stable AC proof alone
+does not settle AC. Failure to find a path, a bound on path length, word
+size or rank, or unreachability under restricted operations is not a disproof
+of the full conjecture. Solving the finite pool is not a proof of either.
 
 ### 9.2 Submission materials
 
@@ -286,6 +355,7 @@ The Prove submission page will collect the following when submissions open:
 
 | Field | Requirement |
 |---|---|
+| `conjecture` | `ac` or `stable_ac`, selecting AC Prove or Stable AC Prove |
 | `claim_type` | `proof` or `disproof` |
 | `description` | State the claim, its scope, the argument or its outline, and the authors' contribution |
 | Supporting materials | Paper/PDF, GitHub link for a Lean formalization, arXiv link, or a combination, as needed to supply the complete argument |
@@ -308,27 +378,23 @@ not add a version selector to the official mathematical statement.
 
 ### 9.3 Official statement and Lean verification
 
-The [official mathematical statement](statement.md) is the full,
-non-stable Andrews–Curtis conjecture for every positive finite rank.
-The implementation in `tools/lean/AC.lean` uses
-`FreeGroup (Fin n)`, with triviality defined by
-`Subsingleton (PresentedGroup (Set.range R))`, and unbounded
-reachability generated by inversion, right relator multiplication,
-and conjugation by arbitrary free-group elements. Left multiplication
-is derived from right multiplication followed by conjugation, as shown
-in the mathematical statement.
+The [official statements](statement.md) cover every positive finite rank.
+Both are defined in `tools/lean/AC.lean`, using free groups and
+`Subsingleton (PresentedGroup (Set.range R))` for presented-group triviality.
 
-The canonical proof target is `AC.Conjecture`; the canonical disproof
-target is `¬ AC.Conjecture`. The supplied theorem
-`AC.not_conjecture_iff_counterexample` equates the latter with
-`AC.Counterexample`, the existence of a positive-rank tuple presenting
-the trivial group but not reachable to `AC.standard`. A counterexample
-need not belong to the competition pool. If it does, the argument must
-identify the relevant challenge and show how its presentation matches
-the mathematical tuple. No contestant-supplied version field selects
-or changes the statement.
+| Prove track | Proof target | Disproof target | Equivalent witness form |
+|---|---|---|---|
+| AC Prove | `AC.Conjecture` | `¬ AC.Conjecture` | `AC.Counterexample` |
+| Stable AC Prove | `AC.StableConjecture` | `¬ AC.StableConjecture` | `AC.StableCounterexample` |
 
-Descriptions, papers, and formalizations address this same target.
+Ordinary reachability fixes the rank. Stable reachability permits finite
+sequences of rank changes without any bound on rank or intermediate word
+size. Discovery's 14/257 move encodings and resource limits do not restrict
+these targets. If a claim uses a pool presentation, it must map its words
+accurately to the mathematical tuple. No contestant-supplied version field
+selects or changes a statement.
+
+Descriptions, papers, and formalizations address the same selected target.
 Lean is a means of verification, not an exemption from review. A
 successful build does not automatically accept a mathematical claim:
 reviewers must examine the exact theorem, its scope, dependencies,
@@ -432,24 +498,29 @@ assign contribution percentages or turn a comment into coauthorship.
 independence has been established; a disclosed extension or correction
 of another submission is credited as such.
 
-### 9.7 Recognition and the two tracks
+### 9.7 Recognition and the tracks
 
-The first qualifying proof **or** disproof is recognized as the
+For each conjecture, the first qualifying proof **or** disproof is recognized as the
 **Highest Mathematical Achievement of the Competition**, with its
 qualifying version, receipt time, contributors, and review explanation.
 Other accepted work and substantive contributions receive attribution
 appropriate to their role. Prove recognition does not convert into
 Discovery points.
 
+A qualifying AC proof is recognized for both conjectures, as is a qualifying
+Stable AC disproof. The same submitted version and receipt time support
+both recognitions once reviewers confirm the implication; no second upload
+or later review time resets its priority. Shared authorship and contributions
+remain attached to that version.
+
 An accepted proof or disproof does not automatically close Discovery,
 change its scoring rule, or invalidate correct finite move certificates.
-If an accepted explicit counterexample is in the Discovery pool, mark
-that challenge accordingly; do not merge it with other challenges or
-change unrelated scores. A purported accepted counterexample and a
-verified solution of the exact same presentation require an organizer
-consistency review of the argument, instance mapping, and verifier.
-Any correction must be explained publicly; incompatible conclusions
-cannot both remain endorsed.
+A purported counterexample conflicts with a verified path under the same
+relation; a Stable AC counterexample conflicts with either kind of path.
+An ordinary AC counterexample can coexist with a stable trivialization.
+Reviewers must check the exact presentation, claimed relation, and verifier
+before recording a contradiction. Any correction must be explained publicly;
+incompatible conclusions cannot both remain endorsed.
 
 The planned platform flow is a public submission page with version
 history, comments, and organizer decisions. The local repository supplies

@@ -1,14 +1,18 @@
 # Runnable Discovery submission examples
 
 Start with `sample_submission.json`: a complete, successful submission for
-the published training instance `ms-train-0160`, copied from
-[`training_424.json`](../challenges/training_424.json). It uses 7 atomic
-moves and the same verifier and JSON submission format as Discovery Track.
+both Discovery variants of the published training instance `ms-train-0160`. The AC
+path uses 7 moves from [`training_424.json`](../challenges/training_424.json);
+the Stable AC path appends `[16, 15]` from
+[`stable_training_424.json`](../challenges/stable_training_424.json), reaching
+the empty presentation. Both use the official verifier and JSON format.
 
 This is **local training only and earns no points**. The accompanying
-`training_manifest.json` contains just this training instance, marked
-`scored: false` with `base_score: 0`; its limits and move specification match
-the official manifest. Its instance and manifest hashes are independently
+`training_manifest.json` contains the two variants of this instance, each
+marked `scored: false` with `base_score: 0`; its limits and move specifications
+match the official manifest. The Stable example ID is `sac-train-0160`;
+training files share `ms-train-0160`, so the example gives each variant a
+distinct ID for mixed submissions. Its instance and manifest hashes are independently
 checkable. It is not a new official challenge pool or freeze.
 
 ## Run a successful submission
@@ -38,6 +42,20 @@ The full input, [`sample_submission.json`](sample_submission.json), is:
         4,
         1
       ]
+    },
+    {
+      "challenge_id": "sac-train-0160",
+      "moves": [
+        6,
+        4,
+        2,
+        9,
+        1,
+        4,
+        1,
+        16,
+        15
+      ]
     }
   ]
 }
@@ -56,6 +74,14 @@ Expected output, also saved as [`sample_verdict.json`](sample_verdict.json):
       "ok": true,
       "peak_total_relator_length": 12,
       "work": 46
+    },
+    {
+      "certificate_hash": "sha256:e94492471688db5cb52971611a3617e75c165d89e3ed51cea9a3f5d96ccbb77e",
+      "challenge_id": "sac-train-0160",
+      "length": 9,
+      "ok": true,
+      "peak_total_relator_length": 12,
+      "work": 47
     }
   ]
 }

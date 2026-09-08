@@ -36,13 +36,14 @@ from pathlib import Path
 REPO = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO / "competition" / "tools" / "verifier"))
 
-from acms_verify import canon, core  # noqa: E402
+from acms_verify import canon, specs  # noqa: E402
 
-CHALLENGE_COUNT = 10115
-STATE_FIELDS = ("status", "freeze_date", "freeze_commit", "registration_opens",
-                "submissions_open", "submission_deadline", "certificate_release")
+PRESENTATION_COUNT = 10115
+CHALLENGE_COUNT = 2 * PRESENTATION_COUNT
+STATE_FIELDS = ("announced_dates", "status", "freeze_date", "freeze_commit", "registration_opens",
+                "submissions_open", "prove_submissions_open", "submission_deadline", "certificate_release")
 DATE_FIELDS = ("freeze_date", "registration_opens", "submissions_open",
-               "submission_deadline", "certificate_release")
+               "prove_submissions_open", "submission_deadline", "certificate_release")
 
 #: Directories that hold organizer-only material and must never appear
 #: in the export, at any depth.
@@ -62,16 +63,25 @@ BANNED_TOKENS = ("tier", "pool", "family", "provenance", "w_vector",
                  "status_at_freeze", "MS-", "AUTH-", "INTL") + tuple(
                      "T%d_" % i for i in range(6))
 
+AUX_BANNED_TOKENS = tuple(t for t in BANNED_TOKENS
+                          if t not in ("family", "w_vector"))
+
+#: Files scanned with AUX_BANNED_TOKENS: the frozen pair first, so a
+#: rule that would reject them fails the release instead of silently
+#: passing the new pair.
+AUX_SCANNED = ("move_spec.json", "training_424.json",
+               "stable_move_spec.json", "stable_training_424.json")
+
 ROOT_README = """\
 # Andrews–Curtis Conjecture Challenge (ACC) — public package
 
 RELEASE_NOTICE
 
 Public data, rules, and reference tools for ACC, co-organized by
-Lucas Fagan, Sergei Gukov, and Terence Tao. One competition has two tracks:
-the **Discovery Track** rewards short verified trivializations, and the
-**Prove Track** accepts proofs and disproofs of the full conjecture.
-The tracks continue independently.
+Lucas Fagan, Sergei Gukov, and Terence Tao. One competition offers **Discovery** and **Prove**, each for AC and
+Stable AC: four tracks. Discovery rewards short verified trivializations;
+Prove accepts proofs and disproofs of the corresponding full conjecture.
+The four tracks continue independently.
 
 This package provides the core mathematical checks used for reproducibility.
 Official submission handling and leaderboard updates belong to the SAIR
@@ -88,10 +98,10 @@ the submission, version, and credit rules.
 
 1. Read `competition/rules/overview.md` (the task and scoring), then
    `competition/rules/evaluation.md` (exact verifier semantics).
-2. Explore `competition/challenges/` — the 10,115-challenge
-   manifest, the machine-readable move spec, the full MS-1190 metadata,
-   and 424 known trivializations as training data.
-3. Run the successful, non-scoring training example from this package's root:
+2. Explore `competition/challenges/` — the 20,230-challenge
+   manifest (10,115 presentations in each Discovery variant), two move specs,
+   full MS-1190 metadata, and 424 training trivializations for each variant.
+3. Run the successful, non-scoring examples for both Discovery variants from this package's root:
 
 ```sh
 PYTHONPATH=competition/tools/verifier python3 -m acms_verify \\
@@ -99,7 +109,7 @@ PYTHONPATH=competition/tools/verifier python3 -m acms_verify \\
   --submission competition/examples/sample_submission.json --pretty
 ```
 
-Expected: exit code 0, `accepted: true`, and `results[0].ok: true`.
+Expected: exit code 0, `accepted: true`, and both `results[].ok: true`.
 The full expected receipt is `competition/examples/sample_verdict.json`;
 see `competition/examples/README.md` for the input and negative example.
 `accepted` only indicates structural acceptance; each solution succeeds
@@ -138,6 +148,9 @@ def lean_statement_snapshot(root):
     return {
         "schema_version": 1, "conjecture": "AC.Conjecture",
         "disproof": "Not AC.Conjecture", "counterexample": "AC.Counterexample",
+        "stable_conjecture": "AC.StableConjecture",
+        "stable_disproof": "Not AC.StableConjecture",
+        "stable_counterexample": "AC.StableCounterexample",
         "lean_toolchain": "leanprover/lean4:v4.29.1",
         "lean_revision": "f72c35b3f637c8c6571d353742168ab66cc22c00",
         "mathlib_revision": "5e932f97dd25535344f80f9dd8da3aab83df0fe6",
@@ -195,9 +208,10 @@ def validate_final_state(state, repo=REPO):
         if dates[key].utcoffset() is None:
             raise ValueError(key + " must include a timezone")
     if not (dates["registration_opens"] <= dates["submissions_open"]
+            <= dates["prove_submissions_open"]
             < dates["submission_deadline"] <= dates["certificate_release"]):
-        raise ValueError("competition dates must follow registration, submissions, "
-                         "deadline, certificate release order")
+        raise ValueError("competition dates must follow registration, Discovery opening, "
+                         "Prove opening, deadline, certificate release order")
     if dates["freeze_date"] > dates["submissions_open"]:
         raise ValueError("data must be frozen no later than submissions open")
     commit = state["freeze_commit"]
@@ -207,7 +221,7 @@ def validate_final_state(state, repo=REPO):
                               cwd=repo, capture_output=True, text=True)
     if resolved.returncode or resolved.stdout.strip() != commit:
         raise ValueError("freeze_commit is not an available Git commit")
-    for name in ("manifest.json", "move_spec.json"):
+    for name in ("manifest.json", "move_spec.json", "stable_move_spec.json"):
         relative = "competition/challenges/" + name
         frozen = subprocess.run(["git", "show", commit + ":" + relative],
                                 cwd=repo, capture_output=True)
@@ -236,9 +250,10 @@ def check_packaged_examples(comp, env):
             raise ValueError("packaged example returned unexpected exit code: " + result.stderr)
         verdict = json.loads(result.stdout)
         if error is None:
-            if verdict != expected or not verdict["accepted"] or not verdict["results"][0]["ok"]:
+            if (verdict != expected or not verdict["accepted"] or len(verdict["results"]) != 2
+                    or not all(v["ok"] for v in verdict["results"])):
                 raise ValueError("packaged success example disagrees with sample_verdict.json")
-        elif not verdict["accepted"] or verdict["results"][0].get("code") != error:
+        elif not verdict["accepted"] or not all(v.get("code") == error for v in verdict["results"]):
             raise ValueError("packaged negative example did not return " + error)
     sh(sys.executable, "-m", "acms_verify", "--manifest",
        examples / "training_manifest.json", "--check-hashes",
@@ -251,26 +266,62 @@ def export_package(out, preview=False):
 
     # 1. hash verification against the in-repo source of truth
     manifest = json.loads((src / "challenges" / "manifest.json").read_text())
-    move_spec = json.loads((src / "challenges" / "move_spec.json").read_text())
-    spec_hash = canon.move_spec_hash(core.MOVE_TABLE)
-    assert manifest["move_spec_hash"] == spec_hash
-    assert canon.move_spec_hash(move_spec["moves"]) == spec_hash
+    problems = specs.check_move_specs(manifest.get("move_specs"))
+    assert not problems, problems
+    spec_hashes = specs.move_spec_hashes()
+    # Every declared spec file on disk must carry the same table.
+    for entry in manifest["move_specs"]:
+        version = entry["move_spec_version"]
+        on_disk = json.loads(
+            (src / "challenges" / entry["file"]).read_text())
+        assert on_disk["move_spec_version"] == version, entry["file"]
+        assert on_disk["move_spec_hash"] == spec_hashes[version], entry["file"]
+        assert canon.move_spec_hash(on_disk["moves"]) == spec_hashes[version], \
+            entry["file"]
+        assert on_disk["target_relators"] == entry["target_relators"]
+
     recomputed = [
         canon.instance_hash(c["challenge_id"], c["generators"],
                             c["initial_relators"], c["target_relators"],
-                            c["move_spec_version"], spec_hash)
+                            c["move_spec_version"],
+                            spec_hashes[c["move_spec_version"]])
         for c in manifest["challenges"]]
     assert recomputed == [c["instance_hash"] for c in manifest["challenges"]]
     assert canon.manifest_hash(recomputed) == manifest["manifest_hash"]
     assert len(manifest["challenges"]) == CHALLENGE_COUNT, \
         len(manifest["challenges"])
     assert manifest["challenge_count"] == CHALLENGE_COUNT
+    assert manifest["presentation_count"] == PRESENTATION_COUNT
+
+    # Each presentation appears once per track, with identical inputs.
+    by_prefix = {}
+    for c in manifest["challenges"]:
+        prefix, _, number = c["challenge_id"].rpartition("-")
+        by_prefix.setdefault(prefix + "-", {})[number] = c
+    assert sorted(by_prefix) == ["ac-v1-", "sac-v1-"], sorted(by_prefix)
+    ac, sac = by_prefix["ac-v1-"], by_prefix["sac-v1-"]
+    assert len(ac) == len(sac) == PRESENTATION_COUNT
+    assert set(ac) == set(sac)
+    for number, a in ac.items():
+        s_ = sac[number]
+        assert a["generators"] == s_["generators"], number
+        assert a["initial_relators"] == s_["initial_relators"], number
+        assert a["target_relators"] == [[1], [2]], number
+        assert s_["target_relators"] == [], number
+        assert a["move_spec_version"] == "ac-r2-v1", number
+        assert s_["move_spec_version"] == "sac-r8-v1", number
+
     yaml_text = (src / "competition.yaml").read_text()
     state = json.loads((REPO / "build/competition_state.json").read_text())
     validate_public_state(state, yaml_text, manifest)
     if not preview:
         validate_final_state(state)
-    assert 'move_spec_hash: "%s"' % spec_hash in yaml_text
+    for entry in manifest["move_specs"]:
+        assert "  - version: %s\n" % entry["move_spec_version"] in yaml_text
+        assert '    hash: "%s"\n' % entry["move_spec_hash"] in yaml_text
+        assert "    file: challenges/%s\n" % entry["file"] in yaml_text
+    for track in ("discovery_ac", "discovery_stable", "prove_ac", "prove_stable"):
+        assert "  - id: %s\n" % track in yaml_text, track
     assert 'manifest_hash: "%s"' % manifest["manifest_hash"] in yaml_text
     assert "challenge_count: %d" % CHALLENGE_COUNT in yaml_text
     sh(sys.executable, REPO / "build/build_examples.py", "--check")
@@ -293,7 +344,8 @@ def export_package(out, preview=False):
     # This verifies the published statement snapshot without copying or
     # downloading Lean dependencies; the Lean build/audit is run separately.
     comp = out / "competition"
-    env = {"PYTHONPATH": "", "PATH": "/usr/bin:/bin"}
+    env = {"PYTHONPATH": "", "PATH": "/usr/bin:/bin",
+           "PYTHONDONTWRITEBYTECODE": "1"}
     verify_lean_statement(comp / "tools/lean")
     print("OK: packaged Lean sources and dependency lock match statement-lock.json")
     sh(sys.executable, "-m", "acms_verify",
@@ -336,6 +388,17 @@ def export_package(out, preview=False):
     hit = re.search(r"[A-Z]", exported.replace(freeze, "") if freeze else exported)
     assert hit is None, "unexpected uppercase in exported manifest at %d" % (
         hit.start() if hit else -1)
+
+    # 5b. the move specs and the training files carry published metadata
+    # vocabulary but must still carry no private identifier.  The frozen
+    # ac-r2-v1 pair is scanned first, so the rule is demonstrably the one
+    # training_424.json already passes.
+    for name in AUX_SCANNED:
+        text = (comp / "challenges" / name).read_text(encoding="utf-8")
+        for token in AUX_BANNED_TOKENS:
+            assert token not in text, "banned token %r in %s" % (token, name)
+    print("leak check: %s clean (%d tokens each)"
+          % (", ".join(AUX_SCANNED), len(AUX_BANNED_TOKENS)))
 
     return sum(1 for p in out.rglob("*") if p.is_file())
 

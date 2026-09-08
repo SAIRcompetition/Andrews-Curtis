@@ -84,6 +84,66 @@ example : AC.Reachable
 example : ¬ AC.IsCounterexample (AC.standard 3) :=
   AC.not_isCounterexample_of_reachable (AC.standard_reachable 3)
 
+/-! Stable semantics: the old free group is embedded, the new relation is exactly
+the fresh generator, and the choice of standard or empty target is equivalent. -/
+
+theorem stabilization_embedding_injective {n : ℕ} (g : Fin (n + 1)) :
+    Function.Injective (FreeGroup.map g.succAbove) :=
+  FreeGroup.map_injective g.succAbove_right_injective
+
+theorem stabilize_new_relator {n : ℕ} (R : Relators n) (g i : Fin (n + 1)) :
+    stabilize R g i i = FreeGroup.of g := by
+  simp [stabilize]
+
+theorem stabilize_old_relator {n : ℕ} (R : Relators n) (g i : Fin (n + 1))
+    (j : Fin n) : stabilize R g i (i.succAbove j) = FreeGroup.map g.succAbove (R j) := by
+  simp [stabilize]
+
+theorem stabilize_standard (n : ℕ) :
+    stabilize (standard n) (Fin.last n) (Fin.last n) = standard (n + 1) := by
+  apply Fin.insertNth_eq_iff.mpr
+  constructor
+  · rfl
+  · funext j
+    simp [standard, Fin.removeNth]
+
+theorem standard_stableReachable_empty (n : ℕ) :
+    StableReachable ⟨n, standard n⟩ ⟨0, standard 0⟩ := by
+  induction n with
+  | zero => exact Relation.ReflTransGen.refl
+  | succ n ih =>
+    have h : StableStep ⟨n + 1, standard (n + 1)⟩ ⟨n, standard n⟩ := by
+      simpa only [stabilize_standard] using
+        StableStep.destabilize (standard n) (Fin.last n) (Fin.last n)
+    exact Relation.ReflTransGen.head h ih
+
+theorem empty_stableReachable_standard (n : ℕ) :
+    StableReachable ⟨0, standard 0⟩ ⟨n, standard n⟩ := by
+  induction n with
+  | zero => exact Relation.ReflTransGen.refl
+  | succ n ih =>
+    have h : StableStep ⟨n, standard n⟩ ⟨n + 1, standard (n + 1)⟩ := by
+      simpa only [stabilize_standard] using
+        StableStep.stabilize (standard n) (Fin.last n) (Fin.last n)
+    exact Relation.ReflTransGen.tail ih h
+
+theorem stableReachable_standard_iff_empty {n : ℕ} (R : Relators n) :
+    StableReachable ⟨n, R⟩ ⟨n, standard n⟩ ↔
+      StableReachable ⟨n, R⟩ ⟨0, standard 0⟩ :=
+  ⟨fun h => h.trans (standard_stableReachable_empty n),
+    fun h => h.trans (empty_stableReachable_standard n)⟩
+
+-- The full conjecture's paths can pass through rank 12: rank 8 is only a benchmark limit.
+example : StableReachable ⟨0, standard 0⟩ ⟨12, standard 12⟩ :=
+  empty_stableReachable_standard 12
+
+-- Insertion and deletion do not assume that either position is last or that they coincide.
+example (R : Relators 2) : StableStep ⟨3, stabilize R 0 1⟩ ⟨2, R⟩ :=
+  StableStep.destabilize R 0 1
+
+example : ¬ IsStableCounterexample (standard 3) :=
+  fun h => h.2 Relation.ReflTransGen.refl
+
 end AC
 
 /-! Fail compilation if any declaration in the official AC namespace depends
@@ -108,3 +168,9 @@ run_cmd do
 #print axioms AC.Counterexample
 #print axioms AC.not_conjecture_iff_counterexample
 #print axioms AC.standard_presentsTrivialGroup
+#print axioms AC.StableConjecture
+#print axioms AC.StableCounterexample
+#print axioms AC.not_stable_conjecture_iff_counterexample
+#print axioms AC.Conjecture.stable
+#print axioms AC.StableCounterexample.counterexample
+#print axioms AC.stableReachable_standard_iff_empty

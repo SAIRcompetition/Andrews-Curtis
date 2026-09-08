@@ -3,11 +3,14 @@
   "conjecture": "AC.Conjecture",
   "disproof": "Not AC.Conjecture",
   "counterexample": "AC.Counterexample",
+  "stable_conjecture": "AC.StableConjecture",
+  "stable_disproof": "Not AC.StableConjecture",
+  "stable_counterexample": "AC.StableCounterexample",
   "lean_toolchain": "leanprover/lean4:v4.29.1",
   "lean_revision": "f72c35b3f637c8c6571d353742168ab66cc22c00",
   "mathlib_revision": "5e932f97dd25535344f80f9dd8da3aab83df0fe6",
   "files": {
-    "AC.lean": "f97a8c676ada1321662ec7dea0c824daf12c05815e8a3be58c9411eaa1c126b6",
+    "AC.lean": "b4c4fcee1722e588dc2e13a8a130c7d9ebad22dae2fbbb85dd315c538e37cb0f",
     "lake-manifest.json": "c4d663bed06082fcb83a06bd5baffe00fef5fa6eff2c058e4ef5f938f232f413",
     "lakefile.toml": "c055298bdc98fa7a8cea003c5fac1a40c5a3421e3478a9d5423226fb8f1d2882",
     "lean-toolchain": "7dc000621e0046d1aada809e2b7177e64454645cf4c741e9daaf79c99ec2e7a2"

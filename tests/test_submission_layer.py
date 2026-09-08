@@ -4,7 +4,7 @@ and the O-5 check priority."""
 import json
 import unittest
 
-from acms_verify import core, submission
+from acms_verify import core, stable_core, submission
 from tests import util
 
 
@@ -22,6 +22,13 @@ class TestSubmissionLayer(unittest.TestCase):
         cls.entry = entry
         cls.sol = {"challenge_id": entry["training_id"],
                    "moves": entry["moves"]}
+        stable = dict(entry, training_id="sac-" + entry["training_id"],
+                      move_spec_version=stable_core.MOVE_SPEC_VERSION,
+                      target_relators=[], moves=entry["moves"] + [16, 15])
+        cls.stable_challenge = util.training_challenge(stable)
+        cls.mini["challenges"].append(cls.stable_challenge)
+        cls.stable_sol = {"challenge_id": stable["training_id"],
+                          "moves": stable["moves"]}
 
     def run_sub(self, doc, manifest=None):
         raw = doc if isinstance(doc, bytes) else json.dumps(doc).encode()
@@ -55,6 +62,33 @@ class TestSubmissionLayer(unittest.TestCase):
         self.assertEqual(v["results"][1]["move_index"], 0)
         self.assertEqual(v["results"][2]["code"], "E_NOT_TARGET")
         self.assertTrue(v["results"][3]["ok"])
+
+    def test_mixed_tracks_dispatch_from_challenge_without_client_version(self):
+        v = self.run_sub({"solutions": [self.sol, self.stable_sol]})
+        self.assertTrue(v["accepted"])
+        self.assertEqual([r["ok"] for r in v["results"]], [True, True])
+        expected = stable_core.verify(
+            self.stable_challenge, self.stable_sol["moves"],
+            stable_core.MOVE_SPEC_VERSION, self.mini["limits"])
+        self.assertEqual(v["results"][1], dict(
+            expected, challenge_id=self.stable_sol["challenge_id"]))
+        self.assertEqual(v["results"][1]["length"], self.entry["length"] + 2)
+        self.assertEqual(v["results"][1]["work"], self.entry["work"] + 1)
+
+    def test_challenge_id_selects_target_and_valid_move_ids(self):
+        v = self.run_sub({"solutions": [
+            dict(self.sol, moves=self.stable_sol["moves"]),
+            dict(self.stable_sol, moves=self.sol["moves"])]})
+        self.assertTrue(v["accepted"])
+        self.assertEqual([r["code"] for r in v["results"]],
+                         ["E_BAD_MOVE_ID", "E_NOT_TARGET"])
+
+    def test_stable_client_version_also_rejects_whole_submission(self):
+        v = self.run_sub({"solutions": [self.sol, dict(
+            self.stable_sol, move_spec_version=stable_core.MOVE_SPEC_VERSION)]})
+        self.assertFalse(v["accepted"])
+        self.assertEqual((v["code"], v["detail"], v["key"]),
+                         ("E_MALFORMED", "unknown_key", "move_spec_version"))
 
     # -- acceptance row 4: corrupted certificates -----------------------
     def test_malformed_json(self):

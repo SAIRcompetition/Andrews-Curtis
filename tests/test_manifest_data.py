@@ -9,13 +9,16 @@ exported public package.
 
 import collections
 import csv
+import hashlib
 import re
 import unittest
 
-from acms_verify import core
+from acms_verify import core, specs
 from tests import util
 
 POOL_SIZE = 10115
+TRACKS = 2
+CHALLENGE_COUNT = POOL_SIZE * TRACKS
 CHALLENGE_KEYS = {"challenge_id", "generators", "initial_relators",
                   "target_relators", "move_spec_version", "scored",
                   "base_score", "instance_hash", "freeze_date"}
@@ -24,7 +27,13 @@ MAX_TOTAL_RELATOR_LENGTH = 40
 #: Provenance/difficulty vocabulary that must never reach contestants.
 #: Every token is checkable without any private data.
 BANNED_TOKENS = ("family", "tier", "pool", "provenance", "w_vector",
-                 "status_at_freeze", "MS-", "AUTH-", "INTL")
+                 "status_at_freeze", "MS-", "AUTH-", "INTL", "ACP-")
+
+#: Per-track expectations, keyed by challenge-id prefix.
+TRACK_EXPECTATIONS = {
+    "ac-v1-": {"move_spec_version": "ac-r2-v1", "target_relators": [[1], [2]]},
+    "sac-v1-": {"move_spec_version": "sac-r8-v1", "target_relators": []},
+}
 
 MS1190_STATUS_COUNTS = {"certified": 424, "uncertified": 216, "open": 550}
 MS1190_UNCERTIFIED_IN_POOL = 183
@@ -52,30 +61,86 @@ class TestManifestSchema(unittest.TestCase):
         cls.challenges = cls.manifest["challenges"]
 
     def test_pool_size(self):
-        self.assertEqual(len(self.challenges), POOL_SIZE)
-        self.assertEqual(self.manifest["challenge_count"], POOL_SIZE)
-        self.assertEqual(self.manifest["manifest_version"], "acms-v2")
+        self.assertEqual(len(self.challenges), CHALLENGE_COUNT)
+        self.assertEqual(self.manifest["challenge_count"], CHALLENGE_COUNT)
+        self.assertEqual(self.manifest["presentation_count"], POOL_SIZE)
+        self.assertEqual(self.manifest["manifest_version"], "acms-v3")
 
     def test_challenge_keys_are_exactly_the_allowed_set(self):
         for c in self.challenges:
             self.assertEqual(set(c), CHALLENGE_KEYS, c["challenge_id"])
 
+    def test_move_specs_header_matches_the_registry(self):
+        entries = self.manifest["move_specs"]
+        self.assertEqual([e["move_spec_version"] for e in entries],
+                         list(specs.SPEC_ORDER))
+        self.assertEqual(specs.check_move_specs(entries), [])
+        for e in entries:
+            self.assertEqual(set(e), {"move_spec_version", "move_spec_hash",
+                                      "file", "target_relators", "max_rank",
+                                      "id_prefix"})
+        self.assertEqual([e["file"] for e in entries],
+                         ["move_spec.json", "stable_move_spec.json"])
+        self.assertEqual([e["max_rank"] for e in entries], [2, 8])
+        self.assertEqual([e["id_prefix"] for e in entries],
+                         ["ac-v1-", "sac-v1-"])
+        # The singular pre-acms-v3 header fields are gone.
+        for gone in ("move_spec_version", "move_spec_hash", "target_relators"):
+            self.assertNotIn(gone, self.manifest, gone)
+
     def test_all_scored_base_score_one(self):
         for c in self.challenges:
             self.assertIs(c["scored"], True, c["challenge_id"])
             self.assertEqual(c["base_score"], 1, c["challenge_id"])
-            self.assertEqual(c["move_spec_version"], "ac-r2-v1")
-            self.assertEqual(c["target_relators"], [[1], [2]])
             self.assertEqual(c["generators"], ["x", "y"])
             self.assertEqual(c["freeze_date"], self.manifest["freeze_date"])
+
+    def test_track_is_determined_by_the_id_prefix(self):
+        for c in self.challenges:
+            prefix = c["challenge_id"].rsplit("-", 1)[0] + "-"
+            self.assertIn(prefix, TRACK_EXPECTATIONS, c["challenge_id"])
+            for key, want in TRACK_EXPECTATIONS[prefix].items():
+                self.assertEqual(c[key], want, c["challenge_id"])
 
     def test_ids_sequential_unique_and_in_file_order(self):
         ids = [c["challenge_id"] for c in self.challenges]
         self.assertEqual(len(set(ids)), len(ids))
-        self.assertEqual(ids, ["ac-v1-%05d" % i
-                               for i in range(1, POOL_SIZE + 1)])
-        # File order is id order, so nothing is inferable from position.
-        self.assertEqual(ids, sorted(ids))
+        expected = (["ac-v1-%05d" % i for i in range(1, POOL_SIZE + 1)]
+                    + ["sac-v1-%05d" % i for i in range(1, POOL_SIZE + 1)])
+        # All ac records, then all sac records, each block in id order,
+        # so nothing is inferable from position.
+        self.assertEqual(ids, expected)
+        self.assertEqual(ids[:POOL_SIZE], sorted(ids[:POOL_SIZE]))
+        self.assertEqual(ids[POOL_SIZE:], sorted(ids[POOL_SIZE:]))
+
+    def test_the_two_tracks_share_the_same_presentations(self):
+        pairs = util.paired_challenges(self.manifest)
+        self.assertEqual(len(pairs), POOL_SIZE)
+        for ac, sac in pairs:
+            cid = ac["challenge_id"]
+            self.assertEqual("sac-v1-" + cid[len("ac-v1-"):],
+                             sac["challenge_id"])
+            self.assertEqual(ac["generators"], sac["generators"], cid)
+            self.assertEqual(ac["initial_relators"], sac["initial_relators"],
+                             cid)
+            self.assertEqual(ac["base_score"], sac["base_score"], cid)
+            self.assertEqual(ac["freeze_date"], sac["freeze_date"], cid)
+            self.assertNotEqual(ac["instance_hash"], sac["instance_hash"], cid)
+
+    def test_ac_instance_hashes_are_unchanged_since_before_the_stable_track(self):
+        """The stable track added records; it must not have perturbed a
+        single frozen ac-v1 instance_hash (the pre-change digest is
+        pinned in tests/data/)."""
+        snapshot = util.load(util.AC_HASH_SNAPSHOT_PATH)
+        hashes = [c["instance_hash"]
+                  for c in util.challenges_by_prefix(self.manifest,
+                                                     util.AC_PREFIX)]
+        self.assertEqual(len(hashes), snapshot["count"])
+        digest = hashlib.sha256(
+            "\n".join(sorted(hashes)).encode("utf-8")).hexdigest()
+        self.assertEqual(digest, snapshot["sha256_of_sorted_joined"])
+        self.assertEqual(hashes[0], snapshot["first"])
+        self.assertEqual(hashes[-1], snapshot["last"])
 
     def test_limits_frozen_values(self):
         self.assertEqual(self.manifest["limits"],
@@ -102,12 +167,15 @@ class TestChallengePresentations(unittest.TestCase):
                 total += len(w)
             self.assertLessEqual(total, MAX_TOTAL_RELATOR_LENGTH, cid)
 
-    def test_no_duplicate_presentations(self):
-        keys = collections.Counter(
-            util.canon_pair(c["initial_relators"]) for c in self.challenges)
-        dupes = [k for k, n in keys.items() if n > 1]
-        self.assertEqual(dupes, [])
-        self.assertEqual(len(keys), POOL_SIZE)
+    def test_no_duplicate_presentations_within_a_track(self):
+        for prefix in TRACK_EXPECTATIONS:
+            keys = collections.Counter(
+                util.canon_pair(c["initial_relators"])
+                for c in self.challenges
+                if c["challenge_id"].startswith(prefix))
+            dupes = [k for k, n in keys.items() if n > 1]
+            self.assertEqual(dupes, [], prefix)
+            self.assertEqual(len(keys), POOL_SIZE, prefix)
 
 
 class TestMS1190Invariants(unittest.TestCase):
@@ -117,6 +185,8 @@ class TestMS1190Invariants(unittest.TestCase):
     def setUpClass(cls):
         cls.pool_keys = {util.canon_pair(c["initial_relators"])
                          for c in util.load_manifest()["challenges"]}
+        # Both tracks hold the same presentations, so the set of keys is
+        # the pool itself, once.
         cls.ms = ms1190_keys()
 
     def test_all_550_open_instances_are_scored(self):
@@ -128,10 +198,11 @@ class TestMS1190Invariants(unittest.TestCase):
         self.assertEqual(self.ms["certified"] & self.pool_keys, set())
 
     def test_training_424_is_disjoint_from_the_pool(self):
-        train = {util.canon_pair(e["initial_relators"])
-                 for e in util.load_training()["instances"]}
-        self.assertEqual(len(train), 424)
-        self.assertEqual(train & self.pool_keys, set())
+        for training in (util.load_training(), util.load_stable_training()):
+            train = {util.canon_pair(e["initial_relators"])
+                     for e in training["instances"]}
+            self.assertEqual(len(train), 424)
+            self.assertEqual(train & self.pool_keys, set())
 
     def test_uncertified_overlap_is_pinned(self):
         self.assertEqual(len(self.ms["uncertified"] & self.pool_keys),
@@ -185,8 +256,7 @@ class TestManifestLeakage(unittest.TestCase):
 
     def test_lowercase_ascii_apart_from_the_freeze_date(self):
         freeze = util.load_manifest()["freeze_date"]
-        text = self.text.replace(freeze, "") if freeze is not None else self.text
-        self.assertIsNone(re.search(r"[A-Z]", text))
+        self.assertIsNone(re.search(r"[A-Z]", self.text.replace(freeze, "") if freeze is not None else self.text))
 
 
 if __name__ == "__main__":

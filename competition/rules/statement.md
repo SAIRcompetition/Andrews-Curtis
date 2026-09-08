@@ -1,10 +1,10 @@
-# Andrews–Curtis conjecture — official statement
+# Andrews–Curtis conjectures — official statements
 
-This is the shared mathematical target for a proof or disproof of the
-full, non-stable Andrews–Curtis conjecture. Its Lean definition is in
+These are the mathematical targets for AC Prove and Stable AC Prove.
+Both cover the full conjecture at every positive finite rank. Their Lean definitions are in
 [AC.lean](../tools/lean/AC.lean), under namespace `AC`.
 
-## Mathematical statement
+## Ordinary AC
 
 Let $n\ge1$ be any finite positive rank and
 $F_n=\langle x_0,\ldots,x_{n-1}\rangle$ the free group on $n$ generators.
@@ -41,6 +41,39 @@ Arbitrary-word conjugation is a finite composition of conjugations by
 generators and their inverses. Relator permutations follow from inversion
 and multiplication, so the ordered standard endpoint is equivalent.
 
+## Stable AC
+
+In addition to ordinary AC moves, allow **stabilization**:
+
+$$\langle x_0,\ldots,x_{n-1}\mid r_0,\ldots,r_{n-1}\rangle
+\longrightarrow
+\langle x_0,\ldots,x_{n-1},z\mid r_0,\ldots,r_{n-1},z\rangle.$$
+
+Here $z$ is fresh. The reverse deletes this generator–relator pair when
+$z$ occurs in no other relator. The display appends the pair for convenience;
+the Lean definition permits insertion at any generator and relator positions,
+renumbering existing generators consistently.
+Each intermediate presentation is balanced. A stable path is finite, with
+no bound on its length, intermediate rank, or word size.
+
+**Stable conjecture.** Every balanced presentation of the trivial group
+at positive rank $n$ can reach the standard presentation at that same rank
+using these moves. Equivalently, it can reach the empty presentation:
+standard tuples can be reduced to empty by deleting their generator–relator
+pairs, and reconstructed by stabilization.
+
+A **stable counterexample** presents the trivial group but cannot reach
+that standard presentation by any stable path. Ordinary AC implies Stable
+AC, since every ordinary path is stable. Consequently, a stable
+counterexample is also an ordinary counterexample. An ordinary
+counterexample alone does not establish a stable counterexample.
+This follows the stable convention in
+[Lackenby, §1](https://arxiv.org/html/2606.06122v1#S1).
+
+Stable AC Discovery's `sac-r8-v1` cap of rank 8 is solely a search benchmark
+restriction. Proving non-reachability with that cap does not disprove this
+unbounded statement.
+
 ## Lean mapping
 
 | Mathematical object | Lean definition |
@@ -53,23 +86,31 @@ and multiplication, so the ordered standard endpoint is equivalent.
 | Finite, unbounded reachability | `AC.Reachable` |
 | Conjecture for all positive finite ranks | `AC.Conjecture` |
 | A particular counterexample | `AC.IsCounterexample R` |
-| Existence of a positive-rank counterexample | `AC.Counterexample` |
+| Existence of a positive-rank ordinary counterexample | `AC.Counterexample` |
+| Stable elementary moves and finite reachability | `AC.StableStep`, `AC.StableReachable` |
+| Stable conjecture | `AC.StableConjecture` |
+| Existence of a positive-rank stable counterexample | `AC.StableCounterexample` |
 
 ## Proof and disproof
 
-The proof target is `AC.Conjecture`; the disproof target is
-`¬ AC.Conjecture`. The supplied logical equivalence is
+| Prove track | Proof | Disproof |
+|---|---|---|
+| AC Prove | `AC.Conjecture` | `¬ AC.Conjecture` |
+| Stable AC Prove | `AC.StableConjecture` | `¬ AC.StableConjecture` |
+
+The witness forms are equivalent to those negations:
 
 ```lean
 AC.not_conjecture_iff_counterexample : (¬ AC.Conjecture) ↔ AC.Counterexample
+AC.not_stable_conjecture_iff_counterexample :
+  (¬ AC.StableConjecture) ↔ AC.StableCounterexample
 ```
 
-This equivalence does not prove the conjecture or construct a counterexample.
-A proof must cover all positive finite ranks, not only the rank-two
-competition pool. A disproof may use a presentation outside that pool;
-it must establish both triviality and full, unbounded non-reachability.
+These equivalences do not settle either conjecture. Proofs must cover all
+positive finite ranks; counterexamples may lie outside the rank-two pool
+and must establish both triviality and full unbounded non-reachability.
 A failed search or bounded-path result does not establish non-reachability.
 
-Papers, PDFs, and Lean arguments address this same statement. Authors do
-not supply a version field to change the target. See the
+Descriptions, papers, PDFs, and Lean arguments address the same selected
+statement. Authors do not supply a version field to change it. See the
 [Lean guide](../tools/lean/README.md) for build instructions.

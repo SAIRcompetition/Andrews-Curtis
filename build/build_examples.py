@@ -14,59 +14,72 @@ from pathlib import Path
 REPO = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO / "competition" / "tools" / "verifier"))
 
-from acms_verify import canon, core, submission  # noqa: E402
+from acms_verify import canon, specs, submission  # noqa: E402
 
 
 def json_text(value, *, sort_keys=False):
     return json.dumps(value, indent=2, sort_keys=sort_keys) + "\n"
 
 
-def build_examples(manifest, training):
-    """Return ``{filename: text}`` for the deterministic example bundle."""
-    spec_hash = canon.move_spec_hash(core.MOVE_TABLE)
-    if not (manifest["move_spec_hash"] == training["move_spec_hash"] == spec_hash):
-        raise ValueError("example inputs do not match the frozen move table")
+def build_examples(manifest, training, stable_training):
+    """Return a deterministic, successful example for both Discovery variants."""
+    if specs.check_move_specs(manifest["move_specs"]):
+        raise ValueError("manifest does not match the frozen move tables")
     entry = min(training["instances"],
                 key=lambda e: (len(e["moves"]), e["training_id"]))
-    cid = entry["training_id"]
-    if cid in submission.build_challenge_index(manifest):
-        raise ValueError("training example must not be a scored challenge")
-    challenge = {
-        "challenge_id": cid,
-        "generators": entry["generators"],
-        "initial_relators": entry["initial_relators"],
-        "target_relators": entry["target_relators"],
-        "move_spec_version": entry["move_spec_version"],
-        "scored": False,
-        "base_score": 0,
-        "instance_hash": canon.instance_hash(
-            cid, entry["generators"], entry["initial_relators"],
-            entry["target_relators"], entry["move_spec_version"], spec_hash),
-        "freeze_date": None,
-    }
+    stable_entry = next(e for e in stable_training["instances"]
+                        if e["training_id"] == entry["training_id"])
+    entries = [entry, stable_entry]
+    ids = [entry["training_id"], "sac-train-" + entry["training_id"].rsplit("-", 1)[1]]
+    official_ids = submission.build_challenge_index(manifest)
+    challenges, solutions = [], []
+    for source, e, cid in zip((training, stable_training), entries, ids):
+        spec_hash = specs.get(e["move_spec_version"]).move_spec_hash
+        if source["move_spec_hash"] != spec_hash:
+            raise ValueError("training input does not match its frozen move table")
+        if cid in official_ids:
+            raise ValueError("training example must not be a scored challenge")
+        challenge = {
+            "challenge_id": cid,
+            "generators": e["generators"],
+            "initial_relators": e["initial_relators"],
+            "target_relators": e["target_relators"],
+            "move_spec_version": e["move_spec_version"],
+            "scored": False,
+            "base_score": 0,
+            "instance_hash": canon.instance_hash(
+                cid, e["generators"], e["initial_relators"],
+                e["target_relators"], e["move_spec_version"], spec_hash),
+            "freeze_date": None,
+        }
+        challenges.append(challenge)
+        solutions.append({"challenge_id": cid, "moves": e["moves"]})
     training_manifest = {
-        "manifest_version": "acms-example-training-v1",
+        "manifest_version": "acms-example-training-v2",
         "competition": manifest["competition"],
-        "move_spec_version": entry["move_spec_version"],
-        "move_spec_hash": spec_hash,
-        "manifest_hash": canon.manifest_hash([challenge["instance_hash"]]),
+        "move_specs": manifest["move_specs"],
+        "manifest_hash": canon.manifest_hash([c["instance_hash"] for c in challenges]),
         "freeze_date": None,
         "generators": entry["generators"],
-        "target_relators": entry["target_relators"],
         "limits": manifest["limits"],
-        "challenge_count": 1,
-        "note": "Local training example only; not part of the scored challenge pool.",
-        "challenges": [challenge],
+        "challenge_count": 2,
+        "presentation_count": 1,
+        "note": "Local training examples only; not part of the scored challenge pool.",
+        "challenges": challenges,
     }
-    sample = {"solutions": [{"challenge_id": cid, "moves": entry["moves"]}]}
-    sample_text = json_text(sample)
+    sample_text = json_text({"solutions": solutions})
     verdict = submission.process_submission(sample_text.encode(), training_manifest)
-    if not verdict.get("accepted") or not verdict["results"][0].get("ok"):
-        raise ValueError("training example failed verification: %r" % verdict)
-    for key in ("length", "peak_total_relator_length", "work", "certificate_hash"):
-        if verdict["results"][0][key] != entry[key]:
-            raise ValueError("training example changed frozen %s" % key)
+    if not verdict.get("accepted") or not all(v.get("ok") for v in verdict["results"]):
+        raise ValueError("training examples failed verification: %r" % verdict)
+    for e, cid, result in zip(entries, ids, verdict["results"]):
+        for key in ("length", "peak_total_relator_length", "work"):
+            if result[key] != e[key]:
+                raise ValueError("training example changed frozen %s" % key)
+        expected_hash = canon.certificate_hash(cid, e["move_spec_version"], e["moves"])
+        if result["certificate_hash"] != expected_hash:
+            raise ValueError("training example certificate hash mismatch")
     verdict_text = json_text(verdict, sort_keys=True)
+    cid = ids[0]
 
     # Preserve the former default sample as an explicit negative example.
     invalid = {"solutions": [{"challenge_id": "ac-v1-00001", "moves": [6, 7]}]}
@@ -79,14 +92,18 @@ def build_examples(manifest, training):
     readme = """# Runnable Discovery submission examples
 
 Start with `sample_submission.json`: a complete, successful submission for
-the published training instance `%s`, copied from
-[`training_424.json`](../challenges/training_424.json). It uses %d atomic
-moves and the same verifier and JSON submission format as Discovery Track.
+both Discovery variants of the published training instance `%s`. The AC
+path uses %d moves from [`training_424.json`](../challenges/training_424.json);
+the Stable AC path appends `[16, 15]` from
+[`stable_training_424.json`](../challenges/stable_training_424.json), reaching
+the empty presentation. Both use the official verifier and JSON format.
 
 This is **local training only and earns no points**. The accompanying
-`training_manifest.json` contains just this training instance, marked
-`scored: false` with `base_score: 0`; its limits and move specification match
-the official manifest. Its instance and manifest hashes are independently
+`training_manifest.json` contains the two variants of this instance, each
+marked `scored: false` with `base_score: 0`; its limits and move specifications
+match the official manifest. The Stable example ID is `%s`;
+training files share `%s`, so the example gives each variant a
+distinct ID for mixed submissions. Its instance and manifest hashes are independently
 checkable. It is not a new official challenge pool or freeze.
 
 ## Run a successful submission
@@ -145,7 +162,7 @@ Expected: **exit status 1**, top-level `accepted: true`, and a per-solution
 verdict of `ok: false`, `code: "E_NOT_TARGET"`, `final_shape: [9, 18]`.
 This checks that a well-formed document with legal moves can still contain
 a mathematically unsuccessful path.
-""" % (cid, len(entry["moves"]), sample_text, verdict_text)
+""" % (cid, len(entry["moves"]), ids[1], cid, sample_text, verdict_text)
     return {
         "README.md": readme,
         "training_manifest.json": json_text(training_manifest),
@@ -163,9 +180,10 @@ def main(argv=None):
     challenges = REPO / "competition" / "challenges"
     manifest = json.loads((challenges / "manifest.json").read_text(encoding="utf-8"))
     training = json.loads((challenges / "training_424.json").read_text(encoding="utf-8"))
+    stable_training = json.loads((challenges / "stable_training_424.json").read_text(encoding="utf-8"))
     examples = REPO / "competition" / "examples"
     stale = []
-    for name, content in build_examples(manifest, training).items():
+    for name, content in build_examples(manifest, training, stable_training).items():
         path = examples / name
         if args.check:
             if not path.exists() or path.read_text(encoding="utf-8") != content:
