@@ -1,11 +1,11 @@
-# Andrews–Curtis Conjecture Challenge (ACC) — development repository
+# The Andrews–Curtis Conjecture (ACC) Challenge — development repository
 
 **Prelaunch development preview.** Registration is scheduled for September
 8, 2026, Discovery for September 11, and Proof for September 21; the
 submission deadline is November 30. Exact UTC times and the official data
 freeze remain pending. Registration and online submissions are not open.
 
-ACC is one competition with **two tracks**, each containing **AC** and
+The ACC Challenge is one competition with **two tracks**, each containing **AC** and
 **Stable AC** problems:
 
 | Track | Task |
@@ -18,7 +18,7 @@ problem fixes rank 2; Stable AC permits ranks up to 8. Proof Track concerns
 the full conjectures without search bounds. Proof results do not automatically
 end Discovery. The public package follows SAIR's IGP24 structure.
 
-ACC is co-organized by (in alphabetical order by surname): Lucas Fagan,
+The ACC Challenge is co-organized by (in alphabetical order by surname): Lucas Fagan,
 Sergei Gukov, Terence Tao.
 
 For the full conjectures, start with the

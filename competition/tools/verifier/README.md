@@ -3,7 +3,7 @@
 **Prelaunch preview.** This Python reference verifier is available for
 local self-checking now for the AC and Stable AC problems in Discovery
 Track of the Andrews–Curtis
-Conjecture Challenge (ACC); competition submissions are not open.
+Conjecture (ACC) Challenge; competition submissions are not open.
 The SAIR integration will use these same standard-library-only sources,
 with no separate port. Proofs and disproofs belong to the Proof Track
 and are not processed by this path verifier.

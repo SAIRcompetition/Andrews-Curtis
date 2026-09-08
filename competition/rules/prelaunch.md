@@ -1,10 +1,10 @@
-# Andrews–Curtis Conjecture Challenge (ACC)
+# The Andrews–Curtis Conjecture (ACC) Challenge
 
 A competition to find short trivializations of group presentations and to prove or disprove the Andrews–Curtis conjecture and its stable version.
 
 ## Co-organizers
 
-ACC is co-organized by (in alphabetical order by surname):
+The ACC Challenge is co-organized by (in alphabetical order by surname):
 
 - Lucas Fagan
 - Sergei Gukov
@@ -84,7 +84,7 @@ The official repository, SAIR Playground, and submission system will become avai
 
 ## Experimental Status
 
-The Andrews–Curtis Conjecture Challenge is experimental. Participants are responsible for any computing costs they incur while developing, testing, submitting, or otherwise participating in the challenge. The co-organizers do not reimburse these costs.
+The ACC Challenge is experimental. Participants are responsible for any computing costs they incur while developing, testing, submitting, or otherwise participating in the challenge. The co-organizers do not reimburse these costs.
 
 ## Community Feedback
 

@@ -1,4 +1,4 @@
-# Andrews–Curtis Conjecture Challenge (ACC)
+# The Andrews–Curtis Conjecture (ACC) Challenge
 
 **Prelaunch preview — registration and submissions are not open.** Rules,
 data, and local verification are available. Registration is scheduled for
@@ -6,7 +6,7 @@ September 8, 2026, Discovery for September 11, and Proof for September 21;
 the submission deadline is November 30. Exact UTC times and the official
 freeze remain pending.
 
-ACC is one competition with **two tracks**. Each contains **AC** and
+The ACC Challenge is one competition with **two tracks**. Each contains **AC** and
 **Stable AC** problems:
 
 | Track | Task |
@@ -51,7 +51,7 @@ For a proof or disproof of either full conjecture, use the
 
 ## Organizers
 
-ACC is co-organized by (in alphabetical order by surname):
+The ACC Challenge is co-organized by (in alphabetical order by surname):
 
 * Lucas Fagan
 * Sergei Gukov

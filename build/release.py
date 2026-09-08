@@ -73,7 +73,7 @@ AUX_SCANNED = ("move_spec.json", "training_424.json",
                "stable_move_spec.json", "stable_training_424.json")
 
 ROOT_README = """\
-# Andrews–Curtis Conjecture Challenge (ACC) — public package
+# The Andrews–Curtis Conjecture (ACC) Challenge — public package
 
 RELEASE_NOTICE
 

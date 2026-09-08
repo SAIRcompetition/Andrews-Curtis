@@ -1,4 +1,4 @@
-# Andrews–Curtis Conjecture Challenge (ACC) — Overview
+# The Andrews–Curtis Conjecture (ACC) Challenge — Overview
 
 **Prelaunch preview — registration and submissions are not open.** You
 can inspect the current rules and data and try the Python verifier
@@ -7,7 +7,7 @@ September 11, and Proof for September 21. The submission deadline is
 November 30, 2026; its exact UTC time, opening times, and the official
 data freeze remain pending.
 
-ACC is one competition with **two tracks**, each containing **AC** and
+The ACC Challenge is one competition with **two tracks**, each containing **AC** and
 **Stable AC** problems:
 
 | Track | Task |
@@ -337,13 +337,13 @@ discussion and collaboration.
 
 ## Co-organizers
 
-ACC is co-organized by (in alphabetical order by surname):
+The ACC Challenge is co-organized by (in alphabetical order by surname):
 
 * Lucas Fagan
 * Sergei Gukov
 * Terence Tao
 
-ACC is run by the [SAIR Foundation](https://sair.foundation/) in
+The ACC Challenge is run by the [SAIR Foundation](https://sair.foundation/) in
 collaboration with [Caltech](https://www.caltech.edu/).
 
 <!-- logo URLs: re-host under /competition-assets/acms/ at site onboarding -->
