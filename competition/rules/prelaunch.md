@@ -31,10 +31,20 @@ The challenge has **two tracks: Discovery and Proof**. Each covers two problems:
 
 ### Discovery Track
 
-Find short sequences of moves that simplify given presentations of the trivial group. The AC and Stable AC problems use the same pool of **10,115 two-generator presentations**, with different allowed moves and targets:
+Find short sequences of moves that simplify the **10,115 two-generator presentations** in the shared pool.
 
-- **AC:** invert a relator, right-multiply it by another relator or its inverse, or conjugate it by a generator or its inverse. Reach `(x, y)` at fixed rank 2.
-- **Stable AC:** also allow adding a fresh generator `z` with relator `z`, or removing this pair when `z` occurs in no other relator. Reach the empty presentation, with rank at most 8.
+A *relator* is the word `r` in a defining relation `r = 1`. Ordinary AC moves replace one relator, leaving the others unchanged:
+
+| Move | Replace `r` with |
+|---|---|
+| Invert | `r⁻¹` |
+| Multiply | `r s` or `r s⁻¹`, where `s` is another relator |
+| Conjugate | `c r c⁻¹`, where `c` is a generator or its inverse |
+
+Adjacent inverse letters cancel after each move.
+
+- **AC:** use these moves to reach the ordered relator pair `(x, y)`, keeping the two generators fixed.
+- **Stable AC:** also allow adding a new generator `z` with relation `z = 1`, or deleting a generator `z` and a relator that is exactly `z` when no other relator uses it. Reach the empty presentation (no generators or relations), with at most 8 generators at any point.
 
 Each solution contains only a **challenge ID and a list of moves**. The verifier checks the sequence, and the AC and Stable AC problems have **separate leaderboards**, rewarding the shortest verified paths. Move sequences remain private during the competition and are published afterwards.
 
