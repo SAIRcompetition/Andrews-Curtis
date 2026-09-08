@@ -33,8 +33,8 @@ The challenge has **two tracks: Discovery and Proof**. Each covers two problems:
 
 Find short sequences of moves that simplify given presentations of the trivial group. The AC and Stable AC problems use the same pool of **10,115 two-generator presentations**, with different allowed moves and targets:
 
-- **AC:** use ordinary Andrews–Curtis moves to reach the standard presentation `(x, y)`. The rank stays fixed at 2.
-- **Stable AC:** use Andrews–Curtis moves together with stabilization and destabilization to reach the empty presentation. The rank may grow up to 8 along the way.
+- **AC:** invert a relator, right-multiply it by another relator or its inverse, or conjugate it by a generator or its inverse. Reach `(x, y)` at fixed rank 2.
+- **Stable AC:** also allow adding a fresh generator `z` with relator `z`, or removing this pair when `z` occurs in no other relator. Reach the empty presentation, with rank at most 8.
 
 Each solution contains only a **challenge ID and a list of moves**. The verifier checks the sequence, and the AC and Stable AC problems have **separate leaderboards**, rewarding the shortest verified paths. Move sequences remain private during the competition and are published afterwards.
 
@@ -50,10 +50,6 @@ Both conjectures concern balanced presentations at every positive finite rank. A
 Submit a description and a complete argument, supplied in the description, a paper or PDF, a GitHub repository containing a Lean proof at a fixed commit, an arXiv version, or a combination.
 
 Every submission is public, with timestamped versions and comments. We encourage community peer review so participants can examine arguments, identify gaps, suggest corrections, and build on one another's work. Lean formalizations are also open to this scrutiny.
-
-Priority belongs to the earliest complete, correct version; contributions from other submissions or comments must be acknowledged.
-
-A proof or disproof can receive the competition's highest mathematical honor. Results in the Proof Track do not earn Discovery points or automatically end the Discovery Track.
 
 ## Key Dates
 
