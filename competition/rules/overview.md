@@ -243,10 +243,13 @@ its full move length.
 
 The AC and Stable AC problems each accept **proofs and disproofs** of their
 [official statement](statement.md).
-A proof must cover all positive finite ranks. A counterexample must present
-the trivial group and rule out the full unbounded relation of that
-conjecture. Ordinary AC keeps the rank fixed; Stable AC permits unrestricted
-stabilization. The counterexample may lie outside the Discovery pool.
+A proof must cover all positive finite ranks. A disproof must establish the
+selected conjecture's negation. It may exhibit a concrete counterexample or
+prove that one exists without explicitly identifying it. Such a presentation
+must define the trivial group and admit no path under the full unbounded
+relation of that conjecture. Ordinary AC keeps the rank fixed; Stable AC
+allows stabilization and destabilization with no rank cap. A counterexample
+may lie outside the Discovery pool.
 
 An AC proof also settles Stable AC. A Stable AC disproof also settles AC.
 The reverse implications are not assumed: an ordinary counterexample may
@@ -290,7 +293,7 @@ percentages are not assigned automatically.
 
 > **Not finding a path is not a disproof.** Failure to find a
 > trivialization — under any compute budget, length bound, peak bound,
-> or restricted move set — is **not** a counterexample.
+> or restricted move set — does **not** establish a counterexample.
 
 For each conjecture, the first accepted proof or disproof under this
 priority rule receives the **Highest Mathematical Achievement of the Competition** honor.
@@ -302,16 +305,18 @@ and the full priority and credit rules are in
 [evaluation.md](evaluation.md) §9. Both tracks remain closed during
 prelaunch.
 
-## Teams and integrity
+## Team Participation and Anti-Cheating Policy
 
-One person, one team; team size unlimited; members may join during the
-competition with organizer approval. **Teams may not merge after either
-has submitted.** Public learning and cross-team discussion with stated
-contributions are welcome. Sharing a specific Discovery certificate
-across teams is joint work and must not be resubmitted for independent
-credit or scoring. Coordinated cheating (including sockpuppets)
-disqualifies all involved teams. The organizers may request provenance
-for any submission.
+- Each individual or organization can participate in only one team.
+- Teams must register members and sponsors in advance.
+- If coordinated cheating is detected (including sockpuppet teams), all related teams will be disqualified.
+
+## Collaboration and attribution
+
+Public learning and cross-team discussion with stated contributions are
+welcome. Sharing a specific Discovery certificate across teams is joint
+work and must not be resubmitted for independent credit or scoring.
+The organizers may request provenance for any submission.
 
 ## Community feedback
 

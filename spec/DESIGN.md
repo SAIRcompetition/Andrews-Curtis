@@ -260,12 +260,15 @@ Proof submissions, versions, supporting materials, decisions, and comments
 are public on submission, with no private/public toggle. This does not
 change Discovery path confidentiality.
 
-The same team identity applies across both tracks and all their problems. Apply the public rules
-on membership, no multiple-team participation, and no merging after a team
-has submitted. Learning from public work is allowed. Identify borrowed
-arguments, code, certificates, and comments; shared work must not be
-represented as independent discovery. A certificate hash cannot establish
-independence: provenance review remains an organizer responsibility.
+The same team identity applies across both tracks and all their problems.
+Each individual or organization may participate in only one team; teams
+must register members and sponsors in advance. Detected coordinated
+cheating, including sockpuppet teams, disqualifies all related teams.
+
+Learning from public work is allowed. Identify borrowed arguments, code,
+certificates, and comments; shared work must not be represented as
+independent discovery. A certificate hash cannot establish independence:
+provenance review remains an organizer responsibility.
 
 ## 7. Proof submissions, review, and credit
 
@@ -276,6 +279,8 @@ Select `ac` or `stable_ac`. Proof targets are `AC.Conjecture` and
 `AC.Counterexample` and `AC.StableCounterexample`. All quantify over positive
 finite ranks, with no word/path bound. Stable rank may vary without a cap;
 ordinary rank stays fixed. A counterexample may lie outside the pool.
+Nonconstructive disproofs are eligible: these counterexample targets assert
+existence and do not require an explicit witness.
 
 ### 7.2 Materials
 
@@ -286,6 +291,10 @@ nor Lean is mandatory; an uploaded PDF must be at most 25 MB, as specified
 in the public rules. Linked formal code identifies a fixed commit;
 arXiv material identifies a specific version. A mutable link alone cannot
 establish the contents of a past submission.
+
+Require a rank and exact presentation only when a submission exhibits a
+concrete counterexample, with a challenge ID if it is a pool instance.
+The submission form must not require these fields for every disproof.
 
 ### 7.3 Public versions and comments
 

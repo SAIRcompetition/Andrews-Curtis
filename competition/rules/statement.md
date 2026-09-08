@@ -33,7 +33,7 @@ with no bound on its length or the sizes of intermediate words.
 **Conjecture.** For every $n\ge1$ and every $R\in F_n^n$, if $P_R$ is
 the trivial group, then $R$ can be transformed into $X$ by these moves.
 
-A **counterexample** is a positive rank $n$ and an explicit tuple $R$
+A **counterexample** is a positive rank $n$ and a tuple $R$
 for which $P_R$ is trivial but $X$ is not reachable from $R$.
 
 This uses the ordinary AC convention in
@@ -99,7 +99,8 @@ unbounded statement.
 | AC | `AC.Conjecture` | `¬ AC.Conjecture` |
 | Stable AC | `AC.StableConjecture` | `¬ AC.StableConjecture` |
 
-The witness forms are equivalent to those negations:
+In classical logic, each negation is equivalent to the corresponding
+counterexample existence statement:
 
 ```lean
 AC.not_conjecture_iff_counterexample : (¬ AC.Conjecture) ↔ AC.Counterexample
@@ -107,10 +108,15 @@ AC.not_stable_conjecture_iff_counterexample :
   (¬ AC.StableConjecture) ↔ AC.StableCounterexample
 ```
 
+These are existence propositions, not requirements to exhibit a particular
+tuple. A disproof may give a concrete counterexample or use a nonconstructive
+argument to prove that one exists. Both routes must establish triviality and
+full unbounded non-reachability for the same presentation.
+
 These equivalences do not settle either conjecture. Proofs must cover all
-positive finite ranks; counterexamples may lie outside the rank-two pool
-and must establish both triviality and full unbounded non-reachability.
-A failed search or bounded-path result does not establish non-reachability.
+positive finite ranks; counterexamples may lie outside the rank-two pool.
+A failed search or exclusion of only bounded paths does not by itself
+establish full non-reachability.
 
 Descriptions, papers, PDFs, and Lean arguments address the same selected
 statement. Authors do not supply a version field to change it. See the

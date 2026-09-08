@@ -6,11 +6,14 @@ Import `AC` and identify whether your claim concerns ordinary or stable AC:
 |---|---|---|
 | Proof | `AC.Conjecture` | `AC.StableConjecture` |
 | Disproof | `¬ AC.Conjecture` | `¬ AC.StableConjecture` |
-| Explicit counterexample | `AC.Counterexample` | `AC.StableCounterexample` |
+| Existence of a counterexample | `AC.Counterexample` | `AC.StableCounterexample` |
 
 The negation and counterexample targets are equivalent, by
 `AC.not_conjecture_iff_counterexample` and
 `AC.not_stable_conjecture_iff_counterexample`, respectively.
+A rigorous nonconstructive proof of either negation qualifies as a disproof;
+no explicit rank or relator tuple needs to be exhibited. If a submission
+provides a specific counterexample, it must identify its rank and full presentation.
 Both conjectures cover every positive finite starting rank. Ordinary AC fixes
 the rank along each path. Stable AC also permits adding an isolated generator
 and its singleton relator, or deleting such a pair, at arbitrary positions.

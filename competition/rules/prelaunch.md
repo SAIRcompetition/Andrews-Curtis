@@ -45,7 +45,7 @@ Submit a proof or disproof of either conjecture:
 - **AC:** the full Andrews–Curtis conjecture, using ordinary moves at fixed rank.
 - **Stable AC:** the full stable Andrews–Curtis conjecture, allowing stabilization with no bound on intermediate rank.
 
-Both conjectures concern balanced presentations at every positive finite rank. A proof must establish the full conjecture; a disproof must establish a counterexample. The Discovery pool and its search limits do not restrict these mathematical claims.
+Both conjectures concern balanced presentations at every positive finite rank. A proof must establish the full conjecture; a disproof must establish its negation. This may be done by giving a counterexample or by proving that one exists without explicitly identifying it. The Discovery pool and its search limits do not restrict these mathematical claims.
 
 Submit a description and a complete argument, supplied in the description, a paper or PDF, a GitHub repository containing a Lean proof at a fixed commit, an arXiv version, or a combination. Every submission is public, with timestamped versions and comments for community review. Organizers and reviewers assess every claim, including Lean proofs. Priority belongs to the earliest complete, correct version; contributions from other submissions or comments must be acknowledged.
 
@@ -62,20 +62,21 @@ Exact opening and deadline times will be announced before submissions open.
 
 ## Registration & Teams
 
-Registration and team management will take place on [SAIR](https://competition.sair.foundation/). Participants will need a SAIR account, the required profile information, and agreement to the competition terms. They may compete individually or form a team.
+Registration and team management take place on [SAIR](https://competition.sair.foundation/). Participants must have a SAIR account, complete the required profile information, and agree to the SAIR competition terms before registering. They may compete individually or form a team on SAIR.
 
-## Rules & Resources
+## Official Repository & Playground
 
-The [competition overview](overview.md), [evaluation rules](evaluation.md), [mathematical statements](statement.md), and [Lean project](../tools/lean/README.md) are available for preparation. The [reference verifier](../tools/verifier/README.md) includes [runnable examples](../examples/README.md) for both AC and Stable AC. There are **424 solved training presentations**, separate from the scored pool, with solutions under both move specifications.
-
-Local trials are available now. Online submissions will open on the announced schedule.
+The official repository, SAIR Playground, and submission system will become available at the official launch.
 
 ## Team Participation and Anti-Cheating Policy
 
-- Each individual may participate in only one team.
-- Members may join during the competition with organizer approval; teams may not merge after either has submitted.
-- Public discussion and properly attributed collaboration are welcome. A shared Discovery solution must not be submitted by multiple teams for independent credit or scoring.
-- Coordinated cheating, including sockpuppet teams, will result in disqualification of all related teams.
+- Each individual or organization can participate in only one team.
+- Teams must register members and sponsors in advance.
+- If coordinated cheating is detected (including sockpuppet teams), all related teams will be disqualified.
+
+## Experimental Status
+
+The Andrews–Curtis Conjecture Challenge is experimental. Participants are responsible for any computing costs they incur while developing, testing, submitting, or otherwise participating in the challenge. The co-organizers do not reimburse these costs.
 
 ## Community Feedback
 

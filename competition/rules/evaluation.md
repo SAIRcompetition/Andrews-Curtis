@@ -296,11 +296,16 @@ All valid Discovery certificates are published at the announced
 post-competition `certificate_release` time. This embargo does not apply
 to Proof submissions, which are public under §9.
 
-One person participates through one team. Teams may add members with
-organizer approval but may not merge after either has submitted.
+### Team Participation and Anti-Cheating Policy
+
+- Each individual or organization can participate in only one team.
+- Teams must register members and sponsors in advance.
+- If coordinated cheating is detected (including sockpuppet teams), all related teams will be disqualified.
+
+### Collaboration and attribution
+
 Sharing a specific Discovery certificate across teams is joint work and
 must not be resubmitted as independent results by multiple teams.
-Sockpuppets and coordinated duplicate submissions are prohibited.
 Discussion, public Proof review, and properly attributed use of ideas
 are allowed; they do not create an exception for copying Discovery
 certificates into additional independently scoring teams.
@@ -333,21 +338,24 @@ does not prevent this. A bridge does not merge challenges in v1.
 ### 9.1 What is claimed
 
 Select `ac` or `stable_ac`. A **proof** establishes that conjecture for
-all positive finite ranks. A **disproof** establishes its negation:
-a balanced presentation of the trivial group that cannot reach its
+all positive finite ranks. A **disproof** establishes its negation. In
+classical logic this is equivalent to proving the existence of a balanced
+presentation of the trivial group that cannot reach its
 standard presentation under the relevant full, unbounded relation.
 For ordinary AC the rank stays fixed; Stable AC permits adding and removing
 trivial generator–relator pairs with no rank cap. See [statement.md](statement.md).
 
-A counterexample may lie outside the Discovery pool. Identify its rank and
-exact presentation; name the challenge if it is a pool instance. A proof
-of the whole conjecture does not need a particular counterexample or pool ID.
+A disproof may exhibit a concrete counterexample or prove that one exists
+nonconstructively. If a submission gives a concrete counterexample, identify
+its rank and exact presentation; name the challenge if it is a pool instance.
+A counterexample may lie outside the Discovery pool. A nonconstructive
+disproof need not identify a particular rank, presentation, or challenge ID.
 
 An AC proof also proves Stable AC; a Stable AC disproof also disproves AC.
 An AC disproof alone does not settle Stable AC, and a Stable AC proof alone
-does not settle AC. Failure to find a path, a bound on path length, word
-size or rank, or unreachability under restricted operations is not a disproof
-of the full conjecture. Solving the finite pool is not a proof of either.
+does not settle AC. Failure to find a path, or a proof excluding only paths
+within a length, word-size, rank, or move restriction, does not by itself
+disprove the full conjecture. Solving the finite pool is not a proof of either.
 
 ### 9.2 Submission materials
 
@@ -382,7 +390,7 @@ The [official statements](statement.md) cover every positive finite rank.
 Both are defined in `tools/lean/AC.lean`, using free groups and
 `Subsingleton (PresentedGroup (Set.range R))` for presented-group triviality.
 
-| Problem | Proof target | Disproof target | Equivalent witness form |
+| Problem | Proof target | Disproof target | Equivalent existence statement |
 |---|---|---|---|
 | AC | `AC.Conjecture` | `¬ AC.Conjecture` | `AC.Counterexample` |
 | Stable AC | `AC.StableConjecture` | `¬ AC.StableConjecture` | `AC.StableCounterexample` |

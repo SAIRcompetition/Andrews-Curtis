@@ -61,7 +61,8 @@ every finite AC sequence to the standard presentation. -/
 def IsCounterexample {n : ℕ} (R : Relators n) : Prop :=
   PresentsTrivialGroup R ∧ ¬ Reachable R (standard n)
 
-/-- A disproof witnessed by a balanced relator tuple of any positive finite rank. -/
+/-- Existence of a counterexample at some positive finite rank.
+This proposition does not require exhibiting an explicit tuple. -/
 def Counterexample : Prop :=
   ∃ (n : ℕ), 0 < n ∧ ∃ (R : Relators n), IsCounterexample R
 
@@ -71,7 +72,7 @@ theorem not_conjecture_iff_counterexample : ¬ Conjecture ↔ Counterexample := 
   simp only [Conjecture, Counterexample, IsCounterexample, not_forall,
     exists_prop]
 
-/-- An explicit counterexample disproves the shared official proposition. -/
+/-- Existence of a counterexample disproves the shared official proposition. -/
 theorem Counterexample.not_conjecture (h : Counterexample) : ¬ Conjecture :=
   not_conjecture_iff_counterexample.mpr h
 
@@ -114,7 +115,8 @@ def StableConjecture : Prop :=
 def IsStableCounterexample {n : ℕ} (R : Relators n) : Prop :=
   PresentsTrivialGroup R ∧ ¬ StableReachable ⟨n, R⟩ ⟨n, standard n⟩
 
-/-- A disproof of the stable conjecture witnessed at any positive finite rank. -/
+/-- Existence of a stable counterexample at some positive finite rank.
+This proposition does not require exhibiting an explicit tuple. -/
 def StableCounterexample : Prop :=
   ∃ (n : ℕ), 0 < n ∧ ∃ (R : Relators n), IsStableCounterexample R
 
