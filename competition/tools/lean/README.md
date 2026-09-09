@@ -1,6 +1,12 @@
 # Proof Track — Andrews–Curtis statements in Lean
 
-Import `AC` and identify whether your claim concerns ordinary or stable AC:
+This directory serves [Proof Track](../../rules/proof.md).
+[AC.lean](AC.lean) contains the shared official AC and Stable AC definitions;
+using Lean and running the auxiliary `Check` target are optional.
+[Discovery Track](../../rules/discovery.md) uses the
+[Python verifier](../verifier/README.md) and does not depend on Lean.
+
+For a Lean submission, import `AC` and identify whether your claim concerns ordinary or stable AC:
 
 | Claim | Ordinary AC | Stable AC |
 |---|---|---|

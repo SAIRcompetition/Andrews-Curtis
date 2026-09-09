@@ -128,7 +128,10 @@ must map its words accurately to the mathematical tuple.
 
 ## Lean
 
-Both conjectures are defined in [AC.lean](../tools/lean/AC.lean).
+The [Lean project](../tools/lean/README.md) belongs to Proof Track and defines
+both conjectures in [AC.lean](../tools/lean/AC.lean). Using Lean is optional.
+[Discovery Track](discovery.md) uses the
+[Python verifier](../tools/verifier/README.md) and does not depend on this project.
 
 | Problem | Proof target | Disproof target | Equivalent existence statement |
 |---|---|---|---|
@@ -171,7 +174,8 @@ dependencies and run `lake build`, which builds only `AC`. A formalization
 needs `import AC`; authors provide separate instructions for checking
 their submitted theorem. The release process checks the official source snapshot.
 
-`lake build Check` optionally runs semantic examples, the compiler-hash
+`lake build Check` optionally runs [Check.lean](../tools/lean/Check.lean):
+semantic examples, the compiler-hash
 check, and an axiom audit against `propext`, `Classical.choice`, and
 `Quot.sound`. This auxiliary target is not a submission requirement.
 A successful build does not automatically establish acceptance. Community

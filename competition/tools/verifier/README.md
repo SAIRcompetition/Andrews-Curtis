@@ -1,12 +1,15 @@
 # Discovery Track reference verifier (`acms_verify`)
 
-This Python reference verifier supports the AC and Stable AC problems in
-Discovery Track of the Andrews–Curtis Conjecture (ACC) Challenge. Local
-self-checks are available now. Discovery submissions open on September 11,
-2026 at 16:00 UTC.
-The SAIR integration will use these same standard-library-only sources,
-with no separate port. Proofs and disproofs belong to the Proof Track
-and are not processed by this path verifier.
+This directory provides the Python reference verifier for the AC and Stable AC
+problems in [Discovery Track](../../rules/discovery.md). It uses only the
+Python standard library and does not depend on Lean.
+Local self-checks are available now. Discovery submissions open on September 11,
+2026 at 16:00 UTC. The SAIR integration will use these same sources,
+with no separate port.
+
+Proofs and disproofs belong to [Proof Track](../../rules/proof.md).
+The [Lean guide](../lean/README.md) covers its shared official AC and Stable AC
+definitions; using Lean and running the auxiliary `Check` target are optional.
 
 > Local results are self-checks. Once the competition opens, the
 > server-side verifier will be the authority for official results.
@@ -53,10 +56,7 @@ Each entry in a submission's `solutions` array contains only
 from the official challenge for replay and certificate hashing. `ac-v1-`
 IDs use `ac-r2-v1` (0–13); `sac-v1-` IDs use `sac-r8-v1` (0–256).
 One submission may contain both. The rank cap applies only to the
-Stable AC problem in Discovery; proving either conjecture uses the
-Proof Track's full statements. The [Lean project](../lean/README.md) provides
-official formal targets and optional checks for Proof. Discovery verification uses
-Python and does not depend on Lean.
+Stable AC problem in Discovery.
 
 Start with a successful, unscored training example. Run from the
 repository or exported package root:

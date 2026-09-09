@@ -16,7 +16,7 @@ The competition launches with **Discovery Track on September 11, 2026 at
 | [Discovery Track](rules/discovery.md) | Data, moves, submission format, verifier semantics, limits, hashes, and scoring |
 | [Proof Track](rules/proof.md) | Full conjecture statements, proof/disproof submissions, Lean, public versions, and community peer review |
 
-`rules/prelaunch.md` contains the same overview for the prelaunch page.
+[Prelaunch](rules/prelaunch.md) contains the same overview for the prelaunch page.
 Each track's guide contains its full rules.
 
 ## Problems
@@ -53,9 +53,9 @@ submissions. Local verification does not register a submission on SAIR.
 |---|---|
 | [problems/ac.json](problems/ac.json), [problems/stable_ac.json](problems/stable_ac.json) | Official problem statements: each entry contains `challenge_id` and `description` |
 | [examples/](examples/README.md) | Both versions of the 424 training presentations, successful and unsuccessful submissions, and expected results |
-| [tools/verifier/](tools/verifier/README.md) | Python reference verifier for Discovery, using only the standard library |
+| [tools/verifier/](tools/verifier/README.md) | Python reference verifier for [Discovery Track](rules/discovery.md), using only the standard library |
 | [tools/verifier/data/](tools/verifier/data/README.md) | Replay manifest, move specifications, golden vectors, and MS-1190 reference metadata |
-| [tools/lean/](tools/lean/README.md) | Official Proof Track definitions in `AC.lean`; using Lean and `Check.lean` is optional |
+| [tools/lean/](tools/lean/README.md) | Official [Proof Track](rules/proof.md) definitions in [AC.lean](tools/lean/AC.lean); using Lean and [Check.lean](tools/lean/Check.lean) is optional |
 
 To check a scored submission, pass
 `competition/tools/verifier/data/manifest.json` to the verifier's `--manifest`

@@ -197,8 +197,10 @@ PYTHONPATH=competition/tools/verifier python3 -m acms_verify \
   --submission mine.json --pretty
 ```
 
-The [reference verifier](../tools/verifier/README.md) uses only the Python
-standard library. Its command-line exit codes are:
+The [Discovery reference verifier](../tools/verifier/README.md) uses only the
+Python standard library and does not depend on Lean. The
+[Lean project](../tools/lean/README.md) supplies the conjecture definitions for
+[Proof Track](proof.md). The Python verifier's command-line exit codes are:
 
 | Code | Meaning |
 |---:|---|

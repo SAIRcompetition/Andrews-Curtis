@@ -50,7 +50,7 @@ Adjacent inverse letters cancel after each move.
 
 Each solution contains only a **challenge ID and a list of moves**. The verifier checks the sequence, and the AC and Stable AC problems have **separate leaderboards**, rewarding the shortest verified paths. Move sequences remain private during the competition and are published afterwards.
 
-See the [Discovery Track guide](discovery.md) for the data, runnable examples, submission format, verifier, and scoring rules.
+See the [Discovery Track guide](discovery.md) for the data, runnable examples, submission format, and scoring rules. Local checks use the [Python verifier](../tools/verifier/README.md); Lean is not required.
 
 ### Proof Track
 
@@ -65,7 +65,7 @@ Submit a description and a complete argument, supplied in the description, a pap
 
 Every submission is public, with timestamped versions and comments. We encourage community peer review so participants can examine arguments, identify gaps, suggest corrections, and build on one another's work. Lean formalizations are also open to this scrutiny.
 
-See the [Proof Track guide](proof.md) for the complete mathematical statements, submission materials, Lean definitions, and public review and version rules.
+See the [Proof Track guide](proof.md) for the complete mathematical statements, submission materials, and public review and version rules. The [Lean project](../tools/lean/README.md) provides the unified definitions for both conjectures; using Lean is optional.
 
 ## Key Dates
 

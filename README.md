@@ -37,8 +37,8 @@ only `challenge_id` and `description`.
 | [AC problems](competition/problems/ac.json) | 10,115 AC problem statements |
 | [Stable AC problems](competition/problems/stable_ac.json) | 10,115 Stable AC problem statements |
 | [Examples](competition/examples/README.md) | The same 424 separate training presentations in both versions, plus runnable submissions and receipts |
-| [Discovery verifier](competition/tools/verifier/README.md) | Python replay commands and supporting data in `tools/verifier/data/` |
-| [Proof Lean tools](competition/tools/lean/README.md) | Official conjecture statements for Proof Track; using Lean is optional |
+| [Discovery verifier](competition/tools/verifier/README.md) | [Discovery Track](competition/rules/discovery.md) replay commands and supporting [data](competition/tools/verifier/data/README.md) |
+| [Proof Lean tools](competition/tools/lean/README.md) | Official [Proof Track](competition/rules/proof.md) definitions in [AC.lean](competition/tools/lean/AC.lean); using Lean is optional |
 
 The 424 training presentations are outside the scored pool. The verifier
 reads `competition/tools/verifier/data/manifest.json` to check submissions.
