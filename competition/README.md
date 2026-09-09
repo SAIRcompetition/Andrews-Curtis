@@ -19,48 +19,29 @@ The competition launches with **Discovery Track on September 11, 2026 at
 [Prelaunch](rules/prelaunch.md) contains the same overview for the prelaunch page.
 Each track's guide contains its full rules.
 
-## Problems
+## Discovery Track resources
 
-Start with [AC problems](problems/ac.json) or
-[Stable AC problems](problems/stable_ac.json). Each file is a JSON array
-of 10,115 entries containing only `challenge_id` and `description`.
-The two files describe the AC and Stable AC versions of the same
-**10,115 initial presentations**.
+Follow the [Discovery Track guide](rules/discovery.md) for moves, submission
+instructions, local verification, and scoring.
 
-## Run a successful Discovery example
-
-Each solution contains only a challenge ID and a list of moves. The
-[examples guide](examples/README.md) includes a successful training submission
-for both AC and Stable AC, the expected receipt, and a separate rejection example.
-From the repository or unpacked public package root:
-
-```sh
-PYTHONPATH=competition/tools/verifier python3 -m acms_verify \
-  --manifest competition/examples/training_manifest.json \
-  --submission competition/examples/sample_submission.json --pretty
-```
-
-Expected: exit code 0, `accepted: true`, and both `results[].ok: true`.
-The [AC training file](examples/training_424.json) and
-[Stable AC training file](examples/stable_training_424.json) contain the
-**same 424 separate presentations**, all outside the official 10,115.
-These examples are unscored; use IDs from the problem files for competition
-submissions. Local verification does not register a submission on SAIR.
-
-## Data and reference tools
-
-| Directory | Contents |
+| Resource | Contents |
 |---|---|
-| [problems/ac.json](problems/ac.json), [problems/stable_ac.json](problems/stable_ac.json) | Official problem statements: each entry contains `challenge_id` and `description` |
-| [examples/](examples/README.md) | Both versions of the 424 training presentations, successful and unsuccessful submissions, and expected results |
-| [tools/verifier/](tools/verifier/README.md) | Python reference verifier for [Discovery Track](rules/discovery.md), using only the standard library |
-| [tools/verifier/data/](tools/verifier/data/README.md) | Replay manifest, move specifications, golden vectors, and MS-1190 reference metadata |
-| [tools/lean/](tools/lean/README.md) | Official [Proof Track](rules/proof.md) definitions in [AC.lean](tools/lean/AC.lean); using Lean and [Check.lean](tools/lean/Check.lean) is optional |
+| [AC problems](problems/ac.json) | 10,115 problem IDs and descriptions |
+| [Stable AC problems](problems/stable_ac.json) | The same 10,115 initial presentations with Stable AC targets |
+| [Training data and examples](examples/README.md) | 424 separate, unscored presentations, runnable submissions, and expected receipts |
+| [Python verifier](tools/verifier/README.md) | Local verification instructions |
+| [Verifier data](tools/verifier/data/README.md) | Manifest, move specifications, and conformance vectors |
 
-To check a scored submission, pass
-`competition/tools/verifier/data/manifest.json` to the verifier's `--manifest`
-option, as shown in the [verifier guide](tools/verifier/README.md).
-Discovery verification uses Python and does not depend on Lean.
+## Proof Track resources
+
+Follow the [Proof Track guide](rules/proof.md) for the full conjecture
+statements, submission materials, public versions, and community peer review.
+
+| Resource | Contents |
+|---|---|
+| [AC.lean](tools/lean/AC.lean) | Official definitions of AC and Stable AC |
+| [Lean guide](tools/lean/README.md) | Instructions for working with the formal definitions; using Lean is optional |
+| [Check.lean](tools/lean/Check.lean) | Optional checks and semantic examples |
 
 Release packages include generated `competition.yaml` metadata for track
 routes and dates. This file is not tracked in Git and is not needed to run

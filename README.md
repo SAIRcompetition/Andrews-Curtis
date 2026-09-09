@@ -26,7 +26,7 @@ all platform services. See [the integration guide](spec/DESIGN.md#8-sair-platfor
 for implementation responsibilities and the separate acceptance checks for
 each track. Discovery launch does not wait for the later Proof launch.
 
-## Problems and examples
+## Discovery Track resources
 
 The two problem files contain the AC and Stable AC versions of the **same
 10,115 initial presentations**. Each is a JSON array whose entries contain
@@ -38,11 +38,16 @@ only `challenge_id` and `description`.
 | [Stable AC problems](competition/problems/stable_ac.json) | 10,115 Stable AC problem statements |
 | [Examples](competition/examples/README.md) | The same 424 separate training presentations in both versions, plus runnable submissions and receipts |
 | [Discovery verifier](competition/tools/verifier/README.md) | [Discovery Track](competition/rules/discovery.md) replay commands and supporting [data](competition/tools/verifier/data/README.md) |
-| [Proof Lean tools](competition/tools/lean/README.md) | Official [Proof Track](competition/rules/proof.md) definitions in [AC.lean](competition/tools/lean/AC.lean); using Lean is optional |
 
 The 424 training presentations are outside the scored pool. The verifier
 reads `competition/tools/verifier/data/manifest.json` to check submissions.
-Discovery verification uses Python and does not depend on Lean.
+
+## Proof Track resources
+
+The [Proof Track guide](competition/rules/proof.md) contains the full conjecture
+statements, submission instructions, and review rules. The
+[Lean guide](competition/tools/lean/README.md) explains how to use the official
+[AC.lean definitions](competition/tools/lean/AC.lean); using Lean is optional.
 
 ## Layout
 

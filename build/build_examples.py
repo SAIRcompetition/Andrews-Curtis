@@ -107,11 +107,13 @@ earn no points. The scored problem statements are in
 | [`invalid_submission.json`](invalid_submission.json) | A deliberately unsuccessful submission |
 
 Start with `sample_submission.json`: a complete, successful submission for
-the AC and Stable AC problems in Discovery Track, using training instance `%s`. The AC
+the AC and Stable AC problems in [Discovery Track](../rules/discovery.md),
+using training instance `%s`. The AC
 path uses %d moves from [`training_424.json`](training_424.json);
 the Stable AC path appends `[16, 15]` from
 [`stable_training_424.json`](stable_training_424.json), reaching
-the empty presentation. Both use the official verifier and JSON format.
+the empty presentation. Both use the [reference verifier](../tools/verifier/README.md)
+and official submission format.
 
 This is **local training only and earns no points**. The accompanying
 `training_manifest.json` contains the AC and Stable AC versions of this instance, each

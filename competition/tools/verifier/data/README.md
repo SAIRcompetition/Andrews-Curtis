@@ -3,10 +3,8 @@
 **The official data freeze is not yet set.** This preview contains
 20,230 challenges: the same **10,115 presentations** in the AC and Stable AC
 problems within Discovery Track. The status is `prelaunch`; Discovery opens at
-16:00 UTC on September 11, 2026. Other exact UTC schedule and freeze fields
-remain `null`. Calendar dates in `announced_dates` are September
-8, 2026 for registration, September 11 for Discovery, September 20 for
-Proof, and November 30 for the deadline.
+16:00 UTC on September 11, 2026. See the
+[Discovery rules](../../../rules/discovery.md) for the schedule and submission window.
 
 Before public launch, the organizers will freeze `manifest.json`,
 `move_spec.json`, and `stable_move_spec.json` in git and publish the commit.
@@ -32,11 +30,11 @@ uses `manifest.json` for exact integer-encoded words and verification limits.
 
 | File | Contents |
 |---|---|
-| `manifest.json` | The 20,230 scored challenges, `base_score = 1` each, with `instance_hash` per challenge and top-level `move_specs`, `manifest_hash`, `challenge_count`, and `presentation_count` and frozen `limits` (`max_path_length` 100000, `max_total_relator_length` 10000, `max_work` 5000000) |
-| `move_spec.json` | Machine-readable `ac-r2-v1`: the 14 frozen moves (the exact rows covered by `move_spec_hash`), letter encoding, and word-normalization conventions |
-| `stable_move_spec.json` | Machine-readable `sac-r8-v1`: 257 moves, rank cap 8, stabilization/deletion conditions, and canonical finishes to empty |
-| `ms1190_metadata.csv` | The full MS-1190 "denominator": all 1190 instances with `status_at_freeze` ∈ open (550) / uncertified (216) / certified (424). Reference material, **not** the pool listing |
-| `golden_vectors.json` | Conformance vectors for the reference verifier (`python3 -m acms_verify --golden ...`) |
+| [manifest.json](manifest.json) | The 20,230 scored challenges, `base_score = 1` each, with `instance_hash` per challenge and top-level `move_specs`, `manifest_hash`, `challenge_count`, and `presentation_count` and frozen `limits` (`max_path_length` 100000, `max_total_relator_length` 10000, `max_work` 5000000) |
+| [move_spec.json](move_spec.json) | Machine-readable `ac-r2-v1`: the 14 frozen moves (the exact rows covered by `move_spec_hash`), letter encoding, and word-normalization conventions |
+| [stable_move_spec.json](stable_move_spec.json) | Machine-readable `sac-r8-v1`: 257 moves, rank cap 8, stabilization/deletion conditions, and canonical finishes to empty |
+| [ms1190_metadata.csv](ms1190_metadata.csv) | The full MS-1190 "denominator": all 1190 instances with `status_at_freeze` ∈ open (550) / uncertified (216) / certified (424). Reference material, **not** the pool listing |
+| [golden_vectors.json](golden_vectors.json) | Conformance vectors for the reference verifier (`python3 -m acms_verify --golden ...`) |
 
 The 424 training presentations and their AC and Stable AC certificates are
 in [`examples/training_424.json`](../../../examples/training_424.json) and
@@ -45,9 +43,7 @@ in [`examples/training_424.json`](../../../examples/training_424.json) and
 For a complete successful replay, start with the
 [training example](../../../examples/README.md). It supplies a separate
 unscored manifest, a submission, and the expected verifier receipt.
-The 424 training instances are outside both scored problem sets. In Proof Track,
-a proof concerns the full selected conjecture; a disproof may use a presentation
-outside this pool. See the [official statement](../../../rules/proof.md).
+The 424 training instances are outside both scored problem sets.
 
 ## `manifest.json` challenge fields
 

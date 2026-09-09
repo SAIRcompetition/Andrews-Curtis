@@ -3,8 +3,6 @@
 This directory serves [Proof Track](../../rules/proof.md).
 [AC.lean](AC.lean) contains the shared official AC and Stable AC definitions;
 using Lean and running the auxiliary `Check` target are optional.
-[Discovery Track](../../rules/discovery.md) uses the
-[Python verifier](../verifier/README.md) and does not depend on Lean.
 
 For a Lean submission, import `AC` and identify whether your claim concerns ordinary or stable AC:
 
@@ -23,8 +21,7 @@ provides a specific counterexample, it must identify its rank and full presentat
 Both conjectures cover every positive finite starting rank. Ordinary AC fixes
 the rank along each path. Stable AC also permits adding an isolated generator
 and its singleton relator, or deleting such a pair, at arbitrary positions.
-Its finite paths have no bounds on rank, length, or word size; the Discovery
-benchmark's rank-8 limit is not part of the conjecture.
+Its finite paths have no bounds on intermediate rank, length, or word size.
 
 `AC.Conjecture.stable` proves that ordinary AC implies stable AC;
 `AC.StableCounterexample.counterexample` proves that a stable counterexample
@@ -67,6 +64,5 @@ To run the auxiliary checks, optionally use `lake build Check`.
 Those checks are not a submission requirement. Source snapshots are
 checked separately at release. The optional checks verify the embedding used
 by stabilization, the equivalence of the standard and empty stable endpoints,
-paths beyond rank 8, and the allowed axioms. Proof submissions address the
-chosen full conjecture or its negation; a formal bridge to a Discovery
-verifier's finite move encoding is not required.
+paths with changing rank, and the allowed axioms. Proof submissions address
+the chosen full conjecture or its negation.

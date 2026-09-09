@@ -2,14 +2,10 @@
 
 This directory provides the Python reference verifier for the AC and Stable AC
 problems in [Discovery Track](../../rules/discovery.md). It uses only the
-Python standard library and does not depend on Lean.
+Python standard library.
 Local self-checks are available now. Discovery submissions open on September 11,
 2026 at 16:00 UTC. The SAIR integration will use these same sources,
 with no separate port.
-
-Proofs and disproofs belong to [Proof Track](../../rules/proof.md).
-The [Lean guide](../lean/README.md) covers its shared official AC and Stable AC
-definitions; using Lean and running the auxiliary `Check` target are optional.
 
 > Local results are self-checks. Once the competition opens, the
 > server-side verifier will be the authority for official results.
@@ -40,10 +36,10 @@ The verifier reads the supporting files in [data/](data/README.md):
 
 | File | Purpose |
 |---|---|
-| `data/manifest.json` | Initial relators, targets, specifications, limits, and hashes for replay |
-| `data/move_spec.json`, `data/stable_move_spec.json` | Numbered AC and Stable AC operations |
-| `data/golden_vectors.json` | Conformance inputs and expected results |
-| `data/ms1190_metadata.csv` | MS-1190 reference metadata |
+| [manifest.json](data/manifest.json) | Initial relators, targets, specifications, limits, and hashes for replay |
+| [move_spec.json](data/move_spec.json), [stable_move_spec.json](data/stable_move_spec.json) | Numbered AC and Stable AC operations |
+| [golden_vectors.json](data/golden_vectors.json) | Conformance inputs and expected results |
+| [ms1190_metadata.csv](data/ms1190_metadata.csv) | MS-1190 reference metadata |
 
 The [AC training data](../../examples/training_424.json) and
 [Stable AC training data](../../examples/stable_training_424.json) contain

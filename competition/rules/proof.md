@@ -10,7 +10,7 @@ official schedule, registration, teams, and common participation rules.
 Select `ac` or `stable_ac`. A proof establishes the selected conjecture
 for every positive finite rank. A disproof establishes its negation; it
 may exhibit a counterexample or prove that one exists nonconstructively.
-An explicit rank, presentation, or challenge ID is not required for a
+An explicit rank or presentation is not required for a
 nonconstructive disproof.
 
 For either route, a counterexample must present the trivial group and
@@ -90,8 +90,7 @@ convention in [Lackenby, §1](https://arxiv.org/html/2606.06122v1#S1).
 Ordinary AC implies Stable AC, since every ordinary path is stable.
 Consequently, a stable counterexample is also an ordinary counterexample.
 An ordinary disproof alone does not settle Stable AC, and a Stable AC proof
-alone does not settle ordinary AC. The rank-8 limit in the
-[Discovery benchmark](discovery.md) is not part of this mathematical statement.
+alone does not settle ordinary AC.
 
 ## Submissions
 
@@ -121,17 +120,13 @@ the submission and assigns its version ID and timestamp. Contestants do
 not supply a version selector to change the official mathematical statement.
 
 If a submission exhibits a concrete counterexample, identify its rank and
-exact presentation, and name the challenge if it is a pool instance.
-Counterexamples may lie outside the Discovery pool. These fields are not
-required for a nonconstructive disproof. Any use of a pool presentation
-must map its words accurately to the mathematical tuple.
+exact presentation, specifying the generators and relators used in the
+argument. These details are not required for a nonconstructive disproof.
 
 ## Lean
 
 The [Lean project](../tools/lean/README.md) belongs to Proof Track and defines
 both conjectures in [AC.lean](../tools/lean/AC.lean). Using Lean is optional.
-[Discovery Track](discovery.md) uses the
-[Python verifier](../tools/verifier/README.md) and does not depend on this project.
 
 | Problem | Proof target | Disproof target | Equivalent existence statement |
 |---|---|---|---|

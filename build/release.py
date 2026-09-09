@@ -97,30 +97,20 @@ followed by **Proof Track on September 20, 2026**. Both tracks cover
 - [Proof Track](competition/rules/proof.md): full conjecture statements,
   proof/disproof materials, Lean, public versions, and community peer review.
 
-Run the successful, unscored training example from this package's root:
+## Discovery Track resources
 
-```sh
-PYTHONPATH=competition/tools/verifier python3 -m acms_verify \\
-  --manifest competition/examples/training_manifest.json \\
-  --submission competition/examples/sample_submission.json --pretty
-```
+- [Official problems](competition/problems/README.md): AC and Stable AC
+  problem files, each with 10,115 IDs and descriptions.
+- [Training data and examples](competition/examples/README.md): 424 separate,
+  unscored presentations, runnable submissions, and expected receipts.
+- [Python verifier](competition/tools/verifier/README.md): local verification
+  instructions and supporting data.
 
-Expected: exit code 0, `accepted: true`, and both `results[].ok: true`.
-See [the examples guide](competition/examples/README.md) for the full input,
-expected receipt, and negative example. Training IDs do not belong to the
-scored manifest. Local verification does not register a submission on SAIR.
+## Proof Track resources
 
-## Data and tools
-
-- [Official problems](competition/problems/README.md): `ac.json` and
-  `stable_ac.json`, each with 10,115 problem IDs and descriptions.
-- [Examples](competition/examples/README.md): 424 unscored training
-  presentations, successful submissions, and expected receipts.
-- [Verifier](competition/tools/verifier/README.md): Python reference checks
-  for Discovery, using only the standard library.
-- [Lean project](competition/tools/lean/README.md): the Proof Track statements
-  for both full conjectures in `AC.lean`. `lake build` builds the statements;
-  `Check` is optional. Discovery does not depend on Lean.
+- [Formal definitions](competition/tools/lean/AC.lean): both full conjectures.
+- [Lean guide](competition/tools/lean/README.md): instructions for using the
+  definitions and optional checks. Using Lean is optional.
 
 The package contains reference mathematical checks. Official submission
 handling, leaderboard updates, and public Proof versions and comments are
