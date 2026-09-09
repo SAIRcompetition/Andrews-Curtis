@@ -41,9 +41,9 @@ from acms_verify import canon, specs  # noqa: E402
 PRESENTATION_COUNT = 10115
 CHALLENGE_COUNT = 2 * PRESENTATION_COUNT
 STATE_FIELDS = ("announced_dates", "status", "freeze_date", "freeze_commit", "registration_opens",
-                "submissions_open", "prove_submissions_open", "submission_deadline", "certificate_release")
+                "submissions_open", "prove_submissions_open", "submission_deadline")
 DATE_FIELDS = ("freeze_date", "registration_opens", "submissions_open",
-               "prove_submissions_open", "submission_deadline", "certificate_release")
+               "submission_deadline")
 
 #: Directories that hold organizer-only material and must never appear
 #: in the export, at any depth.
@@ -77,35 +77,24 @@ ROOT_README = """\
 
 RELEASE_NOTICE
 
-Public data, rules, and reference tools for ACC, co-organized by
-Lucas Fagan, Sergei Gukov, and Terence Tao. ACC has two tracks:
-**Discovery Track** and **Proof Track**, each containing the **AC** and
-**Stable AC** problems. Discovery rewards short verified trivializations,
-with an independent leaderboard for each problem. Proof accepts proofs
-and disproofs of either full conjecture. A Proof result does not
-automatically end Discovery.
+Co-organized by Caltech and the SAIR Foundation, with Lucas Fagan, Sergei
+Gukov, and Terence Tao. [Register on SAIR](https://competition.sair.foundation/competitions/acc).
 
-This package provides the core mathematical checks used for reproducibility.
-Official submission handling and leaderboard updates belong to the SAIR
-competition platform. Local verification does not register a submission.
-
-Proof submissions identify the conjecture and include a claim type and
-description, with a complete argument in the description, PDF or paper,
-GitHub at a fixed commit, or arXiv at a fixed version. Every submitted
-version is public and immutable, with comments for community peer review,
-shared learning, and improvement. Lean submissions are open to the same
-scrutiny. Organizers may assess selected claims for competition recognition.
-Priority follows the earliest eligible complete correct version. See
-`competition/rules/evaluation.md` for submission, version, and credit rules.
+ACC launches with **Discovery Track on September 11, 2026 at 16:00 UTC**,
+followed by **Proof Track on September 20, 2026**. Both tracks cover
+**AC** and **Stable AC**. The submission deadline is November 30, 2026.
 
 ## Start here
 
-1. Read `competition/rules/overview.md` (the task and scoring), then
-   `competition/rules/evaluation.md` (exact verifier semantics).
-2. Explore `competition/challenges/` — the 20,230-challenge
-   manifest (10,115 presentations in each Discovery problem), two move specs,
-   full MS-1190 metadata, and 424 training trivializations for each problem.
-3. Run the successful, non-scoring examples for both Discovery problems from this package's root:
+- [Overview](competition/rules/overview.md): background, tracks, schedule,
+  registration, and common rules. The prelaunch page contains the same overview.
+- [Discovery Track](competition/rules/discovery.md): the 10,115-presentation
+  pool, moves, submission format, verifier semantics, and separate AC and
+  Stable AC leaderboards.
+- [Proof Track](competition/rules/proof.md): full conjecture statements,
+  proof/disproof materials, Lean, public versions, and community peer review.
+
+Run the successful, unscored training example from this package's root:
 
 ```sh
 PYTHONPATH=competition/tools/verifier python3 -m acms_verify \\
@@ -114,25 +103,25 @@ PYTHONPATH=competition/tools/verifier python3 -m acms_verify \\
 ```
 
 Expected: exit code 0, `accepted: true`, and both `results[].ok: true`.
-The full expected receipt is `competition/examples/sample_verdict.json`;
-see `competition/examples/README.md` for the input and negative example.
-`accepted` only indicates structural acceptance; each solution succeeds
-only when its own `results[].ok` is `true`.
+See [the examples guide](competition/examples/README.md) for the full input,
+expected receipt, and negative example. Training IDs do not belong to the
+scored manifest. Local verification does not register a submission on SAIR.
 
-For the Proof Track, read `competition/rules/statement.md` and
-`competition/tools/lean/README.md`. The local `lake build` command builds
-the official ordinary and stable statements in `AC.lean`; auxiliary
-`Check` examples are optional.
+## Data and tools
 
-## Layout
+- [Challenges](competition/challenges/README.md): 20,230 challenge records
+  (10,115 presentations in each Discovery problem), move tables, and 424
+  unscored training presentations.
+- [Verifier](competition/tools/verifier/README.md): Python reference checks
+  for Discovery, using only the standard library.
+- [Lean project](competition/tools/lean/README.md): both full conjectures
+  in `AC.lean`. `lake build` builds the statements; `Check` is optional.
 
-    competition/
-      competition.yaml        machine-readable metadata
-      rules/                  overview, evaluation, and full conjecture statement
-      challenges/             frozen data + hashes (see its README)
-      examples/               successful training submission and expected receipt
-      tools/verifier/         Python reference verifier (stdlib only)
-      tools/lean/             official Lean statements of AC and Stable AC
+The package contains reference mathematical checks. Official submission
+handling, leaderboard updates, and public Proof versions and comments are
+provided by SAIR. See `competition/competition.yaml` for the recorded
+schedule and release metadata. Submission-release status does not indicate
+whether registration is open.
 """
 
 
@@ -203,6 +192,8 @@ def validate_track_structure(yaml_text):
                         match.group(1), re.MULTILINE | re.DOTALL)
     if [track for track, _ in blocks] != ["discovery", "proof"]:
         raise ValueError("tracks must be Discovery Track and Proof Track, in that order")
+    announced_dates = json.loads(re.search(
+        r"^announced_dates: (.+)$", yaml_text, re.MULTILINE).group(1))
     expected = {
         "discovery": {
             "ac": {"id_prefix": "ac-v1-", "move_spec_version": "ac-r2-v1"},
@@ -217,6 +208,17 @@ def validate_track_structure(yaml_text):
         name = "Discovery Track" if track == "discovery" else "Proof Track"
         if "    name: " + name + "\n" not in block or "    problems:\n" not in block:
             raise ValueError("track metadata missing name or problems: " + track)
+        if "    overview: rules/" + track + ".md\n" not in block:
+            raise ValueError("track guide mismatch: " + track)
+        if track == "proof" and "    statement: rules/proof.md\n" not in block:
+            raise ValueError("Proof statement must be included in its track guide")
+        date_key = "discovery" if track == "discovery" else "prove"
+        time_key = "submissions_open" if track == "discovery" else "prove_submissions_open"
+        timestamp = json.loads(re.search(
+            r"^" + time_key + r": (.+)$", yaml_text, re.MULTILINE).group(1))
+        for key, value in (("opens", announced_dates[date_key]), ("opens_at", timestamp)):
+            if "    " + key + ": " + json.dumps(value) + "\n" not in block:
+                raise ValueError("track opening disagrees with maintained schedule: " + track)
         problems = re.findall(r"^      - id: ([a-z_]+)\n(.*?)(?=^      - id: |\Z)",
                               block, re.MULTILINE | re.DOTALL)
         if [problem for problem, _ in problems] != ["ac", "stable_ac"]:
@@ -229,13 +231,26 @@ def validate_track_structure(yaml_text):
             raise ValueError("Discovery requires independent problem leaderboards")
 
 
+def validate_rule_documents(root):
+    """Prevent exporting missing track guides or competing overview versions."""
+    rules = root / "rules"
+    for name in ("overview.md", "prelaunch.md", "discovery.md", "proof.md"):
+        if not (rules / name).is_file():
+            raise ValueError("missing competition guide: " + name)
+    if (rules / "overview.md").read_bytes() != (rules / "prelaunch.md").read_bytes():
+        raise ValueError("overview.md and prelaunch.md must contain the same overview")
+
+
 def validate_final_state(state, repo=REPO):
     """Fail before touching the output if dates or the Git data freeze are missing."""
     if state["status"] not in ("active", "finished"):
         raise ValueError("official release requires active or finished status; "
                          "use --preview for the prelaunch package")
     dates = {}
-    for key in DATE_FIELDS:
+    date_fields = DATE_FIELDS
+    if state.get("prove_submissions_open") is not None or state["status"] == "finished":
+        date_fields += ("prove_submissions_open",)
+    for key in date_fields:
         value = state[key]
         if not isinstance(value, str):
             raise ValueError("official release requires an announced " + key)
@@ -248,10 +263,14 @@ def validate_final_state(state, repo=REPO):
         if dates[key].utcoffset() is None:
             raise ValueError(key + " must include a timezone")
     if not (dates["registration_opens"] <= dates["submissions_open"]
-            <= dates["prove_submissions_open"]
-            < dates["submission_deadline"] <= dates["certificate_release"]):
+            < dates["submission_deadline"]):
         raise ValueError("competition dates must follow registration, Discovery opening, "
-                         "Proof opening, deadline, certificate release order")
+                         "and deadline order")
+    if "prove_submissions_open" in dates and not (
+            dates["submissions_open"] <= dates["prove_submissions_open"]
+            < dates["submission_deadline"]):
+        raise ValueError("competition dates must follow Discovery opening, Proof opening, "
+                         "and deadline order")
     if dates["freeze_date"] > dates["submissions_open"]:
         raise ValueError("data must be frozen no later than submissions open")
     commit = state["freeze_commit"]
@@ -361,6 +380,7 @@ def export_package(out, preview=False):
         assert '    hash: "%s"\n' % entry["move_spec_hash"] in yaml_text
         assert "    file: challenges/%s\n" % entry["file"] in yaml_text
     validate_track_structure(yaml_text)
+    validate_rule_documents(src)
     assert 'manifest_hash: "%s"' % manifest["manifest_hash"] in yaml_text
     assert "challenge_count: %d" % CHALLENGE_COUNT in yaml_text
     sh(sys.executable, REPO / "build/build_examples.py", "--check")

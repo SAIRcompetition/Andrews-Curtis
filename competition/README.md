@@ -1,81 +1,30 @@
 # The Andrews–Curtis Conjecture (ACC) Challenge
 
-**Prelaunch preview — registration and submissions are not open.** Rules,
-data, and local verification are available. Registration is scheduled for
-September 8, 2026, Discovery for September 11 at 16:00 UTC, and Proof for September 20;
-the submission deadline is November 30. Other exact UTC times and the official
-freeze remain pending.
+Co-organized by Caltech and the SAIR Foundation, with Lucas Fagan, Sergei
+Gukov, and Terence Tao.
 
-The ACC Challenge is one competition with **two tracks**. Each contains **AC** and
-**Stable AC** problems:
+[Registration is open on SAIR](https://competition.sair.foundation/competitions/acc).
+The competition launches with **Discovery Track on September 11, 2026 at
+16:00 UTC**. **Proof Track opens on September 20, 2026**. Both tracks cover
+**AC** and **Stable AC**; the submission deadline is November 30, 2026.
 
-| Track | Task |
+## Competition guides
+
+| Guide | Contents |
 |---|---|
-| **Discovery Track** | Find short verified move sequences for the published presentations |
-| **Proof Track** | Prove or disprove the full AC or Stable AC conjecture |
+| [Overview](rules/overview.md) | Background, both tracks, dates, registration, and common competition rules |
+| [Discovery Track](rules/discovery.md) | Data, moves, submission format, verifier semantics, limits, hashes, and scoring |
+| [Proof Track](rules/proof.md) | Full conjecture statements, proof/disproof submissions, Lean, public versions, and community peer review |
 
-In Discovery, the AC problem encodes its allowed operations as 14 move IDs
-and targets `(x,y)` at rank 2. Stable AC targets the empty presentation,
-using a table of 257 move IDs covering ranks up to 8; applicability depends
-on the current state. Both use the same 10,115 initial presentations, giving 20,230 challenge
-records and **two separate leaderboards**. The 424 solved training
-presentations are outside both scored problem sets. Submitted moves remain
-private until the post-competition release.
+`rules/prelaunch.md` contains the same overview for the prelaunch page.
+Each track's guide contains its full rules.
 
-In Proof, both problems concern the full conjectures, with no search bounds.
-Submissions identify the conjecture and claim type and provide a description
-and complete argument. The argument may be in the description, a paper/PDF,
-Lean at a fixed GitHub commit, an arXiv version, or a combination. A PDF is
-optional.
+## Run a successful Discovery example
 
-The planned platform will make all versions and comments public and
-preserve server timestamps and IDs. Community peer review enables participants
-to scrutinize arguments, learn from one another, and improve their work;
-Lean submissions are open to the same discussion. Organizers may assess
-selected claims for competition recognition, recording the relevant version
-and reasons for any decision. Priority belongs to the earliest eligible
-version containing a complete correct argument; borrowed work must be cited
-with an explanation of contributions. Either conclusion can receive the
-mathematical honor, without Discovery points or automatically ending
-Discovery Track. Both tracks remain closed during prelaunch.
-
-The full contestant-facing rules are in [rules/overview.md](rules/overview.md);
-verification, scoring, hashes, Discovery confidentiality, and Proof's
-public review, priority, and credit rules are specified
-normatively in [rules/evaluation.md](rules/evaluation.md). Machine-readable
-metadata is in `competition.yaml`.
-
-For a proof or disproof of either full conjecture, use the
-[official statement](rules/statement.md) and
-[Lean build instructions](tools/lean/README.md).
-
-## Organizers
-
-The ACC Challenge is co-organized by (in alphabetical order by surname):
-
-* Lucas Fagan
-* Sergei Gukov
-* Terence Tao
-
-## Discovery submission format
-
-A submission is a single JSON document, `submission.json`, carrying a
-`solutions[]` array of objects `{challenge_id, moves[]}`, where `moves`
-are move IDs 0–13 for `ac-v1-` challenges (`ac-r2-v1`) or 0–256 for
-`sac-v1-` challenges (`sac-r8-v1`). A batch may contain solutions to both problems.
-Each solution contains only the challenge id
-and moves; optional `method` and `notes` belong to the top-level
-document. The verifier reads the move-spec version from the official
-challenge and replays each path deterministically from its
-`initial_relators` and computes length, peak, and work itself, so any
-client-asserted result field rejects the whole submission. The move
-tables, exact targets, limits, and the full error-code
-contract are in [rules/overview.md](rules/overview.md) and
-[rules/evaluation.md](rules/evaluation.md).
-The [examples guide](examples/README.md) includes a successful training
-submission covering both problems, its expected receipt, and a separate rejection example.
-
-From the repository or exported package root:
+Each solution contains only a challenge ID and a list of moves. The
+[examples guide](examples/README.md) includes a successful training submission
+for both AC and Stable AC, the expected receipt, and a separate rejection example.
+From the repository or unpacked public package root:
 
 ```sh
 PYTHONPATH=competition/tools/verifier python3 -m acms_verify \
@@ -83,27 +32,22 @@ PYTHONPATH=competition/tools/verifier python3 -m acms_verify \
   --submission competition/examples/sample_submission.json --pretty
 ```
 
-The training example is unscored and uses its own manifest; it is not
-a solution to a challenge in the competition pool. Bridge certificates
-themselves score zero; a complete valid trivialization derived using a
-bridge scores normally for the challenge it solves, at its full length.
+Expected: exit code 0, `accepted: true`, and both `results[].ok: true`.
+These training examples are unscored; use official challenge IDs for competition
+submissions. Local verification does not register a submission on SAIR.
 
-Proof submission and review details are in
-[rules/evaluation.md](rules/evaluation.md) §9. Lean arguments remain
-open to community scrutiny of their statement, scope, and trust boundary.
+## Data and reference tools
 
-## Reference tools
+| Directory | Contents |
+|---|---|
+| [challenges/](challenges/README.md) | 10,115 presentations for each Discovery problem, separate AC and Stable AC challenge records, and 424 unscored training presentations |
+| [examples/](examples/README.md) | Successful and unsuccessful submissions with expected results |
+| [tools/verifier/](tools/verifier/README.md) | Python reference verifier for Discovery, using only the standard library |
+| [tools/lean/](tools/lean/README.md) | The full AC and Stable AC conjectures in `AC.lean`; `Check.lean` is optional |
 
-`tools/verifier/` is the reference verifier — pure Python, standard
-library only — which replays a submission against the supplied manifest,
-recomputes every hash, and runs the included golden vectors. The
-planned competition service will use the same verifier sources; only
-its server-side verdicts will count as official results once the
-competition opens. `tools/lean/AC.lean` defines both full conjectures;
-formalizations need only `import AC`. `Check.lean` is an optional
-auxiliary target, run separately with `lake build Check`.
-
-Submission handling, public Proof versions and comments, any recognition records,
-and the leaderboard belong to the planned competition service. This
-preview contains the data, rules, and reference implementations of the
-mathematical checks.
+Machine-readable track routes and dates are in `competition.yaml`.
+SAIR handles registration, teams, submissions, leaderboards, and public Proof
+versions and comments. This package supplies the data, rules, and reference
+mathematical checks. The release metadata remains `prelaunch` until the
+submission launch and data-freeze requirements are complete; it does not
+indicate whether registration is open.

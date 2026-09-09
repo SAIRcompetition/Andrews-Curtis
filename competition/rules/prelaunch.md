@@ -2,6 +2,8 @@
 
 A competition to find short trivializations of group presentations and to prove or disprove the Andrews–Curtis conjecture and its stable version.
 
+The competition launches with **Discovery Track on September 11, 2026 at 16:00 UTC**. **Proof Track opens on September 20, 2026**. [Registration is open on SAIR](https://competition.sair.foundation/competitions/acc).
+
 ## Co-organizers
 
 The ACC Challenge is co-organized by (in alphabetical order by surname):
@@ -48,6 +50,8 @@ Adjacent inverse letters cancel after each move.
 
 Each solution contains only a **challenge ID and a list of moves**. The verifier checks the sequence, and the AC and Stable AC problems have **separate leaderboards**, rewarding the shortest verified paths. Move sequences remain private during the competition and are published afterwards.
 
+See the [Discovery Track guide](discovery.md) for the data, runnable examples, submission format, verifier, and scoring rules.
+
 ### Proof Track
 
 Submit a proof or disproof of either conjecture:
@@ -60,6 +64,8 @@ Both conjectures concern balanced presentations at every positive finite rank. A
 Submit a description and a complete argument, supplied in the description, a paper or PDF, a GitHub repository containing a Lean proof at a fixed commit, an arXiv version, or a combination.
 
 Every submission is public, with timestamped versions and comments. We encourage community peer review so participants can examine arguments, identify gaps, suggest corrections, and build on one another's work. Lean formalizations are also open to this scrutiny.
+
+See the [Proof Track guide](proof.md) for the complete mathematical statements, submission materials, Lean definitions, and public review and version rules.
 
 ## Key Dates
 

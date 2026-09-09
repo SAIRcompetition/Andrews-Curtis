@@ -35,10 +35,32 @@ class TestReleaseState(unittest.TestCase):
             yaml_text.replace("conjecture: AC.StableConjecture", "conjecture: AC.Conjecture"),
             yaml_text.replace("move_spec_version: sac-r8-v1", "move_spec_version: ac-r2-v1"),
             yaml_text.replace("leaderboards: independent_per_problem", "leaderboards: combined"),
+            yaml_text.replace("    overview: rules/discovery.md", "    overview: rules/proof.md"),
+            yaml_text.replace("    statement: rules/proof.md", "    statement: rules/overview.md"),
+            yaml_text.replace("    opens_at:", "    unused_opens_at:", 1),
         )
         for mutation in mutations:
             with self.subTest(metadata=mutation), self.assertRaises(ValueError):
                 release.validate_track_structure(mutation)
+
+    def test_public_overview_and_track_guides_are_complete_and_consistent(self):
+        release.validate_rule_documents(util.REPO / "competition")
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            rules = root / "rules"
+            rules.mkdir()
+            for name in ("overview.md", "prelaunch.md", "discovery.md", "proof.md"):
+                (rules / name).write_text("Shared overview\n")
+            release.validate_rule_documents(root)
+            (rules / "prelaunch.md").write_text("Stale overview\n")
+            with self.assertRaisesRegex(ValueError, "same overview"):
+                release.validate_rule_documents(root)
+            (rules / "prelaunch.md").write_text("Shared overview\n")
+            for name in ("discovery.md", "proof.md"):
+                (rules / name).unlink()
+                with self.subTest(missing=name), self.assertRaisesRegex(ValueError, "missing competition guide"):
+                    release.validate_rule_documents(root)
+                (rules / name).write_text("Track guide\n")
 
     def test_metadata_drift_is_rejected(self):
         state = dict.fromkeys(release.STATE_FIELDS)
@@ -145,7 +167,6 @@ class TestFinalFreeze(unittest.TestCase):
             "submissions_open": "2026-10-03T00:00:00Z",
             "prove_submissions_open": "2026-10-03T12:00:00Z",
             "submission_deadline": "2026-10-04T00:00:00Z",
-            "certificate_release": "2026-10-05T00:00:00Z",
         }
 
     @classmethod
@@ -155,6 +176,22 @@ class TestFinalFreeze(unittest.TestCase):
 
     def test_complete_state_with_matching_git_snapshot_passes(self):
         release.validate_final_state(self.state, self.repo)
+
+    def test_discovery_release_can_precede_the_exact_proof_opening_time(self):
+        release.validate_final_state(
+            dict(self.state, prove_submissions_open=None), self.repo)
+
+    def test_finished_release_requires_the_proof_opening_time(self):
+        release.validate_final_state(dict(self.state, status="finished"), self.repo)
+        with self.assertRaisesRegex(ValueError, "prove_submissions_open"):
+            release.validate_final_state(
+                dict(self.state, status="finished", prove_submissions_open=None), self.repo)
+
+    def test_announced_proof_time_must_be_a_valid_utc_timestamp(self):
+        for invalid in ("TBD", "2026-10-03", "2026-10-03T12:00:00", "2026-13-03T12:00:00Z"):
+            with self.subTest(proof_opening=invalid), self.assertRaises(ValueError):
+                release.validate_final_state(
+                    dict(self.state, prove_submissions_open=invalid), self.repo)
 
     def test_each_required_date_and_commit_is_enforced(self):
         for key in (*release.DATE_FIELDS, "freeze_commit"):

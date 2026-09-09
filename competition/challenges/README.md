@@ -14,7 +14,7 @@ Release metadata comes from the development repository's `build/competition_stat
 `build/build_manifest_v2.py` synchronizes generated data and metadata.
 `freeze_date` is outside `instance_hash`, so setting the date does not
 change the mathematical instance or certificate hashes. See
-[evaluation.md](../rules/evaluation.md#5-hashes) for hash semantics.
+[Discovery rules](../rules/discovery.md#5-hashes) for hash semantics.
 
 The scored pool is derived from the SAIR dataset release and the full
 MS-1190 open set as described below. The public package excludes the
@@ -38,7 +38,7 @@ For a complete successful replay, start with the
 unscored manifest, a submission, and the expected verifier receipt.
 The 424 training instances are outside both scored problem sets. In Proof Track,
 a proof concerns the full selected conjecture; a disproof may use a presentation
-outside this pool. See the [official statement](../rules/statement.md).
+outside this pool. See the [official statement](../rules/proof.md).
 
 ## `manifest.json` challenge fields
 
@@ -56,7 +56,7 @@ participants to recognize instances and their origins.
 | `move_spec_version` | `ac-r2-v1` for `ac-v1-`; `sac-r8-v1` for `sac-v1-`; supplied by the challenge, never the contestant |
 | `scored` | Always `true` — every challenge in the pool is scored |
 | `base_score` | Always `1` |
-| `instance_hash` | Hash over `challenge_id`, generators, both relator lists, `move_spec_version`, `move_spec_hash`; see the [hash specification](../rules/evaluation.md#5-hashes) |
+| `instance_hash` | Hash over `challenge_id`, generators, both relator lists, `move_spec_version`, `move_spec_hash`; see the [hash specification](../rules/discovery.md#5-hashes) |
 | `freeze_date` | `null` until the official freeze is set; outside `instance_hash` by design |
 
 Pool composition: the 10000-row SAIR competition draw, minus the 89

@@ -5,17 +5,19 @@ and **Proof Track** (`proof`). Each has two problems: **AC** (`ac`) and
 **Stable AC** (`stable_ac`). Discovery rewards short verified paths with
 separate problem leaderboards. Proof accepts proofs or disproofs of either
 full conjecture. Public versions and voluntary community peer review are
-the main Proof workflow. A Proof result neither automatically ends Discovery
-nor converts into Discovery points.
+the main Proof workflow.
 
-The competition is **prelaunch**. Local data and mathematical checks are
-available; online submission, official scoring, and public Proof comments are
-not yet implemented by this repository. SAIR is the decided host platform.
-The remaining platform work is its ACC adapter and integration.
+Registration is open on [SAIR](https://competition.sair.foundation/competitions/acc).
+Discovery launches September 11, 2026 at 16:00 UTC; Proof launches September 20.
+The local release status remains **prelaunch** until submission-release
+requirements are met. Platform services are hosted by SAIR and require
+separate integration checks; the local tools do not establish their readiness.
 
-The contestant-facing contract is [evaluation.md](../competition/rules/evaluation.md),
-with [overview.md](../competition/rules/overview.md) as its introduction and
-[statement.md](../competition/rules/statement.md) as the mathematical target.
+The contestant-facing entry point is [overview.md](../competition/rules/overview.md),
+identical to the prelaunch page. [discovery.md](../competition/rules/discovery.md)
+contains the Discovery task and evaluation contract;
+[proof.md](../competition/rules/proof.md) contains the Proof task, full mathematical
+statements, and public review and version rules.
 This guide records implementation responsibilities and gaps, not a second
 set of competition rules. Earlier designs remain available in Git history.
 
@@ -257,8 +259,8 @@ tests. A passing formula example alone does not verify event semantics.
 Discovery moves and intermediate states remain private during competition.
 Publish only the evaluation contract's allowed fields: lengths, solver
 records, approved non-scoring statistics, and bridge summaries. Teams can
-inspect their own submissions. Publish valid certificates at the announced
-post-competition release point.
+inspect their own submissions. Publish valid move sequences after the competition, following the
+Discovery disclosure rules.
 
 Proof submissions, versions, and supporting materials are public on
 submission, with no private/public toggle. Comments and any recognition
@@ -366,23 +368,8 @@ recognition, organizers resolve disagreements using public history and evidence,
 percentage allocations. Competition receipts do not replace scientific
 priority established by earlier public work; an external publication date
 does not replace the server receipt used for competition priority.
-Withdrawn or retracted versions no longer occupy competition priority or
-honors, but their historical contributions remain visible.
-
-### 7.7 Relationship to Discovery
-
-Recognize the first qualifying proof or disproof per conjecture separately
-from Discovery points. An AC proof or Stable AC disproof is recognized for
-both conjectures using the same version and receipt time, once a selected
-assessment confirms the result and implication. Contributions and authorship
-remain attached.
-
-Neither result automatically stops Discovery. A stable counterexample
-conflicts with any verified AC or stable path for that presentation;
-an ordinary counterexample conflicts with an ordinary path, but may coexist
-with a stable path. A full proof and disproof of the same conjecture cannot
-both hold. Assessments for recognition must check the exact relation and
-record any corrections.
+Withdrawn or retracted versions no longer hold competition priority,
+but their historical contributions remain visible.
 
 ## 8. SAIR platform integration
 
@@ -417,8 +404,10 @@ integration, private maps, and this guide are not in the export.
 ### 9.2 Lifecycle
 
 `build/release.py --preview` writes an explicitly marked preview to
-`dist/ACMS-public`. The default release command requires a complete approved
-schedule and verified Git data freeze. Maintain release state in
+`dist/ACMS-public`. The default release command requires approved registration, Discovery opening,
+and deadline timestamps and a verified Git data freeze. The Proof opening
+timestamp may remain unset for the Discovery release; set it before enabling
+Proof submissions. A finished release requires the Proof opening timestamp too. Maintain release state in
 `build/competition_state.json` and synchronize generated metadata. During
 prelaunch, `submissions_open` is `2026-09-11T16:00:00Z`; other exact UTC
 dates and `freeze_commit` remain `null`. Calendar plans
@@ -432,8 +421,8 @@ nested `problems` entries `ac` and `stable_ac`.
 
 ### 9.3 Export checks
 
-Release checks cover dataset hashes, examples and golden vectors, and the
-Lean source/configuration snapshot. Exclude private maps, dependency caches,
+Release checks cover the common overview and track-guide routes, dataset
+hashes, examples and golden vectors, and the Lean source/configuration snapshot. Exclude private maps, dependency caches,
 and build products. This is not an end-to-end platform launch test or
 certification of a contestant's argument. Rebuild the preview after public
 sources change; do not distribute an older package as current rules.
@@ -458,7 +447,12 @@ that missing platform operations already exist.
 
 ## 11. Launch acceptance
 
-In addition to existing mathematical and data checks, launch requires:
+Registration is already open. Validate each submission track before its own
+launch; the September 11 Discovery launch does not require the September 20
+Proof workflow to be ready. The published rules, generated metadata, export,
+and enabled platform operations must agree for the track being opened.
+
+### 11.1 Discovery — September 11, 2026 at 16:00 UTC
 
 1. Both 10,115-challenge problem sets and their separate 424-instance training
    material reproduce expected hashes; examples run from the public export.
@@ -473,16 +467,20 @@ In addition to existing mathematical and data checks, launch requires:
    configuration, including scoring flags and base scores.
 6. Public Discovery responses exclude private moves and intermediate states;
    authorized teams can retrieve their own records.
-7. Bridges use exact destination presentations and score zero themselves;
-   derived full solutions receive ordinary Discovery scoring.
-8. Proof publishes versions and fixed materials for voluntary community
-   review, with comments and revisions; it does not automatically queue every
-   submission for organizer assessment.
-9. Selected recognition assessments record version-specific reasons and
-   check the full target, prior work, contributions, and conflicting results.
-   Priority distinguishes cosmetic edits from repairs of substantive gaps.
-10. Approved schedule, freeze, public rules, generated metadata, exported
-    package, and actual enabled platform operations agree.
+7. If the optional bridge service is enabled, bridges use exact destination
+   presentations and score zero themselves; derived full solutions receive
+   ordinary Discovery scoring.
+8. Approved Discovery timing, deadline, and data freeze match the public
+   rules and metadata. A future Proof opening date does not enable its endpoint.
 
-Official registration and scoring remain closed until these requirements
-and the announced release process have been satisfied.
+### 11.2 Proof — September 20, 2026
+
+1. Publish versions and fixed materials for voluntary community review, with
+   comments and revisions; do not automatically queue every submission for
+   organizer assessment.
+2. Where selected recognition assessments are recorded, they identify the
+   exact version, reasons, full target, prior work, and contributions.
+   Priority distinguishes cosmetic edits from repairs of substantive gaps.
+3. Set the approved Proof UTC opening time in `prove_submissions_open` and
+   its track-level `opens_at` before enabling submissions; preserve the
+   existing Discovery schedule and data freeze.

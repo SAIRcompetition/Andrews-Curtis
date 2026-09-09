@@ -23,7 +23,7 @@ benchmark's rank-8 limit is not part of the conjecture.
 `AC.Conjecture.stable` proves that ordinary AC implies stable AC;
 `AC.StableCounterexample.counterexample` proves that a stable counterexample
 also disproves ordinary AC. These implications do not assume either conjecture.
-See the [mathematical statements](../../rules/statement.md) for details.
+See the [mathematical statements](../../rules/proof.md#ordinary-ac) for details.
 
 The Proof Track is part of the Andrews–Curtis Conjecture (ACC) Challenge.
 It accepts a proof or disproof with a description and complete argument,
@@ -33,7 +33,7 @@ Submissions and immutable versions are public, with comments for community
 peer review, shared learning, and improvement. Lean arguments are open to
 scrutiny of their statement, scope, and trust boundary. Organizers may assess
 selected claims for competition recognition. See the
-[evaluation rules](../../rules/evaluation.md) for versions and credit.
+[Proof Track rules](../../rules/proof.md#priority-and-credit) for versions and credit.
 
 ## Build
 

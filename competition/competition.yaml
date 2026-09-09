@@ -12,6 +12,7 @@ scoring_formula: "V_i * 2^(1-k_i) for teams at the current shortest length, 0 ot
 tracks:
   - id: discovery
     name: Discovery Track
+    overview: rules/discovery.md
     opens: "2026-09-11"
     opens_at: "2026-09-11T16:00:00Z"
     objective: "Find short verified trivializations of the published presentations"
@@ -29,14 +30,15 @@ tracks:
         target: "The empty presentation, with current rank at most 8"
   - id: proof
     name: Proof Track
+    overview: rules/proof.md
     opens: "2026-09-20"
     opens_at: null
-    statement: rules/statement.md
+    statement: rules/proof.md
     submission_format: "Conjecture, claim type, and description required; complete argument in description, PDF or paper, GitHub at a fixed commit, or arXiv at a fixed version"
     visibility: public
     versions: immutable
     review: "Community peer review through public versions and comments, including Lean submissions; organizers may assess selected claims for competition recognition"
-    credit: "Earliest eligible complete correct version, with references and contributions recorded; see rules/evaluation.md"
+    credit: "Earliest eligible complete correct version, with references and contributions recorded; see rules/proof.md#priority-and-credit"
     leaderboard_points: false
     problems:
       - id: ac
@@ -68,10 +70,9 @@ registration_opens: null
 submissions_open: "2026-09-11T16:00:00Z"
 prove_submissions_open: null
 submission_deadline: null
-certificate_release: null
 challenge_count: 20230
 presentation_count: 10115
 challenge_policy: "Discovery Track: 10,115 balanced presentations for each of the AC and Stable AC problems, with 20,230 separately scored challenge records; base_score 1 each. Internal difficulty labels and direct source-ID mappings are omitted; public MS metadata and relators may reveal origins"
 overview: rules/overview.md
-evaluation: rules/evaluation.md
+evaluation: rules/discovery.md
 manifest: challenges/manifest.json

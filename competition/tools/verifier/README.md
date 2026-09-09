@@ -1,9 +1,9 @@
 # Discovery Track reference verifier (`acms_verify`)
 
-**Prelaunch preview.** This Python reference verifier is available for
-local self-checking now for the AC and Stable AC problems in Discovery
-Track of the Andrews–Curtis
-Conjecture (ACC) Challenge; competition submissions are not open.
+This Python reference verifier supports the AC and Stable AC problems in
+Discovery Track of the Andrews–Curtis Conjecture (ACC) Challenge. Local
+self-checks are available now. Discovery submissions open on September 11,
+2026 at 16:00 UTC.
 The SAIR integration will use these same standard-library-only sources,
 with no separate port. Proofs and disproofs belong to the Proof Track
 and are not processed by this path verifier.
@@ -23,7 +23,7 @@ and are not processed by this path verifier.
 | `acms_verify/golden.py` | self-contained conformance vector runner |
 | `acms_verify/cli.py` | `acms-verify` command line |
 
-The public [evaluation rules](../../rules/evaluation.md) specify move
+The public [evaluation rules](../../rules/discovery.md) specify move
 semantics, the submission contract, limits, hashes, and error codes.
 
 ## Usage

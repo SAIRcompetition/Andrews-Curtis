@@ -77,7 +77,7 @@ CHALLENGES_DIR = REPO / "competition" / "challenges"
 PRIVATE_DIR = REPO / "build" / "private"
 COMPETITION_STATE_PATH = REPO / "build" / "competition_state.json"
 SCHEDULE_FIELDS = ("freeze_date", "registration_opens", "submissions_open", "prove_submissions_open",
-                   "submission_deadline", "certificate_release")
+                   "submission_deadline")
 
 #: Exactly the keys a public challenge record may carry (O-4: no
 #: difficulty, family, or provenance signal reaches contestants).
@@ -857,6 +857,7 @@ scoring_formula: "V_i * 2^(1-k_i) for teams at the current shortest length, 0 ot
 tracks:
   - id: discovery
     name: Discovery Track
+    overview: rules/discovery.md
     opens: {json.dumps(competition_state['announced_dates']['discovery'])}
     opens_at: {json.dumps(competition_state['submissions_open'])}
     objective: "Find short verified trivializations of the published presentations"
@@ -874,14 +875,15 @@ tracks:
         target: "The empty presentation, with current rank at most 8"
   - id: proof
     name: Proof Track
+    overview: rules/proof.md
     opens: {json.dumps(competition_state['announced_dates']['prove'])}
     opens_at: {json.dumps(competition_state['prove_submissions_open'])}
-    statement: rules/statement.md
+    statement: rules/proof.md
     submission_format: "Conjecture, claim type, and description required; complete argument in description, PDF or paper, GitHub at a fixed commit, or arXiv at a fixed version"
     visibility: public
     versions: immutable
     review: "Community peer review through public versions and comments, including Lean submissions; organizers may assess selected claims for competition recognition"
-    credit: "Earliest eligible complete correct version, with references and contributions recorded; see rules/evaluation.md"
+    credit: "Earliest eligible complete correct version, with references and contributions recorded; see rules/proof.md#priority-and-credit"
     leaderboard_points: false
     problems:
       - id: ac
@@ -901,12 +903,11 @@ registration_opens: {json.dumps(competition_state['registration_opens'])}
 submissions_open: {json.dumps(competition_state['submissions_open'])}
 prove_submissions_open: {json.dumps(competition_state['prove_submissions_open'])}
 submission_deadline: {json.dumps(competition_state['submission_deadline'])}
-certificate_release: {json.dumps(competition_state['certificate_release'])}
 challenge_count: {manifest['challenge_count']}
 presentation_count: {manifest['presentation_count']}
 challenge_policy: "Discovery Track: 10,115 balanced presentations for each of the AC and Stable AC problems, with 20,230 separately scored challenge records; base_score 1 each. Internal difficulty labels and direct source-ID mappings are omitted; public MS metadata and relators may reveal origins"
 overview: rules/overview.md
-evaluation: rules/evaluation.md
+evaluation: rules/discovery.md
 manifest: challenges/manifest.json
 """, encoding="utf-8")
     print("wrote %s" % path.relative_to(REPO))
