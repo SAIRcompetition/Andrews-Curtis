@@ -24,14 +24,20 @@ the competition service's verifier determines official Discovery results.
 
 ## 1. Problems and move specifications
 
-[manifest.json](../challenges/manifest.json) contains 20,230 challenge
-records: one for each problem on each of the 10,115 initial presentations.
-Matching ID suffixes select identical initial relators:
+The official problem files are [ac.json](../problems/ac.json) and
+[stable_ac.json](../problems/stable_ac.json). Each contains 10,115 entries
+with only `challenge_id` and `description`: the initial presentation and
+the target to reach. Matching ID suffixes select identical initial relators:
 
 | Problem | Challenge IDs | Move specification | Target |
 |---|---|---|---|
 | AC | `ac-v1-00001` through `ac-v1-10115` | `ac-r2-v1`, 14 moves | Exact ordered pair `[[1],[2]]`, at rank 2 |
 | Stable AC | `sac-v1-00001` through `sac-v1-10115` | `sac-r8-v1`, 257 moves | Empty presentation `[]`, with current rank at most 8 |
+
+The [problem guide](../problems/README.md) explains the description notation.
+The verifier reads the corresponding encoded words, targets, and limits from
+[manifest.json](../tools/verifier/data/manifest.json); both problem files
+are generated from it and checked for agreement when the package is built.
 
 The challenge supplies its move specification. The numbered move tables
 are frozen: IDs retain their published meanings. Every scored challenge
@@ -69,7 +75,7 @@ reachability is symmetric.
 $(y,x)$ or $(x^{-1},y)$ does not count — but this costs at most **5**
 extra moves from any "loose trivial" state. The exhaustively verified
 shortest suffixes are also published as `canonicalization_table` in
-[move_spec.json](../challenges/move_spec.json):
+[move_spec.json](../tools/verifier/data/move_spec.json):
 
 | Final state | Moves to $T$ | One shortest path (move ids) |
 |---|---:|---|
@@ -100,7 +106,7 @@ rank 2; the target is the **empty presentation** `[]`.
 | 29–136 | Remaining right multiplications by another relator or its inverse |
 | 137–256 | Remaining conjugations by a generator letter or its inverse |
 
-All 257 rows are in [stable_move_spec.json](../challenges/stable_move_spec.json);
+All 257 rows are in [stable_move_spec.json](../tools/verifier/data/stable_move_spec.json);
 its `moves` array is hashed as specified in [§5](#5-hashes). The operation
 IDs cover ranks up to 8: 8 inversions, 112 right multiplications, 128 generator-letter
 conjugations, 1 stabilization, and 8 destabilizations. Applicability depends
@@ -139,11 +145,11 @@ it is not a verifier rejection or a claim that the instance is unsolvable.
 Internal per-instance difficulty labels and direct provenance mappings
 are omitted. Participants may still recognize presentations by comparison
 with public mathematical sources; the omission is not an anonymity guarantee.
-See the [challenge data guide](../challenges/README.md) for the manifest
+See the [verifier data guide](../tools/verifier/data/README.md) for the manifest
 schema, pool construction, and full MS-1190 reference metadata.
 
-[training_424.json](../challenges/training_424.json) contains 424 solved AC
-presentations. [stable_training_424.json](../challenges/stable_training_424.json)
+[training_424.json](../examples/training_424.json) contains 424 solved AC
+presentations. [stable_training_424.json](../examples/stable_training_424.json)
 contains the same presentations with paths extended by `[16,15]`.
 They are outside both scored problem sets. The example below exercises
 both specifications using a separate, unscored manifest.
@@ -182,12 +188,12 @@ for both results. The [examples guide](../examples/README.md) contains the
 complete [expected receipt](../examples/sample_verdict.json) and a separate
 rejection example. Training IDs do not occur in the scored manifest:
 checking this sample against it returns `E_UNKNOWN_CHALLENGE` and exit
-status 1. For scored submissions, use IDs from the official manifest and
+status 1. For scored submissions, use IDs from the official problem files and
 your own move sequences. To check `mine.json` locally:
 
 ```sh
 PYTHONPATH=competition/tools/verifier python3 -m acms_verify \
-  --manifest competition/challenges/manifest.json \
+  --manifest competition/tools/verifier/data/manifest.json \
   --submission mine.json --pretty
 ```
 
@@ -205,9 +211,9 @@ Run the published conformance vectors and check the manifest's hashes:
 
 ```sh
 PYTHONPATH=competition/tools/verifier python3 -m acms_verify \
-  --golden competition/challenges/golden_vectors.json
+  --golden competition/tools/verifier/data/golden_vectors.json
 PYTHONPATH=competition/tools/verifier python3 -m acms_verify \
-  --manifest competition/challenges/manifest.json --check-hashes
+  --manifest competition/tools/verifier/data/manifest.json --check-hashes
 ```
 
 ### 2.2 Verifier semantics

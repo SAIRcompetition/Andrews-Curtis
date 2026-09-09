@@ -26,6 +26,26 @@ and are not processed by this path verifier.
 The public [evaluation rules](../../rules/discovery.md) specify move
 semantics, the submission contract, limits, hashes, and error codes.
 
+## Problem statements and verifier data
+
+The official problem statements are
+[AC](../../problems/ac.json) and [Stable AC](../../problems/stable_ac.json):
+two JSON arrays, each with 10,115 entries containing only `challenge_id`
+and `description`, covering the same initial presentations.
+
+The verifier reads the supporting files in [data/](data/README.md):
+
+| File | Purpose |
+|---|---|
+| `data/manifest.json` | Initial relators, targets, specifications, limits, and hashes for replay |
+| `data/move_spec.json`, `data/stable_move_spec.json` | Numbered AC and Stable AC operations |
+| `data/golden_vectors.json` | Conformance inputs and expected results |
+| `data/ms1190_metadata.csv` | MS-1190 reference metadata |
+
+The [AC training data](../../examples/training_424.json) and
+[Stable AC training data](../../examples/stable_training_424.json) contain
+the same 424 presentations, all outside the official pool.
+
 ## Usage
 
 Each entry in a submission's `solutions` array contains only
@@ -34,7 +54,9 @@ from the official challenge for replay and certificate hashing. `ac-v1-`
 IDs use `ac-r2-v1` (0–13); `sac-v1-` IDs use `sac-r8-v1` (0–256).
 One submission may contain both. The rank cap applies only to the
 Stable AC problem in Discovery; proving either conjecture uses the
-separate Lean targets.
+Proof Track's full statements. The [Lean project](../lean/README.md) provides
+official formal targets and optional checks for Proof. Discovery verification uses
+Python and does not depend on Lean.
 
 Start with a successful, unscored training example. Run from the
 repository or exported package root:
@@ -57,14 +79,14 @@ For other checks, run from this directory (`competition/tools/verifier/`):
 
 ```sh
 # verify a submission against the current competition manifest
-python3 -m acms_verify --manifest ../../challenges/manifest.json \
+python3 -m acms_verify --manifest data/manifest.json \
                        --submission mine.json --pretty
 
 # run the reference conformance vectors
-python3 -m acms_verify --golden ../../challenges/golden_vectors.json
+python3 -m acms_verify --golden data/golden_vectors.json
 
 # recompute and check every hash in the manifest
-python3 -m acms_verify --manifest ../../challenges/manifest.json --check-hashes
+python3 -m acms_verify --manifest data/manifest.json --check-hashes
 ```
 
 Exit codes: `0` all solutions verified OK · `1` structurally accepted but some solution

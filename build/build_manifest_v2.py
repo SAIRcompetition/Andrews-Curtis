@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Generate the frozen ACC data artifacts (manifest version ``acms-v3``).
 
-This is the sole generator for everything under
-``competition/challenges/`` and for ``competition/competition.yaml``.
+Generate verifier data, the two public problem lists, training data, and
+optional ``competition/competition.yaml`` metadata.
 Run ``build/sync_dataset.py`` first: the scored pool comes from
 ``build/data/`` (distilled from the private SAIR dataset release), not
 from ``reference/index.html`` any more.  ``reference/index.html`` is
@@ -18,16 +18,18 @@ to rank 8).  ``sac-v1-N`` and ``ac-v1-N`` are the same presentation.
 
 Outputs:
 
-  competition/challenges/manifest.json             20230 scored challenges
-  competition/challenges/move_spec.json            FROZEN, byte-identity checked
-  competition/challenges/training_424.json         FROZEN, byte-identity checked
-  competition/challenges/stable_move_spec.json     FROZEN once written
-  competition/challenges/stable_training_424.json  FROZEN once written
-  competition/challenges/ms1190_metadata.csv       the MS-1190 denominator
-  competition/challenges/golden_vectors.json       conformance vectors
-  competition/competition.yaml                     machine-readable metadata
-  build/private/challenge_map_private.tsv          NEVER published
-  build/private/pool_stats.json                    NEVER published
+  competition/problems/ac.json                         10115 AC descriptions
+  competition/problems/stable_ac.json                  10115 Stable AC descriptions
+  competition/tools/verifier/data/manifest.json         20230 scored challenges
+  competition/tools/verifier/data/move_spec.json        FROZEN, byte-identity checked
+  competition/tools/verifier/data/stable_move_spec.json FROZEN once written
+  competition/tools/verifier/data/ms1190_metadata.csv   the MS-1190 denominator
+  competition/tools/verifier/data/golden_vectors.json   conformance vectors
+  competition/examples/training_424.json               FROZEN, byte-identity checked
+  competition/examples/stable_training_424.json        FROZEN once written
+  competition/competition.yaml                         generated metadata
+  build/private/challenge_map_private.tsv              NEVER published
+  build/private/pool_stats.json                         NEVER published
 
 The manifest omits internal difficulty labels and direct source mappings: every scored
 challenge is exactly {challenge_id, generators, initial_relators,
@@ -61,6 +63,7 @@ from acms_verify import (  # noqa: E402
 from build_manifest import (  # noqa: E402
     GENERATORS, LIMITS, MOVE_DESCRIPTIONS, TARGET, build_golden,
     build_move_spec, build_training, dump, load_items, ms_initial, stats)
+from build_problems import write_problems  # noqa: E402
 from sync_dataset import (  # noqa: E402
     DATA_DIR, EXPECTED_ADDED_OPEN, EXPECTED_MS_STATUS,
     EXPECTED_OVERLAP_BY_STATUS, EXPECTED_POOL_ROWS, EXPECTED_TIERS,
@@ -74,7 +77,9 @@ STABLE_CHALLENGE_ID_FORMAT = "sac-v1-%05d"
 #: The Stable AC problem's target: the empty presentation.
 STABLE_TARGET = []
 
-CHALLENGES_DIR = REPO / "competition" / "challenges"
+VERIFIER_DATA_DIR = REPO / "competition" / "tools" / "verifier" / "data"
+EXAMPLES_DIR = REPO / "competition" / "examples"
+PROBLEMS_DIR = REPO / "competition" / "problems"
 PRIVATE_DIR = REPO / "build" / "private"
 COMPETITION_STATE_PATH = REPO / "build" / "competition_state.json"
 SCHEDULE_FIELDS = ("freeze_date", "registration_opens", "submissions_open", "prove_submissions_open",
@@ -158,7 +163,9 @@ def freeze_guard(name, obj, create_if_missing=False):
     Stable AC artifacts, which are frozen from the moment they first
     land in git.
     """
-    path = CHALLENGES_DIR / name
+    directory = (EXAMPLES_DIR if name in ("training_424.json", "stable_training_424.json")
+                 else VERIFIER_DATA_DIR)
+    path = directory / name
     generated = serialize(obj).encode("utf-8")
     if create_if_missing and not path.exists():
         print("freeze guard: creating %s (%d bytes); frozen from now on"
@@ -447,7 +454,7 @@ def stable_letter_encoding():
 
 
 def build_stable_move_spec(move_spec_hash):
-    """competition/challenges/stable_move_spec.json (frozen once written)."""
+    """competition/tools/verifier/data/stable_move_spec.json (frozen once written)."""
     rows = []
     for state, suffix in STABLE_CANON_SUFFIX.items():
         final, _, _ = stable_replay([list(w) for w in state], suffix)
@@ -489,7 +496,7 @@ def build_stable_move_spec(move_spec_hash):
             "length increases by 2 and work by 1.  The ac-r2-v1 target is the ordered pair "
             "(x, y); destabilizing r1 then r0 empties it.  That costs "
             "exactly 2 more moves, 0 more peak total relator length and "
-            "1 more work.  competition/challenges/stable_training_424.json "
+            "1 more work.  competition/examples/stable_training_424.json "
             "is that construction applied to all 424 published paths.",
             "stabilize (14) and destabilize (15-22) are inverse only up "
             "to relabeling: dropping generator g renumbers every larger "
@@ -521,7 +528,7 @@ def build_stable_move_spec(move_spec_hash):
 
 
 def build_stable_training(training, move_spec_hash):
-    """competition/challenges/stable_training_424.json (frozen once written)."""
+    """competition/examples/stable_training_424.json (frozen once written)."""
     entries = []
     lens, peaks, works = [], [], []
     for e in training["instances"]:
@@ -835,7 +842,7 @@ def render_yaml(manifest, competition_state):
         "manifest freeze date differs from competition state"
     spec_lines = []
     for entry in manifest["move_specs"]:
-        spec_lines.append("  - version: %s\n    hash: %s\n    file: challenges/%s\n"
+        spec_lines.append("  - version: %s\n    hash: %s\n    file: tools/verifier/data/%s\n"
                           "    target_relators: %s\n    max_rank: %d\n    id_prefix: %s\n"
                           % (entry["move_spec_version"], json.dumps(entry["move_spec_hash"]),
                              entry["file"], json.dumps(entry["target_relators"]),
@@ -864,11 +871,13 @@ tracks:
     problems:
       - id: ac
         name: AC
+        file: problems/ac.json
         id_prefix: ac-v1-
         move_spec_version: ac-r2-v1
         target: "The ordered pair (x, y), at fixed rank 2"
       - id: stable_ac
         name: Stable AC
+        file: problems/stable_ac.json
         id_prefix: sac-v1-
         move_spec_version: sac-r8-v1
         target: "The empty presentation, with current rank at most 8"
@@ -907,7 +916,7 @@ presentation_count: {manifest['presentation_count']}
 challenge_policy: "Discovery Track: 10,115 balanced presentations for each of the AC and Stable AC problems, with 20,230 separately scored challenge records; base_score 1 each. Internal difficulty labels and direct source-ID mappings are omitted; public MS metadata and relators may reveal origins"
 overview: rules/overview.md
 evaluation: rules/discovery.md
-manifest: challenges/manifest.json
+manifest: tools/verifier/data/manifest.json
 """
 
 
@@ -926,7 +935,7 @@ def main():
     args = parser.parse_args()
     competition_state = load_competition_state()
     if args.metadata_only:
-        manifest = json.loads((CHALLENGES_DIR / "manifest.json").read_text())
+        manifest = json.loads((VERIFIER_DATA_DIR / "manifest.json").read_text())
         write_yaml(manifest, competition_state)
         return
     items = load_items()
@@ -955,12 +964,14 @@ def main():
     manifest = build_manifest_v3(rows, competition_state)
     golden = build_golden_v3(manifest, training, stable_training)
 
-    dump(CHALLENGES_DIR / "manifest.json", manifest)
-    dump(CHALLENGES_DIR / "move_spec.json", move_spec)
-    dump(CHALLENGES_DIR / "training_424.json", training)
-    dump(CHALLENGES_DIR / "stable_move_spec.json", stable_move_spec)
-    dump(CHALLENGES_DIR / "stable_training_424.json", stable_training)
-    dump(CHALLENGES_DIR / "golden_vectors.json", golden)
+    dump(VERIFIER_DATA_DIR / "manifest.json", manifest)
+    dump(VERIFIER_DATA_DIR / "move_spec.json", move_spec)
+    dump(EXAMPLES_DIR / "training_424.json", training)
+    dump(VERIFIER_DATA_DIR / "stable_move_spec.json", stable_move_spec)
+    dump(EXAMPLES_DIR / "stable_training_424.json", stable_training)
+    dump(VERIFIER_DATA_DIR / "golden_vectors.json", golden)
+
+    write_problems(manifest, PROBLEMS_DIR)
 
     # 3. the MS-1190 denominator (no challenge_id / scored columns).
     train_seq, ti = {}, 0
@@ -969,7 +980,7 @@ def main():
             ti += 1
             train_seq[seq] = "ms-train-%04d" % ti
     meta_rows = ms1190_rows(items, train_seq)
-    csv_path = CHALLENGES_DIR / "ms1190_metadata.csv"
+    csv_path = VERIFIER_DATA_DIR / "ms1190_metadata.csv"
     with open(csv_path, "w", encoding="utf-8", newline="") as fh:
         writer = csv.DictWriter(fh, fieldnames=list(meta_rows[0].keys()))
         writer.writeheader()
@@ -983,7 +994,7 @@ def main():
     private_ids = sorted({r["id"] for r in rows}
                          | {r["public_id"] for r in rows}
                          | set(sources["excluded_certified_overlap_ids"]))
-    leak_check(CHALLENGES_DIR / "manifest.json", private_ids)
+    leak_check(VERIFIER_DATA_DIR / "manifest.json", private_ids)
 
     print("move_spec_hash (%s) = %s" % (core.MOVE_SPEC_VERSION, ac_hash))
     print("move_spec_hash (%s) = %s"

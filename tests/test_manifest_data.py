@@ -2,9 +2,8 @@
 composition (§2.1-§2.3), MS-1190 denominator consistency (§1.1, D-2),
 and the O-4 no-signal rule for the public manifest.
 
-Everything here is recomputed from the published artifacts alone — no
-``build/`` import, no private data — so the suite also runs inside the
-exported public package.
+Everything here is recomputed from the packaged verifier data and
+public examples, without importing ``build/`` or reading private data.
 """
 
 import collections

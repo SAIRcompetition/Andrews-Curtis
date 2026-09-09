@@ -26,13 +26,31 @@ all platform services. See [the integration guide](spec/DESIGN.md#8-sair-platfor
 for implementation responsibilities and the separate acceptance checks for
 each track. Discovery launch does not wait for the later Proof launch.
 
+## Problems and examples
+
+The two problem files contain the AC and Stable AC versions of the **same
+10,115 initial presentations**. Each is a JSON array whose entries contain
+only `challenge_id` and `description`.
+
+| File or guide | Contents |
+|---|---|
+| [AC problems](competition/problems/ac.json) | 10,115 AC problem statements |
+| [Stable AC problems](competition/problems/stable_ac.json) | 10,115 Stable AC problem statements |
+| [Examples](competition/examples/README.md) | The same 424 separate training presentations in both versions, plus runnable submissions and receipts |
+| [Discovery verifier](competition/tools/verifier/README.md) | Python replay commands and supporting data in `tools/verifier/data/` |
+| [Proof Lean tools](competition/tools/lean/README.md) | Official conjecture statements for Proof Track; using Lean is optional |
+
+The 424 training presentations are outside the scored pool. The verifier
+reads `competition/tools/verifier/data/manifest.json` to check submissions.
+Discovery verification uses Python and does not depend on Lean.
+
 ## Layout
 
 | Path | Contents | Public? |
 |---|---|---|
-| `competition/` | **The IGP24-aligned public tree** (single source of truth): `rules/`, current `challenges/` data + hashes, `examples/`, `tools/verifier/` (reference verifier), `tools/lean/`; generated `competition.yaml` is added during export | yes — exported by `build/release.py`, excluding caches and build products |
+| `competition/` | **The IGP24-aligned public tree**: `rules/`, `problems/` (problem statements), `examples/` (training data and submissions), `tools/verifier/` (Discovery verifier and its `data/`), `tools/lean/` (optional Proof tools); generated `competition.yaml` is added during export | yes — exported by `build/release.py`, excluding caches and build products |
 | `spec/` | Internal design doc (`DESIGN.md`) | no |
-| `build/` | `competition_state.json` (maintained release state and schedule), `sync_dataset.py` + `build_manifest_v2.py` (regenerate data and synchronize metadata), `build_manifest.py` (v1 manifest library), `release.py` (checks and exports previews or official releases), `checks/` (original verification scripts) | no |
+| `build/` | Maintained release state, dataset builders, problem and example generators, release checks and export tools | no |
 | `tests/` | Verifier + frozen-data acceptance tests | no |
 | `server/` | Scoring engine; SAIR adapter, persistent submission service, and remaining scoring fixes are pending | no |
 | `reference/` | Frozen prototype `index.html` — read-only, never a production dependency | no |
@@ -46,6 +64,11 @@ development repository public as a substitute for publishing the package.
 ## Commands
 
 ```sh
+# regenerate or check problem statements from the committed verifier manifest
+# (no private dataset inputs are needed)
+python3 build/build_problems.py
+python3 build/build_problems.py --check
+
 # regenerate data from the SAIR dataset release and synchronize release metadata
 python3 build/sync_dataset.py --release ../sair_dataset/release
 python3 build/build_manifest_v2.py
@@ -57,7 +80,7 @@ python3 build/build_examples.py
 python3 -m unittest discover -s tests -t .
 (cd server && python3 -m unittest discover -s tests)
 
-# official full-conjecture statements (first-use setup: competition/tools/lean/README.md)
+# build the official Proof Track statements (optional; first-use setup: competition/tools/lean/README.md)
 (cd competition/tools/lean && lake build)
 
 # run the successful, unscored training example
@@ -92,13 +115,14 @@ registration September 8, Discovery September 11, Proof September 20,
 and the deadline November 30, 2026. `submissions_open` supplies Discovery UTC opening and
 `prove_submissions_open` supplies Proof UTC opening; each track exposes its
 relevant `opens_at`. `build/build_manifest_v2.py` synchronizes the manifest
-and `competition.yaml` from that state.
+and `competition.yaml` from that state and also generates the problem statements.
 
 Before an official release:
 
 1. Set the approved schedule and freeze date in the maintained state,
    then run `python3 build/build_manifest_v2.py`.
-2. Freeze `manifest.json`, `move_spec.json`, and `stable_move_spec.json` in git.
+2. Freeze `manifest.json`, `move_spec.json`, and `stable_move_spec.json`
+   under `competition/tools/verifier/data/` in git.
 3. Record that commit as `freeze_commit` in `build/competition_state.json`.
 4. Run `python3 build/release.py`; it generates the YAML automatically.
 

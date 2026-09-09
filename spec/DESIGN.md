@@ -39,7 +39,7 @@ Those moves count toward length and all resource limits.
 
 ### 1.3 AC moves
 
-The authoritative table is [move_spec.json](../competition/challenges/move_spec.json).
+The authoritative table is [move_spec.json](../competition/tools/verifier/data/move_spec.json).
 Its 14 move IDs describe inversion, right multiplication by the other relator
 or its inverse, and conjugation by one generator letter or its inverse.
 Every move has an inverse in the table. The Python implementation is
@@ -50,7 +50,8 @@ or send with a solution. Published move IDs must not be silently reassigned.
 
 ### 1.4 Stable AC problem in Discovery
 
-`stable_move_spec.json` defines `sac-r8-v1`: 257 operation IDs covering ranks
+[stable_move_spec.json](../competition/tools/verifier/data/stable_move_spec.json)
+defines `sac-r8-v1`: 257 operation IDs covering ranks
 0–8. The count is 8 inversions + 112 right multiplications + 128
 generator-letter conjugations + 1 stabilization + 8 destabilizations;
 only IDs applicable to the current state may be used.
@@ -76,15 +77,33 @@ A formal bridge to Python's finite encoding is not an admission requirement.
 A pool claim must identify its challenge and accurately map its words to
 the mathematical presentation.
 
-## 2. Challenge and training data
+## 2. Problem statements, verifier data, and training
 
-The [manifest](../competition/challenges/manifest.json) has **20,230 scored
+The public problem entry points are [ac.json](../competition/problems/ac.json)
+and [stable_ac.json](../competition/problems/stable_ac.json). Each is a JSON
+array of **10,115** records containing only `challenge_id` and `description`.
+They present the two problems over the same initial presentations.
+
+The supporting [manifest](../competition/tools/verifier/data/manifest.json)
+has **20,230 scored
 challenges** over **10,115 presentations**, with `base_score = 1` each.
 `ac-v1-N` and `sac-v1-N` share initial relators, with distinct targets,
 specifications, and hashes. Original AC hashes remain unchanged.
-`training_424.json` and `stable_training_424.json` contain the same **424
+[training_424.json](../competition/examples/training_424.json) and
+[stable_training_424.json](../competition/examples/stable_training_424.json)
+contain the same **424
 separate, unscored presentations**, certified under each specification.
 These presentations and their training IDs are absent from both scored problem sets.
+
+`competition/tools/verifier/data/` also contains both move specifications,
+`golden_vectors.json`, and `ms1190_metadata.csv`. These support replay and
+reference checks; the CLI's `--manifest` option reads the manifest there.
+
+`python3 build/build_problems.py` regenerates both problem files from the
+committed verifier manifest, without private source data; `--check` rejects
+missing or stale problem files. `build/build_manifest_v2.py` also generates
+them when rebuilding the pool. Successful examples and expected receipts
+are generated separately by `build/build_examples.py` in `competition/examples/`.
 
 `build/data/SOURCES.json` tracks the source release. `build/sync_dataset.py`
 and `build/build_manifest_v2.py` regenerate the pool. Internal classifications
@@ -397,8 +416,10 @@ unrelated private Discovery payloads.
 
 ### 9.1 Public and internal sources
 
-The IGP24-aligned public tree is `competition/`: rules, challenge data,
-examples, reference verifier, and Lean statement. `competition.yaml` is
+The IGP24-aligned public tree is `competition/`: `rules/`, two problem
+statement files in `problems/`, training data and submissions in `examples/`,
+the reference verifier with its supporting `data/`, and the Lean statements.
+`competition.yaml` is
 generated from the tracked manifest and `build/competition_state.json`; it
 is ignored in the checkout and regenerated directly into every export.
 A missing or stale local YAML file cannot block or alter an export. Internal scoring,
@@ -424,8 +445,9 @@ nested `problems` entries `ac` and `stable_ac`.
 
 ### 9.3 Export checks
 
-Release checks cover the common overview and track-guide routes, dataset
-hashes, examples and golden vectors, and the Lean source/configuration snapshot. Exclude private maps, dependency caches,
+Release checks cover the common overview and track-guide routes, generated
+problem statements, dataset hashes, examples and golden vectors, and the
+Lean source/configuration snapshot. Exclude private maps, dependency caches,
 and build products. This is not an end-to-end platform launch test or
 certification of a contestant's argument. Rebuild the preview after public
 sources change; do not distribute an older package as current rules.

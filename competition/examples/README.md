@@ -1,10 +1,25 @@
-# Runnable Discovery submission examples
+# Training data and submission examples
+
+This folder contains **the same 424 training presentations in AC and Stable AC
+versions**. They are **outside the official pool of 10,115 presentations** and
+earn no points. The scored problem statements are in
+[`problems/ac.json`](../problems/ac.json) and
+[`problems/stable_ac.json`](../problems/stable_ac.json).
+
+| File | Contents |
+|---|---|
+| [`training_424.json`](training_424.json) | 424 training presentations with AC move sequences |
+| [`stable_training_424.json`](stable_training_424.json) | The same 424 presentations with Stable AC move sequences |
+| [`sample_submission.json`](sample_submission.json) | One successful submission covering both problems |
+| [`training_manifest.json`](training_manifest.json) | Unscored verifier input for that submission |
+| [`sample_verdict.json`](sample_verdict.json) | Complete expected success receipt |
+| [`invalid_submission.json`](invalid_submission.json) | A deliberately unsuccessful submission |
 
 Start with `sample_submission.json`: a complete, successful submission for
 the AC and Stable AC problems in Discovery Track, using training instance `ms-train-0160`. The AC
-path uses 7 moves from [`training_424.json`](../challenges/training_424.json);
+path uses 7 moves from [`training_424.json`](training_424.json);
 the Stable AC path appends `[16, 15]` from
-[`stable_training_424.json`](../challenges/stable_training_424.json), reaching
+[`stable_training_424.json`](stable_training_424.json), reaching
 the empty presentation. Both use the official verifier and JSON format.
 
 This is **local training only and earns no points**. The accompanying
@@ -101,10 +116,21 @@ PYTHONPATH=competition/tools/verifier python3 -m acms_verify \
 ```
 
 Do **not** upload this training solution to the scored competition. Training
-IDs are absent from `competition/challenges/manifest.json`; checking this
+IDs are absent from `competition/tools/verifier/data/manifest.json`; checking this
 same sample against that official manifest returns `E_UNKNOWN_CHALLENGE`
-and exit status 1. For your scored entries, use IDs from the official manifest
-and verify your own submission against it.
+and exit status 1.
+
+## Check a scored submission
+
+Use challenge IDs from [`problems/ac.json`](../problems/ac.json) or
+[`problems/stable_ac.json`](../problems/stable_ac.json) and your own move
+sequences. Verify `mine.json` against the official verifier data:
+
+```sh
+PYTHONPATH=competition/tools/verifier python3 -m acms_verify \
+  --manifest competition/tools/verifier/data/manifest.json \
+  --submission mine.json --pretty
+```
 
 ## Run the deliberately invalid submission
 
@@ -114,7 +140,7 @@ and move 7 undoes it. The path returns to its initial state, not the target.
 
 ```sh
 PYTHONPATH=competition/tools/verifier python3 -m acms_verify \
-  --manifest competition/challenges/manifest.json \
+  --manifest competition/tools/verifier/data/manifest.json \
   --submission competition/examples/invalid_submission.json --pretty
 ```
 

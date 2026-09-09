@@ -38,6 +38,7 @@ sys.path.insert(0, str(REPO / "competition" / "tools" / "verifier"))
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from acms_verify import canon, specs  # noqa: E402
+from build_problems import render_problems, serialize as serialize_problems  # noqa: E402
 from build_manifest_v2 import render_yaml  # noqa: E402
 
 PRESENTATION_COUNT = 10115
@@ -71,8 +72,8 @@ AUX_BANNED_TOKENS = tuple(t for t in BANNED_TOKENS
 #: Files scanned with AUX_BANNED_TOKENS: the frozen pair first, so a
 #: rule that would reject them fails the release instead of silently
 #: passing the new pair.
-AUX_SCANNED = ("move_spec.json", "training_424.json",
-               "stable_move_spec.json", "stable_training_424.json")
+AUX_SCANNED = ("tools/verifier/data/move_spec.json", "examples/training_424.json",
+               "tools/verifier/data/stable_move_spec.json", "examples/stable_training_424.json")
 
 ROOT_README = """\
 # The Andrews–Curtis Conjecture (ACC) Challenge — public package
@@ -111,13 +112,15 @@ scored manifest. Local verification does not register a submission on SAIR.
 
 ## Data and tools
 
-- [Challenges](competition/challenges/README.md): 20,230 challenge records
-  (10,115 presentations in each Discovery problem), move tables, and 424
-  unscored training presentations.
+- [Official problems](competition/problems/README.md): `ac.json` and
+  `stable_ac.json`, each with 10,115 problem IDs and descriptions.
+- [Examples](competition/examples/README.md): 424 unscored training
+  presentations, successful submissions, and expected receipts.
 - [Verifier](competition/tools/verifier/README.md): Python reference checks
   for Discovery, using only the standard library.
-- [Lean project](competition/tools/lean/README.md): both full conjectures
-  in `AC.lean`. `lake build` builds the statements; `Check` is optional.
+- [Lean project](competition/tools/lean/README.md): the Proof Track statements
+  for both full conjectures in `AC.lean`. `lake build` builds the statements;
+  `Check` is optional. Discovery does not depend on Lean.
 
 The package contains reference mathematical checks. Official submission
 handling, leaderboard updates, and public Proof versions and comments are
@@ -198,8 +201,8 @@ def validate_track_structure(yaml_text):
         r"^announced_dates: (.+)$", yaml_text, re.MULTILINE).group(1))
     expected = {
         "discovery": {
-            "ac": {"id_prefix": "ac-v1-", "move_spec_version": "ac-r2-v1"},
-            "stable_ac": {"id_prefix": "sac-v1-", "move_spec_version": "sac-r8-v1"},
+            "ac": {"file": "problems/ac.json", "id_prefix": "ac-v1-", "move_spec_version": "ac-r2-v1"},
+            "stable_ac": {"file": "problems/stable_ac.json", "id_prefix": "sac-v1-", "move_spec_version": "sac-r8-v1"},
         },
         "proof": {
             "ac": {"conjecture": "AC.Conjecture", "claims": "[proof, disproof]"},
@@ -283,7 +286,7 @@ def validate_final_state(state, repo=REPO):
     if resolved.returncode or resolved.stdout.strip() != commit:
         raise ValueError("freeze_commit is not an available Git commit")
     for name in ("manifest.json", "move_spec.json", "stable_move_spec.json"):
-        relative = "competition/challenges/" + name
+        relative = "competition/tools/verifier/data/" + name
         frozen = subprocess.run(["git", "show", commit + ":" + relative],
                                 cwd=repo, capture_output=True)
         if frozen.returncode or frozen.stdout != (repo / relative).read_bytes():
@@ -297,9 +300,9 @@ def check_packaged_examples(comp, env):
     expected = json.loads((examples / "sample_verdict.json").read_text())
     cases = [
         (examples / "training_manifest.json", examples / "sample_submission.json", 0, None),
-        (comp / "challenges/manifest.json", examples / "sample_submission.json", 1,
+        (comp / "tools/verifier/data/manifest.json", examples / "sample_submission.json", 1,
          "E_UNKNOWN_CHALLENGE"),
-        (comp / "challenges/manifest.json", examples / "invalid_submission.json", 1,
+        (comp / "tools/verifier/data/manifest.json", examples / "invalid_submission.json", 1,
          "E_NOT_TARGET"),
     ]
     for manifest_path, submission_path, exit_code, error in cases:
@@ -322,11 +325,20 @@ def check_packaged_examples(comp, env):
     print("OK: packaged success receipt, negative example, and training/scored separation")
 
 
+def validate_problem_files(comp, manifest):
+    """Keep the readable problem lists identical to the verifier's mathematical inputs."""
+    for name, rows in render_problems(manifest).items():
+        path = comp / "problems" / name
+        if not path.is_file() or path.read_bytes() != serialize_problems(rows).encode("utf-8"):
+            raise ValueError("problem list differs from manifest: " + name +
+                             "; run python3 build/build_problems.py")
+
+
 def export_package(out, preview=False):
     src = REPO / "competition"
 
     # 1. hash verification against the in-repo source of truth
-    manifest = json.loads((src / "challenges" / "manifest.json").read_text())
+    manifest = json.loads((src / "tools/verifier/data" / "manifest.json").read_text())
     problems = specs.check_move_specs(manifest.get("move_specs"))
     assert not problems, problems
     spec_hashes = specs.move_spec_hashes()
@@ -334,7 +346,7 @@ def export_package(out, preview=False):
     for entry in manifest["move_specs"]:
         version = entry["move_spec_version"]
         on_disk = json.loads(
-            (src / "challenges" / entry["file"]).read_text())
+            (src / "tools/verifier/data" / entry["file"]).read_text())
         assert on_disk["move_spec_version"] == version, entry["file"]
         assert on_disk["move_spec_hash"] == spec_hashes[version], entry["file"]
         assert canon.move_spec_hash(on_disk["moves"]) == spec_hashes[version], \
@@ -372,6 +384,8 @@ def export_package(out, preview=False):
         assert a["move_spec_version"] == "ac-r2-v1", number
         assert s_["move_spec_version"] == "sac-r8-v1", number
 
+    validate_problem_files(src, manifest)
+
     state = json.loads((REPO / "build/competition_state.json").read_text())
     yaml_text = render_yaml(manifest, state)
     validate_public_state(state, yaml_text, manifest)
@@ -380,7 +394,7 @@ def export_package(out, preview=False):
     for entry in manifest["move_specs"]:
         assert "  - version: %s\n" % entry["move_spec_version"] in yaml_text
         assert '    hash: "%s"\n' % entry["move_spec_hash"] in yaml_text
-        assert "    file: challenges/%s\n" % entry["file"] in yaml_text
+        assert "    file: tools/verifier/data/%s\n" % entry["file"] in yaml_text
     validate_track_structure(yaml_text)
     validate_rule_documents(src)
     assert 'manifest_hash: "%s"' % manifest["manifest_hash"] in yaml_text
@@ -406,16 +420,17 @@ def export_package(out, preview=False):
     # This verifies the published statement snapshot without copying or
     # downloading Lean dependencies; the Lean build/audit is run separately.
     comp = out / "competition"
+    validate_problem_files(comp, manifest)
     env = {"PYTHONPATH": "", "PATH": "/usr/bin:/bin",
            "PYTHONDONTWRITEBYTECODE": "1"}
     verify_lean_statement(comp / "tools/lean")
     print("OK: packaged Lean sources and dependency lock match statement-lock.json")
     sh(sys.executable, "-m", "acms_verify",
-       "--golden", comp / "challenges" / "golden_vectors.json",
+       "--golden", comp / "tools/verifier/data" / "golden_vectors.json",
        cwd=comp / "tools" / "verifier", env=env)
     check_packaged_examples(comp, env)
     sh(sys.executable, "-m", "acms_verify",
-       "--manifest", comp / "challenges" / "manifest.json", "--check-hashes",
+       "--manifest", comp / "tools/verifier/data" / "manifest.json", "--check-hashes",
        cwd=comp / "tools" / "verifier", env=env)
 
     # 4. nothing from the internal directories may leak: the package
@@ -441,7 +456,7 @@ def export_package(out, preview=False):
     # 5. the exported manifest still carries no provenance vocabulary and
     # no private identifier (re-run of build_manifest_v2.leak_check on the
     # bytes that actually ship).
-    exported = (comp / "challenges" / "manifest.json").read_text(
+    exported = (comp / "tools/verifier/data" / "manifest.json").read_text(
         encoding="utf-8")
     for token in BANNED_TOKENS:
         assert token not in exported, "banned token %r in exported manifest" \
@@ -456,7 +471,7 @@ def export_package(out, preview=False):
     # ac-r2-v1 pair is scanned first, so the rule is demonstrably the one
     # training_424.json already passes.
     for name in AUX_SCANNED:
-        text = (comp / "challenges" / name).read_text(encoding="utf-8")
+        text = (comp / name).read_text(encoding="utf-8")
         for token in AUX_BANNED_TOKENS:
             assert token not in text, "banned token %r in %s" % (token, name)
     print("leak check: %s clean (%d tokens each)"

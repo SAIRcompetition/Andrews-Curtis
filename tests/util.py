@@ -6,14 +6,16 @@ from pathlib import Path
 from acms_verify import core
 
 REPO = Path(__file__).resolve().parents[1]
-CHALLENGES = REPO / "competition" / "challenges"
-MANIFEST_PATH = CHALLENGES / "manifest.json"
-MOVE_SPEC_PATH = CHALLENGES / "move_spec.json"
-STABLE_MOVE_SPEC_PATH = CHALLENGES / "stable_move_spec.json"
-TRAINING_PATH = CHALLENGES / "training_424.json"
-STABLE_TRAINING_PATH = CHALLENGES / "stable_training_424.json"
-GOLDEN_PATH = CHALLENGES / "golden_vectors.json"
-MS1190_PATH = CHALLENGES / "ms1190_metadata.csv"
+VERIFIER_DATA = REPO / "competition" / "tools" / "verifier" / "data"
+EXAMPLES = REPO / "competition" / "examples"
+PROBLEMS = REPO / "competition" / "problems"
+MANIFEST_PATH = VERIFIER_DATA / "manifest.json"
+MOVE_SPEC_PATH = VERIFIER_DATA / "move_spec.json"
+STABLE_MOVE_SPEC_PATH = VERIFIER_DATA / "stable_move_spec.json"
+TRAINING_PATH = EXAMPLES / "training_424.json"
+STABLE_TRAINING_PATH = EXAMPLES / "stable_training_424.json"
+GOLDEN_PATH = VERIFIER_DATA / "golden_vectors.json"
+MS1190_PATH = VERIFIER_DATA / "ms1190_metadata.csv"
 PRIVATE_MAP_PATH = REPO / "build" / "private" / "challenge_map_private.tsv"
 #: Digest of the 10115 ac-v1 instance_hash values as they stood BEFORE
 #: the stable track existed.  They must never change again.
@@ -42,7 +44,7 @@ def load_stable_training():
 
 
 def challenges_by_prefix(manifest, prefix):
-    """The manifest's challenges for one track, in file order."""
+    """The manifest's challenges for one Discovery problem, in file order."""
     return [c for c in manifest["challenges"]
             if c["challenge_id"].startswith(prefix)]
 
@@ -53,7 +55,7 @@ def paired_challenges(manifest):
           for c in challenges_by_prefix(manifest, AC_PREFIX)}
     sac = {c["challenge_id"][len(STABLE_PREFIX):]: c
            for c in challenges_by_prefix(manifest, STABLE_PREFIX)}
-    assert set(ac) == set(sac), "tracks do not cover the same presentations"
+    assert set(ac) == set(sac), "Discovery problems do not cover the same presentations"
     return [(ac[n], sac[n]) for n in sorted(ac)]
 
 
@@ -91,7 +93,7 @@ def ms_initial(n, wv):
 def training_challenge(entry):
     """View a training instance as a verifiable challenge dict.
 
-    Works for both tracks: the entry carries its own
+    Works for both Discovery problems: the entry carries its own
     ``move_spec_version`` and ``target_relators``.
     """
     return {

@@ -22,7 +22,7 @@ def copy_release_fixture(root):
     """Copy only the inputs needed for an export, with no local generated YAML."""
     (root / "build").mkdir(parents=True)
     for name in ("release.py", "build_manifest_v2.py", "build_manifest.py",
-                 "sync_dataset.py", "build_examples.py", "competition_state.json"):
+                 "sync_dataset.py", "build_examples.py", "build_problems.py", "competition_state.json"):
         shutil.copy2(util.REPO / "build" / name, root / "build" / name)
     for name in ("LICENSE", "NOTICE"):
         shutil.copy2(util.REPO / name, root / name)
@@ -46,6 +46,7 @@ class TestReleaseState(unittest.TestCase):
             yaml_text.replace("conjecture: AC.StableConjecture", "conjecture: AC.Conjecture"),
             yaml_text.replace("move_spec_version: sac-r8-v1", "move_spec_version: ac-r2-v1"),
             yaml_text.replace("leaderboards: independent_per_problem", "leaderboards: combined"),
+            yaml_text.replace("file: problems/stable_ac.json", "file: problems/ac.json"),
             yaml_text.replace("    overview: rules/discovery.md", "    overview: rules/proof.md"),
             yaml_text.replace("    statement: rules/proof.md", "    statement: rules/overview.md"),
             yaml_text.replace("    opens_at:", "    unused_opens_at:", 1),
@@ -72,6 +73,27 @@ class TestReleaseState(unittest.TestCase):
                 with self.subTest(missing=name), self.assertRaisesRegex(ValueError, "missing competition guide"):
                     release.validate_rule_documents(root)
                 (rules / name).write_text("Track guide\n")
+
+    def test_missing_or_stale_problem_descriptions_are_rejected(self):
+        manifest = util.load_manifest()
+        release.validate_problem_files(util.REPO / "competition", manifest)
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "problems").mkdir()
+            for name in ("ac.json", "stable_ac.json"):
+                shutil.copy2(util.PROBLEMS / name, root / "problems" / name)
+            for name in ("ac.json", "stable_ac.json"):
+                path = root / "problems" / name
+                original = path.read_bytes()
+                rows = json.loads(original)
+                rows[0]["description"] = "Wrong presentation or target"
+                path.write_text(json.dumps(rows))
+                with self.subTest(stale=name), self.assertRaisesRegex(ValueError, "differs from manifest"):
+                    release.validate_problem_files(root, manifest)
+                path.unlink()
+                with self.subTest(missing=name), self.assertRaisesRegex(ValueError, "differs from manifest"):
+                    release.validate_problem_files(root, manifest)
+                path.write_bytes(original)
 
     def test_metadata_drift_is_rejected(self):
         state = dict.fromkeys(release.STATE_FIELDS)
@@ -123,7 +145,11 @@ class TestPublicSourceExport(unittest.TestCase):
                     capture_output=True, text=True)
                 self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
                 state = util.load(root / "build/competition_state.json")
-                manifest = util.load(root / "competition/challenges/manifest.json")
+                manifest = util.load(root / "competition/tools/verifier/data/manifest.json")
+                self.assertFalse((out / "competition/challenges").exists())
+                for name in ("ac.json", "stable_ac.json"):
+                    self.assertEqual((out / "competition/problems" / name).read_bytes(),
+                                     (root / "competition/problems" / name).read_bytes())
                 exported = (out / "competition/competition.yaml").read_text()
                 self.assertEqual(exported, release.render_yaml(manifest, state))
                 release.validate_public_state(state, exported, manifest)
@@ -183,7 +209,7 @@ class TestFinalFreeze(unittest.TestCase):
         cls.tmp = tempfile.TemporaryDirectory()
         cls.addClassCleanup(cls.tmp.cleanup)
         cls.repo = Path(cls.tmp.name)
-        data = cls.repo / "competition/challenges"
+        data = cls.repo / "competition/tools/verifier/data"
         data.mkdir(parents=True)
         for name in ("manifest.json", "move_spec.json", "stable_move_spec.json"):
             (data / name).write_text('{"frozen":true}\n')
@@ -243,7 +269,7 @@ class TestFinalFreeze(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "not an available Git commit"):
             release.validate_final_state(dict(self.state, freeze_commit="f" * 40), self.repo)
         for name in ("manifest.json", "move_spec.json", "stable_move_spec.json"):
-            path = self.repo / "competition/challenges" / name
+            path = self.repo / "competition/tools/verifier/data" / name
             original = path.read_bytes()
             try:
                 path.write_text('{"frozen":false}\n')

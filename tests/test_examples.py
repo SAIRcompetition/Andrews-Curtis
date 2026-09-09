@@ -10,7 +10,7 @@ from acms_verify import canon
 from tests import util
 
 
-EXAMPLES = util.REPO / "competition" / "examples"
+EXAMPLES = util.EXAMPLES
 
 
 class TestExamples(unittest.TestCase):
