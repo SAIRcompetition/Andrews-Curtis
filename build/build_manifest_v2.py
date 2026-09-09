@@ -41,6 +41,7 @@ Deterministic: the only randomness is ``random.Random(CHALLENGE_ID_SEED)``,
 so identical inputs give byte-identical outputs.
 """
 
+import argparse
 import collections
 import csv
 import json
@@ -828,9 +829,8 @@ def write_private(rows, sources):
     print("wrote %s" % path.relative_to(REPO))
 
 
-def write_yaml(manifest, competition_state=None):
-    if competition_state is None:
-        competition_state = load_competition_state()
+def render_yaml(manifest, competition_state):
+    """Render derived metadata without reading or writing a local YAML file."""
     assert manifest["freeze_date"] == competition_state["freeze_date"], \
         "manifest freeze date differs from competition state"
     spec_lines = []
@@ -841,8 +841,7 @@ def write_yaml(manifest, competition_state=None):
                              entry["file"], json.dumps(entry["target_relators"]),
                              entry["max_rank"], entry["id_prefix"]))
     specs_yaml = "".join(spec_lines)
-    path = REPO / "competition" / "competition.yaml"
-    path.write_text(f"""\
+    return f"""\
 id: acms
 name: "The Andrews–Curtis Conjecture (ACC) Challenge"
 organizer: sairmath
@@ -909,12 +908,27 @@ challenge_policy: "Discovery Track: 10,115 balanced presentations for each of th
 overview: rules/overview.md
 evaluation: rules/discovery.md
 manifest: challenges/manifest.json
-""", encoding="utf-8")
+"""
+
+
+def write_yaml(manifest, competition_state=None):
+    if competition_state is None:
+        competition_state = load_competition_state()
+    path = REPO / "competition" / "competition.yaml"
+    path.write_text(render_yaml(manifest, competition_state), encoding="utf-8")
     print("wrote %s" % path.relative_to(REPO))
 
 
 def main():
+    parser = argparse.ArgumentParser(description=__doc__.split("\n")[0])
+    parser.add_argument("--metadata-only", action="store_true",
+                        help="generate only the ignored competition.yaml from existing manifest and state")
+    args = parser.parse_args()
     competition_state = load_competition_state()
+    if args.metadata_only:
+        manifest = json.loads((CHALLENGES_DIR / "manifest.json").read_text())
+        write_yaml(manifest, competition_state)
+        return
     items = load_items()
     ac_hash = specs.SPECS[core.MOVE_SPEC_VERSION].move_spec_hash
     sac_hash = specs.SPECS[stable_core.MOVE_SPEC_VERSION].move_spec_hash

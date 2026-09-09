@@ -398,7 +398,10 @@ unrelated private Discovery payloads.
 ### 9.1 Public and internal sources
 
 The IGP24-aligned public tree is `competition/`: rules, challenge data,
-examples, reference verifier, Lean statement, and metadata. Internal scoring,
+examples, reference verifier, and Lean statement. `competition.yaml` is
+generated from the tracked manifest and `build/competition_state.json`; it
+is ignored in the checkout and regenerated directly into every export.
+A missing or stale local YAML file cannot block or alter an export. Internal scoring,
 integration, private maps, and this guide are not in the export.
 
 ### 9.2 Lifecycle

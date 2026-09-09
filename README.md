@@ -30,7 +30,7 @@ each track. Discovery launch does not wait for the later Proof launch.
 
 | Path | Contents | Public? |
 |---|---|---|
-| `competition/` | **The IGP24-aligned public tree** (single source of truth): `rules/`, current `challenges/` data + hashes, `examples/`, `tools/verifier/` (reference verifier), `tools/lean/`, `competition.yaml` | yes — exported by `build/release.py`, excluding caches and build products |
+| `competition/` | **The IGP24-aligned public tree** (single source of truth): `rules/`, current `challenges/` data + hashes, `examples/`, `tools/verifier/` (reference verifier), `tools/lean/`; generated `competition.yaml` is added during export | yes — exported by `build/release.py`, excluding caches and build products |
 | `spec/` | Internal design doc (`DESIGN.md`) | no |
 | `build/` | `competition_state.json` (maintained release state and schedule), `sync_dataset.py` + `build_manifest_v2.py` (regenerate data and synchronize metadata), `build_manifest.py` (v1 manifest library), `release.py` (checks and exports previews or official releases), `checks/` (original verification scripts) | no |
 | `tests/` | Verifier + frozen-data acceptance tests | no |
@@ -72,8 +72,17 @@ python3 build/release.py --preview  # -> dist/ACMS-public
 python3 build/release.py
 ```
 
-Release metadata is maintained in `build/competition_state.json`, not
-edited independently in generated files. Current `status` is
+Release metadata is maintained in `build/competition_state.json`.
+`competition/competition.yaml` is generated, ignored by Git, and not required
+for submissions or local verification. `build/release.py` generates fresh
+metadata directly into the export, even if a local YAML file is missing or
+stale. To generate an optional local copy without rebuilding the dataset:
+
+```sh
+python3 build/build_manifest_v2.py --metadata-only
+```
+
+Do not edit the generated YAML as a source of configuration. Current `status` is
 `prelaunch`; `submissions_open` is `2026-09-11T16:00:00Z`.
 `freeze_date`, `freeze_commit`, `registration_opens`, `prove_submissions_open`,
 and `submission_deadline` remain `null`. This records submission-release
@@ -90,9 +99,8 @@ Before an official release:
 1. Set the approved schedule and freeze date in the maintained state,
    then run `python3 build/build_manifest_v2.py`.
 2. Freeze `manifest.json`, `move_spec.json`, and `stable_move_spec.json` in git.
-3. Record that commit as `freeze_commit` in `build/competition_state.json`,
-   then run `python3 build/build_manifest_v2.py` again to synchronize YAML.
-4. Run `python3 build/release.py`.
+3. Record that commit as `freeze_commit` in `build/competition_state.json`.
+4. Run `python3 build/release.py`; it generates the YAML automatically.
 
 The default release command requires Discovery opening and deadline timestamps
 and a verified data freeze. A later Proof opening timestamp may remain unset

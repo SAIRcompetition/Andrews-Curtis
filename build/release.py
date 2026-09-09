@@ -8,7 +8,7 @@ Duties:
 
   1. verify the three hashes: recompute every instance_hash, the
      manifest_hash, and the move_spec_hash from the frozen move table,
-     and check competition.yaml quotes the same values
+     and generate competition.yaml with the same values
   2. copy LICENSE + competition/ source files into the output directory,
      excluding local caches and Lean build products, and write the public
      root README
@@ -35,8 +35,10 @@ from pathlib import Path
 
 REPO = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO / "competition" / "tools" / "verifier"))
+sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from acms_verify import canon, specs  # noqa: E402
+from build_manifest_v2 import render_yaml  # noqa: E402
 
 PRESENTATION_COUNT = 10115
 CHALLENGE_COUNT = 2 * PRESENTATION_COUNT
@@ -54,7 +56,7 @@ INTERNAL_DIRS = ("server", "build", "spec", "reference", "tests", "private")
 # repositories (including their internal directories) into the package.
 PUBLIC_COPY_IGNORE = shutil.ignore_patterns(
     "__pycache__", ".DS_Store", ".lake", "*.olean", "*.ilean",
-    "*.olean.private", "*.olean.server",
+    "*.olean.private", "*.olean.server", "competition.yaml",
 )
 
 #: Provenance/difficulty vocabulary that must not survive into the
@@ -370,8 +372,8 @@ def export_package(out, preview=False):
         assert a["move_spec_version"] == "ac-r2-v1", number
         assert s_["move_spec_version"] == "sac-r8-v1", number
 
-    yaml_text = (src / "competition.yaml").read_text()
     state = json.loads((REPO / "build/competition_state.json").read_text())
+    yaml_text = render_yaml(manifest, state)
     validate_public_state(state, yaml_text, manifest)
     if not preview:
         validate_final_state(state)
@@ -388,6 +390,7 @@ def export_package(out, preview=False):
     # 2. source export (without local caches or Lean build products)
     out.mkdir(parents=True)
     copy_public_tree(src, out / "competition")
+    (out / "competition/competition.yaml").write_text(yaml_text, encoding="utf-8")
     shutil.copy2(REPO / "LICENSE", out / "LICENSE")
     shutil.copy2(REPO / "NOTICE", out / "NOTICE")
     if preview:

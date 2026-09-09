@@ -45,7 +45,9 @@ submissions. Local verification does not register a submission on SAIR.
 | [tools/verifier/](tools/verifier/README.md) | Python reference verifier for Discovery, using only the standard library |
 | [tools/lean/](tools/lean/README.md) | The full AC and Stable AC conjectures in `AC.lean`; `Check.lean` is optional |
 
-Machine-readable track routes and dates are in `competition.yaml`.
+Release packages include generated `competition.yaml` metadata for track
+routes and dates. This file is not tracked in Git and is not needed to run
+the verifier or submit solutions.
 SAIR handles registration, teams, submissions, leaderboards, and public Proof
 versions and comments. This package supplies the data, rules, and reference
 mathematical checks. The release metadata remains `prelaunch` until the

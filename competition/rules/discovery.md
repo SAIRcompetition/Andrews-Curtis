@@ -17,8 +17,8 @@ The announced deadline is **November 30, 2026**; its exact UTC time remains
 to be announced. Eligibility uses the time the server receives the complete
 submission: at or after the opening above and before `submission_deadline`.
 Verification may finish after the deadline; a late submission earns no
-points. See [competition.yaml](../competition.yaml) for the maintained
-schedule and publication state. Local self-checks are available before
+points. See the [competition schedule](overview.md#key-dates) for the
+announced dates. Local self-checks are available before
 launch and do not register competition submissions; once submissions open,
 the competition service's verifier determines official Discovery results.
 

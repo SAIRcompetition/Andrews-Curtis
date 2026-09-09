@@ -1,6 +1,9 @@
 # release export (regenerate with: python3 build/release.py)
 dist/
 
+# Generated competition metadata (release.py regenerates it in the package)
+/competition/competition.yaml
+
 # Python
 __pycache__/
 *.pyc

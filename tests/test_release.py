@@ -3,7 +3,6 @@
 import importlib.util
 import json
 from pathlib import Path
-import re
 import shutil
 import subprocess
 import sys
@@ -19,15 +18,27 @@ release = importlib.util.module_from_spec(module_spec)
 module_spec.loader.exec_module(release)
 
 
+def copy_release_fixture(root):
+    """Copy only the inputs needed for an export, with no local generated YAML."""
+    (root / "build").mkdir(parents=True)
+    for name in ("release.py", "build_manifest_v2.py", "build_manifest.py",
+                 "sync_dataset.py", "build_examples.py", "competition_state.json"):
+        shutil.copy2(util.REPO / "build" / name, root / "build" / name)
+    for name in ("LICENSE", "NOTICE"):
+        shutil.copy2(util.REPO / name, root / name)
+    release.copy_public_tree(util.REPO / "competition", root / "competition")
+
+
 class TestReleaseState(unittest.TestCase):
     def test_maintained_state_matches_public_metadata(self):
         state = util.load(util.REPO / "build/competition_state.json")
+        manifest = util.load_manifest()
         release.validate_public_state(
-            state, (util.REPO / "competition/competition.yaml").read_text(),
-            util.load_manifest())
+            state, release.render_yaml(manifest, state), manifest)
 
     def test_two_tracks_route_both_problems_to_their_own_definitions(self):
-        yaml_text = (util.REPO / "competition/competition.yaml").read_text()
+        yaml_text = release.render_yaml(
+            util.load_manifest(), util.load(util.REPO / "build/competition_state.json"))
         release.validate_track_structure(yaml_text)
         mutations = (
             yaml_text.replace("  - id: proof\n", "  - id: prove_ac\n"),
@@ -80,15 +91,10 @@ class TestReleaseState(unittest.TestCase):
             # Use an explicit prelaunch fixture so this check remains valid
             # when the real competition later opens.
             fixture = Path(tmp) / "repo"
-            (fixture / "build").mkdir(parents=True)
-            shutil.copy2(util.REPO / "build/release.py", fixture / "build/release.py")
-            release.copy_public_tree(util.REPO / "competition", fixture / "competition")
+            copy_release_fixture(fixture)
             state = util.load(util.REPO / "build/competition_state.json")
             state["status"] = "prelaunch"
             (fixture / "build/competition_state.json").write_text(json.dumps(state))
-            yaml_path = fixture / "competition/competition.yaml"
-            yaml_path.write_text(re.sub(r"^status:.*$", "status: prelaunch",
-                                        yaml_path.read_text(), flags=re.MULTILINE))
             out = Path(tmp) / "package"
             out.mkdir()
             (out / "sentinel").write_text("previous package")
@@ -102,6 +108,31 @@ class TestReleaseState(unittest.TestCase):
 
 
 class TestPublicSourceExport(unittest.TestCase):
+    def test_preview_generates_metadata_without_trusting_a_local_yaml_file(self):
+        for cached in (None, "stale: local metadata must not be exported\n"):
+            with self.subTest(cached_yaml=cached), tempfile.TemporaryDirectory() as tmp:
+                root = Path(tmp) / "repo"
+                copy_release_fixture(root)
+                local_yaml = root / "competition/competition.yaml"
+                self.assertFalse(local_yaml.exists())
+                if cached is not None:
+                    local_yaml.write_text(cached)
+                out = Path(tmp) / "package"
+                result = subprocess.run(
+                    [sys.executable, str(root / "build/release.py"), "--preview", str(out)],
+                    capture_output=True, text=True)
+                self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+                state = util.load(root / "build/competition_state.json")
+                manifest = util.load(root / "competition/challenges/manifest.json")
+                exported = (out / "competition/competition.yaml").read_text()
+                self.assertEqual(exported, release.render_yaml(manifest, state))
+                release.validate_public_state(state, exported, manifest)
+                release.validate_track_structure(exported)
+                if cached is None:
+                    self.assertFalse(local_yaml.exists())
+                else:
+                    self.assertEqual(local_yaml.read_text(), cached)
+
     def test_lean_sources_and_pins_ship_without_dependencies_or_build_products(self):
         with tempfile.TemporaryDirectory() as tmp:
             source = Path(tmp) / "source"
