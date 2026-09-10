@@ -81,10 +81,11 @@ other solutions; a format error rejects the whole file.
 ### Upload
 
 Upload your file through [SAIR](https://competition.sair.foundation/competitions/acc).
-Local checks do not register a submission. Limits are **100 submissions per
-team per UTC day**, **500 solutions per file**, and **4 MiB per file**,
-including comments. Paths must also satisfy the
-[search limits](../tools/verifier/README.md#limits).
+Local checks do not register a submission. Limits are **40 submissions per
+team per UTC day**, **500 solutions per file**, **10 MB per file**
+(10,000,000 bytes, including comments), and **100,000 moves per solution**.
+See [verification limits](../tools/verifier/README.md#limits)
+for the verifier's resource limits.
 
 Submissions must arrive complete at or after opening and before the deadline;
 verification may finish later. See the [overview](overview.md) for

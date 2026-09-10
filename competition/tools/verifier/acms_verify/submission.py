@@ -17,7 +17,7 @@ import re
 
 from . import specs
 
-MAX_BODY_BYTES = 4 * 1024 * 1024
+MAX_BODY_BYTES = 10_000_000  # 10 MB, including comments.
 MAX_SOLUTIONS = 500
 DEFAULT_STRUCTURAL_LIMITS = {
     "max_body_bytes": MAX_BODY_BYTES,

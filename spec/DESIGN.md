@@ -203,9 +203,11 @@ the deadline without changing the original receipt or eligibility.
 
 ### 4.3 Limits
 
-Current limits cover both problems together within Discovery Track: 100 submissions per team per UTC day, 500 solutions per
-submission, a 4 MiB (4,194,304-byte) TXT file, 100,000 moves per path, 10,000 letters in the
-reduced relator tuple, and cumulative work of 5,000,000. Work includes the initial
+Current limits cover both problems together within Discovery Track: 40
+submissions per team per UTC day, 500 solutions per submission, and a 10 MB
+(10,000,000-byte) TXT file including comments. Verification limits are
+100,000 moves per path, 10,000 letters in the reduced relator tuple, and
+cumulative work of 5,000,000. Work includes the initial
 length and each reduced state after a move. Structural rejection does not
 consume quota. A structurally accepted document counts once even if every
 path fails verification. The public contract governs accounting and error

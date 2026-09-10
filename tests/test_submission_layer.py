@@ -207,12 +207,16 @@ class TestSubmissionLayer(unittest.TestCase):
             "detail": "too_many_solutions", "solutions": 501, "max_solutions": 500})
 
     def test_body_limit_includes_comments_and_precedes_decoding(self):
-        raw = b"#" + b"a" * (submission.MAX_BODY_BYTES - 1)
-        self.assert_malformed(raw, "no_solutions")
+        prefix = txt(self.sol).encode("utf-8") + b"#"
+        padding = 10_000_000 - len(prefix)
+        raw = prefix + "é".encode("utf-8") * (padding // 2) + b"a" * (padding % 2)
+        # A real solution with multibyte notes fits exactly at 10 MB.
+        self.assertEqual(len(raw), 10_000_000)
+        self.assertEqual(self.run_sub(raw), self.run_sub(txt(self.sol)))
         self.assertEqual(self.run_sub(raw + b"\xff"), {
             "accepted": False, "code": "E_MALFORMED", "counts_against_quota": False,
-            "detail": "body_too_large", "body_bytes": submission.MAX_BODY_BYTES + 1,
-            "max_body_bytes": submission.MAX_BODY_BYTES})
+            "detail": "body_too_large", "body_bytes": 10_000_001,
+            "max_body_bytes": 10_000_000})
 
     def test_empty_and_comment_only_files_have_no_solutions(self):
         for raw in ("", " \r\n\t\n", "# notes\n# score: 100", "\ufeff"):

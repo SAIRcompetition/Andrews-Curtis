@@ -185,8 +185,8 @@ The instance and manifest hashes are independently checkable.
 The JSONL files list problems. Submit a UTF-8 **TXT file**, with one solution
 per line: `challenge_id: [comma-separated moves]`. Blank lines, full-line
 `#` comments, and trailing `#` comments are ignored. Use comments for optional
-notes; they have no separate length limit beyond the 4 MiB file limit.
-A file may contain at most 500 solution lines.
+notes; they have no separate length limit. The whole file, including comments,
+must be at most 10 MB (10,000,000 bytes), with at most 500 solution lines.
 
 ## Run a successful submission
 

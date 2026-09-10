@@ -175,15 +175,15 @@ successful solutions.
 
 ## Limits
 
-The same path limits apply to both Discovery problems. Upload quotas and
+The same verification limits apply to both Discovery problems. Upload quotas and
 batch/body limits are shared per team across the entire Discovery Track.
 A batch may mix `ac-` and `sac-` IDs; they are distinct challenges.
 
 | Limit | v1 value |
 |---|---:|
-| Discovery submissions per team per UTC day (site + API combined) | 100 |
+| Discovery submissions per team per UTC day (site + API combined) | 40 |
 | Solution lines per submission | 500 |
-| Raw TXT file size, including comments | 4 MiB (4,194,304 bytes) |
+| Raw TXT file size, including comments | 10 MB (10,000,000 bytes) |
 | `max_path_length` | 100 000 |
 | `max_total_relator_length` | 10 000 |
 | `max_work` = Σ per-step total relator length | 5 000 000 |
