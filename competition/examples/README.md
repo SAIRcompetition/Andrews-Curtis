@@ -79,7 +79,6 @@ Expected output, also saved as [`sample_verdict.json`](sample_verdict.json):
       "challenge_id": "ms-train-0160",
       "length": 7,
       "ok": true,
-      "peak_total_relator_length": 12,
       "work": 46
     },
     {
@@ -87,7 +86,6 @@ Expected output, also saved as [`sample_verdict.json`](sample_verdict.json):
       "challenge_id": "sac-train-0160",
       "length": 9,
       "ok": true,
-      "peak_total_relator_length": 12,
       "work": 47
     }
   ]

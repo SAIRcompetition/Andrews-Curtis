@@ -187,7 +187,7 @@ Malformed-line errors include a one-based `line_number`.
 
 The service uses the same verifier sources as the public CLI: look up the
 official challenge, replay each path, enforce limits, check the exact target,
-and compute length, peak, work, and certificate hash. Outer `accepted` means
+and return length, work, and certificate hash. Outer `accepted` means
 structural acceptance of the document; only per-solution `ok: true` is a
 verified solution eligible for scoring. A failed path does not invalidate
 other paths in a structurally valid batch.
@@ -316,7 +316,7 @@ tests. A passing formula example alone does not verify event semantics.
 Discovery moves and intermediate states remain private during competition.
 The platform's public challenge fields are `status`, `current_best_length`,
 `current_best_solver`, `first_solver`, `first_solved_at`, `k_teams`,
-`base_score`, `certificate_hash`, and `peak_total_relator_length`.
+`base_score`, and `certificate_hash`.
 Enforce this allowlist in public API responses; authorize teams to retrieve
 their own submissions. Publish valid move sequences after the competition.
 

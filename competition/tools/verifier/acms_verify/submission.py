@@ -165,6 +165,7 @@ def process_submission(raw_bytes, manifest, challenge_index=None,
         verdict = specs.verify_challenge(challenge, sol["moves"],
                                          challenge["move_spec_version"], limits)
         verdict = dict(verdict)
+        verdict.pop("peak_total_relator_length", None)
         verdict["challenge_id"] = cid
         results.append(verdict)
 

@@ -264,18 +264,17 @@ certificate hash; the verifier computes every result itself.
 ```
 assert len(moves) <= max_path_length       else E_PATH_TOO_LONG
 s    = challenge.initial_relators          # freely reduced, from the manifest
-work = peak = sum(len(r) for r in s)       # the initial state counts toward work
+work = sum(len(r) for r in s)              # the initial state counts toward work
 for k, m in enumerate(moves):
     assert m is an integer in the spec     else E_BAD_MOVE_ID(move_index=k)
     assert m is applicable to s            else E_MOVE_NOT_APPLICABLE(move_index=k)
     s = free_reduce(apply(s, m))
     tot = sum(len(r) for r in s)
     assert tot <= max_total_relator_length else E_LENGTH_LIMIT(move_index=k)
-    peak = max(peak, tot); work += tot
+    work += tot
     assert work <= max_work                else E_WORK_BUDGET(move_index=k)
 assert s == challenge.target_relators      else E_NOT_TARGET(final_shape=[len(r) for r in s])
-return { ok, length = len(moves), peak_total_relator_length = peak, work,
-         certificate_hash }
+return { ok, length = len(moves), work, certificate_hash }
 ```
 
 The move-ID range is 0–13 for AC and 0–256 for Stable AC. Every AC move

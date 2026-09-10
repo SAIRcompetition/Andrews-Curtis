@@ -127,7 +127,7 @@ def build_examples(manifest, training, stable_training):
     if not verdict.get("accepted") or not all(v.get("ok") for v in verdict["results"]):
         raise ValueError("training examples failed verification: %r" % verdict)
     for e, cid, result in zip(entries, ids, verdict["results"]):
-        for key in ("length", "peak_total_relator_length", "work"):
+        for key in ("length", "work"):
             if result[key] != e[key]:
                 raise ValueError("training example changed frozen %s" % key)
         expected_hash = canon.certificate_hash(cid, e["move_spec_version"], e["moves"])

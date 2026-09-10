@@ -64,6 +64,8 @@ class TestExamples(unittest.TestCase):
         self.assertTrue(verdict["accepted"])
         self.assertEqual(len(verdict["results"]), 2)
         self.assertTrue(all(v["ok"] for v in verdict["results"]))
+        for receipt in verdict["results"]:
+            self.assertNotIn("peak_total_relator_length", receipt)
 
     def test_training_manifest_matches_published_data_and_has_valid_hashes(self):
         manifest = self.training_manifest
@@ -149,7 +151,8 @@ class TestExamples(unittest.TestCase):
                 cid = receipt["challenge_id"]
                 entry = self.source_by_id[cid]
                 self.assertTrue(receipt["ok"], receipt)
-                for key in ("length", "peak_total_relator_length", "work"):
+                self.assertNotIn("peak_total_relator_length", receipt)
+                for key in ("length", "work"):
                     self.assertEqual(receipt[key], entry[key], (cid, key))
                 self.assertEqual(receipt["certificate_hash"], canon.certificate_hash(
                     cid, entry["move_spec_version"], entry["moves"]), cid)

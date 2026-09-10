@@ -51,6 +51,7 @@ class TestSubmissionLayer(unittest.TestCase):
                          self.entry["certificate_hash"])
         expected = core.verify(util.training_challenge(self.entry), self.sol["moves"],
                                self.entry["move_spec_version"], self.mini["limits"])
+        expected.pop("peak_total_relator_length")
         self.assertEqual(verdict["results"], [dict(expected, challenge_id=self.sol["challenge_id"])])
 
     def test_per_item_errors_do_not_reject_submission(self):
@@ -68,12 +69,37 @@ class TestSubmissionLayer(unittest.TestCase):
         verdict = self.run_sub(txt(self.sol, self.stable_sol))
         self.assertTrue(verdict["accepted"])
         self.assertEqual([r["ok"] for r in verdict["results"]], [True, True])
+        for result in verdict["results"]:
+            self.assertNotIn("peak_total_relator_length", result)
         expected = stable_core.verify(self.stable_challenge, self.stable_sol["moves"],
                                       stable_core.MOVE_SPEC_VERSION, self.mini["limits"])
+        expected.pop("peak_total_relator_length")
         self.assertEqual(verdict["results"][1], dict(
             expected, challenge_id=self.stable_sol["challenge_id"]))
         self.assertEqual(verdict["results"][1]["length"], self.entry["length"] + 2)
         self.assertEqual(verdict["results"][1]["work"], self.entry["work"] + 1)
+
+    def test_both_problems_still_enforce_relator_growth_limit(self):
+        challenges = [
+            {"challenge_id": cid, "move_spec_version": version,
+             "initial_relators": [[1], [2]], "target_relators": target}
+            for cid, version, target in (
+                ("test-ac", "ac-r2-v1", [[1], [2]]),
+                ("test-stable", "sac-r8-v1", []),
+            )
+        ]
+        manifest = {"challenges": challenges,
+                    "limits": {"max_path_length": 10,
+                               "max_total_relator_length": 2, "max_work": 100}}
+        # Move 2 changes (x, y) to (xy, y), exceeding the limit of two letters.
+        verdict = self.run_sub("test-ac: [2]\ntest-stable: [2]", manifest=manifest)
+        self.assertTrue(verdict["accepted"])
+        self.assertEqual(verdict["results"], [
+            {"challenge_id": c["challenge_id"], "ok": False,
+             "code": "E_LENGTH_LIMIT", "move_index": 0,
+             "total_relator_length": 3, "max_total_relator_length": 2}
+            for c in challenges
+        ])
 
     def test_challenge_id_selects_target_and_valid_move_ids(self):
         verdict = self.run_sub(txt(dict(self.sol, moves=self.stable_sol["moves"]),
