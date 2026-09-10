@@ -36,7 +36,7 @@ line, containing only `challenge_id` and `description` of the initial presentati
 |---|---|
 | [AC problems](competition/problems/ac.jsonl) | 10,115 AC problem statements |
 | [Stable AC problems](competition/problems/stable_ac.jsonl) | 10,115 Stable AC problem statements |
-| [Examples](competition/examples/README.md) | The same 424 separate training presentations in both versions, plus runnable submissions and receipts |
+| [Examples](competition/examples/README.md) | 424 unscored training presentations in JSONL, known move sequences, runnable submissions, and receipts |
 | [Discovery verifier](competition/tools/verifier/README.md) | [Discovery Track](competition/rules/discovery.md) replay commands and supporting [data](competition/tools/verifier/data/README.md) |
 
 The 424 training presentations are outside the scored pool. The verifier

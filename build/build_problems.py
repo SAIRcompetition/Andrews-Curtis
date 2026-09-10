@@ -33,6 +33,16 @@ def _word(word, challenge_id):
     return " ".join(LETTERS[letter] for letter in word) if word else "1"
 
 
+def presentation_description(generators, relators, identifier="presentation"):
+    """Use the same word notation for official and training problems."""
+    if generators != ["x", "y"]:
+        raise ValueError("%s: generators must be ['x', 'y']" % identifier)
+    if not isinstance(relators, list) or len(relators) != 2:
+        raise ValueError("%s: exactly two initial relators are required" % identifier)
+    words = [_word(word, identifier) for word in relators]
+    return "Presentation: <x, y | %s = 1; %s = 1>." % (words[0], words[1])
+
+
 def render_problems(manifest):
     """Return descriptions without changing relator order or reducing any word."""
     if not isinstance(manifest, dict):
@@ -70,18 +80,13 @@ def render_problems(manifest):
         if challenge_id in seen:
             raise ValueError("duplicate challenge_id: " + challenge_id)
         seen.add(challenge_id)
-        if challenge.get("generators") != ["x", "y"]:
-            raise ValueError("%s: generators must be ['x', 'y']" % challenge_id)
         if challenge.get("target_relators") != target:
             raise ValueError("%s: target does not match %s" % (challenge_id, version))
-        relators = challenge.get("initial_relators")
-        if not isinstance(relators, list) or len(relators) != 2:
-            raise ValueError("%s: exactly two initial relators are required" % challenge_id)
-        words = [_word(word, challenge_id) for word in relators]
         rendered[filename].append({
             "challenge_id": challenge_id,
-            "description": "Presentation: <x, y | %s = 1; %s = 1>."
-                           % (words[0], words[1]),
+            "description": presentation_description(
+                challenge.get("generators"), challenge.get("initial_relators"),
+                challenge_id),
         })
     return rendered
 

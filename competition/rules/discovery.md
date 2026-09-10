@@ -36,7 +36,7 @@ initial relators:
 | AC | `ac-00001` through `ac-10115` | `ac-r2-v1`, 14 moves | Exact ordered pair `[[1],[2]]`, at rank 2 |
 | Stable AC | `sac-00001` through `sac-10115` | `sac-r8-v1`, 257 moves | Empty presentation `[]`, with current rank at most 8 |
 
-The [problem guide](../problems/README.md) explains the description notation.
+The [problem guide](../problems/README.md) shows how to read the JSONL files.
 The verifier reads the corresponding encoded words, targets, and limits from
 [manifest.json](../tools/verifier/data/manifest.json); both problem files
 are generated from it and checked for agreement when the package is built.
@@ -45,6 +45,42 @@ The challenge supplies its move specification. The numbered move tables
 are frozen: IDs retain their published meanings. Every scored challenge
 has `base_score: 1`. The official publication freeze is recorded separately
 in the metadata; an unset freeze date does not change the instance hashes.
+
+### Reading a problem
+
+Each JSONL line contains a `challenge_id` and a `description`. A description
+of the form `Presentation: <x, y | u = 1; v = 1>.` specifies generators
+`x, y` and two ordered relators: `r0 = u`, followed by `r1 = v`.
+The semicolon separates the relations; `1` on the right of each equation
+is the group identity. Only the words on the left are encoded as relators.
+
+Read each word as a product in the written order. Spaces mean multiplication,
+`x^-1` and `y^-1` mean inverses, and `x x x` means three copies of `x`.
+Moves act on words in the free group: factor order matters, and free reduction
+only cancels adjacent inverse letters, such as `x y y^-1` becoming `x`.
+The defining relations are not extra simplification operations.
+
+The verifier and the reference training solutions encode letters as integers:
+
+| Letter | Integer |
+|---|---:|
+| `x` | `1` |
+| `x^-1` | `-1` |
+| `y` | `2` |
+| `y^-1` | `-2` |
+
+An empty word is `[]`; `[1]` is the word `x`. These letter codes are distinct
+from the operation IDs used in a submitted `moves` list.
+
+For illustration, the presentation `<x, y | x y = 1; y = 1>` has
+`initial_relators = [[1, 2], [2]]`. This is a notation example, not a scored
+problem. AC move `3` multiplies the first relator by the inverse of the second:
+`(x y, y)` becomes `(x, y)`, the AC target. For Stable AC, moves `[3, 16, 15]`
+give `(x y, y) → (x, y) → (x) → ()`, reaching the empty presentation.
+
+Use a problem file's exact `challenge_id` and your operation IDs in the
+[submission format](#21-submission-format-and-local-example). Problem files
+are JSONL; a submission is one JSON object containing a `solutions` array.
 
 ### 1.1 AC problem
 
@@ -150,11 +186,18 @@ with public mathematical sources; the omission is not an anonymity guarantee.
 See the [verifier data guide](../tools/verifier/data/README.md) for the manifest
 schema, pool construction, and full MS-1190 reference metadata.
 
-[training_424.json](../examples/training_424.json) contains 424 solved AC
-presentations. [stable_training_424.json](../examples/stable_training_424.json)
-contains the same presentations with paths extended by `[16,15]`.
-They are outside both scored problem sets. The example below exercises
-both specifications using a separate, unscored manifest.
+Practice with [AC training problems](../examples/ac.jsonl) or
+[Stable AC training problems](../examples/stable_ac.jsonl). Each file uses
+the same JSONL format as the official problems and contains the same 424
+training presentations, all outside the scored pool.
+
+The known move sequences and replay statistics are in
+[training_424.json](../examples/training_424.json) and
+[stable_training_424.json](../examples/stable_training_424.json).
+The [training manifest](../examples/training_manifest.json) supports all
+848 training challenges: 424 AC IDs and 424 Stable AC IDs. Use it for local
+practice with the [examples guide](../examples/README.md); the example below
+shows one submission covering both problems.
 
 ## 2. Submissions and verification
 

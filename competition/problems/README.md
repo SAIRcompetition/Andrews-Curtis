@@ -22,10 +22,10 @@ array. Every object has exactly two fields:
 The shared targets and move rules are specified in the
 [Discovery rules](../rules/discovery.md#1-problems-and-move-specifications).
 
-In a description, `<x, y | u = 1; v = 1>` denotes the group presentation
-with generators `x, y` and ordered relators `u, v`. Spaces between letters
-mean multiplication in the written order; `x^-1` and `y^-1` are inverses,
-and `1` denotes the empty word. The relator order is significant.
+See [Reading a problem](../rules/discovery.md#reading-a-problem) for the
+presentation notation, letter encoding, and a worked example.
+The [424 training problems](../examples/README.md) use the same notation
+and JSONL format.
 
 Read a problem file with Python's standard library, from the repository
 or unpacked public package root:

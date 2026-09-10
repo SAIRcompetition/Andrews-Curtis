@@ -1,0 +1,424 @@
+{"challenge_id": "sac-train-0001", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y = 1>."}
+{"challenge_id": "sac-train-0002", "description": "Presentation: <x, y | x^-1 y y x y^-1 y^-1 y^-1 = 1; x y = 1>."}
+{"challenge_id": "sac-train-0003", "description": "Presentation: <x, y | x^-1 y y y x y^-1 y^-1 y^-1 y^-1 = 1; x y = 1>."}
+{"challenge_id": "sac-train-0004", "description": "Presentation: <x, y | x^-1 y y y y x y^-1 y^-1 y^-1 y^-1 y^-1 = 1; x y = 1>."}
+{"challenge_id": "sac-train-0005", "description": "Presentation: <x, y | x^-1 y y y y y x y^-1 y^-1 y^-1 y^-1 y^-1 y^-1 = 1; x y = 1>."}
+{"challenge_id": "sac-train-0006", "description": "Presentation: <x, y | x^-1 y y y y y y x y^-1 y^-1 y^-1 y^-1 y^-1 y^-1 y^-1 = 1; x y = 1>."}
+{"challenge_id": "sac-train-0007", "description": "Presentation: <x, y | x^-1 y y y y y y y x y^-1 y^-1 y^-1 y^-1 y^-1 y^-1 y^-1 y^-1 = 1; x y = 1>."}
+{"challenge_id": "sac-train-0008", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y^-1 = 1>."}
+{"challenge_id": "sac-train-0009", "description": "Presentation: <x, y | x^-1 y y x y^-1 y^-1 y^-1 = 1; x y^-1 = 1>."}
+{"challenge_id": "sac-train-0010", "description": "Presentation: <x, y | x^-1 y y y x y^-1 y^-1 y^-1 y^-1 = 1; x y^-1 = 1>."}
+{"challenge_id": "sac-train-0011", "description": "Presentation: <x, y | x^-1 y y y y x y^-1 y^-1 y^-1 y^-1 y^-1 = 1; x y^-1 = 1>."}
+{"challenge_id": "sac-train-0012", "description": "Presentation: <x, y | x^-1 y y y y y x y^-1 y^-1 y^-1 y^-1 y^-1 y^-1 = 1; x y^-1 = 1>."}
+{"challenge_id": "sac-train-0013", "description": "Presentation: <x, y | x^-1 y y y y y y x y^-1 y^-1 y^-1 y^-1 y^-1 y^-1 y^-1 = 1; x y^-1 = 1>."}
+{"challenge_id": "sac-train-0014", "description": "Presentation: <x, y | x^-1 y y y y y y y x y^-1 y^-1 y^-1 y^-1 y^-1 y^-1 y^-1 y^-1 = 1; x y^-1 = 1>."}
+{"challenge_id": "sac-train-0015", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0016", "description": "Presentation: <x, y | x^-1 y y x y^-1 y^-1 y^-1 = 1; x y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0017", "description": "Presentation: <x, y | x^-1 y y y x y^-1 y^-1 y^-1 y^-1 = 1; x y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0018", "description": "Presentation: <x, y | x^-1 y y y y x y^-1 y^-1 y^-1 y^-1 y^-1 = 1; x y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0019", "description": "Presentation: <x, y | x^-1 y y y y y x y^-1 y^-1 y^-1 y^-1 y^-1 y^-1 = 1; x y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0020", "description": "Presentation: <x, y | x^-1 y y y y y y x y^-1 y^-1 y^-1 y^-1 y^-1 y^-1 y^-1 = 1; x y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0021", "description": "Presentation: <x, y | x^-1 y y y y y y y x y^-1 y^-1 y^-1 y^-1 y^-1 y^-1 y^-1 y^-1 = 1; x y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0022", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y y = 1>."}
+{"challenge_id": "sac-train-0023", "description": "Presentation: <x, y | x^-1 y y x y^-1 y^-1 y^-1 = 1; x y y = 1>."}
+{"challenge_id": "sac-train-0024", "description": "Presentation: <x, y | x^-1 y y y x y^-1 y^-1 y^-1 y^-1 = 1; x y y = 1>."}
+{"challenge_id": "sac-train-0025", "description": "Presentation: <x, y | x^-1 y y y y x y^-1 y^-1 y^-1 y^-1 y^-1 = 1; x y y = 1>."}
+{"challenge_id": "sac-train-0026", "description": "Presentation: <x, y | x^-1 y y y y y x y^-1 y^-1 y^-1 y^-1 y^-1 y^-1 = 1; x y y = 1>."}
+{"challenge_id": "sac-train-0027", "description": "Presentation: <x, y | x^-1 y y y y y y x y^-1 y^-1 y^-1 y^-1 y^-1 y^-1 y^-1 = 1; x y y = 1>."}
+{"challenge_id": "sac-train-0028", "description": "Presentation: <x, y | x^-1 y y y y y y y x y^-1 y^-1 y^-1 y^-1 y^-1 y^-1 y^-1 y^-1 = 1; x y y = 1>."}
+{"challenge_id": "sac-train-0029", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y^-1 y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0030", "description": "Presentation: <x, y | x^-1 y y x y^-1 y^-1 y^-1 = 1; x y^-1 y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0031", "description": "Presentation: <x, y | x^-1 y y y x y^-1 y^-1 y^-1 y^-1 = 1; x y^-1 y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0032", "description": "Presentation: <x, y | x^-1 y y y y x y^-1 y^-1 y^-1 y^-1 y^-1 = 1; x y^-1 y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0033", "description": "Presentation: <x, y | x^-1 y y y y y x y^-1 y^-1 y^-1 y^-1 y^-1 y^-1 = 1; x y^-1 y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0034", "description": "Presentation: <x, y | x^-1 y y y y y y x y^-1 y^-1 y^-1 y^-1 y^-1 y^-1 y^-1 = 1; x y^-1 y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0035", "description": "Presentation: <x, y | x^-1 y y y y y y y x y^-1 y^-1 y^-1 y^-1 y^-1 y^-1 y^-1 y^-1 = 1; x y^-1 y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0036", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y y y = 1>."}
+{"challenge_id": "sac-train-0037", "description": "Presentation: <x, y | x^-1 y y x y^-1 y^-1 y^-1 = 1; x y y y = 1>."}
+{"challenge_id": "sac-train-0038", "description": "Presentation: <x, y | x^-1 y y y x y^-1 y^-1 y^-1 y^-1 = 1; x y y y = 1>."}
+{"challenge_id": "sac-train-0039", "description": "Presentation: <x, y | x^-1 y y y y x y^-1 y^-1 y^-1 y^-1 y^-1 = 1; x y y y = 1>."}
+{"challenge_id": "sac-train-0040", "description": "Presentation: <x, y | x^-1 y y y y y x y^-1 y^-1 y^-1 y^-1 y^-1 y^-1 = 1; x y y y = 1>."}
+{"challenge_id": "sac-train-0041", "description": "Presentation: <x, y | x^-1 y y y y y y x y^-1 y^-1 y^-1 y^-1 y^-1 y^-1 y^-1 = 1; x y y y = 1>."}
+{"challenge_id": "sac-train-0042", "description": "Presentation: <x, y | x^-1 y y y y y y y x y^-1 y^-1 y^-1 y^-1 y^-1 y^-1 y^-1 y^-1 = 1; x y y y = 1>."}
+{"challenge_id": "sac-train-0043", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y y y y = 1>."}
+{"challenge_id": "sac-train-0044", "description": "Presentation: <x, y | x^-1 y y x y^-1 y^-1 y^-1 = 1; x y y y y = 1>."}
+{"challenge_id": "sac-train-0045", "description": "Presentation: <x, y | x^-1 y y y x y^-1 y^-1 y^-1 y^-1 = 1; x y y y y = 1>."}
+{"challenge_id": "sac-train-0046", "description": "Presentation: <x, y | x^-1 y y y y x y^-1 y^-1 y^-1 y^-1 y^-1 = 1; x y y y y = 1>."}
+{"challenge_id": "sac-train-0047", "description": "Presentation: <x, y | x^-1 y y y y y x y^-1 y^-1 y^-1 y^-1 y^-1 y^-1 = 1; x y y y y = 1>."}
+{"challenge_id": "sac-train-0048", "description": "Presentation: <x, y | x^-1 y y y y y y x y^-1 y^-1 y^-1 y^-1 y^-1 y^-1 y^-1 = 1; x y y y y = 1>."}
+{"challenge_id": "sac-train-0049", "description": "Presentation: <x, y | x^-1 y y y y y y y x y^-1 y^-1 y^-1 y^-1 y^-1 y^-1 y^-1 y^-1 = 1; x y y y y = 1>."}
+{"challenge_id": "sac-train-0050", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y^-1 x^-1 y x = 1>."}
+{"challenge_id": "sac-train-0051", "description": "Presentation: <x, y | x^-1 y y x y^-1 y^-1 y^-1 = 1; x y^-1 x^-1 y x = 1>."}
+{"challenge_id": "sac-train-0052", "description": "Presentation: <x, y | x^-1 y y y x y^-1 y^-1 y^-1 y^-1 = 1; x y^-1 x^-1 y x = 1>."}
+{"challenge_id": "sac-train-0053", "description": "Presentation: <x, y | x^-1 y y y y x y^-1 y^-1 y^-1 y^-1 y^-1 = 1; x y^-1 x^-1 y x = 1>."}
+{"challenge_id": "sac-train-0054", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y x^-1 y x = 1>."}
+{"challenge_id": "sac-train-0055", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x x y^-1 x^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0056", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y^-1 y^-1 y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0057", "description": "Presentation: <x, y | x^-1 y y x y^-1 y^-1 y^-1 = 1; x y^-1 y^-1 y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0058", "description": "Presentation: <x, y | x^-1 y y y x y^-1 y^-1 y^-1 y^-1 = 1; x y^-1 y^-1 y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0059", "description": "Presentation: <x, y | x^-1 y y y y x y^-1 y^-1 y^-1 y^-1 y^-1 = 1; x y^-1 y^-1 y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0060", "description": "Presentation: <x, y | x^-1 y y y y y x y^-1 y^-1 y^-1 y^-1 y^-1 y^-1 = 1; x y^-1 y^-1 y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0061", "description": "Presentation: <x, y | x^-1 y y y y y y x y^-1 y^-1 y^-1 y^-1 y^-1 y^-1 y^-1 = 1; x y^-1 y^-1 y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0062", "description": "Presentation: <x, y | x^-1 y y y y y y y x y^-1 y^-1 y^-1 y^-1 y^-1 y^-1 y^-1 y^-1 = 1; x y^-1 y^-1 y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0063", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x x y x^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0064", "description": "Presentation: <x, y | x^-1 y y x y^-1 y^-1 y^-1 = 1; x x y x^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0065", "description": "Presentation: <x, y | x^-1 y y y x y^-1 y^-1 y^-1 y^-1 = 1; x x y x^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0066", "description": "Presentation: <x, y | x^-1 y y y y x y^-1 y^-1 y^-1 y^-1 y^-1 = 1; x x y x^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0067", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y^-1 y^-1 x^-1 y x = 1>."}
+{"challenge_id": "sac-train-0068", "description": "Presentation: <x, y | x^-1 y y x y^-1 y^-1 y^-1 = 1; x y^-1 y^-1 x^-1 y x = 1>."}
+{"challenge_id": "sac-train-0069", "description": "Presentation: <x, y | x^-1 y y y x y^-1 y^-1 y^-1 y^-1 = 1; x y^-1 y^-1 x^-1 y x = 1>."}
+{"challenge_id": "sac-train-0070", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y^-1 x^-1 y x y^-1 = 1>."}
+{"challenge_id": "sac-train-0071", "description": "Presentation: <x, y | x^-1 y y x y^-1 y^-1 y^-1 = 1; x y^-1 x^-1 y x y^-1 = 1>."}
+{"challenge_id": "sac-train-0072", "description": "Presentation: <x, y | x^-1 y y y x y^-1 y^-1 y^-1 y^-1 = 1; x y^-1 x^-1 y x y^-1 = 1>."}
+{"challenge_id": "sac-train-0073", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y x y^-1 x^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0074", "description": "Presentation: <x, y | x^-1 y y x y^-1 y^-1 y^-1 = 1; x y x y^-1 x^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0075", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y^-1 x y^-1 x^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0076", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y y x^-1 y x = 1>."}
+{"challenge_id": "sac-train-0077", "description": "Presentation: <x, y | x^-1 y y x y^-1 y^-1 y^-1 = 1; x y y x^-1 y x = 1>."}
+{"challenge_id": "sac-train-0078", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y^-1 x y x^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0079", "description": "Presentation: <x, y | x^-1 y y x y^-1 y^-1 y^-1 = 1; x y^-1 x y x^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0080", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y x y x^-1 y = 1>."}
+{"challenge_id": "sac-train-0081", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x x y y x^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0082", "description": "Presentation: <x, y | x^-1 y y x y^-1 y^-1 y^-1 = 1; x x y y x^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0083", "description": "Presentation: <x, y | x^-1 y y y x y^-1 y^-1 y^-1 y^-1 = 1; x x y y x^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0084", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y x y^-1 x^-1 y = 1>."}
+{"challenge_id": "sac-train-0085", "description": "Presentation: <x, y | x^-1 y y x y^-1 y^-1 y^-1 = 1; x y x y^-1 x^-1 y = 1>."}
+{"challenge_id": "sac-train-0086", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x x y^-1 x^-1 y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0087", "description": "Presentation: <x, y | x^-1 y y x y^-1 y^-1 y^-1 = 1; x x y^-1 x^-1 y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0088", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x x y x^-1 y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0089", "description": "Presentation: <x, y | x^-1 y y x y^-1 y^-1 y^-1 = 1; x x y x^-1 y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0090", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y x^-1 y y x = 1>."}
+{"challenge_id": "sac-train-0091", "description": "Presentation: <x, y | x^-1 y y x y^-1 y^-1 y^-1 = 1; x y x^-1 y y x = 1>."}
+{"challenge_id": "sac-train-0092", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x x y^-1 y^-1 x^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0093", "description": "Presentation: <x, y | x^-1 y y x y^-1 y^-1 y^-1 = 1; x x y^-1 y^-1 x^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0094", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y x y x^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0095", "description": "Presentation: <x, y | x^-1 y y x y^-1 y^-1 y^-1 = 1; x y x y x^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0096", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y^-1 y^-1 y^-1 y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0097", "description": "Presentation: <x, y | x^-1 y y x y^-1 y^-1 y^-1 = 1; x y^-1 y^-1 y^-1 y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0098", "description": "Presentation: <x, y | x^-1 y y y x y^-1 y^-1 y^-1 y^-1 = 1; x y^-1 y^-1 y^-1 y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0099", "description": "Presentation: <x, y | x^-1 y y y y x y^-1 y^-1 y^-1 y^-1 y^-1 = 1; x y^-1 y^-1 y^-1 y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0100", "description": "Presentation: <x, y | x^-1 y y y y y x y^-1 y^-1 y^-1 y^-1 y^-1 y^-1 = 1; x y^-1 y^-1 y^-1 y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0101", "description": "Presentation: <x, y | x^-1 y y y y y y x y^-1 y^-1 y^-1 y^-1 y^-1 y^-1 y^-1 = 1; x y^-1 y^-1 y^-1 y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0102", "description": "Presentation: <x, y | x^-1 y y y y y y y x y^-1 y^-1 y^-1 y^-1 y^-1 y^-1 y^-1 y^-1 = 1; x y^-1 y^-1 y^-1 y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0103", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y y y y y = 1>."}
+{"challenge_id": "sac-train-0104", "description": "Presentation: <x, y | x^-1 y y x y^-1 y^-1 y^-1 = 1; x y y y y y = 1>."}
+{"challenge_id": "sac-train-0105", "description": "Presentation: <x, y | x^-1 y y y x y^-1 y^-1 y^-1 y^-1 = 1; x y y y y y = 1>."}
+{"challenge_id": "sac-train-0106", "description": "Presentation: <x, y | x^-1 y y y y x y^-1 y^-1 y^-1 y^-1 y^-1 = 1; x y y y y y = 1>."}
+{"challenge_id": "sac-train-0107", "description": "Presentation: <x, y | x^-1 y y y y y x y^-1 y^-1 y^-1 y^-1 y^-1 y^-1 = 1; x y y y y y = 1>."}
+{"challenge_id": "sac-train-0108", "description": "Presentation: <x, y | x^-1 y y y y y y x y^-1 y^-1 y^-1 y^-1 y^-1 y^-1 y^-1 = 1; x y y y y y = 1>."}
+{"challenge_id": "sac-train-0109", "description": "Presentation: <x, y | x^-1 y y y y y y y x y^-1 y^-1 y^-1 y^-1 y^-1 y^-1 y^-1 y^-1 = 1; x y y y y y = 1>."}
+{"challenge_id": "sac-train-0110", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y x^-1 y x y^-1 = 1>."}
+{"challenge_id": "sac-train-0111", "description": "Presentation: <x, y | x^-1 y y x y^-1 y^-1 y^-1 = 1; x y x^-1 y x y^-1 = 1>."}
+{"challenge_id": "sac-train-0112", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y^-1 x^-1 y y x = 1>."}
+{"challenge_id": "sac-train-0113", "description": "Presentation: <x, y | x^-1 y y x y^-1 y^-1 y^-1 = 1; x y^-1 x^-1 y y x = 1>."}
+{"challenge_id": "sac-train-0114", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y^-1 y^-1 x^-1 y x y^-1 = 1>."}
+{"challenge_id": "sac-train-0115", "description": "Presentation: <x, y | x^-1 y y x y^-1 y^-1 y^-1 = 1; x y^-1 y^-1 x^-1 y x y^-1 = 1>."}
+{"challenge_id": "sac-train-0116", "description": "Presentation: <x, y | x^-1 y y y x y^-1 y^-1 y^-1 y^-1 = 1; x y^-1 y^-1 x^-1 y x y^-1 = 1>."}
+{"challenge_id": "sac-train-0117", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y^-1 x y y x^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0118", "description": "Presentation: <x, y | x^-1 y y x y^-1 y^-1 y^-1 = 1; x y^-1 x y y x^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0119", "description": "Presentation: <x, y | x^-1 y y y x y^-1 y^-1 y^-1 y^-1 = 1; x y^-1 x y y x^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0120", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y x y y x^-1 y = 1>."}
+{"challenge_id": "sac-train-0121", "description": "Presentation: <x, y | x^-1 y y x y^-1 y^-1 y^-1 = 1; x y x y y x^-1 y = 1>."}
+{"challenge_id": "sac-train-0122", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y y x y x^-1 y = 1>."}
+{"challenge_id": "sac-train-0123", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y y x^-1 y x y^-1 = 1>."}
+{"challenge_id": "sac-train-0124", "description": "Presentation: <x, y | x^-1 y y x y^-1 y^-1 y^-1 = 1; x y y x^-1 y x y^-1 = 1>."}
+{"challenge_id": "sac-train-0125", "description": "Presentation: <x, y | x^-1 y y y x y^-1 y^-1 y^-1 y^-1 = 1; x y y x^-1 y x y^-1 = 1>."}
+{"challenge_id": "sac-train-0126", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x x y y x^-1 y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0127", "description": "Presentation: <x, y | x^-1 y y x y^-1 y^-1 y^-1 = 1; x x y y x^-1 y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0128", "description": "Presentation: <x, y | x^-1 y y y x y^-1 y^-1 y^-1 y^-1 = 1; x x y y x^-1 y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0129", "description": "Presentation: <x, y | x^-1 y y y y x y^-1 y^-1 y^-1 y^-1 y^-1 = 1; x x y y x^-1 y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0130", "description": "Presentation: <x, y | x^-1 y y y y y x y^-1 y^-1 y^-1 y^-1 y^-1 y^-1 = 1; x x y y x^-1 y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0131", "description": "Presentation: <x, y | x^-1 y y y y y y x y^-1 y^-1 y^-1 y^-1 y^-1 y^-1 y^-1 = 1; x x y y x^-1 y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0132", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y x y^-1 y^-1 x^-1 y = 1>."}
+{"challenge_id": "sac-train-0133", "description": "Presentation: <x, y | x^-1 y y x y^-1 y^-1 y^-1 = 1; x y x y^-1 y^-1 x^-1 y = 1>."}
+{"challenge_id": "sac-train-0134", "description": "Presentation: <x, y | x^-1 y y y x y^-1 y^-1 y^-1 y^-1 = 1; x y x y^-1 y^-1 x^-1 y = 1>."}
+{"challenge_id": "sac-train-0135", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y x^-1 y x y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0136", "description": "Presentation: <x, y | x^-1 y y x y^-1 y^-1 y^-1 = 1; x y x^-1 y x y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0137", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y^-1 x y x^-1 y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0138", "description": "Presentation: <x, y | x^-1 y y x y^-1 y^-1 y^-1 = 1; x y^-1 x y x^-1 y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0139", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y x y x^-1 y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0140", "description": "Presentation: <x, y | x^-1 y y x y^-1 y^-1 y^-1 = 1; x y x y x^-1 y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0141", "description": "Presentation: <x, y | x^-1 y y y y x y^-1 y^-1 y^-1 y^-1 y^-1 = 1; x y x y x^-1 y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0142", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y^-1 y^-1 y^-1 y^-1 y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0143", "description": "Presentation: <x, y | x^-1 y y x y^-1 y^-1 y^-1 = 1; x y^-1 y^-1 y^-1 y^-1 y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0144", "description": "Presentation: <x, y | x^-1 y y y x y^-1 y^-1 y^-1 y^-1 = 1; x y^-1 y^-1 y^-1 y^-1 y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0145", "description": "Presentation: <x, y | x^-1 y y y y x y^-1 y^-1 y^-1 y^-1 y^-1 = 1; x y^-1 y^-1 y^-1 y^-1 y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0146", "description": "Presentation: <x, y | x^-1 y y y y y x y^-1 y^-1 y^-1 y^-1 y^-1 y^-1 = 1; x y^-1 y^-1 y^-1 y^-1 y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0147", "description": "Presentation: <x, y | x^-1 y y y y y y x y^-1 y^-1 y^-1 y^-1 y^-1 y^-1 y^-1 = 1; x y^-1 y^-1 y^-1 y^-1 y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0148", "description": "Presentation: <x, y | x^-1 y y y y y y y x y^-1 y^-1 y^-1 y^-1 y^-1 y^-1 y^-1 y^-1 = 1; x y^-1 y^-1 y^-1 y^-1 y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0149", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y x^-1 y y x y^-1 = 1>."}
+{"challenge_id": "sac-train-0150", "description": "Presentation: <x, y | x^-1 y y x y^-1 y^-1 y^-1 = 1; x y x^-1 y y x y^-1 = 1>."}
+{"challenge_id": "sac-train-0151", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y^-1 x^-1 y x y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0152", "description": "Presentation: <x, y | x^-1 y y x y^-1 y^-1 y^-1 = 1; x y^-1 x^-1 y x y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0153", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y^-1 x^-1 y y x y^-1 = 1>."}
+{"challenge_id": "sac-train-0154", "description": "Presentation: <x, y | x^-1 y y x y^-1 y^-1 y^-1 = 1; x y^-1 x^-1 y y x y^-1 = 1>."}
+{"challenge_id": "sac-train-0155", "description": "Presentation: <x, y | x^-1 y y y y x y^-1 y^-1 y^-1 y^-1 y^-1 = 1; x y^-1 x^-1 y y x y^-1 = 1>."}
+{"challenge_id": "sac-train-0156", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y^-1 y^-1 x y x^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0157", "description": "Presentation: <x, y | x^-1 y y x y^-1 y^-1 y^-1 = 1; x y^-1 y^-1 x y x^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0158", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y y x y^-1 x^-1 y = 1>."}
+{"challenge_id": "sac-train-0159", "description": "Presentation: <x, y | x^-1 y y x y^-1 y^-1 y^-1 = 1; x y y x y^-1 x^-1 y = 1>."}
+{"challenge_id": "sac-train-0160", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y x y y x^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0161", "description": "Presentation: <x, y | x^-1 y y x y^-1 y^-1 y^-1 = 1; x y x y y x^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0162", "description": "Presentation: <x, y | x^-1 y y y x y^-1 y^-1 y^-1 y^-1 = 1; x y x y y x^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0163", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y x y^-1 x^-1 y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0164", "description": "Presentation: <x, y | x^-1 y y x y^-1 y^-1 y^-1 = 1; x y x y^-1 x^-1 y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0165", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y y x^-1 y y x = 1>."}
+{"challenge_id": "sac-train-0166", "description": "Presentation: <x, y | x^-1 y y x y^-1 y^-1 y^-1 = 1; x y y x^-1 y y x = 1>."}
+{"challenge_id": "sac-train-0167", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y y x y^-1 x^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0168", "description": "Presentation: <x, y | x^-1 y y x y^-1 y^-1 y^-1 = 1; x y y x y^-1 x^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0169", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y x^-1 x^-1 y x x = 1>."}
+{"challenge_id": "sac-train-0170", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y^-1 x^-1 x^-1 y x x = 1>."}
+{"challenge_id": "sac-train-0171", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x x x y^-1 x^-1 x^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0172", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y^-1 y^-1 x y^-1 x^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0173", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x x y^-1 x^-1 y^-1 y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0174", "description": "Presentation: <x, y | x^-1 y y y x y^-1 y^-1 y^-1 y^-1 = 1; x x y^-1 x^-1 y^-1 y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0175", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y x^-1 y y y x = 1>."}
+{"challenge_id": "sac-train-0176", "description": "Presentation: <x, y | x^-1 y y y x y^-1 y^-1 y^-1 y^-1 = 1; x y x^-1 y y y x = 1>."}
+{"challenge_id": "sac-train-0177", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x x y x^-1 y^-1 y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0178", "description": "Presentation: <x, y | x^-1 y y y x y^-1 y^-1 y^-1 y^-1 = 1; x x y x^-1 y^-1 y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0179", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y^-1 x^-1 y y y x = 1>."}
+{"challenge_id": "sac-train-0180", "description": "Presentation: <x, y | x^-1 y y y x y^-1 y^-1 y^-1 y^-1 = 1; x y^-1 x^-1 y y y x = 1>."}
+{"challenge_id": "sac-train-0181", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x x y y y x^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0182", "description": "Presentation: <x, y | x^-1 y y x y^-1 y^-1 y^-1 = 1; x x y y y x^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0183", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x x x y x^-1 x^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0184", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y^-1 y^-1 x^-1 y y x = 1>."}
+{"challenge_id": "sac-train-0185", "description": "Presentation: <x, y | x^-1 y y x y^-1 y^-1 y^-1 = 1; x y^-1 y^-1 x^-1 y y x = 1>."}
+{"challenge_id": "sac-train-0186", "description": "Presentation: <x, y | x^-1 y y y x y^-1 y^-1 y^-1 y^-1 = 1; x y^-1 y^-1 x^-1 y y x = 1>."}
+{"challenge_id": "sac-train-0187", "description": "Presentation: <x, y | x^-1 y y y y x y^-1 y^-1 y^-1 y^-1 y^-1 = 1; x y^-1 y^-1 x^-1 y y x = 1>."}
+{"challenge_id": "sac-train-0188", "description": "Presentation: <x, y | x^-1 y y y y y x y^-1 y^-1 y^-1 y^-1 y^-1 y^-1 = 1; x y^-1 y^-1 x^-1 y y x = 1>."}
+{"challenge_id": "sac-train-0189", "description": "Presentation: <x, y | x^-1 y y y y y y x y^-1 y^-1 y^-1 y^-1 y^-1 y^-1 y^-1 = 1; x y^-1 y^-1 x^-1 y y x = 1>."}
+{"challenge_id": "sac-train-0190", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y y x y x^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0191", "description": "Presentation: <x, y | x^-1 y y x y^-1 y^-1 y^-1 = 1; x y y x y x^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0192", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y x y^-1 y^-1 x^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0193", "description": "Presentation: <x, y | x^-1 y y x y^-1 y^-1 y^-1 = 1; x y x y^-1 y^-1 x^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0194", "description": "Presentation: <x, y | x^-1 y y y x y^-1 y^-1 y^-1 y^-1 = 1; x y x y^-1 y^-1 x^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0195", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y y y y y y = 1>."}
+{"challenge_id": "sac-train-0196", "description": "Presentation: <x, y | x^-1 y y x y^-1 y^-1 y^-1 = 1; x y y y y y y = 1>."}
+{"challenge_id": "sac-train-0197", "description": "Presentation: <x, y | x^-1 y y y x y^-1 y^-1 y^-1 y^-1 = 1; x y y y y y y = 1>."}
+{"challenge_id": "sac-train-0198", "description": "Presentation: <x, y | x^-1 y y y y x y^-1 y^-1 y^-1 y^-1 y^-1 = 1; x y y y y y y = 1>."}
+{"challenge_id": "sac-train-0199", "description": "Presentation: <x, y | x^-1 y y y y y x y^-1 y^-1 y^-1 y^-1 y^-1 y^-1 = 1; x y y y y y y = 1>."}
+{"challenge_id": "sac-train-0200", "description": "Presentation: <x, y | x^-1 y y y y y y x y^-1 y^-1 y^-1 y^-1 y^-1 y^-1 y^-1 = 1; x y y y y y y = 1>."}
+{"challenge_id": "sac-train-0201", "description": "Presentation: <x, y | x^-1 y y y y y y y x y^-1 y^-1 y^-1 y^-1 y^-1 y^-1 y^-1 y^-1 = 1; x y y y y y y = 1>."}
+{"challenge_id": "sac-train-0202", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y^-1 x y^-1 y^-1 x^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0203", "description": "Presentation: <x, y | x^-1 y y x y^-1 y^-1 y^-1 = 1; x y^-1 x y^-1 y^-1 x^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0204", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y^-1 y^-1 y^-1 x^-1 y x = 1>."}
+{"challenge_id": "sac-train-0205", "description": "Presentation: <x, y | x^-1 y y x y^-1 y^-1 y^-1 = 1; x y^-1 y^-1 y^-1 x^-1 y x = 1>."}
+{"challenge_id": "sac-train-0206", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x x y^-1 y^-1 x^-1 y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0207", "description": "Presentation: <x, y | x^-1 y y x y^-1 y^-1 y^-1 = 1; x x y^-1 y^-1 x^-1 y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0208", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y^-1 x^-1 y y x y = 1>."}
+{"challenge_id": "sac-train-0209", "description": "Presentation: <x, y | x^-1 y y x y^-1 y^-1 y^-1 = 1; x y^-1 x^-1 y y x y = 1>."}
+{"challenge_id": "sac-train-0210", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x x y^-1 y^-1 y^-1 x^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0211", "description": "Presentation: <x, y | x^-1 y y x y^-1 y^-1 y^-1 = 1; x x y^-1 y^-1 y^-1 x^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0212", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y y y x^-1 y x = 1>."}
+{"challenge_id": "sac-train-0213", "description": "Presentation: <x, y | x^-1 y y x y^-1 y^-1 y^-1 = 1; x y y y x^-1 y x = 1>."}
+{"challenge_id": "sac-train-0214", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y^-1 x y^-1 x^-1 y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0215", "description": "Presentation: <x, y | x^-1 y y x y^-1 y^-1 y^-1 = 1; x y^-1 x y^-1 x^-1 y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0216", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y x^-1 y y x y = 1>."}
+{"challenge_id": "sac-train-0217", "description": "Presentation: <x, y | x^-1 y y x y^-1 y^-1 y^-1 = 1; x y x^-1 y y x y = 1>."}
+{"challenge_id": "sac-train-0218", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y y y x y^-1 x^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0219", "description": "Presentation: <x, y | x^-1 y y x y^-1 y^-1 y^-1 = 1; x y y y x y^-1 x^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0220", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x x y^-1 y^-1 y^-1 y^-1 x^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0221", "description": "Presentation: <x, y | x^-1 y y y x y^-1 y^-1 y^-1 y^-1 = 1; x x y^-1 y^-1 y^-1 y^-1 x^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0222", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y^-1 x y^-1 y^-1 y^-1 x^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0223", "description": "Presentation: <x, y | x^-1 y y x y^-1 y^-1 y^-1 = 1; x y^-1 x y^-1 y^-1 y^-1 x^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0224", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x x x y x^-1 y^-1 x^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0225", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x x x y^-1 x^-1 y^-1 x^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0226", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y^-1 y^-1 x y^-1 y^-1 x^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0227", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y y x y^-1 y^-1 x^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0228", "description": "Presentation: <x, y | x^-1 y y x y^-1 y^-1 y^-1 = 1; x y y x y^-1 y^-1 x^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0229", "description": "Presentation: <x, y | x^-1 y y y x y^-1 y^-1 y^-1 y^-1 = 1; x y y x y^-1 y^-1 x^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0230", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y^-1 y^-1 y^-1 x y^-1 x^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0231", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y x y^-1 y^-1 y^-1 x^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0232", "description": "Presentation: <x, y | x^-1 y y x y^-1 y^-1 y^-1 = 1; x y x y^-1 y^-1 y^-1 x^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0233", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y x^-1 x^-1 y y x x = 1>."}
+{"challenge_id": "sac-train-0234", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y^-1 x^-1 y y x y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0235", "description": "Presentation: <x, y | x^-1 y y x y^-1 y^-1 y^-1 = 1; x y^-1 x^-1 y y x y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0236", "description": "Presentation: <x, y | x^-1 y y y y x y^-1 y^-1 y^-1 y^-1 y^-1 = 1; x y^-1 x^-1 y y x y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0237", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x x y^-1 x^-1 y^-1 y^-1 y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0238", "description": "Presentation: <x, y | x^-1 y y x y^-1 y^-1 y^-1 = 1; x x y^-1 x^-1 y^-1 y^-1 y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0239", "description": "Presentation: <x, y | x^-1 y y y y x y^-1 y^-1 y^-1 y^-1 y^-1 = 1; x x y^-1 x^-1 y^-1 y^-1 y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0240", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x x y x^-1 y^-1 y^-1 y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0241", "description": "Presentation: <x, y | x^-1 y y x y^-1 y^-1 y^-1 = 1; x x y x^-1 y^-1 y^-1 y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0242", "description": "Presentation: <x, y | x^-1 y y y y x y^-1 y^-1 y^-1 y^-1 y^-1 = 1; x x y x^-1 y^-1 y^-1 y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0243", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x x y^-1 y^-1 x^-1 y^-1 y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0244", "description": "Presentation: <x, y | x^-1 y y y x y^-1 y^-1 y^-1 y^-1 = 1; x x y^-1 y^-1 x^-1 y^-1 y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0245", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y^-1 x y^-1 x^-1 y^-1 y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0246", "description": "Presentation: <x, y | x^-1 y y y x y^-1 y^-1 y^-1 y^-1 = 1; x y^-1 x y^-1 x^-1 y^-1 y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0247", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y x y^-1 x^-1 y^-1 y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0248", "description": "Presentation: <x, y | x^-1 y y y x y^-1 y^-1 y^-1 y^-1 = 1; x y x y^-1 x^-1 y^-1 y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0249", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x x y y x^-1 y^-1 y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0250", "description": "Presentation: <x, y | x^-1 y y y x y^-1 y^-1 y^-1 y^-1 = 1; x x y y x^-1 y^-1 y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0251", "description": "Presentation: <x, y | x^-1 y y y y y y x y^-1 y^-1 y^-1 y^-1 y^-1 y^-1 y^-1 = 1; x x y y x^-1 y^-1 y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0252", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y^-1 x y x^-1 y^-1 y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0253", "description": "Presentation: <x, y | x^-1 y y x y^-1 y^-1 y^-1 = 1; x y^-1 x y x^-1 y^-1 y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0254", "description": "Presentation: <x, y | x^-1 y y y x y^-1 y^-1 y^-1 y^-1 = 1; x y^-1 x y x^-1 y^-1 y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0255", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y x y x^-1 y^-1 y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0256", "description": "Presentation: <x, y | x^-1 y y x y^-1 y^-1 y^-1 = 1; x y x y x^-1 y^-1 y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0257", "description": "Presentation: <x, y | x^-1 y y y x y^-1 y^-1 y^-1 y^-1 = 1; x y x y x^-1 y^-1 y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0258", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y^-1 x^-1 y x y^-1 y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0259", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y x^-1 y x y^-1 y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0260", "description": "Presentation: <x, y | x^-1 y y x y^-1 y^-1 y^-1 = 1; x y x^-1 y x y^-1 y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0261", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x x y^-1 y^-1 y^-1 x^-1 y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0262", "description": "Presentation: <x, y | x^-1 y y x y^-1 y^-1 y^-1 = 1; x x y^-1 y^-1 y^-1 x^-1 y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0263", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y^-1 x y^-1 y^-1 x^-1 y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0264", "description": "Presentation: <x, y | x^-1 y y x y^-1 y^-1 y^-1 = 1; x y^-1 x y^-1 y^-1 x^-1 y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0265", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y x y^-1 y^-1 x^-1 y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0266", "description": "Presentation: <x, y | x^-1 y y x y^-1 y^-1 y^-1 = 1; x y x y^-1 y^-1 x^-1 y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0267", "description": "Presentation: <x, y | x^-1 y y y x y^-1 y^-1 y^-1 y^-1 = 1; x y x y^-1 y^-1 x^-1 y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0268", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y^-1 y^-1 x y^-1 x^-1 y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0269", "description": "Presentation: <x, y | x^-1 y y x y^-1 y^-1 y^-1 = 1; x y^-1 y^-1 x y^-1 x^-1 y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0270", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y y x y^-1 x^-1 y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0271", "description": "Presentation: <x, y | x^-1 y y x y^-1 y^-1 y^-1 = 1; x y y x y^-1 x^-1 y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0272", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x x x y^-1 x^-1 x^-1 y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0273", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x x x y x^-1 x^-1 y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0274", "description": "Presentation: <x, y | x^-1 y y x y^-1 y^-1 y^-1 = 1; x x x y x^-1 x^-1 y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0275", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x x y y y x^-1 y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0276", "description": "Presentation: <x, y | x^-1 y y x y^-1 y^-1 y^-1 = 1; x x y y y x^-1 y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0277", "description": "Presentation: <x, y | x^-1 y y y x y^-1 y^-1 y^-1 y^-1 = 1; x x y y y x^-1 y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0278", "description": "Presentation: <x, y | x^-1 y y y y x y^-1 y^-1 y^-1 y^-1 y^-1 = 1; x x y y y x^-1 y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0279", "description": "Presentation: <x, y | x^-1 y y y y y x y^-1 y^-1 y^-1 y^-1 y^-1 y^-1 = 1; x x y y y x^-1 y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0280", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y x y y x^-1 y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0281", "description": "Presentation: <x, y | x^-1 y y x y^-1 y^-1 y^-1 = 1; x y x y y x^-1 y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0282", "description": "Presentation: <x, y | x^-1 y y y x y^-1 y^-1 y^-1 y^-1 = 1; x y x y y x^-1 y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0283", "description": "Presentation: <x, y | x^-1 y y y y x y^-1 y^-1 y^-1 y^-1 y^-1 = 1; x y x y y x^-1 y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0284", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y^-1 y^-1 x y x^-1 y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0285", "description": "Presentation: <x, y | x^-1 y y x y^-1 y^-1 y^-1 = 1; x y^-1 y^-1 x y x^-1 y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0286", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y y x y x^-1 y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0287", "description": "Presentation: <x, y | x^-1 y y x y^-1 y^-1 y^-1 = 1; x y y x y x^-1 y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0288", "description": "Presentation: <x, y | x^-1 y y y y x y^-1 y^-1 y^-1 y^-1 y^-1 = 1; x y y x y x^-1 y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0289", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y^-1 y^-1 x^-1 y x y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0290", "description": "Presentation: <x, y | x^-1 y y x y^-1 y^-1 y^-1 = 1; x y^-1 y^-1 x^-1 y x y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0291", "description": "Presentation: <x, y | x^-1 y y y x y^-1 y^-1 y^-1 y^-1 = 1; x y^-1 y^-1 x^-1 y x y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0292", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y y x^-1 y x y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0293", "description": "Presentation: <x, y | x^-1 y y x y^-1 y^-1 y^-1 = 1; x y y x^-1 y x y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0294", "description": "Presentation: <x, y | x^-1 y y y x y^-1 y^-1 y^-1 y^-1 = 1; x y y x^-1 y x y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0295", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y x^-1 y y x y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0296", "description": "Presentation: <x, y | x^-1 y y x y^-1 y^-1 y^-1 = 1; x y x^-1 y y x y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0297", "description": "Presentation: <x, y | x^-1 y y y y x y^-1 y^-1 y^-1 y^-1 y^-1 = 1; x y x^-1 y y x y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0298", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y^-1 x y y x^-1 y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0299", "description": "Presentation: <x, y | x^-1 y y x y^-1 y^-1 y^-1 = 1; x y^-1 x y y x^-1 y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0300", "description": "Presentation: <x, y | x^-1 y y y x y^-1 y^-1 y^-1 y^-1 = 1; x y^-1 x y y x^-1 y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0301", "description": "Presentation: <x, y | x^-1 y y y y x y^-1 y^-1 y^-1 y^-1 y^-1 = 1; x y^-1 x y y x^-1 y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0302", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y^-1 y^-1 y^-1 x y x^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0303", "description": "Presentation: <x, y | x^-1 y y x y^-1 y^-1 y^-1 = 1; x y^-1 y^-1 y^-1 x y x^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0304", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x x y^-1 x y^-1 x^-1 x^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0305", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y y y x y x^-1 y = 1>."}
+{"challenge_id": "sac-train-0306", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y y x y^-1 x^-1 y y = 1>."}
+{"challenge_id": "sac-train-0307", "description": "Presentation: <x, y | x^-1 y y x y^-1 y^-1 y^-1 = 1; x y y x y^-1 x^-1 y y = 1>."}
+{"challenge_id": "sac-train-0308", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y y x y x^-1 y y = 1>."}
+{"challenge_id": "sac-train-0309", "description": "Presentation: <x, y | x^-1 y y x y^-1 y^-1 y^-1 = 1; x y y x y x^-1 y y = 1>."}
+{"challenge_id": "sac-train-0310", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y y y y y y y = 1>."}
+{"challenge_id": "sac-train-0311", "description": "Presentation: <x, y | x^-1 y y x y^-1 y^-1 y^-1 = 1; x y y y y y y y = 1>."}
+{"challenge_id": "sac-train-0312", "description": "Presentation: <x, y | x^-1 y y y x y^-1 y^-1 y^-1 y^-1 = 1; x y y y y y y y = 1>."}
+{"challenge_id": "sac-train-0313", "description": "Presentation: <x, y | x^-1 y y y y x y^-1 y^-1 y^-1 y^-1 y^-1 = 1; x y y y y y y y = 1>."}
+{"challenge_id": "sac-train-0314", "description": "Presentation: <x, y | x^-1 y y y y y x y^-1 y^-1 y^-1 y^-1 y^-1 y^-1 = 1; x y y y y y y y = 1>."}
+{"challenge_id": "sac-train-0315", "description": "Presentation: <x, y | x^-1 y y y y y y x y^-1 y^-1 y^-1 y^-1 y^-1 y^-1 y^-1 = 1; x y y y y y y y = 1>."}
+{"challenge_id": "sac-train-0316", "description": "Presentation: <x, y | x^-1 y y y y y y y x y^-1 y^-1 y^-1 y^-1 y^-1 y^-1 y^-1 y^-1 = 1; x y y y y y y y = 1>."}
+{"challenge_id": "sac-train-0317", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y^-1 y^-1 x^-1 y y x y = 1>."}
+{"challenge_id": "sac-train-0318", "description": "Presentation: <x, y | x^-1 y y x y^-1 y^-1 y^-1 = 1; x y^-1 y^-1 x^-1 y y x y = 1>."}
+{"challenge_id": "sac-train-0319", "description": "Presentation: <x, y | x^-1 y y y x y^-1 y^-1 y^-1 y^-1 = 1; x y^-1 y^-1 x^-1 y y x y = 1>."}
+{"challenge_id": "sac-train-0320", "description": "Presentation: <x, y | x^-1 y y y y x y^-1 y^-1 y^-1 y^-1 y^-1 = 1; x y^-1 y^-1 x^-1 y y x y = 1>."}
+{"challenge_id": "sac-train-0321", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y y x^-1 y y x y = 1>."}
+{"challenge_id": "sac-train-0322", "description": "Presentation: <x, y | x^-1 y y x y^-1 y^-1 y^-1 = 1; x y y x^-1 y y x y = 1>."}
+{"challenge_id": "sac-train-0323", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y^-1 x^-1 y y y x y = 1>."}
+{"challenge_id": "sac-train-0324", "description": "Presentation: <x, y | x^-1 y y x y^-1 y^-1 y^-1 = 1; x y^-1 x^-1 y y y x y = 1>."}
+{"challenge_id": "sac-train-0325", "description": "Presentation: <x, y | x^-1 y y y x y^-1 y^-1 y^-1 y^-1 = 1; x y^-1 x^-1 y y y x y = 1>."}
+{"challenge_id": "sac-train-0326", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y x^-1 y y y x y = 1>."}
+{"challenge_id": "sac-train-0327", "description": "Presentation: <x, y | x^-1 y y y x y^-1 y^-1 y^-1 y^-1 = 1; x y x^-1 y y y x y = 1>."}
+{"challenge_id": "sac-train-0328", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y^-1 y^-1 y^-1 y^-1 x^-1 y x = 1>."}
+{"challenge_id": "sac-train-0329", "description": "Presentation: <x, y | x^-1 y y y x y^-1 y^-1 y^-1 y^-1 = 1; x y^-1 y^-1 y^-1 y^-1 x^-1 y x = 1>."}
+{"challenge_id": "sac-train-0330", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y x y^-1 x^-1 x^-1 y x = 1>."}
+{"challenge_id": "sac-train-0331", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y x y x^-1 x^-1 y x = 1>."}
+{"challenge_id": "sac-train-0332", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y y y y x^-1 y x = 1>."}
+{"challenge_id": "sac-train-0333", "description": "Presentation: <x, y | x^-1 y y y x y^-1 y^-1 y^-1 y^-1 = 1; x y y y y x^-1 y x = 1>."}
+{"challenge_id": "sac-train-0334", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y^-1 y^-1 y^-1 x^-1 y y x = 1>."}
+{"challenge_id": "sac-train-0335", "description": "Presentation: <x, y | x^-1 y y x y^-1 y^-1 y^-1 = 1; x y^-1 y^-1 y^-1 x^-1 y y x = 1>."}
+{"challenge_id": "sac-train-0336", "description": "Presentation: <x, y | x^-1 y y y x y^-1 y^-1 y^-1 y^-1 = 1; x y^-1 y^-1 y^-1 x^-1 y y x = 1>."}
+{"challenge_id": "sac-train-0337", "description": "Presentation: <x, y | x^-1 y y y y x y^-1 y^-1 y^-1 y^-1 y^-1 = 1; x y^-1 y^-1 y^-1 x^-1 y y x = 1>."}
+{"challenge_id": "sac-train-0338", "description": "Presentation: <x, y | x^-1 y y y y y x y^-1 y^-1 y^-1 y^-1 y^-1 y^-1 = 1; x y^-1 y^-1 y^-1 x^-1 y y x = 1>."}
+{"challenge_id": "sac-train-0339", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y y y x^-1 y y x = 1>."}
+{"challenge_id": "sac-train-0340", "description": "Presentation: <x, y | x^-1 y y x y^-1 y^-1 y^-1 = 1; x y y y x^-1 y y x = 1>."}
+{"challenge_id": "sac-train-0341", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y^-1 y^-1 x^-1 y y y x = 1>."}
+{"challenge_id": "sac-train-0342", "description": "Presentation: <x, y | x^-1 y y x y^-1 y^-1 y^-1 = 1; x y^-1 y^-1 x^-1 y y y x = 1>."}
+{"challenge_id": "sac-train-0343", "description": "Presentation: <x, y | x^-1 y y y x y^-1 y^-1 y^-1 y^-1 = 1; x y^-1 y^-1 x^-1 y y y x = 1>."}
+{"challenge_id": "sac-train-0344", "description": "Presentation: <x, y | x^-1 y y y y y y x y^-1 y^-1 y^-1 y^-1 y^-1 y^-1 y^-1 = 1; x y^-1 y^-1 x^-1 y y y x = 1>."}
+{"challenge_id": "sac-train-0345", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y y x^-1 y y y x = 1>."}
+{"challenge_id": "sac-train-0346", "description": "Presentation: <x, y | x^-1 y y y x y^-1 y^-1 y^-1 y^-1 = 1; x y y x^-1 y y y x = 1>."}
+{"challenge_id": "sac-train-0347", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y^-1 x^-1 y y y y x = 1>."}
+{"challenge_id": "sac-train-0348", "description": "Presentation: <x, y | x^-1 y y x y^-1 y^-1 y^-1 = 1; x y^-1 x^-1 y y y y x = 1>."}
+{"challenge_id": "sac-train-0349", "description": "Presentation: <x, y | x^-1 y y y y x y^-1 y^-1 y^-1 y^-1 y^-1 = 1; x y^-1 x^-1 y y y y x = 1>."}
+{"challenge_id": "sac-train-0350", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y x^-1 y y y y x = 1>."}
+{"challenge_id": "sac-train-0351", "description": "Presentation: <x, y | x^-1 y y x y^-1 y^-1 y^-1 = 1; x y x^-1 y y y y x = 1>."}
+{"challenge_id": "sac-train-0352", "description": "Presentation: <x, y | x^-1 y y y y x y^-1 y^-1 y^-1 y^-1 y^-1 = 1; x y x^-1 y y y y x = 1>."}
+{"challenge_id": "sac-train-0353", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y^-1 x^-1 x^-1 y x y x = 1>."}
+{"challenge_id": "sac-train-0354", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y x^-1 x^-1 y x y x = 1>."}
+{"challenge_id": "sac-train-0355", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y^-1 x^-1 y^-1 x^-1 y x x = 1>."}
+{"challenge_id": "sac-train-0356", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y x^-1 y^-1 x^-1 y x x = 1>."}
+{"challenge_id": "sac-train-0357", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y^-1 y^-1 x^-1 x^-1 y x x = 1>."}
+{"challenge_id": "sac-train-0358", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y y x^-1 x^-1 y x x = 1>."}
+{"challenge_id": "sac-train-0359", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y^-1 x^-1 y x^-1 y x x = 1>."}
+{"challenge_id": "sac-train-0360", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y x^-1 y x^-1 y x x = 1>."}
+{"challenge_id": "sac-train-0361", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y^-1 x^-1 x^-1 y y x x = 1>."}
+{"challenge_id": "sac-train-0362", "description": "Presentation: <x, y | x^-1 y y x y^-1 y^-1 y^-1 = 1; x y^-1 x^-1 x^-1 y y x x = 1>."}
+{"challenge_id": "sac-train-0363", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y y x y y x^-1 y = 1>."}
+{"challenge_id": "sac-train-0364", "description": "Presentation: <x, y | x^-1 y y x y^-1 y^-1 y^-1 = 1; x y y x y y x^-1 y = 1>."}
+{"challenge_id": "sac-train-0365", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x x x y^-1 y^-1 x^-1 x^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0366", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y x y y y x^-1 y = 1>."}
+{"challenge_id": "sac-train-0367", "description": "Presentation: <x, y | x^-1 y y x y^-1 y^-1 y^-1 = 1; x y x y y y x^-1 y = 1>."}
+{"challenge_id": "sac-train-0368", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y y x y^-1 y^-1 x^-1 y = 1>."}
+{"challenge_id": "sac-train-0369", "description": "Presentation: <x, y | x^-1 y y y x y^-1 y^-1 y^-1 y^-1 = 1; x y y x y^-1 y^-1 x^-1 y = 1>."}
+{"challenge_id": "sac-train-0370", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x x y x y^-1 x^-1 x^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0371", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y^-1 x x y^-1 x^-1 x^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0372", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y x x y^-1 x^-1 x^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0373", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x x x y y x^-1 x^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0374", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x x y^-1 x y x^-1 x^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0375", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x x y x y x^-1 x^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0376", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y^-1 x x y x^-1 x^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0377", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y x x y x^-1 x^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0378", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x x x y^-1 x^-1 y x^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0379", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x x x y x^-1 y x^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0380", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x x y y y y x^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0381", "description": "Presentation: <x, y | x^-1 y y y x y^-1 y^-1 y^-1 y^-1 = 1; x x y y y y x^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0382", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y^-1 x y y y x^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0383", "description": "Presentation: <x, y | x^-1 y y x y^-1 y^-1 y^-1 = 1; x y^-1 x y y y x^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0384", "description": "Presentation: <x, y | x^-1 y y y y y x y^-1 y^-1 y^-1 y^-1 y^-1 y^-1 = 1; x y^-1 x y y y x^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0385", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y x y y y x^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0386", "description": "Presentation: <x, y | x^-1 y y x y^-1 y^-1 y^-1 = 1; x y x y y y x^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0387", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y^-1 y^-1 x y y x^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0388", "description": "Presentation: <x, y | x^-1 y y y x y^-1 y^-1 y^-1 y^-1 = 1; x y^-1 y^-1 x y y x^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0389", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y y x y y x^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0390", "description": "Presentation: <x, y | x^-1 y y x y^-1 y^-1 y^-1 = 1; x y y x y y x^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0391", "description": "Presentation: <x, y | x^-1 y y y x y^-1 y^-1 y^-1 y^-1 = 1; x y y x y y x^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0392", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y y y x y x^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0393", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y^-1 y^-1 y^-1 x^-1 y x y^-1 = 1>."}
+{"challenge_id": "sac-train-0394", "description": "Presentation: <x, y | x^-1 y y x y^-1 y^-1 y^-1 = 1; x y^-1 y^-1 y^-1 x^-1 y x y^-1 = 1>."}
+{"challenge_id": "sac-train-0395", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x x y^-1 x^-1 x^-1 y x y^-1 = 1>."}
+{"challenge_id": "sac-train-0396", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x x y x^-1 x^-1 y x y^-1 = 1>."}
+{"challenge_id": "sac-train-0397", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y y y x^-1 y x y^-1 = 1>."}
+{"challenge_id": "sac-train-0398", "description": "Presentation: <x, y | x^-1 y y x y^-1 y^-1 y^-1 = 1; x y y y x^-1 y x y^-1 = 1>."}
+{"challenge_id": "sac-train-0399", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y^-1 y^-1 x^-1 y y x y^-1 = 1>."}
+{"challenge_id": "sac-train-0400", "description": "Presentation: <x, y | x^-1 y y x y^-1 y^-1 y^-1 = 1; x y^-1 y^-1 x^-1 y y x y^-1 = 1>."}
+{"challenge_id": "sac-train-0401", "description": "Presentation: <x, y | x^-1 y y y x y^-1 y^-1 y^-1 y^-1 = 1; x y^-1 y^-1 x^-1 y y x y^-1 = 1>."}
+{"challenge_id": "sac-train-0402", "description": "Presentation: <x, y | x^-1 y y y y x y^-1 y^-1 y^-1 y^-1 y^-1 = 1; x y^-1 y^-1 x^-1 y y x y^-1 = 1>."}
+{"challenge_id": "sac-train-0403", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y y x^-1 y y x y^-1 = 1>."}
+{"challenge_id": "sac-train-0404", "description": "Presentation: <x, y | x^-1 y y x y^-1 y^-1 y^-1 = 1; x y y x^-1 y y x y^-1 = 1>."}
+{"challenge_id": "sac-train-0405", "description": "Presentation: <x, y | x^-1 y y y x y^-1 y^-1 y^-1 y^-1 = 1; x y y x^-1 y y x y^-1 = 1>."}
+{"challenge_id": "sac-train-0406", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y^-1 x^-1 y y y x y^-1 = 1>."}
+{"challenge_id": "sac-train-0407", "description": "Presentation: <x, y | x^-1 y y x y^-1 y^-1 y^-1 = 1; x y^-1 x^-1 y y y x y^-1 = 1>."}
+{"challenge_id": "sac-train-0408", "description": "Presentation: <x, y | x^-1 y y y x y^-1 y^-1 y^-1 y^-1 = 1; x y^-1 x^-1 y y y x y^-1 = 1>."}
+{"challenge_id": "sac-train-0409", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y x^-1 y y y x y^-1 = 1>."}
+{"challenge_id": "sac-train-0410", "description": "Presentation: <x, y | x^-1 y y y x y^-1 y^-1 y^-1 y^-1 = 1; x y x^-1 y y y x y^-1 = 1>."}
+{"challenge_id": "sac-train-0411", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y^-1 x^-1 x^-1 y x x y^-1 = 1>."}
+{"challenge_id": "sac-train-0412", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y x^-1 x^-1 y x x y^-1 = 1>."}
+{"challenge_id": "sac-train-0413", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y x y^-1 y^-1 y^-1 x^-1 y = 1>."}
+{"challenge_id": "sac-train-0414", "description": "Presentation: <x, y | x^-1 y y x y^-1 y^-1 y^-1 = 1; x y x y^-1 y^-1 y^-1 x^-1 y = 1>."}
+{"challenge_id": "sac-train-0415", "description": "Presentation: <x, y | x^-1 y y y y y x y^-1 y^-1 y^-1 y^-1 y^-1 y^-1 = 1; x y x y^-1 y^-1 y^-1 x^-1 y = 1>."}
+{"challenge_id": "sac-train-0416", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y y y x y^-1 x^-1 y = 1>."}
+{"challenge_id": "sac-train-0417", "description": "Presentation: <x, y | x^-1 y y x y^-1 y^-1 y^-1 = 1; x y y y x y^-1 x^-1 y = 1>."}
+{"challenge_id": "sac-train-0418", "description": "Presentation: <x, y | x^-1 y x y^-1 y^-1 = 1; x y^-1 y^-1 y^-1 y^-1 y^-1 y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0419", "description": "Presentation: <x, y | x^-1 y y x y^-1 y^-1 y^-1 = 1; x y^-1 y^-1 y^-1 y^-1 y^-1 y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0420", "description": "Presentation: <x, y | x^-1 y y y x y^-1 y^-1 y^-1 y^-1 = 1; x y^-1 y^-1 y^-1 y^-1 y^-1 y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0421", "description": "Presentation: <x, y | x^-1 y y y y x y^-1 y^-1 y^-1 y^-1 y^-1 = 1; x y^-1 y^-1 y^-1 y^-1 y^-1 y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0422", "description": "Presentation: <x, y | x^-1 y y y y y x y^-1 y^-1 y^-1 y^-1 y^-1 y^-1 = 1; x y^-1 y^-1 y^-1 y^-1 y^-1 y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0423", "description": "Presentation: <x, y | x^-1 y y y y y y x y^-1 y^-1 y^-1 y^-1 y^-1 y^-1 y^-1 = 1; x y^-1 y^-1 y^-1 y^-1 y^-1 y^-1 y^-1 = 1>."}
+{"challenge_id": "sac-train-0424", "description": "Presentation: <x, y | x^-1 y y y y y y y x y^-1 y^-1 y^-1 y^-1 y^-1 y^-1 y^-1 y^-1 = 1; x y^-1 y^-1 y^-1 y^-1 y^-1 y^-1 y^-1 = 1>."}

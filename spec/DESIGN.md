@@ -97,6 +97,12 @@ Hash algorithms, move tables, and presentation words are unchanged.
 contain the same **424
 separate, unscored presentations**, certified under each specification.
 These presentations and their training IDs are absent from both scored problem sets.
+Readable training problem files are [examples/ac.jsonl](../competition/examples/ac.jsonl)
+and [examples/stable_ac.jsonl](../competition/examples/stable_ac.jsonl), each with
+424 records in the same format as the official problems. Their separate
+[training manifest](../competition/examples/training_manifest.json) contains all
+848 unscored challenges. The frozen training files retain their original IDs
+and certificates; the manifest gives each Stable AC version a `sac-train-` ID.
 
 `competition/tools/verifier/data/` also contains both move specifications,
 `golden_vectors.json`, and `ms1190_metadata.csv`. These support replay and
@@ -105,8 +111,9 @@ reference checks; the CLI's `--manifest` option reads the manifest there.
 `python3 build/build_problems.py` regenerates both problem files from the
 committed verifier manifest, without private source data; `--check` rejects
 missing or stale problem files. `build/build_manifest_v2.py` also generates
-them when rebuilding the pool. Successful examples and expected receipts
-are generated separately by `build/build_examples.py` in `competition/examples/`.
+them when rebuilding the pool. Training JSONL files, the training manifest,
+successful examples, and expected receipts are generated separately by
+`build/build_examples.py` in `competition/examples/`.
 
 `build/data/SOURCES.json` tracks the source release. `build/sync_dataset.py`
 and `build/build_manifest_v2.py` regenerate the pool. Internal classifications

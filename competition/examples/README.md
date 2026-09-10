@@ -2,19 +2,21 @@
 
 This folder contains **the same 424 training presentations in AC and Stable AC
 versions**. They are **outside the official pool of 10,115 presentations** and
-earn no points. The scored problem statements are in
-[`problems/ac.jsonl`](../problems/ac.jsonl) and
-[`problems/stable_ac.jsonl`](../problems/stable_ac.jsonl). Each uses JSON Lines:
-one object per line containing only `challenge_id` and `description` of the
-initial presentation. The shared targets and moves are in the
-[Discovery rules](../rules/discovery.md).
+earn no points. Read them in [`ac.jsonl`](ac.jsonl) and
+[`stable_ac.jsonl`](stable_ac.jsonl), using the same format as the official
+[AC](../problems/ac.jsonl) and [Stable AC](../problems/stable_ac.jsonl) problem files.
+Each line contains only `challenge_id` and `description` of the initial
+presentation. See [Reading a problem](../rules/discovery.md#reading-a-problem)
+for the notation and integer encoding.
 
 | File | Contents |
 |---|---|
-| [`training_424.json`](training_424.json) | 424 training presentations with AC move sequences |
-| [`stable_training_424.json`](stable_training_424.json) | The same 424 presentations with Stable AC move sequences |
+| [`ac.jsonl`](ac.jsonl) | 424 AC training IDs and presentation descriptions |
+| [`stable_ac.jsonl`](stable_ac.jsonl) | The matching 424 Stable AC training IDs and descriptions |
+| [`training_424.json`](training_424.json) | Frozen AC training data: integer-encoded words, known move sequences, and statistics |
+| [`stable_training_424.json`](stable_training_424.json) | The same training presentations with known Stable AC sequences and statistics |
 | [`sample_submission.json`](sample_submission.json) | One successful submission covering both problems |
-| [`training_manifest.json`](training_manifest.json) | Unscored verifier input for that submission |
+| [`training_manifest.json`](training_manifest.json) | All 848 unscored training challenges, covering both versions of the 424 presentations |
 | [`sample_verdict.json`](sample_verdict.json) | Complete expected success receipt |
 | [`invalid_submission.json`](invalid_submission.json) | A deliberately unsuccessful submission |
 
@@ -28,12 +30,16 @@ the empty presentation. Both use the [reference verifier](../tools/verifier/READ
 and official submission format.
 
 This is **local training only and earns no points**. The accompanying
-`training_manifest.json` contains the AC and Stable AC versions of this instance, each
-marked `scored: false` with `base_score: 0`; its limits and move specifications
-match the official manifest. The Stable example ID is `sac-train-0160`;
-training files share `ms-train-0160`, so the example gives each problem a
-distinct ID for mixed submissions. Its instance and manifest hashes are independently
-checkable. It is not a new official challenge pool or freeze.
+`training_manifest.json` lets you verify any of the 848 training challenges,
+all marked `scored: false` with `base_score: 0`, using the official limits
+and move specifications. AC training IDs are `ms-train-NNNN`; the matching
+Stable AC IDs are `sac-train-NNNN`. The Stable sample ID is `sac-train-0160`;
+both frozen source files use `ms-train-0160` in their `training_id` field.
+The instance and manifest hashes are independently checkable.
+
+The JSONL files list problems. A submission is a **single JSON object with
+a `solutions` array**, as in the sample below; each solution contains only
+`challenge_id` and `moves`, without the problem description.
 
 ## Run a successful submission
 
@@ -45,6 +51,10 @@ PYTHONPATH=competition/tools/verifier python3 -m acms_verify \
   --manifest competition/examples/training_manifest.json \
   --submission competition/examples/sample_submission.json --pretty
 ```
+
+To check your own training submission, replace
+`competition/examples/sample_submission.json` with your JSON file and keep
+the same training manifest.
 
 The full input, [`sample_submission.json`](sample_submission.json), is:
 

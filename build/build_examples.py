@@ -12,48 +12,97 @@ import sys
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(REPO / "build"))
 sys.path.insert(0, str(REPO / "competition" / "tools" / "verifier"))
 
 from acms_verify import canon, specs, submission  # noqa: E402
+from build_problems import presentation_description, serialize  # noqa: E402
 
 
 def json_text(value, *, sort_keys=False):
     return json.dumps(value, indent=2, sort_keys=sort_keys) + "\n"
 
 
+def _training_index(source, version):
+    """Validate a frozen training source and index its 424 distinct IDs."""
+    spec = specs.get(version)
+    if (source.get("move_spec_version") != version
+            or source.get("move_spec_hash") != spec.move_spec_hash):
+        raise ValueError("training input does not match its frozen move table")
+    entries = source.get("instances")
+    if not isinstance(entries, list) or len(entries) != 424:
+        raise ValueError("training input must contain exactly 424 instances")
+    expected_ids = {"ms-train-%04d" % i for i in range(1, 425)}
+    index = {}
+    for entry in entries:
+        if not isinstance(entry, dict):
+            raise ValueError("each training instance must be an object")
+        tid = entry.get("training_id")
+        if not isinstance(tid, str) or tid not in expected_ids or tid in index:
+            raise ValueError("invalid or duplicate training_id: %r" % tid)
+        if (entry.get("move_spec_version") != version
+                or entry.get("target_relators") != spec.target):
+            raise ValueError("training instance has the wrong specification or target: " + tid)
+        index[tid] = entry
+    return index
+
+
 def build_examples(manifest, training, stable_training):
-    """Return a deterministic, successful example for the AC and Stable AC problems in Discovery Track."""
+    """Build all training problems and a deterministic successful submission."""
     if specs.check_move_specs(manifest["move_specs"]):
         raise ValueError("manifest does not match the frozen move tables")
-    entry = min(training["instances"],
+    ac_entries = _training_index(training, "ac-r2-v1")
+    stable_entries = _training_index(stable_training, "sac-r8-v1")
+    if ac_entries.keys() != stable_entries.keys():
+        raise ValueError("AC and Stable AC training IDs do not match")
+    for tid in ac_entries:
+        for key in ("generators", "initial_relators"):
+            if ac_entries[tid].get(key) != stable_entries[tid].get(key):
+                raise ValueError("training pair disagrees on %s: %s" % (key, tid))
+
+    entry = min(ac_entries.values(),
                 key=lambda e: (len(e["moves"]), e["training_id"]))
-    stable_entry = next(e for e in stable_training["instances"]
-                        if e["training_id"] == entry["training_id"])
+    stable_entry = stable_entries[entry["training_id"]]
     entries = [entry, stable_entry]
     ids = [entry["training_id"], "sac-train-" + entry["training_id"].rsplit("-", 1)[1]]
     official_ids = submission.build_challenge_index(manifest)
-    challenges, solutions = [], []
-    for source, e, cid in zip((training, stable_training), entries, ids):
-        spec_hash = specs.get(e["move_spec_version"]).move_spec_hash
-        if source["move_spec_hash"] != spec_hash:
-            raise ValueError("training input does not match its frozen move table")
-        if cid in official_ids:
-            raise ValueError("training example must not be a scored challenge")
-        challenge = {
-            "challenge_id": cid,
-            "generators": e["generators"],
-            "initial_relators": e["initial_relators"],
-            "target_relators": e["target_relators"],
-            "move_spec_version": e["move_spec_version"],
-            "scored": False,
-            "base_score": 0,
-            "instance_hash": canon.instance_hash(
-                cid, e["generators"], e["initial_relators"],
-                e["target_relators"], e["move_spec_version"], spec_hash),
-            "freeze_date": None,
-        }
-        challenges.append(challenge)
-        solutions.append({"challenge_id": cid, "moves": e["moves"]})
+    challenges = []
+    problems = {"ac.jsonl": [], "stable_ac.jsonl": []}
+    for filename, indexed, prefix in (
+            ("ac.jsonl", ac_entries, "ms-train-"),
+            ("stable_ac.jsonl", stable_entries, "sac-train-")):
+        for tid, e in sorted(indexed.items()):
+            cid = prefix + tid.rsplit("-", 1)[1]
+            if cid in official_ids:
+                raise ValueError("training example must not be a scored challenge")
+            version = e["move_spec_version"]
+            spec_hash = specs.get(version).move_spec_hash
+            description = presentation_description(e["generators"], e["initial_relators"], cid)
+            challenge = {
+                "challenge_id": cid,
+                "generators": e["generators"],
+                "initial_relators": e["initial_relators"],
+                "target_relators": e["target_relators"],
+                "move_spec_version": version,
+                "scored": False,
+                "base_score": 0,
+                "instance_hash": canon.instance_hash(
+                    cid, e["generators"], e["initial_relators"],
+                    e["target_relators"], version, spec_hash),
+                "freeze_date": None,
+            }
+            result = specs.verify_challenge(challenge, e["moves"], version, manifest["limits"])
+            if not result.get("ok"):
+                raise ValueError("training path failed verification: %s: %r" % (cid, result))
+            for key in ("length", "peak_total_relator_length", "work"):
+                if result[key] != e[key]:
+                    raise ValueError("training instance changed frozen %s: %s" % (key, tid))
+            if e["certificate_hash"] != canon.certificate_hash(tid, version, e["moves"]):
+                raise ValueError("training source certificate hash mismatch: " + tid)
+            if result["certificate_hash"] != canon.certificate_hash(cid, version, e["moves"]):
+                raise ValueError("training example certificate hash mismatch: " + cid)
+            challenges.append(challenge)
+            problems[filename].append({"challenge_id": cid, "description": description})
     training_manifest = {
         "manifest_version": "acms-example-training-v2",
         "competition": manifest["competition"],
@@ -62,11 +111,13 @@ def build_examples(manifest, training, stable_training):
         "freeze_date": None,
         "generators": entry["generators"],
         "limits": manifest["limits"],
-        "challenge_count": 2,
-        "presentation_count": 1,
+        "challenge_count": len(challenges),
+        "presentation_count": len(ac_entries),
         "note": "Local training examples only; not part of the scored challenge pool.",
         "challenges": challenges,
     }
+    solutions = [{"challenge_id": cid, "moves": e["moves"]}
+                 for e, cid in zip(entries, ids)]
     sample_text = json_text({"solutions": solutions})
     verdict = submission.process_submission(sample_text.encode(), training_manifest)
     if not verdict.get("accepted") or not all(v.get("ok") for v in verdict["results"]):
@@ -93,19 +144,21 @@ def build_examples(manifest, training, stable_training):
 
 This folder contains **the same 424 training presentations in AC and Stable AC
 versions**. They are **outside the official pool of 10,115 presentations** and
-earn no points. The scored problem statements are in
-[`problems/ac.jsonl`](../problems/ac.jsonl) and
-[`problems/stable_ac.jsonl`](../problems/stable_ac.jsonl). Each uses JSON Lines:
-one object per line containing only `challenge_id` and `description` of the
-initial presentation. The shared targets and moves are in the
-[Discovery rules](../rules/discovery.md).
+earn no points. Read them in [`ac.jsonl`](ac.jsonl) and
+[`stable_ac.jsonl`](stable_ac.jsonl), using the same format as the official
+[AC](../problems/ac.jsonl) and [Stable AC](../problems/stable_ac.jsonl) problem files.
+Each line contains only `challenge_id` and `description` of the initial
+presentation. See [Reading a problem](../rules/discovery.md#reading-a-problem)
+for the notation and integer encoding.
 
 | File | Contents |
 |---|---|
-| [`training_424.json`](training_424.json) | 424 training presentations with AC move sequences |
-| [`stable_training_424.json`](stable_training_424.json) | The same 424 presentations with Stable AC move sequences |
+| [`ac.jsonl`](ac.jsonl) | 424 AC training IDs and presentation descriptions |
+| [`stable_ac.jsonl`](stable_ac.jsonl) | The matching 424 Stable AC training IDs and descriptions |
+| [`training_424.json`](training_424.json) | Frozen AC training data: integer-encoded words, known move sequences, and statistics |
+| [`stable_training_424.json`](stable_training_424.json) | The same training presentations with known Stable AC sequences and statistics |
 | [`sample_submission.json`](sample_submission.json) | One successful submission covering both problems |
-| [`training_manifest.json`](training_manifest.json) | Unscored verifier input for that submission |
+| [`training_manifest.json`](training_manifest.json) | All 848 unscored training challenges, covering both versions of the 424 presentations |
 | [`sample_verdict.json`](sample_verdict.json) | Complete expected success receipt |
 | [`invalid_submission.json`](invalid_submission.json) | A deliberately unsuccessful submission |
 
@@ -119,12 +172,16 @@ the empty presentation. Both use the [reference verifier](../tools/verifier/READ
 and official submission format.
 
 This is **local training only and earns no points**. The accompanying
-`training_manifest.json` contains the AC and Stable AC versions of this instance, each
-marked `scored: false` with `base_score: 0`; its limits and move specifications
-match the official manifest. The Stable example ID is `%s`;
-training files share `%s`, so the example gives each problem a
-distinct ID for mixed submissions. Its instance and manifest hashes are independently
-checkable. It is not a new official challenge pool or freeze.
+`training_manifest.json` lets you verify any of the 848 training challenges,
+all marked `scored: false` with `base_score: 0`, using the official limits
+and move specifications. AC training IDs are `ms-train-NNNN`; the matching
+Stable AC IDs are `sac-train-NNNN`. The Stable sample ID is `%s`;
+both frozen source files use `%s` in their `training_id` field.
+The instance and manifest hashes are independently checkable.
+
+The JSONL files list problems. A submission is a **single JSON object with
+a `solutions` array**, as in the sample below; each solution contains only
+`challenge_id` and `moves`, without the problem description.
 
 ## Run a successful submission
 
@@ -136,6 +193,10 @@ PYTHONPATH=competition/tools/verifier python3 -m acms_verify \\
   --manifest competition/examples/training_manifest.json \\
   --submission competition/examples/sample_submission.json --pretty
 ```
+
+To check your own training submission, replace
+`competition/examples/sample_submission.json` with your JSON file and keep
+the same training manifest.
 
 The full input, [`sample_submission.json`](sample_submission.json), is:
 
@@ -196,6 +257,8 @@ a mathematically unsuccessful path.
 """ % (cid, len(entry["moves"]), ids[1], cid, sample_text, verdict_text)
     return {
         "README.md": readme,
+        "ac.jsonl": serialize(problems["ac.jsonl"]),
+        "stable_ac.jsonl": serialize(problems["stable_ac.jsonl"]),
         "training_manifest.json": json_text(training_manifest),
         "sample_submission.json": sample_text,
         "sample_verdict.json": verdict_text,

@@ -40,10 +40,14 @@ uses `manifest.json` for exact integer-encoded words and verification limits.
 The 424 training presentations and their AC and Stable AC certificates are
 in [`examples/training_424.json`](../../../examples/training_424.json) and
 [`examples/stable_training_424.json`](../../../examples/stable_training_424.json).
+The corresponding problem descriptions are in
+[`examples/ac.jsonl`](../../../examples/ac.jsonl) and
+[`examples/stable_ac.jsonl`](../../../examples/stable_ac.jsonl).
 
 For a complete successful replay, start with the
 [training example](../../../examples/README.md). It supplies a separate
-unscored manifest, a submission, and the expected verifier receipt.
+unscored manifest for all 424 presentations in both versions, a sample
+submission, and the expected verifier receipt.
 The 424 training instances are outside both scored problem sets.
 
 ## `manifest.json` challenge fields

@@ -28,7 +28,7 @@ instructions, local verification, and scoring.
 |---|---|
 | [AC problems](problems/ac.jsonl) | 10,115 problem IDs and descriptions |
 | [Stable AC problems](problems/stable_ac.jsonl) | The matching 10,115 Stable AC problem IDs and initial presentations |
-| [Training data and examples](examples/README.md) | 424 separate, unscored presentations, runnable submissions, and expected receipts |
+| [Training data and examples](examples/README.md) | 424 unscored presentations in JSONL, known move sequences, runnable submissions, and expected receipts |
 | [Python verifier](tools/verifier/README.md) | Local verification instructions |
 | [Verifier data](tools/verifier/data/README.md) | Manifest, move specifications, and conformance vectors |
 

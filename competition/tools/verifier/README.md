@@ -31,6 +31,8 @@ The official problem statements are
 [AC](../../problems/ac.jsonl) and [Stable AC](../../problems/stable_ac.jsonl):
 two JSON Lines files covering the same 10,115 initial presentations.
 Each line is one JSON object containing only `challenge_id` and `description`.
+See [Reading a problem](../../rules/discovery.md#reading-a-problem) for the
+notation and its integer encoding.
 
 The verifier reads the supporting files in [data/](data/README.md):
 
@@ -44,6 +46,8 @@ The verifier reads the supporting files in [data/](data/README.md):
 The [AC training data](../../examples/training_424.json) and
 [Stable AC training data](../../examples/stable_training_424.json) contain
 the same 424 presentations, all outside the official pool.
+The [examples guide](../../examples/README.md) provides matching JSONL problem
+files and a training manifest covering all 424 presentations in both versions.
 
 ## Usage
 
