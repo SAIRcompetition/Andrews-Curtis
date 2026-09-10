@@ -415,68 +415,21 @@ Submissions are replayed against the official frozen challenges.
 
 ## 6. Scoring
 
-All scored challenges have equal weight. A team earns points on a challenge
-only while it holds or shares the shortest accepted solution. If $k$
-distinct teams share that length, **each earns $2^{1-k}$ points**. All other
-teams earn 0; unsolved challenges award no points. Multiple submissions
-from the same team count only once.
+On each challenge, the $k$ teams tied for the shortest verified solution
+**each earn $2^{1-k}$ points**; all others earn 0. One team earns 1 point,
+two tied teams earn ½ each, and three earn ¼ each. Each team counts once.
 
-A team's total score is the sum of its points across challenges.
+A shorter verified solution replaces the previous record, and points are
+recalculated. Team totals are summed across challenges, with **separate
+AC and Stable AC leaderboards**.
 
-Scores, totals, ranks, First Solver, and solved counters are computed
-**separately for the AC and Stable AC problems**. There is no combined ranking.
-Submission IDs and quota accounting remain shared; an event affects only
-the leaderboard selected by its challenge.
+Rank by exact total score. Ties go to the team that last reached its current
+total earlier, then by team ID. Priority uses server receipt times for
+complete submissions.
 
-Worked example:
-
-| Stage | A | B | C | D | Best length | $k$ | Points |
-|---|---:|---:|---:|---:|---:|---:|---|
-| A first solves in 40 | 40 | – | – | – | 40 | 1 | A=1 |
-| B matches 40 | 40 | 40 | – | – | 40 | 2 | A=B=1/2 |
-| C matches 40 | 40 | 40 | 40 | – | 40 | 3 | each 1/4 |
-| D finds **38** | 40 | 40 | 40 | 38 | 38 | 1 | **D=1, A/B/C drop to 0** |
-| A matches 38 | 38 | 40 | 40 | 38 | 38 | 2 | A=D=1/2 |
-
-A shorter verified path changes the current optimum and removes the
-previous holders' points unless they match it. The leaderboard reports the
-shortest path among accepted submissions; it is not a proof of mathematical
-minimality.
-
-The server timestamps each complete submission and assigns a monotonically
-increasing `submission_id`. Accepted solutions are processed in the total
-order `(received_at, submission_id)`, preserving array order within a
-submission. Verification completion time does not decide priority.
-If an earlier submission finishes verification later, replay the affected
-history in this order before publishing the corrected leaderboard.
-
-The leaderboard is recomputed **in full** after every accepted solution.
-Scores are exact rationals end to end and displayed round-half-even to
-4 decimal places. Rank by total descending, then by the earliest event
-at which the current total was reached, then by immutable team ID for
-an exact tie. The time-of-current-total resets whenever that team's
-total changes in the ordered history, including changes caused by other
-teams. Each `scoring_run` records the input event, configuration reference
-from [§5](#5-hashes), `manifest_hash`, and verifier version; the accepted
-event history must be retained so that the result can be reproduced.
-
-**First Solver** is the team with the earliest `(received_at, submission_id)`
-among verified solutions of a challenge, regardless of path length. A later
-submission cannot take this record by finding a shorter path. A provisional
-display may be corrected when an earlier submission is subsequently verified.
-`current_best_solver` is the earliest submitter of the current minimum length;
-this also uses receipt order, including equal-length submissions verified late.
-
-`solved` counts the distinct scored challenges for which a team has any
-verified solution. `current_best_count` counts those on which it currently
-shares the shortest accepted length. Losing points to a shorter solution
-does not erase a solved challenge or its First Solver record.
-
-**Implementation status.** These are the official scoring requirements.
-The development scoring engine still needs the ordered-replay fixes,
-the separate solved/current-best counts, and complete configuration
-references. Production integration must pass these checks before launch;
-the local engine is not yet an end-to-end implementation of this section.
+**First Solver** recognizes the earliest submitted verified solution for
+each challenge, regardless of length. A later, shorter solution does not
+take away this record.
 
 ## 7. Disclosure and collaboration
 

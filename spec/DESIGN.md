@@ -233,21 +233,30 @@ Discovery problem; it rejects challenges belonging to the other specification.
 
 ### 5.2 Ordered replay and publication
 
+Use the UTC `received_at` and unique, monotonically increasing
+`submission_id` assigned to each complete submission (§4.2).
 Replay accepted events in server `(received_at, submission_id)` order,
 never verification completion order. Within a submission, process solutions
 in their original array order and publish the final batch leaderboard
 atomically. Duplicate delivery of an event must not create extra results,
 quota charges, or priority records.
 
-Rank by exact total descending, then time-of-current-total ascending. That
-time changes when ordered replay changes a team's total, including changes
-caused by other teams. If both tie, use immutable team ID, not display name.
-Delayed results require rebuilding the affected derived history.
+Recompute the affected leaderboard in full after every accepted solution.
+Rank by exact total descending, then time-of-current-total ascending.
+Reset that timestamp whenever ordered replay changes a team's total,
+including changes caused by other teams. If both tie, use
+immutable team ID, not display name. Delayed results require rebuilding the
+affected derived history before publishing the corrected leaderboard.
+
+Each `scoring_run` records its input event, the immutable configuration
+reference defined in §3.3, `manifest_hash`, and verifier version. Retain the
+accepted-event history so every result can be reproduced.
 
 **Implementation gaps:** `server/scoring/engine.py` currently updates these
 clocks according to ingestion order, so the same events can produce different
 tie rankings. An earlier receipt arriving later with an equal best length
-also fails to update the best-length timestamp. Fix both before launch.
+also fails to update the best-length timestamp. Complete configuration
+references remain missing (§3.3). Fix these before launch.
 
 ### 5.3 First Solver and counters
 
@@ -255,6 +264,10 @@ First Solver is the minimum `(received_at, submission_id)` among accepted
 solutions for a challenge. A later-received shorter path cannot take away
 that honor. An earlier pending submission that later verifies can correct
 a provisional display; first completion is not first submission.
+
+`current_best_solver` is the team with the earliest `(received_at, submission_id)`
+among accepted solutions at the current shortest length.
+Equal-length submissions verified late must also correct this choice.
 
 `solved` counts distinct challenges for which a team has any accepted
 solution. Being overtaken never removes a solved challenge. A separate
@@ -278,8 +291,18 @@ exact integer display rounding.
 
 ### 5.6 Regression scenarios
 
-Retain the public worked scoring example. Add replay-order invariance,
-equal-length earlier receipts, duplicate delivery, atomic batch publication,
+Use this worked example as a scoring regression case:
+
+| Stage | A | B | C | D | Best length | $k$ | Points |
+|---|---:|---:|---:|---:|---:|---:|---|
+| A first solves in 40 | 40 | – | – | – | 40 | 1 | A=1 |
+| B matches 40 | 40 | 40 | – | – | 40 | 2 | A=B=1/2 |
+| C matches 40 | 40 | 40 | 40 | – | 40 | 3 | each 1/4 |
+| D finds **38** | 40 | 40 | 40 | 38 | 38 | 1 | **D=1, A/B/C drop to 0** |
+| A matches 38 | 38 | 40 | 40 | 38 | 38 | 2 | A=D=1/2 |
+
+Add replay-order invariance, equal-length earlier receipts, duplicate
+delivery, atomic batch publication,
 permanent solved counts, and complete configuration replay to the existing
 tests. A passing formula example alone does not verify event semantics.
 
