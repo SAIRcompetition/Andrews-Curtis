@@ -471,11 +471,13 @@ and deadline timestamps and a verified Git data freeze. The Proof opening
 timestamp may remain unset for the Discovery release; set it before enabling
 Proof submissions. A finished release requires the Proof opening timestamp too. Maintain release state in
 `build/competition_state.json` and synchronize generated metadata. During
-prelaunch, `submissions_open` is `2026-09-11T16:00:00Z`; other exact UTC
-dates and `freeze_commit` remain `null`. Calendar plans
-are separately recorded in `announced_dates`: registration September 8,
-Discovery September 11, Proof September 20, and the deadline November 30,
-2026. Exact track opening
+prelaunch, `submissions_open` is `2026-09-11T16:00:00Z` and the exclusive
+`submission_deadline` is `2026-12-01T12:00:00Z`, the end of November 30,
+2026 AoE (UTC−12). `freeze_date`, `freeze_commit`, `registration_opens`,
+and `prove_submissions_open` remain `null`. Calendar plans are separately
+recorded in `announced_dates`: registration September 8, Discovery
+September 11, Proof September 20, and the deadline November 30, 2026.
+Exact track opening
 uses track-level `opens_at`, supplied by `submissions_open` for Discovery and
 `prove_submissions_open` for Proof. The internal date keys retain their
 existing spelling; public track IDs are `discovery` and `proof`, with

@@ -41,7 +41,7 @@ Each track's guide contains its tasks, submission instructions, resources, and e
 - Registration and team formation open: **September 8, 2026**
 - Discovery Track opens: **September 11, 2026 at 16:00 UTC**
 - Proof Track opens: **September 20, 2026**
-- Submission deadline for all tracks: **November 30, 2026**
+- Submission deadline for all tracks: **November 30, 2026 AoE**
 
 ## Registration & Teams
 

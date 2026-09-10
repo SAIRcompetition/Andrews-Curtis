@@ -3,7 +3,7 @@
 [Registration is open on SAIR](https://competition.sair.foundation/competitions/acc).
 The competition launches with **Discovery Track on September 11, 2026 at
 16:00 UTC**, followed by **Proof Track on September 20, 2026**. The
-submission deadline is November 30, 2026.
+submission deadline is November 30, 2026 AoE.
 
 The ACC Challenge is co-organized by Caltech and the SAIR Foundation, with
 Lucas Fagan, Sergei Gukov, and Terence Tao. It has **two tracks**, each
@@ -12,7 +12,7 @@ covering **AC** and **Stable AC**:
 | Guide | Contents |
 |---|---|
 | [Overview](competition/rules/overview.md) | Background, tracks, dates, registration, and common rules; identical to `prelaunch.md` |
-| [Discovery Track](competition/rules/discovery.md) | Quick start, problems, moves, TXT submissions, and separate AC/Stable AC scoring |
+| [Discovery Track](competition/rules/discovery.md) | Problems, moves, TXT submissions, local tests, and separate AC/Stable AC scoring |
 | [Proof Track](competition/rules/proof.md) | Full mathematical statements, proof/disproof materials, Lean targets, public versions, and community peer review |
 
 Discovery works with explicit finite move sequences. Proof accepts a
@@ -111,13 +111,15 @@ python3 build/build_manifest_v2.py --metadata-only
 ```
 
 Do not edit the generated YAML as a source of configuration. Current `status` is
-`prelaunch`; `submissions_open` is `2026-09-11T16:00:00Z`.
-`freeze_date`, `freeze_commit`, `registration_opens`, `prove_submissions_open`,
-and `submission_deadline` remain `null`. This records submission-release
+`prelaunch`; `submissions_open` is `2026-09-11T16:00:00Z` and
+`submission_deadline` is `2026-12-01T12:00:00Z`, the exclusive UTC cutoff
+at the end of November 30 AoE (UTC−12).
+`freeze_date`, `freeze_commit`, `registration_opens`, and
+`prove_submissions_open` remain `null`. This records submission-release
 readiness; it does not close registration.
 Calendar dates are recorded separately in `announced_dates`:
 registration September 8, Discovery September 11, Proof September 20,
-and the deadline November 30, 2026. `submissions_open` supplies Discovery UTC opening and
+and the deadline November 30, 2026 AoE. `submissions_open` supplies Discovery UTC opening and
 `prove_submissions_open` supplies Proof UTC opening; each track exposes its
 relevant `opens_at`. `build/build_manifest_v2.py` synchronizes the manifest
 and `competition.yaml` from that state and also generates the problem statements.

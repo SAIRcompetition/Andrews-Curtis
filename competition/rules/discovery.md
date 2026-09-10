@@ -1,25 +1,9 @@
 # Discovery Track
 
-## Quick start
+**Submissions open:** September 11, 2026 at 16:00 UTC.
 
-Try the included [training submission](../examples/sample_submission.txt):
-
-```text
-# Known training solutions
-ms-train-0160: [6, 4, 2, 9, 1, 4, 1] # AC
-sac-train-0160: [6, 4, 2, 9, 1, 4, 1, 16, 15] # Stable AC
-```
-
-From the repository root, run with Python 3:
-
-```sh
-PYTHONPATH=competition/tools/verifier python3 -m acms_verify \
-  --manifest competition/examples/training_manifest.json \
-  --submission competition/examples/sample_submission.txt --pretty
-```
-
-Expected: exit code **0**, `accepted: true`, and `ok: true` for both
-solutions. See the [full receipt](../examples/sample_verdict.json).
+**Deadline:** November 30, 2026, end of day [AoE](https://www.ieee802.org/16/aoe.html)
+(Anywhere on Earth, UTC−12).
 
 ## Problems
 
@@ -31,14 +15,18 @@ in two independently scored problems:
 | [AC](../problems/ac.jsonl) | `ac-00001`–`ac-10115` | Exactly `(x, y)`, in order |
 | [Stable AC](../problems/stable_ac.jsonl) | `sac-00001`–`sac-10115` | The empty presentation; at most 8 generators at any step |
 
-Each JSONL line contains `challenge_id` and `description`. In
-`<x, y | u = 1; v = 1>`, `u` and `v` are the ordered relators;
-spaces mean multiplication, and `x^-1` means the inverse of `x`.
-See [how to read a problem](../problems/README.md#reading-a-problem)
-for the notation and integer encoding.
-
 The [424 training presentations](../examples/README.md) have known solutions
 for both problems. They are outside the scored pool and earn no points.
+
+### Reading a problem
+
+Each JSONL line has a `challenge_id` for submissions and a `description`
+of the starting presentation. For example, `<x, y | x y = 1; y = 1>` has
+ordered generators `x, y` and ordered relators `x y`, then `y`.
+Spaces mean multiplication; `x^-1` means the inverse of `x`; `1` means
+the identity. Moves transform the relator words, canceling adjacent
+inverse letters, such as `x y y^-1` becoming `x`.
+[More on notation and integer encoding](../problems/README.md#reading-a-problem).
 
 ## Moves
 
@@ -50,19 +38,35 @@ for both problems. They are outside the scored pool and earn no points.
   requires a relator consisting of one positive generator, absent from all
   other relators. [Exact move table and conditions](../tools/verifier/README.md#stable-ac-moves).
 
-Cancel adjacent inverse letters after each move. Words must reach the
-specified endpoint exactly.
-
 ## Submit
 
-Create a UTF-8 `submission.txt`, with one `challenge_id: [moves]` per line,
-using IDs from the official problem files. Move IDs are comma-separated
-integers. A file may mix AC and Stable AC; each challenge ID appears once.
+Create a UTF-8 `submission.txt`, with one `challenge_id: [moves]` per line.
+Move IDs are comma-separated integers. A file may mix AC and Stable AC;
+each challenge ID appears once. Use `#` for comments on their own line
+or after a solution; comments and blank lines are ignored.
 
-Use `#` for notes on their own line or after a solution. Blank lines and
-comments are ignored.
+### Quick test
 
-Check your file locally:
+First, try the included [training submission](../examples/sample_submission.txt):
+
+```text
+ms-train-0160: [6, 4, 2, 9, 1, 4, 1] # AC training solution
+sac-train-0160: [6, 4, 2, 9, 1, 4, 1, 16, 15] # Stable AC training solution
+```
+
+From the repository root, run with Python 3:
+
+```sh
+PYTHONPATH=competition/tools/verifier python3 -m acms_verify \
+  --manifest competition/examples/training_manifest.json \
+  --submission competition/examples/sample_submission.txt --pretty
+```
+
+Expect exit code **0**, `accepted: true`, and `ok: true` for both solutions.
+[Full receipt](../examples/sample_verdict.json).
+
+For your own solutions, use official `ac-` / `sac-` problem IDs and check
+against the official manifest:
 
 ```sh
 PYTHONPATH=competition/tools/verifier python3 -m acms_verify \
@@ -72,16 +76,19 @@ PYTHONPATH=competition/tools/verifier python3 -m acms_verify \
 
 Only results with `ok: true` are verified. A failed path does not invalidate
 other solutions; a format error rejects the whole file.
-[Verifier errors and limits](../tools/verifier/README.md#errors).
+[Verifier errors](../tools/verifier/README.md#errors).
 
-Upload the file through [SAIR](https://competition.sair.foundation/competitions/acc).
+### Upload
+
+Upload your file through [SAIR](https://competition.sair.foundation/competitions/acc).
 Local checks do not register a submission. Limits are **100 submissions per
 team per UTC day**, **500 solutions per file**, and **4 MiB per file**,
 including comments. Paths must also satisfy the
 [search limits](../tools/verifier/README.md#limits).
-See the [overview](overview.md) for dates, registration, and team rules.
+
 Submissions must arrive complete at or after opening and before the deadline;
-verification may finish later.
+verification may finish later. See the [overview](overview.md) for
+registration and team rules.
 
 ## Scoring
 
@@ -92,11 +99,3 @@ two tied teams earn ½ each, and three earn ¼ each. Each team counts once.
 A shorter verified solution replaces the previous record, and points are
 recalculated. Team totals are summed across challenges, with **separate
 AC and Stable AC leaderboards**.
-
-Rank by exact total score. Ties go to the team that last reached its current
-total earlier, then by team ID. Priority uses server receipt times for
-complete submissions.
-
-**First Solver** recognizes the earliest submitted verified solution for
-each challenge, regardless of length. A later, shorter solution does not
-take away this record.

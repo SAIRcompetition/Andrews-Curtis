@@ -6,14 +6,14 @@ Gukov, and Terence Tao.
 [Registration is open on SAIR](https://competition.sair.foundation/competitions/acc).
 The competition launches with **Discovery Track on September 11, 2026 at
 16:00 UTC**. **Proof Track opens on September 20, 2026**. Both tracks cover
-**AC** and **Stable AC**; the submission deadline is November 30, 2026.
+**AC** and **Stable AC**; the submission deadline is November 30, 2026 AoE.
 
 ## Competition guides
 
 | Guide | Contents |
 |---|---|
 | [Overview](rules/overview.md) | Background, both tracks, dates, registration, and common competition rules |
-| [Discovery Track](rules/discovery.md) | Quick start, problems, moves, TXT submissions, and scoring |
+| [Discovery Track](rules/discovery.md) | Problems, moves, TXT submissions, local tests, and scoring |
 | [Proof Track](rules/proof.md) | Full conjecture statements, proof/disproof submissions, Lean, public versions, and community peer review |
 
 [Prelaunch](rules/prelaunch.md) contains the same overview for the prelaunch page.

@@ -2,7 +2,7 @@
 
 Submit a proof or disproof of the full **AC** or **Stable AC** conjecture.
 Proof Track opens on **September 20, 2026**; the submission deadline is
-**November 30, 2026**. See the [competition overview](overview.md) for the
+**November 30, 2026 AoE**. See the [competition overview](overview.md) for the
 official schedule, registration, teams, and common participation rules.
 
 ## Claims
