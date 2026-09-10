@@ -1,0 +1,5 @@
+# Successful AC and Stable AC training paths.
+# Comments can describe your method or acknowledge other work.
+
+ms-train-0160: [6, 4, 2, 9, 1, 4, 1] # AC: reach (x, y).
+sac-train-0160: [6, 4, 2, 9, 1, 4, 1, 16, 15] # Stable AC: reach the empty presentation.

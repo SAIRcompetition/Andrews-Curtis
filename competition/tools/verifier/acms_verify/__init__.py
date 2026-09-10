@@ -12,7 +12,7 @@ registry every dispatch goes through; the top-level ``MOVE_TABLE``,
 remain the ``ac-r2-v1`` ones, unchanged.
 """
 
-__version__ = "0.2.0"
+__version__ = "0.3.0"
 
 from .core import (  # noqa: F401
     GENS,
@@ -44,9 +44,7 @@ from .canon import (  # noqa: F401
 )
 from .submission import (  # noqa: F401
     DEFAULT_STRUCTURAL_LIMITS,
-    FORBIDDEN_RESULT_KEYS,
     MAX_BODY_BYTES,
-    MAX_NOTES_CHARS,
     MAX_SOLUTIONS,
     build_challenge_index,
     process_submission,

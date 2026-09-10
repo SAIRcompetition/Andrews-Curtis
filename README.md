@@ -91,7 +91,7 @@ python3 -m unittest discover -s tests -t .
 # run the successful, unscored training example
 PYTHONPATH=competition/tools/verifier python3 -m acms_verify \
   --manifest competition/examples/training_manifest.json \
-  --submission competition/examples/sample_submission.json --pretty
+  --submission competition/examples/sample_submission.txt --pretty
 
 # assemble + verify a clearly marked development preview
 python3 build/release.py --preview  # -> dist/ACMS-public

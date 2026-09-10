@@ -18,7 +18,7 @@ with no separate port.
 | `acms_verify/stable_core.py` | table of 257 move IDs, variable-rank replay up to rank 8, empty target |
 | `acms_verify/specs.py` | Dispatch by the challenge's specification; validate both move tables |
 | `acms_verify/canon.py` | explicit byte templates for `instance_hash` / `certificate_hash`, JCS hashing for `move_spec_hash` / `manifest_hash` |
-| `acms_verify/submission.py` | submission parsing, whole-vs-per-item rejection, forbidden result keys, check priority |
+| `acms_verify/submission.py` | TXT parsing, comment handling, whole-vs-per-item rejection, check priority |
 | `acms_verify/golden.py` | self-contained conformance vector runner |
 | `acms_verify/cli.py` | `acms-verify` command line |
 
@@ -51,8 +51,11 @@ files and a training manifest covering all 424 presentations in both versions.
 
 ## Usage
 
-Each entry in a submission's `solutions` array contains only
-`challenge_id` and `moves`. The verifier obtains the move-spec version
+Submit a UTF-8 `submission.txt` with one `challenge_id: [moves]` line
+per solution. Full-line and trailing `#` comments hold optional notes;
+comments and blank lines are ignored. See the
+[submission format](../../rules/discovery.md#21-submission-format-and-local-example).
+The verifier obtains the move-spec version
 from the official challenge for replay and certificate hashing. `ac-`
 IDs use `ac-r2-v1` (0–13); `sac-` IDs use `sac-r8-v1` (0–256).
 One submission may contain both. The rank cap applies only to the
@@ -64,7 +67,7 @@ repository or exported package root:
 ```sh
 PYTHONPATH=competition/tools/verifier python3 -m acms_verify \
   --manifest competition/examples/training_manifest.json \
-  --submission competition/examples/sample_submission.json --pretty
+  --submission competition/examples/sample_submission.txt --pretty
 ```
 
 The expected full receipt and a separate rejection example are in the
@@ -80,7 +83,7 @@ For other checks, run from this directory (`competition/tools/verifier/`):
 ```sh
 # verify a submission against the current competition manifest
 python3 -m acms_verify --manifest data/manifest.json \
-                       --submission mine.json --pretty
+                       --submission submission.txt --pretty
 
 # run the reference conformance vectors
 python3 -m acms_verify --golden data/golden_vectors.json

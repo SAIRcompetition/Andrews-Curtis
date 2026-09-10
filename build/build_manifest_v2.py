@@ -730,24 +730,23 @@ def build_golden_v3(manifest, training, stable_training):
                      "expected": core.MOVE_SPEC_VERSION}})
 
     # -- submission vectors ---------------------------------------------
-    ac_sol = {"challenge_id": short["training_id"],
-              "moves": short["moves"]}
+    ac_line = short["training_id"] + ": " + json.dumps(short["moves"])
     sac_entry = stable_by_id[short["training_id"]]
-    sac_sol = {"challenge_id": short_sac, "moves": sac_entry["moves"]}
-    sac_hash = sac_verify(short_sac, sac_sol["moves"])["certificate_hash"]
+    sac_line = short_sac + ": " + json.dumps(sac_entry["moves"])
+    sac_hash = sac_verify(short_sac, sac_entry["moves"])["certificate_hash"]
     sub_vectors += [
         {"name": "sub-accept-mixed-tracks",
-         "raw": json.dumps({"solutions": [ac_sol, sac_sol]}),
+         "raw": "# Both problems\n" + ac_line + " # AC\n" + sac_line + " # Stable AC\n",
          "expected": {"accepted": True, "results": [
              {"ok": True, "challenge_id": short["training_id"],
               "certificate_hash": short["certificate_hash"]},
              {"ok": True, "challenge_id": short_sac,
               "certificate_hash": sac_hash}]}},
-        {"name": "sub-stable-solution-with-ac-spec-version",
-         "raw": json.dumps({"solutions": [
-             dict(sac_sol, move_spec_version=core.MOVE_SPEC_VERSION)]}),
-         "expected": {"accepted": False, "code": "E_MALFORMED",
-                      "detail": "unknown_key", "key": "move_spec_version"}},
+        {"name": "sub-stable-comment-does-not-select-ac-spec",
+         "raw": sac_line + " # move_spec_version: ac-r2-v1\n",
+         "expected": {"accepted": True, "results": [
+             {"ok": True, "challenge_id": short_sac,
+              "certificate_hash": sac_hash}]}},
     ]
 
     move_specs = move_spec_headers()
@@ -853,8 +852,8 @@ name: "The Andrews–Curtis Conjecture (ACC) Challenge"
 organizer: sairmath
 status: {competition_state['status']}
 task_type: mathematical_discovery
-submission_artifact: submission.json
-submission_format: "Discovery: JSON; solutions[] of {{challenge_id, moves[]}}; ac- IDs select AC moves 0-13 and sac- IDs select stable AC moves 0-256"
+submission_artifact: submission.txt
+submission_format: "Discovery: UTF-8 TXT; one challenge_id: [comma-separated moves] per line; blank lines and full-line or trailing # comments are ignored; ac- IDs select AC moves 0-13 and sac- IDs select stable AC moves 0-256"
 verifier: "Discovery Track: Python, competition/tools/verifier (standard library only), acms-verify {__version__}"
 primary_metric: leaderboard_score
 scoring_unit: team_challenge

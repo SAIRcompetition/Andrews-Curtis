@@ -34,6 +34,8 @@ instructions, local verification, and scoring.
 
 Both problem files use JSON Lines, with one object per line containing
 only `challenge_id` and `description` of the initial presentation.
+Submit solutions as a [TXT file](rules/discovery.md#21-submission-format-and-local-example),
+one `challenge_id: [moves]` line per solution, with optional `#` comments.
 
 ## Proof Track resources
 

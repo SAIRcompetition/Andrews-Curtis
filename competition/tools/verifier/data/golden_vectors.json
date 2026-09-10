@@ -1286,7 +1286,63 @@
  "submission_vectors": [
   {
    "name": "sub-accept-one",
-   "raw": "{\"solutions\": [{\"challenge_id\": \"ms-train-0160\", \"moves\": [6, 4, 2, 9, 1, 4, 1]}]}",
+   "raw": "ms-train-0160: [6, 4, 2, 9, 1, 4, 1]\n",
+   "expected": {
+    "accepted": true,
+    "results": [
+     {
+      "ok": true,
+      "challenge_id": "ms-train-0160",
+      "certificate_hash": "sha256:80dedf02b91d429b017fb0b3f48e950a9fc5e18363dbdf21c6e27297100c471f"
+     }
+    ]
+   }
+  },
+  {
+   "name": "sub-accept-comments-and-blank-lines",
+   "raw": "\n# Method: search; score: 100 is only a comment.\n\nms-train-0160: [6, 4, 2, 9, 1, 4, 1] # Notes: thanks to the training data.\n# End.\n",
+   "expected": {
+    "accepted": true,
+    "results": [
+     {
+      "ok": true,
+      "challenge_id": "ms-train-0160",
+      "certificate_hash": "sha256:80dedf02b91d429b017fb0b3f48e950a9fc5e18363dbdf21c6e27297100c471f"
+     }
+    ]
+   }
+  },
+  {
+   "name": "sub-accept-crlf-whitespace",
+   "raw": "\t# Method notes\r\n\r\n\tms-train-0160 \t: \t[6, 4, 2, 9, 1, 4, 1] \t# End\r\n",
+   "expected": {
+    "accepted": true,
+    "results": [
+     {
+      "ok": true,
+      "challenge_id": "ms-train-0160",
+      "certificate_hash": "sha256:80dedf02b91d429b017fb0b3f48e950a9fc5e18363dbdf21c6e27297100c471f"
+     }
+    ]
+   }
+  },
+  {
+   "name": "sub-accept-utf8-bom",
+   "raw": "\ufeffms-train-0160: [6, 4, 2, 9, 1, 4, 1]\n",
+   "expected": {
+    "accepted": true,
+    "results": [
+     {
+      "ok": true,
+      "challenge_id": "ms-train-0160",
+      "certificate_hash": "sha256:80dedf02b91d429b017fb0b3f48e950a9fc5e18363dbdf21c6e27297100c471f"
+     }
+    ]
+   }
+  },
+  {
+   "name": "sub-accept-long-unicode-comment",
+   "raw": "# \u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\u03bb\nms-train-0160: [6, 4, 2, 9, 1, 4, 1] # aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
    "expected": {
     "accepted": true,
     "results": [
@@ -1300,62 +1356,121 @@
   },
   {
    "name": "sub-malformed-truncated",
-   "raw": "{\"solutions\": [{\"challenge_id\": \"ms-tr",
+   "raw": "ms-train-0160: [6, 4",
    "expected": {
     "accepted": false,
     "code": "E_MALFORMED",
-    "detail": "bad_json"
+    "detail": "bad_moves_json",
+    "line_number": 1
    }
   },
   {
-   "name": "sub-missing-moves",
-   "raw": "{\"solutions\": [{\"challenge_id\": \"ms-train-0160\"}]}",
+   "name": "sub-malformed-missing-colon",
+   "raw": "ms-train-0160 [6, 4]",
    "expected": {
     "accepted": false,
     "code": "E_MALFORMED",
-    "detail": "solution_missing_key",
-    "key": "moves"
+    "detail": "bad_solution_line",
+    "line_number": 1
    }
   },
   {
-   "name": "sub-moves-not-array",
-   "raw": "{\"solutions\": [{\"challenge_id\": \"ms-train-0160\", \"moves\": \"0,1,2\"}]}",
+   "name": "sub-malformed-missing-id",
+   "raw": ": [6, 4]",
    "expected": {
     "accepted": false,
     "code": "E_MALFORMED",
-    "detail": "moves_not_array"
+    "detail": "bad_solution_line",
+    "line_number": 1
+   }
+  },
+  {
+   "name": "sub-malformed-missing-moves",
+   "raw": "ms-train-0160: # No move list",
+   "expected": {
+    "accepted": false,
+    "code": "E_MALFORMED",
+    "detail": "moves_not_array",
+    "line_number": 1
+   }
+  },
+  {
+   "name": "sub-malformed-moves-without-brackets",
+   "raw": "ms-train-0160: 6, 4, 2",
+   "expected": {
+    "accepted": false,
+    "code": "E_MALFORMED",
+    "detail": "moves_not_array",
+    "line_number": 1
+   }
+  },
+  {
+   "name": "sub-malformed-trailing-comma",
+   "raw": "ms-train-0160: [6, 4,]",
+   "expected": {
+    "accepted": false,
+    "code": "E_MALFORMED",
+    "detail": "bad_moves_json",
+    "line_number": 1
+   }
+  },
+  {
+   "name": "sub-noninteger-move-id",
+   "raw": "ms-train-0160: [6, 1.5]",
+   "expected": {
+    "accepted": true,
+    "results": [
+     {
+      "ok": false,
+      "code": "E_BAD_MOVE_ID",
+      "move_index": 1
+     }
+    ]
+   }
+  },
+  {
+   "name": "sub-malformed-trailing-text",
+   "raw": "ms-train-0160: [6, 4, 2, 9, 1, 4, 1] notes without a comment marker",
+   "expected": {
+    "accepted": false,
+    "code": "E_MALFORMED",
+    "detail": "bad_moves_json",
+    "line_number": 1
+   }
+  },
+  {
+   "name": "sub-malformed-multiline-moves",
+   "raw": "ms-train-0160: [6,\n4]",
+   "expected": {
+    "accepted": false,
+    "code": "E_MALFORMED",
+    "detail": "bad_moves_json",
+    "line_number": 1
+   }
+  },
+  {
+   "name": "sub-malformed-comments-only",
+   "raw": "\n# No solutions\n \t# Still no solutions\n",
+   "expected": {
+    "accepted": false,
+    "code": "E_MALFORMED",
+    "detail": "no_solutions"
    }
   },
   {
    "name": "sub-duplicate-challenge",
-   "raw": "{\"solutions\": [{\"challenge_id\": \"ms-train-0160\", \"moves\": [6, 4, 2, 9, 1, 4, 1]}, {\"challenge_id\": \"ms-train-0160\", \"moves\": []}]}",
+   "raw": "ms-train-0160: [6, 4, 2, 9, 1, 4, 1]\n# Duplicate below\nms-train-0160: []\n",
    "expected": {
     "accepted": false,
     "code": "E_DUPLICATE_CHALLENGE",
-    "challenge_id": "ms-train-0160"
-   }
-  },
-  {
-   "name": "sub-client-asserted-top",
-   "raw": "{\"solutions\": [{\"challenge_id\": \"ms-train-0160\", \"moves\": [6, 4, 2, 9, 1, 4, 1]}], \"score\": 100}",
-   "expected": {
-    "accepted": false,
-    "code": "E_CLIENT_ASSERTED_RESULT",
-    "key_path": "score"
-   }
-  },
-  {
-   "name": "sub-client-asserted-nested",
-   "raw": "{\"solutions\": [{\"challenge_id\": \"ms-train-0160\", \"moves\": [6, 4, 2, 9, 1, 4, 1], \"length\": 7}]}",
-   "expected": {
-    "accepted": false,
-    "code": "E_CLIENT_ASSERTED_RESULT",
-    "key_path": "solutions[0].length"
+    "challenge_id": "ms-train-0160",
+    "index": 1,
+    "line_number": 3
    }
   },
   {
    "name": "sub-unknown-challenge",
-   "raw": "{\"solutions\": [{\"challenge_id\": \"ac-99999\", \"moves\": [6, 4, 2, 9, 1, 4, 1]}, {\"challenge_id\": \"golden-pump\", \"moves\": [14]}, {\"challenge_id\": \"ms-train-0160\", \"moves\": [6, 4, 2, 9, 1, 4, 1]}]}",
+   "raw": "ac-99999: []\ngolden-pump: [14]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\n",
    "expected": {
     "accepted": true,
     "results": [
@@ -1377,18 +1492,22 @@
    }
   },
   {
-   "name": "sub-client-version-unknown-key",
-   "raw": "{\"solutions\": [{\"challenge_id\": \"ms-train-0160\", \"moves\": [6, 4, 2, 9, 1, 4, 1], \"move_spec_version\": \"ac-r1-v0\"}]}",
+   "name": "sub-negative-move-id",
+   "raw": "ms-train-0160: [-1]\n",
    "expected": {
-    "accepted": false,
-    "code": "E_MALFORMED",
-    "detail": "unknown_key",
-    "key": "move_spec_version"
+    "accepted": true,
+    "results": [
+     {
+      "ok": false,
+      "code": "E_BAD_MOVE_ID",
+      "move_index": 0
+     }
+    ]
    }
   },
   {
    "name": "sub-too-many-solutions",
-   "raw": "{\"solutions\": [{\"challenge_id\": \"ac-00001\", \"moves\": []}, {\"challenge_id\": \"ac-00002\", \"moves\": []}, {\"challenge_id\": \"ac-00003\", \"moves\": []}, {\"challenge_id\": \"ac-00004\", \"moves\": []}, {\"challenge_id\": \"ac-00005\", \"moves\": []}, {\"challenge_id\": \"ac-00006\", \"moves\": []}, {\"challenge_id\": \"ac-00007\", \"moves\": []}, {\"challenge_id\": \"ac-00008\", \"moves\": []}, {\"challenge_id\": \"ac-00009\", \"moves\": []}, {\"challenge_id\": \"ac-00010\", \"moves\": []}, {\"challenge_id\": \"ac-00011\", \"moves\": []}, {\"challenge_id\": \"ac-00012\", \"moves\": []}, {\"challenge_id\": \"ac-00013\", \"moves\": []}, {\"challenge_id\": \"ac-00014\", \"moves\": []}, {\"challenge_id\": \"ac-00015\", \"moves\": []}, {\"challenge_id\": \"ac-00016\", \"moves\": []}, {\"challenge_id\": \"ac-00017\", \"moves\": []}, {\"challenge_id\": \"ac-00018\", \"moves\": []}, {\"challenge_id\": \"ac-00019\", \"moves\": []}, {\"challenge_id\": \"ac-00020\", \"moves\": []}, {\"challenge_id\": \"ac-00021\", \"moves\": []}, {\"challenge_id\": \"ac-00022\", \"moves\": []}, {\"challenge_id\": \"ac-00023\", \"moves\": []}, {\"challenge_id\": \"ac-00024\", \"moves\": []}, {\"challenge_id\": \"ac-00025\", \"moves\": []}, {\"challenge_id\": \"ac-00026\", \"moves\": []}, {\"challenge_id\": \"ac-00027\", \"moves\": []}, {\"challenge_id\": \"ac-00028\", \"moves\": []}, {\"challenge_id\": \"ac-00029\", \"moves\": []}, {\"challenge_id\": \"ac-00030\", \"moves\": []}, {\"challenge_id\": \"ac-00031\", \"moves\": []}, {\"challenge_id\": \"ac-00032\", \"moves\": []}, {\"challenge_id\": \"ac-00033\", \"moves\": []}, {\"challenge_id\": \"ac-00034\", \"moves\": []}, {\"challenge_id\": \"ac-00035\", \"moves\": []}, {\"challenge_id\": \"ac-00036\", \"moves\": []}, {\"challenge_id\": \"ac-00037\", \"moves\": []}, {\"challenge_id\": \"ac-00038\", \"moves\": []}, {\"challenge_id\": \"ac-00039\", \"moves\": []}, {\"challenge_id\": \"ac-00040\", \"moves\": []}, {\"challenge_id\": \"ac-00041\", \"moves\": []}, {\"challenge_id\": \"ac-00042\", \"moves\": []}, {\"challenge_id\": \"ac-00043\", \"moves\": []}, {\"challenge_id\": \"ac-00044\", \"moves\": []}, {\"challenge_id\": \"ac-00045\", \"moves\": []}, {\"challenge_id\": \"ac-00046\", \"moves\": []}, {\"challenge_id\": \"ac-00047\", \"moves\": []}, {\"challenge_id\": \"ac-00048\", \"moves\": []}, {\"challenge_id\": \"ac-00049\", \"moves\": []}, {\"challenge_id\": \"ac-00050\", \"moves\": []}, {\"challenge_id\": \"ac-00051\", \"moves\": []}, {\"challenge_id\": \"ac-00052\", \"moves\": []}, {\"challenge_id\": \"ac-00053\", \"moves\": []}, {\"challenge_id\": \"ac-00054\", \"moves\": []}, {\"challenge_id\": \"ac-00055\", \"moves\": []}, {\"challenge_id\": \"ac-00056\", \"moves\": []}, {\"challenge_id\": \"ac-00057\", \"moves\": []}, {\"challenge_id\": \"ac-00058\", \"moves\": []}, {\"challenge_id\": \"ac-00059\", \"moves\": []}, {\"challenge_id\": \"ac-00060\", \"moves\": []}, {\"challenge_id\": \"ac-00061\", \"moves\": []}, {\"challenge_id\": \"ac-00062\", \"moves\": []}, {\"challenge_id\": \"ac-00063\", \"moves\": []}, {\"challenge_id\": \"ac-00064\", \"moves\": []}, {\"challenge_id\": \"ac-00065\", \"moves\": []}, {\"challenge_id\": \"ac-00066\", \"moves\": []}, {\"challenge_id\": \"ac-00067\", \"moves\": []}, {\"challenge_id\": \"ac-00068\", \"moves\": []}, {\"challenge_id\": \"ac-00069\", \"moves\": []}, {\"challenge_id\": \"ac-00070\", \"moves\": []}, {\"challenge_id\": \"ac-00071\", \"moves\": []}, {\"challenge_id\": \"ac-00072\", \"moves\": []}, {\"challenge_id\": \"ac-00073\", \"moves\": []}, {\"challenge_id\": \"ac-00074\", \"moves\": []}, {\"challenge_id\": \"ac-00075\", \"moves\": []}, {\"challenge_id\": \"ac-00076\", \"moves\": []}, {\"challenge_id\": \"ac-00077\", \"moves\": []}, {\"challenge_id\": \"ac-00078\", \"moves\": []}, {\"challenge_id\": \"ac-00079\", \"moves\": []}, {\"challenge_id\": \"ac-00080\", \"moves\": []}, {\"challenge_id\": \"ac-00081\", \"moves\": []}, {\"challenge_id\": \"ac-00082\", \"moves\": []}, {\"challenge_id\": \"ac-00083\", \"moves\": []}, {\"challenge_id\": \"ac-00084\", \"moves\": []}, {\"challenge_id\": \"ac-00085\", \"moves\": []}, {\"challenge_id\": \"ac-00086\", \"moves\": []}, {\"challenge_id\": \"ac-00087\", \"moves\": []}, {\"challenge_id\": \"ac-00088\", \"moves\": []}, {\"challenge_id\": \"ac-00089\", \"moves\": []}, {\"challenge_id\": \"ac-00090\", \"moves\": []}, {\"challenge_id\": \"ac-00091\", \"moves\": []}, {\"challenge_id\": \"ac-00092\", \"moves\": []}, {\"challenge_id\": \"ac-00093\", \"moves\": []}, {\"challenge_id\": \"ac-00094\", \"moves\": []}, {\"challenge_id\": \"ac-00095\", \"moves\": []}, {\"challenge_id\": \"ac-00096\", \"moves\": []}, {\"challenge_id\": \"ac-00097\", \"moves\": []}, {\"challenge_id\": \"ac-00098\", \"moves\": []}, {\"challenge_id\": \"ac-00099\", \"moves\": []}, {\"challenge_id\": \"ac-00100\", \"moves\": []}, {\"challenge_id\": \"ac-00101\", \"moves\": []}, {\"challenge_id\": \"ac-00102\", \"moves\": []}, {\"challenge_id\": \"ac-00103\", \"moves\": []}, {\"challenge_id\": \"ac-00104\", \"moves\": []}, {\"challenge_id\": \"ac-00105\", \"moves\": []}, {\"challenge_id\": \"ac-00106\", \"moves\": []}, {\"challenge_id\": \"ac-00107\", \"moves\": []}, {\"challenge_id\": \"ac-00108\", \"moves\": []}, {\"challenge_id\": \"ac-00109\", \"moves\": []}, {\"challenge_id\": \"ac-00110\", \"moves\": []}, {\"challenge_id\": \"ac-00111\", \"moves\": []}, {\"challenge_id\": \"ac-00112\", \"moves\": []}, {\"challenge_id\": \"ac-00113\", \"moves\": []}, {\"challenge_id\": \"ac-00114\", \"moves\": []}, {\"challenge_id\": \"ac-00115\", \"moves\": []}, {\"challenge_id\": \"ac-00116\", \"moves\": []}, {\"challenge_id\": \"ac-00117\", \"moves\": []}, {\"challenge_id\": \"ac-00118\", \"moves\": []}, {\"challenge_id\": \"ac-00119\", \"moves\": []}, {\"challenge_id\": \"ac-00120\", \"moves\": []}, {\"challenge_id\": \"ac-00121\", \"moves\": []}, {\"challenge_id\": \"ac-00122\", \"moves\": []}, {\"challenge_id\": \"ac-00123\", \"moves\": []}, {\"challenge_id\": \"ac-00124\", \"moves\": []}, {\"challenge_id\": \"ac-00125\", \"moves\": []}, {\"challenge_id\": \"ac-00126\", \"moves\": []}, {\"challenge_id\": \"ac-00127\", \"moves\": []}, {\"challenge_id\": \"ac-00128\", \"moves\": []}, {\"challenge_id\": \"ac-00129\", \"moves\": []}, {\"challenge_id\": \"ac-00130\", \"moves\": []}, {\"challenge_id\": \"ac-00131\", \"moves\": []}, {\"challenge_id\": \"ac-00132\", \"moves\": []}, {\"challenge_id\": \"ac-00133\", \"moves\": []}, {\"challenge_id\": \"ac-00134\", \"moves\": []}, {\"challenge_id\": \"ac-00135\", \"moves\": []}, {\"challenge_id\": \"ac-00136\", \"moves\": []}, {\"challenge_id\": \"ac-00137\", \"moves\": []}, {\"challenge_id\": \"ac-00138\", \"moves\": []}, {\"challenge_id\": \"ac-00139\", \"moves\": []}, {\"challenge_id\": \"ac-00140\", \"moves\": []}, {\"challenge_id\": \"ac-00141\", \"moves\": []}, {\"challenge_id\": \"ac-00142\", \"moves\": []}, {\"challenge_id\": \"ac-00143\", \"moves\": []}, {\"challenge_id\": \"ac-00144\", \"moves\": []}, {\"challenge_id\": \"ac-00145\", \"moves\": []}, {\"challenge_id\": \"ac-00146\", \"moves\": []}, {\"challenge_id\": \"ac-00147\", \"moves\": []}, {\"challenge_id\": \"ac-00148\", \"moves\": []}, {\"challenge_id\": \"ac-00149\", \"moves\": []}, {\"challenge_id\": \"ac-00150\", \"moves\": []}, {\"challenge_id\": \"ac-00151\", \"moves\": []}, {\"challenge_id\": \"ac-00152\", \"moves\": []}, {\"challenge_id\": \"ac-00153\", \"moves\": []}, {\"challenge_id\": \"ac-00154\", \"moves\": []}, {\"challenge_id\": \"ac-00155\", \"moves\": []}, {\"challenge_id\": \"ac-00156\", \"moves\": []}, {\"challenge_id\": \"ac-00157\", \"moves\": []}, {\"challenge_id\": \"ac-00158\", \"moves\": []}, {\"challenge_id\": \"ac-00159\", \"moves\": []}, {\"challenge_id\": \"ac-00160\", \"moves\": []}, {\"challenge_id\": \"ac-00161\", \"moves\": []}, {\"challenge_id\": \"ac-00162\", \"moves\": []}, {\"challenge_id\": \"ac-00163\", \"moves\": []}, {\"challenge_id\": \"ac-00164\", \"moves\": []}, {\"challenge_id\": \"ac-00165\", \"moves\": []}, {\"challenge_id\": \"ac-00166\", \"moves\": []}, {\"challenge_id\": \"ac-00167\", \"moves\": []}, {\"challenge_id\": \"ac-00168\", \"moves\": []}, {\"challenge_id\": \"ac-00169\", \"moves\": []}, {\"challenge_id\": \"ac-00170\", \"moves\": []}, {\"challenge_id\": \"ac-00171\", \"moves\": []}, {\"challenge_id\": \"ac-00172\", \"moves\": []}, {\"challenge_id\": \"ac-00173\", \"moves\": []}, {\"challenge_id\": \"ac-00174\", \"moves\": []}, {\"challenge_id\": \"ac-00175\", \"moves\": []}, {\"challenge_id\": \"ac-00176\", \"moves\": []}, {\"challenge_id\": \"ac-00177\", \"moves\": []}, {\"challenge_id\": \"ac-00178\", \"moves\": []}, {\"challenge_id\": \"ac-00179\", \"moves\": []}, {\"challenge_id\": \"ac-00180\", \"moves\": []}, {\"challenge_id\": \"ac-00181\", \"moves\": []}, {\"challenge_id\": \"ac-00182\", \"moves\": []}, {\"challenge_id\": \"ac-00183\", \"moves\": []}, {\"challenge_id\": \"ac-00184\", \"moves\": []}, {\"challenge_id\": \"ac-00185\", \"moves\": []}, {\"challenge_id\": \"ac-00186\", \"moves\": []}, {\"challenge_id\": \"ac-00187\", \"moves\": []}, {\"challenge_id\": \"ac-00188\", \"moves\": []}, {\"challenge_id\": \"ac-00189\", \"moves\": []}, {\"challenge_id\": \"ac-00190\", \"moves\": []}, {\"challenge_id\": \"ac-00191\", \"moves\": []}, {\"challenge_id\": \"ac-00192\", \"moves\": []}, {\"challenge_id\": \"ac-00193\", \"moves\": []}, {\"challenge_id\": \"ac-00194\", \"moves\": []}, {\"challenge_id\": \"ac-00195\", \"moves\": []}, {\"challenge_id\": \"ac-00196\", \"moves\": []}, {\"challenge_id\": \"ac-00197\", \"moves\": []}, {\"challenge_id\": \"ac-00198\", \"moves\": []}, {\"challenge_id\": \"ac-00199\", \"moves\": []}, {\"challenge_id\": \"ac-00200\", \"moves\": []}, {\"challenge_id\": \"ac-00201\", \"moves\": []}, {\"challenge_id\": \"ac-00202\", \"moves\": []}, {\"challenge_id\": \"ac-00203\", \"moves\": []}, {\"challenge_id\": \"ac-00204\", \"moves\": []}, {\"challenge_id\": \"ac-00205\", \"moves\": []}, {\"challenge_id\": \"ac-00206\", \"moves\": []}, {\"challenge_id\": \"ac-00207\", \"moves\": []}, {\"challenge_id\": \"ac-00208\", \"moves\": []}, {\"challenge_id\": \"ac-00209\", \"moves\": []}, {\"challenge_id\": \"ac-00210\", \"moves\": []}, {\"challenge_id\": \"ac-00211\", \"moves\": []}, {\"challenge_id\": \"ac-00212\", \"moves\": []}, {\"challenge_id\": \"ac-00213\", \"moves\": []}, {\"challenge_id\": \"ac-00214\", \"moves\": []}, {\"challenge_id\": \"ac-00215\", \"moves\": []}, {\"challenge_id\": \"ac-00216\", \"moves\": []}, {\"challenge_id\": \"ac-00217\", \"moves\": []}, {\"challenge_id\": \"ac-00218\", \"moves\": []}, {\"challenge_id\": \"ac-00219\", \"moves\": []}, {\"challenge_id\": \"ac-00220\", \"moves\": []}, {\"challenge_id\": \"ac-00221\", \"moves\": []}, {\"challenge_id\": \"ac-00222\", \"moves\": []}, {\"challenge_id\": \"ac-00223\", \"moves\": []}, {\"challenge_id\": \"ac-00224\", \"moves\": []}, {\"challenge_id\": \"ac-00225\", \"moves\": []}, {\"challenge_id\": \"ac-00226\", \"moves\": []}, {\"challenge_id\": \"ac-00227\", \"moves\": []}, {\"challenge_id\": \"ac-00228\", \"moves\": []}, {\"challenge_id\": \"ac-00229\", \"moves\": []}, {\"challenge_id\": \"ac-00230\", \"moves\": []}, {\"challenge_id\": \"ac-00231\", \"moves\": []}, {\"challenge_id\": \"ac-00232\", \"moves\": []}, {\"challenge_id\": \"ac-00233\", \"moves\": []}, {\"challenge_id\": \"ac-00234\", \"moves\": []}, {\"challenge_id\": \"ac-00235\", \"moves\": []}, {\"challenge_id\": \"ac-00236\", \"moves\": []}, {\"challenge_id\": \"ac-00237\", \"moves\": []}, {\"challenge_id\": \"ac-00238\", \"moves\": []}, {\"challenge_id\": \"ac-00239\", \"moves\": []}, {\"challenge_id\": \"ac-00240\", \"moves\": []}, {\"challenge_id\": \"ac-00241\", \"moves\": []}, {\"challenge_id\": \"ac-00242\", \"moves\": []}, {\"challenge_id\": \"ac-00243\", \"moves\": []}, {\"challenge_id\": \"ac-00244\", \"moves\": []}, {\"challenge_id\": \"ac-00245\", \"moves\": []}, {\"challenge_id\": \"ac-00246\", \"moves\": []}, {\"challenge_id\": \"ac-00247\", \"moves\": []}, {\"challenge_id\": \"ac-00248\", \"moves\": []}, {\"challenge_id\": \"ac-00249\", \"moves\": []}, {\"challenge_id\": \"ac-00250\", \"moves\": []}, {\"challenge_id\": \"ac-00251\", \"moves\": []}, {\"challenge_id\": \"ac-00252\", \"moves\": []}, {\"challenge_id\": \"ac-00253\", \"moves\": []}, {\"challenge_id\": \"ac-00254\", \"moves\": []}, {\"challenge_id\": \"ac-00255\", \"moves\": []}, {\"challenge_id\": \"ac-00256\", \"moves\": []}, {\"challenge_id\": \"ac-00257\", \"moves\": []}, {\"challenge_id\": \"ac-00258\", \"moves\": []}, {\"challenge_id\": \"ac-00259\", \"moves\": []}, {\"challenge_id\": \"ac-00260\", \"moves\": []}, {\"challenge_id\": \"ac-00261\", \"moves\": []}, {\"challenge_id\": \"ac-00262\", \"moves\": []}, {\"challenge_id\": \"ac-00263\", \"moves\": []}, {\"challenge_id\": \"ac-00264\", \"moves\": []}, {\"challenge_id\": \"ac-00265\", \"moves\": []}, {\"challenge_id\": \"ac-00266\", \"moves\": []}, {\"challenge_id\": \"ac-00267\", \"moves\": []}, {\"challenge_id\": \"ac-00268\", \"moves\": []}, {\"challenge_id\": \"ac-00269\", \"moves\": []}, {\"challenge_id\": \"ac-00270\", \"moves\": []}, {\"challenge_id\": \"ac-00271\", \"moves\": []}, {\"challenge_id\": \"ac-00272\", \"moves\": []}, {\"challenge_id\": \"ac-00273\", \"moves\": []}, {\"challenge_id\": \"ac-00274\", \"moves\": []}, {\"challenge_id\": \"ac-00275\", \"moves\": []}, {\"challenge_id\": \"ac-00276\", \"moves\": []}, {\"challenge_id\": \"ac-00277\", \"moves\": []}, {\"challenge_id\": \"ac-00278\", \"moves\": []}, {\"challenge_id\": \"ac-00279\", \"moves\": []}, {\"challenge_id\": \"ac-00280\", \"moves\": []}, {\"challenge_id\": \"ac-00281\", \"moves\": []}, {\"challenge_id\": \"ac-00282\", \"moves\": []}, {\"challenge_id\": \"ac-00283\", \"moves\": []}, {\"challenge_id\": \"ac-00284\", \"moves\": []}, {\"challenge_id\": \"ac-00285\", \"moves\": []}, {\"challenge_id\": \"ac-00286\", \"moves\": []}, {\"challenge_id\": \"ac-00287\", \"moves\": []}, {\"challenge_id\": \"ac-00288\", \"moves\": []}, {\"challenge_id\": \"ac-00289\", \"moves\": []}, {\"challenge_id\": \"ac-00290\", \"moves\": []}, {\"challenge_id\": \"ac-00291\", \"moves\": []}, {\"challenge_id\": \"ac-00292\", \"moves\": []}, {\"challenge_id\": \"ac-00293\", \"moves\": []}, {\"challenge_id\": \"ac-00294\", \"moves\": []}, {\"challenge_id\": \"ac-00295\", \"moves\": []}, {\"challenge_id\": \"ac-00296\", \"moves\": []}, {\"challenge_id\": \"ac-00297\", \"moves\": []}, {\"challenge_id\": \"ac-00298\", \"moves\": []}, {\"challenge_id\": \"ac-00299\", \"moves\": []}, {\"challenge_id\": \"ac-00300\", \"moves\": []}, {\"challenge_id\": \"ac-00301\", \"moves\": []}, {\"challenge_id\": \"ac-00302\", \"moves\": []}, {\"challenge_id\": \"ac-00303\", \"moves\": []}, {\"challenge_id\": \"ac-00304\", \"moves\": []}, {\"challenge_id\": \"ac-00305\", \"moves\": []}, {\"challenge_id\": \"ac-00306\", \"moves\": []}, {\"challenge_id\": \"ac-00307\", \"moves\": []}, {\"challenge_id\": \"ac-00308\", \"moves\": []}, {\"challenge_id\": \"ac-00309\", \"moves\": []}, {\"challenge_id\": \"ac-00310\", \"moves\": []}, {\"challenge_id\": \"ac-00311\", \"moves\": []}, {\"challenge_id\": \"ac-00312\", \"moves\": []}, {\"challenge_id\": \"ac-00313\", \"moves\": []}, {\"challenge_id\": \"ac-00314\", \"moves\": []}, {\"challenge_id\": \"ac-00315\", \"moves\": []}, {\"challenge_id\": \"ac-00316\", \"moves\": []}, {\"challenge_id\": \"ac-00317\", \"moves\": []}, {\"challenge_id\": \"ac-00318\", \"moves\": []}, {\"challenge_id\": \"ac-00319\", \"moves\": []}, {\"challenge_id\": \"ac-00320\", \"moves\": []}, {\"challenge_id\": \"ac-00321\", \"moves\": []}, {\"challenge_id\": \"ac-00322\", \"moves\": []}, {\"challenge_id\": \"ac-00323\", \"moves\": []}, {\"challenge_id\": \"ac-00324\", \"moves\": []}, {\"challenge_id\": \"ac-00325\", \"moves\": []}, {\"challenge_id\": \"ac-00326\", \"moves\": []}, {\"challenge_id\": \"ac-00327\", \"moves\": []}, {\"challenge_id\": \"ac-00328\", \"moves\": []}, {\"challenge_id\": \"ac-00329\", \"moves\": []}, {\"challenge_id\": \"ac-00330\", \"moves\": []}, {\"challenge_id\": \"ac-00331\", \"moves\": []}, {\"challenge_id\": \"ac-00332\", \"moves\": []}, {\"challenge_id\": \"ac-00333\", \"moves\": []}, {\"challenge_id\": \"ac-00334\", \"moves\": []}, {\"challenge_id\": \"ac-00335\", \"moves\": []}, {\"challenge_id\": \"ac-00336\", \"moves\": []}, {\"challenge_id\": \"ac-00337\", \"moves\": []}, {\"challenge_id\": \"ac-00338\", \"moves\": []}, {\"challenge_id\": \"ac-00339\", \"moves\": []}, {\"challenge_id\": \"ac-00340\", \"moves\": []}, {\"challenge_id\": \"ac-00341\", \"moves\": []}, {\"challenge_id\": \"ac-00342\", \"moves\": []}, {\"challenge_id\": \"ac-00343\", \"moves\": []}, {\"challenge_id\": \"ac-00344\", \"moves\": []}, {\"challenge_id\": \"ac-00345\", \"moves\": []}, {\"challenge_id\": \"ac-00346\", \"moves\": []}, {\"challenge_id\": \"ac-00347\", \"moves\": []}, {\"challenge_id\": \"ac-00348\", \"moves\": []}, {\"challenge_id\": \"ac-00349\", \"moves\": []}, {\"challenge_id\": \"ac-00350\", \"moves\": []}, {\"challenge_id\": \"ac-00351\", \"moves\": []}, {\"challenge_id\": \"ac-00352\", \"moves\": []}, {\"challenge_id\": \"ac-00353\", \"moves\": []}, {\"challenge_id\": \"ac-00354\", \"moves\": []}, {\"challenge_id\": \"ac-00355\", \"moves\": []}, {\"challenge_id\": \"ac-00356\", \"moves\": []}, {\"challenge_id\": \"ac-00357\", \"moves\": []}, {\"challenge_id\": \"ac-00358\", \"moves\": []}, {\"challenge_id\": \"ac-00359\", \"moves\": []}, {\"challenge_id\": \"ac-00360\", \"moves\": []}, {\"challenge_id\": \"ac-00361\", \"moves\": []}, {\"challenge_id\": \"ac-00362\", \"moves\": []}, {\"challenge_id\": \"ac-00363\", \"moves\": []}, {\"challenge_id\": \"ac-00364\", \"moves\": []}, {\"challenge_id\": \"ac-00365\", \"moves\": []}, {\"challenge_id\": \"ac-00366\", \"moves\": []}, {\"challenge_id\": \"ac-00367\", \"moves\": []}, {\"challenge_id\": \"ac-00368\", \"moves\": []}, {\"challenge_id\": \"ac-00369\", \"moves\": []}, {\"challenge_id\": \"ac-00370\", \"moves\": []}, {\"challenge_id\": \"ac-00371\", \"moves\": []}, {\"challenge_id\": \"ac-00372\", \"moves\": []}, {\"challenge_id\": \"ac-00373\", \"moves\": []}, {\"challenge_id\": \"ac-00374\", \"moves\": []}, {\"challenge_id\": \"ac-00375\", \"moves\": []}, {\"challenge_id\": \"ac-00376\", \"moves\": []}, {\"challenge_id\": \"ac-00377\", \"moves\": []}, {\"challenge_id\": \"ac-00378\", \"moves\": []}, {\"challenge_id\": \"ac-00379\", \"moves\": []}, {\"challenge_id\": \"ac-00380\", \"moves\": []}, {\"challenge_id\": \"ac-00381\", \"moves\": []}, {\"challenge_id\": \"ac-00382\", \"moves\": []}, {\"challenge_id\": \"ac-00383\", \"moves\": []}, {\"challenge_id\": \"ac-00384\", \"moves\": []}, {\"challenge_id\": \"ac-00385\", \"moves\": []}, {\"challenge_id\": \"ac-00386\", \"moves\": []}, {\"challenge_id\": \"ac-00387\", \"moves\": []}, {\"challenge_id\": \"ac-00388\", \"moves\": []}, {\"challenge_id\": \"ac-00389\", \"moves\": []}, {\"challenge_id\": \"ac-00390\", \"moves\": []}, {\"challenge_id\": \"ac-00391\", \"moves\": []}, {\"challenge_id\": \"ac-00392\", \"moves\": []}, {\"challenge_id\": \"ac-00393\", \"moves\": []}, {\"challenge_id\": \"ac-00394\", \"moves\": []}, {\"challenge_id\": \"ac-00395\", \"moves\": []}, {\"challenge_id\": \"ac-00396\", \"moves\": []}, {\"challenge_id\": \"ac-00397\", \"moves\": []}, {\"challenge_id\": \"ac-00398\", \"moves\": []}, {\"challenge_id\": \"ac-00399\", \"moves\": []}, {\"challenge_id\": \"ac-00400\", \"moves\": []}, {\"challenge_id\": \"ac-00401\", \"moves\": []}, {\"challenge_id\": \"ac-00402\", \"moves\": []}, {\"challenge_id\": \"ac-00403\", \"moves\": []}, {\"challenge_id\": \"ac-00404\", \"moves\": []}, {\"challenge_id\": \"ac-00405\", \"moves\": []}, {\"challenge_id\": \"ac-00406\", \"moves\": []}, {\"challenge_id\": \"ac-00407\", \"moves\": []}, {\"challenge_id\": \"ac-00408\", \"moves\": []}, {\"challenge_id\": \"ac-00409\", \"moves\": []}, {\"challenge_id\": \"ac-00410\", \"moves\": []}, {\"challenge_id\": \"ac-00411\", \"moves\": []}, {\"challenge_id\": \"ac-00412\", \"moves\": []}, {\"challenge_id\": \"ac-00413\", \"moves\": []}, {\"challenge_id\": \"ac-00414\", \"moves\": []}, {\"challenge_id\": \"ac-00415\", \"moves\": []}, {\"challenge_id\": \"ac-00416\", \"moves\": []}, {\"challenge_id\": \"ac-00417\", \"moves\": []}, {\"challenge_id\": \"ac-00418\", \"moves\": []}, {\"challenge_id\": \"ac-00419\", \"moves\": []}, {\"challenge_id\": \"ac-00420\", \"moves\": []}, {\"challenge_id\": \"ac-00421\", \"moves\": []}, {\"challenge_id\": \"ac-00422\", \"moves\": []}, {\"challenge_id\": \"ac-00423\", \"moves\": []}, {\"challenge_id\": \"ac-00424\", \"moves\": []}, {\"challenge_id\": \"ac-00425\", \"moves\": []}, {\"challenge_id\": \"ac-00426\", \"moves\": []}, {\"challenge_id\": \"ac-00427\", \"moves\": []}, {\"challenge_id\": \"ac-00428\", \"moves\": []}, {\"challenge_id\": \"ac-00429\", \"moves\": []}, {\"challenge_id\": \"ac-00430\", \"moves\": []}, {\"challenge_id\": \"ac-00431\", \"moves\": []}, {\"challenge_id\": \"ac-00432\", \"moves\": []}, {\"challenge_id\": \"ac-00433\", \"moves\": []}, {\"challenge_id\": \"ac-00434\", \"moves\": []}, {\"challenge_id\": \"ac-00435\", \"moves\": []}, {\"challenge_id\": \"ac-00436\", \"moves\": []}, {\"challenge_id\": \"ac-00437\", \"moves\": []}, {\"challenge_id\": \"ac-00438\", \"moves\": []}, {\"challenge_id\": \"ac-00439\", \"moves\": []}, {\"challenge_id\": \"ac-00440\", \"moves\": []}, {\"challenge_id\": \"ac-00441\", \"moves\": []}, {\"challenge_id\": \"ac-00442\", \"moves\": []}, {\"challenge_id\": \"ac-00443\", \"moves\": []}, {\"challenge_id\": \"ac-00444\", \"moves\": []}, {\"challenge_id\": \"ac-00445\", \"moves\": []}, {\"challenge_id\": \"ac-00446\", \"moves\": []}, {\"challenge_id\": \"ac-00447\", \"moves\": []}, {\"challenge_id\": \"ac-00448\", \"moves\": []}, {\"challenge_id\": \"ac-00449\", \"moves\": []}, {\"challenge_id\": \"ac-00450\", \"moves\": []}, {\"challenge_id\": \"ac-00451\", \"moves\": []}, {\"challenge_id\": \"ac-00452\", \"moves\": []}, {\"challenge_id\": \"ac-00453\", \"moves\": []}, {\"challenge_id\": \"ac-00454\", \"moves\": []}, {\"challenge_id\": \"ac-00455\", \"moves\": []}, {\"challenge_id\": \"ac-00456\", \"moves\": []}, {\"challenge_id\": \"ac-00457\", \"moves\": []}, {\"challenge_id\": \"ac-00458\", \"moves\": []}, {\"challenge_id\": \"ac-00459\", \"moves\": []}, {\"challenge_id\": \"ac-00460\", \"moves\": []}, {\"challenge_id\": \"ac-00461\", \"moves\": []}, {\"challenge_id\": \"ac-00462\", \"moves\": []}, {\"challenge_id\": \"ac-00463\", \"moves\": []}, {\"challenge_id\": \"ac-00464\", \"moves\": []}, {\"challenge_id\": \"ac-00465\", \"moves\": []}, {\"challenge_id\": \"ac-00466\", \"moves\": []}, {\"challenge_id\": \"ac-00467\", \"moves\": []}, {\"challenge_id\": \"ac-00468\", \"moves\": []}, {\"challenge_id\": \"ac-00469\", \"moves\": []}, {\"challenge_id\": \"ac-00470\", \"moves\": []}, {\"challenge_id\": \"ac-00471\", \"moves\": []}, {\"challenge_id\": \"ac-00472\", \"moves\": []}, {\"challenge_id\": \"ac-00473\", \"moves\": []}, {\"challenge_id\": \"ac-00474\", \"moves\": []}, {\"challenge_id\": \"ac-00475\", \"moves\": []}, {\"challenge_id\": \"ac-00476\", \"moves\": []}, {\"challenge_id\": \"ac-00477\", \"moves\": []}, {\"challenge_id\": \"ac-00478\", \"moves\": []}, {\"challenge_id\": \"ac-00479\", \"moves\": []}, {\"challenge_id\": \"ac-00480\", \"moves\": []}, {\"challenge_id\": \"ac-00481\", \"moves\": []}, {\"challenge_id\": \"ac-00482\", \"moves\": []}, {\"challenge_id\": \"ac-00483\", \"moves\": []}, {\"challenge_id\": \"ac-00484\", \"moves\": []}, {\"challenge_id\": \"ac-00485\", \"moves\": []}, {\"challenge_id\": \"ac-00486\", \"moves\": []}, {\"challenge_id\": \"ac-00487\", \"moves\": []}, {\"challenge_id\": \"ac-00488\", \"moves\": []}, {\"challenge_id\": \"ac-00489\", \"moves\": []}, {\"challenge_id\": \"ac-00490\", \"moves\": []}, {\"challenge_id\": \"ac-00491\", \"moves\": []}, {\"challenge_id\": \"ac-00492\", \"moves\": []}, {\"challenge_id\": \"ac-00493\", \"moves\": []}, {\"challenge_id\": \"ac-00494\", \"moves\": []}, {\"challenge_id\": \"ac-00495\", \"moves\": []}, {\"challenge_id\": \"ac-00496\", \"moves\": []}, {\"challenge_id\": \"ac-00497\", \"moves\": []}, {\"challenge_id\": \"ac-00498\", \"moves\": []}, {\"challenge_id\": \"ac-00499\", \"moves\": []}, {\"challenge_id\": \"ac-00500\", \"moves\": []}, {\"challenge_id\": \"ac-00501\", \"moves\": []}]}",
+   "raw": "ac-00001: []\nac-00002: []\nac-00003: []\nac-00004: []\nac-00005: []\nac-00006: []\nac-00007: []\nac-00008: []\nac-00009: []\nac-00010: []\nac-00011: []\nac-00012: []\nac-00013: []\nac-00014: []\nac-00015: []\nac-00016: []\nac-00017: []\nac-00018: []\nac-00019: []\nac-00020: []\nac-00021: []\nac-00022: []\nac-00023: []\nac-00024: []\nac-00025: []\nac-00026: []\nac-00027: []\nac-00028: []\nac-00029: []\nac-00030: []\nac-00031: []\nac-00032: []\nac-00033: []\nac-00034: []\nac-00035: []\nac-00036: []\nac-00037: []\nac-00038: []\nac-00039: []\nac-00040: []\nac-00041: []\nac-00042: []\nac-00043: []\nac-00044: []\nac-00045: []\nac-00046: []\nac-00047: []\nac-00048: []\nac-00049: []\nac-00050: []\nac-00051: []\nac-00052: []\nac-00053: []\nac-00054: []\nac-00055: []\nac-00056: []\nac-00057: []\nac-00058: []\nac-00059: []\nac-00060: []\nac-00061: []\nac-00062: []\nac-00063: []\nac-00064: []\nac-00065: []\nac-00066: []\nac-00067: []\nac-00068: []\nac-00069: []\nac-00070: []\nac-00071: []\nac-00072: []\nac-00073: []\nac-00074: []\nac-00075: []\nac-00076: []\nac-00077: []\nac-00078: []\nac-00079: []\nac-00080: []\nac-00081: []\nac-00082: []\nac-00083: []\nac-00084: []\nac-00085: []\nac-00086: []\nac-00087: []\nac-00088: []\nac-00089: []\nac-00090: []\nac-00091: []\nac-00092: []\nac-00093: []\nac-00094: []\nac-00095: []\nac-00096: []\nac-00097: []\nac-00098: []\nac-00099: []\nac-00100: []\nac-00101: []\nac-00102: []\nac-00103: []\nac-00104: []\nac-00105: []\nac-00106: []\nac-00107: []\nac-00108: []\nac-00109: []\nac-00110: []\nac-00111: []\nac-00112: []\nac-00113: []\nac-00114: []\nac-00115: []\nac-00116: []\nac-00117: []\nac-00118: []\nac-00119: []\nac-00120: []\nac-00121: []\nac-00122: []\nac-00123: []\nac-00124: []\nac-00125: []\nac-00126: []\nac-00127: []\nac-00128: []\nac-00129: []\nac-00130: []\nac-00131: []\nac-00132: []\nac-00133: []\nac-00134: []\nac-00135: []\nac-00136: []\nac-00137: []\nac-00138: []\nac-00139: []\nac-00140: []\nac-00141: []\nac-00142: []\nac-00143: []\nac-00144: []\nac-00145: []\nac-00146: []\nac-00147: []\nac-00148: []\nac-00149: []\nac-00150: []\nac-00151: []\nac-00152: []\nac-00153: []\nac-00154: []\nac-00155: []\nac-00156: []\nac-00157: []\nac-00158: []\nac-00159: []\nac-00160: []\nac-00161: []\nac-00162: []\nac-00163: []\nac-00164: []\nac-00165: []\nac-00166: []\nac-00167: []\nac-00168: []\nac-00169: []\nac-00170: []\nac-00171: []\nac-00172: []\nac-00173: []\nac-00174: []\nac-00175: []\nac-00176: []\nac-00177: []\nac-00178: []\nac-00179: []\nac-00180: []\nac-00181: []\nac-00182: []\nac-00183: []\nac-00184: []\nac-00185: []\nac-00186: []\nac-00187: []\nac-00188: []\nac-00189: []\nac-00190: []\nac-00191: []\nac-00192: []\nac-00193: []\nac-00194: []\nac-00195: []\nac-00196: []\nac-00197: []\nac-00198: []\nac-00199: []\nac-00200: []\nac-00201: []\nac-00202: []\nac-00203: []\nac-00204: []\nac-00205: []\nac-00206: []\nac-00207: []\nac-00208: []\nac-00209: []\nac-00210: []\nac-00211: []\nac-00212: []\nac-00213: []\nac-00214: []\nac-00215: []\nac-00216: []\nac-00217: []\nac-00218: []\nac-00219: []\nac-00220: []\nac-00221: []\nac-00222: []\nac-00223: []\nac-00224: []\nac-00225: []\nac-00226: []\nac-00227: []\nac-00228: []\nac-00229: []\nac-00230: []\nac-00231: []\nac-00232: []\nac-00233: []\nac-00234: []\nac-00235: []\nac-00236: []\nac-00237: []\nac-00238: []\nac-00239: []\nac-00240: []\nac-00241: []\nac-00242: []\nac-00243: []\nac-00244: []\nac-00245: []\nac-00246: []\nac-00247: []\nac-00248: []\nac-00249: []\nac-00250: []\nac-00251: []\nac-00252: []\nac-00253: []\nac-00254: []\nac-00255: []\nac-00256: []\nac-00257: []\nac-00258: []\nac-00259: []\nac-00260: []\nac-00261: []\nac-00262: []\nac-00263: []\nac-00264: []\nac-00265: []\nac-00266: []\nac-00267: []\nac-00268: []\nac-00269: []\nac-00270: []\nac-00271: []\nac-00272: []\nac-00273: []\nac-00274: []\nac-00275: []\nac-00276: []\nac-00277: []\nac-00278: []\nac-00279: []\nac-00280: []\nac-00281: []\nac-00282: []\nac-00283: []\nac-00284: []\nac-00285: []\nac-00286: []\nac-00287: []\nac-00288: []\nac-00289: []\nac-00290: []\nac-00291: []\nac-00292: []\nac-00293: []\nac-00294: []\nac-00295: []\nac-00296: []\nac-00297: []\nac-00298: []\nac-00299: []\nac-00300: []\nac-00301: []\nac-00302: []\nac-00303: []\nac-00304: []\nac-00305: []\nac-00306: []\nac-00307: []\nac-00308: []\nac-00309: []\nac-00310: []\nac-00311: []\nac-00312: []\nac-00313: []\nac-00314: []\nac-00315: []\nac-00316: []\nac-00317: []\nac-00318: []\nac-00319: []\nac-00320: []\nac-00321: []\nac-00322: []\nac-00323: []\nac-00324: []\nac-00325: []\nac-00326: []\nac-00327: []\nac-00328: []\nac-00329: []\nac-00330: []\nac-00331: []\nac-00332: []\nac-00333: []\nac-00334: []\nac-00335: []\nac-00336: []\nac-00337: []\nac-00338: []\nac-00339: []\nac-00340: []\nac-00341: []\nac-00342: []\nac-00343: []\nac-00344: []\nac-00345: []\nac-00346: []\nac-00347: []\nac-00348: []\nac-00349: []\nac-00350: []\nac-00351: []\nac-00352: []\nac-00353: []\nac-00354: []\nac-00355: []\nac-00356: []\nac-00357: []\nac-00358: []\nac-00359: []\nac-00360: []\nac-00361: []\nac-00362: []\nac-00363: []\nac-00364: []\nac-00365: []\nac-00366: []\nac-00367: []\nac-00368: []\nac-00369: []\nac-00370: []\nac-00371: []\nac-00372: []\nac-00373: []\nac-00374: []\nac-00375: []\nac-00376: []\nac-00377: []\nac-00378: []\nac-00379: []\nac-00380: []\nac-00381: []\nac-00382: []\nac-00383: []\nac-00384: []\nac-00385: []\nac-00386: []\nac-00387: []\nac-00388: []\nac-00389: []\nac-00390: []\nac-00391: []\nac-00392: []\nac-00393: []\nac-00394: []\nac-00395: []\nac-00396: []\nac-00397: []\nac-00398: []\nac-00399: []\nac-00400: []\nac-00401: []\nac-00402: []\nac-00403: []\nac-00404: []\nac-00405: []\nac-00406: []\nac-00407: []\nac-00408: []\nac-00409: []\nac-00410: []\nac-00411: []\nac-00412: []\nac-00413: []\nac-00414: []\nac-00415: []\nac-00416: []\nac-00417: []\nac-00418: []\nac-00419: []\nac-00420: []\nac-00421: []\nac-00422: []\nac-00423: []\nac-00424: []\nac-00425: []\nac-00426: []\nac-00427: []\nac-00428: []\nac-00429: []\nac-00430: []\nac-00431: []\nac-00432: []\nac-00433: []\nac-00434: []\nac-00435: []\nac-00436: []\nac-00437: []\nac-00438: []\nac-00439: []\nac-00440: []\nac-00441: []\nac-00442: []\nac-00443: []\nac-00444: []\nac-00445: []\nac-00446: []\nac-00447: []\nac-00448: []\nac-00449: []\nac-00450: []\nac-00451: []\nac-00452: []\nac-00453: []\nac-00454: []\nac-00455: []\nac-00456: []\nac-00457: []\nac-00458: []\nac-00459: []\nac-00460: []\nac-00461: []\nac-00462: []\nac-00463: []\nac-00464: []\nac-00465: []\nac-00466: []\nac-00467: []\nac-00468: []\nac-00469: []\nac-00470: []\nac-00471: []\nac-00472: []\nac-00473: []\nac-00474: []\nac-00475: []\nac-00476: []\nac-00477: []\nac-00478: []\nac-00479: []\nac-00480: []\nac-00481: []\nac-00482: []\nac-00483: []\nac-00484: []\nac-00485: []\nac-00486: []\nac-00487: []\nac-00488: []\nac-00489: []\nac-00490: []\nac-00491: []\nac-00492: []\nac-00493: []\nac-00494: []\nac-00495: []\nac-00496: []\nac-00497: []\nac-00498: []\nac-00499: []\nac-00500: []\nac-00501: []\n",
    "expected": {
     "accepted": false,
     "code": "E_MALFORMED",
@@ -1396,27 +1515,50 @@
    }
   },
   {
-   "name": "sub-notes-too-long",
-   "raw": "{\"notes\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\", \"solutions\": [{\"challenge_id\": \"ms-train-0160\", \"moves\": [6, 4, 2, 9, 1, 4, 1]}]}",
+   "name": "sub-bad-move-id-bool",
+   "raw": "ms-train-0160: [true]\n",
    "expected": {
-    "accepted": false,
-    "code": "E_MALFORMED",
-    "detail": "notes_too_long"
+    "accepted": true,
+    "results": [
+     {
+      "ok": false,
+      "code": "E_BAD_MOVE_ID",
+      "move_index": 0
+     }
+    ]
    }
   },
   {
-   "name": "sub-unknown-top-key",
-   "raw": "{\"solutions\": [{\"challenge_id\": \"ms-train-0160\", \"moves\": [6, 4, 2, 9, 1, 4, 1]}], \"team\": \"foo\"}",
+   "name": "sub-bad-move-id-string",
+   "raw": "ms-train-0160: [\"3\"]\n",
    "expected": {
-    "accepted": false,
-    "code": "E_MALFORMED",
-    "detail": "unknown_key",
-    "key": "team"
+    "accepted": true,
+    "results": [
+     {
+      "ok": false,
+      "code": "E_BAD_MOVE_ID",
+      "move_index": 0
+     }
+    ]
+   }
+  },
+  {
+   "name": "sub-bad-move-id-null",
+   "raw": "ms-train-0160: [null]\n",
+   "expected": {
+    "accepted": true,
+    "results": [
+     {
+      "ok": false,
+      "code": "E_BAD_MOVE_ID",
+      "move_index": 0
+     }
+    ]
    }
   },
   {
    "name": "sub-accept-mixed-tracks",
-   "raw": "{\"solutions\": [{\"challenge_id\": \"ms-train-0160\", \"moves\": [6, 4, 2, 9, 1, 4, 1]}, {\"challenge_id\": \"sac-train-0160\", \"moves\": [6, 4, 2, 9, 1, 4, 1, 16, 15]}]}",
+   "raw": "# Both problems\nms-train-0160: [6, 4, 2, 9, 1, 4, 1] # AC\nsac-train-0160: [6, 4, 2, 9, 1, 4, 1, 16, 15] # Stable AC\n",
    "expected": {
     "accepted": true,
     "results": [
@@ -1434,13 +1576,17 @@
    }
   },
   {
-   "name": "sub-stable-solution-with-ac-spec-version",
-   "raw": "{\"solutions\": [{\"challenge_id\": \"sac-train-0160\", \"moves\": [6, 4, 2, 9, 1, 4, 1, 16, 15], \"move_spec_version\": \"ac-r2-v1\"}]}",
+   "name": "sub-stable-comment-does-not-select-ac-spec",
+   "raw": "sac-train-0160: [6, 4, 2, 9, 1, 4, 1, 16, 15] # move_spec_version: ac-r2-v1\n",
    "expected": {
-    "accepted": false,
-    "code": "E_MALFORMED",
-    "detail": "unknown_key",
-    "key": "move_spec_version"
+    "accepted": true,
+    "results": [
+     {
+      "ok": true,
+      "challenge_id": "sac-train-0160",
+      "certificate_hash": "sha256:e94492471688db5cb52971611a3617e75c165d89e3ed51cea9a3f5d96ccbb77e"
+     }
+    ]
    }
   }
  ]

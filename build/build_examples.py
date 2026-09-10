@@ -116,9 +116,13 @@ def build_examples(manifest, training, stable_training):
         "note": "Local training examples only; not part of the scored challenge pool.",
         "challenges": challenges,
     }
-    solutions = [{"challenge_id": cid, "moves": e["moves"]}
-                 for e, cid in zip(entries, ids)]
-    sample_text = json_text({"solutions": solutions})
+    sample_text = (
+        "# Successful AC and Stable AC training paths.\n"
+        "# Comments can describe your method or acknowledge other work.\n\n"
+        + ids[0] + ": " + json.dumps(entry["moves"]) + " # AC: reach (x, y).\n"
+        + ids[1] + ": " + json.dumps(stable_entry["moves"])
+        + " # Stable AC: reach the empty presentation.\n"
+    )
     verdict = submission.process_submission(sample_text.encode(), training_manifest)
     if not verdict.get("accepted") or not all(v.get("ok") for v in verdict["results"]):
         raise ValueError("training examples failed verification: %r" % verdict)
@@ -133,8 +137,7 @@ def build_examples(manifest, training, stable_training):
     cid = ids[0]
 
     # Preserve the former default sample as an explicit negative example.
-    invalid = {"solutions": [{"challenge_id": "ac-00001", "moves": [6, 7]}]}
-    invalid_text = json_text(invalid)
+    invalid_text = "ac-00001: [6, 7] # This path returns to its initial state.\n"
     rejected = submission.process_submission(invalid_text.encode(), manifest)
     if (not rejected.get("accepted")
             or rejected["results"][0].get("code") != "E_NOT_TARGET"):
@@ -157,12 +160,12 @@ for the notation and integer encoding.
 | [`stable_ac.jsonl`](stable_ac.jsonl) | The matching 424 Stable AC training IDs and descriptions |
 | [`training_424.json`](training_424.json) | Frozen AC training data: integer-encoded words, known move sequences, and statistics |
 | [`stable_training_424.json`](stable_training_424.json) | The same training presentations with known Stable AC sequences and statistics |
-| [`sample_submission.json`](sample_submission.json) | One successful submission covering both problems |
+| [`sample_submission.txt`](sample_submission.txt) | One successful submission covering both problems |
 | [`training_manifest.json`](training_manifest.json) | All 848 unscored training challenges, covering both versions of the 424 presentations |
 | [`sample_verdict.json`](sample_verdict.json) | Complete expected success receipt |
-| [`invalid_submission.json`](invalid_submission.json) | A deliberately unsuccessful submission |
+| [`invalid_submission.txt`](invalid_submission.txt) | A deliberately unsuccessful submission |
 
-Start with `sample_submission.json`: a complete, successful submission for
+Start with `sample_submission.txt`: a complete, successful submission for
 the AC and Stable AC problems in [Discovery Track](../rules/discovery.md),
 using training instance `%s`. The AC
 path uses %d moves from [`training_424.json`](training_424.json);
@@ -179,9 +182,11 @@ Stable AC IDs are `sac-train-NNNN`. The Stable sample ID is `%s`;
 both frozen source files use `%s` in their `training_id` field.
 The instance and manifest hashes are independently checkable.
 
-The JSONL files list problems. A submission is a **single JSON object with
-a `solutions` array**, as in the sample below; each solution contains only
-`challenge_id` and `moves`, without the problem description.
+The JSONL files list problems. Submit a UTF-8 **TXT file**, with one solution
+per line: `challenge_id: [comma-separated moves]`. Blank lines, full-line
+`#` comments, and trailing `#` comments are ignored. Use comments for optional
+notes; they have no separate length limit beyond the 4 MiB file limit.
+A file may contain at most 500 solution lines.
 
 ## Run a successful submission
 
@@ -191,16 +196,16 @@ From the development repository root **or the unpacked public package root**
 ```sh
 PYTHONPATH=competition/tools/verifier python3 -m acms_verify \\
   --manifest competition/examples/training_manifest.json \\
-  --submission competition/examples/sample_submission.json --pretty
+  --submission competition/examples/sample_submission.txt --pretty
 ```
 
 To check your own training submission, replace
-`competition/examples/sample_submission.json` with your JSON file and keep
+`competition/examples/sample_submission.txt` with your TXT file and keep
 the same training manifest.
 
-The full input, [`sample_submission.json`](sample_submission.json), is:
+The full input, [`sample_submission.txt`](sample_submission.txt), is:
 
-```json
+```text
 %s```
 
 Expected output, also saved as [`sample_verdict.json`](sample_verdict.json):
@@ -210,8 +215,8 @@ Expected output, also saved as [`sample_verdict.json`](sample_verdict.json):
 
 The command exits with **status 0**. `accepted: true` means the document
 passed submission-level checks; each solution must also have `ok: true` to
-count as a verified path. Only `challenge_id` and `moves` belong in each
-solution. The verifier obtains the move-spec version from the manifest and
+count as a verified path. Each solution line gives only its challenge ID and
+move list. The verifier obtains the move-spec version from the manifest and
 computes all result fields itself. Do not upload the verdict as a submission.
 
 You can also check the training manifest's hashes:
@@ -230,24 +235,24 @@ and exit status 1.
 
 Use challenge IDs from [`problems/ac.jsonl`](../problems/ac.jsonl) or
 [`problems/stable_ac.jsonl`](../problems/stable_ac.jsonl) and your own move
-sequences. Verify `mine.json` against the official verifier data:
+sequences. Verify `mine.txt` against the official verifier data:
 
 ```sh
 PYTHONPATH=competition/tools/verifier python3 -m acms_verify \\
   --manifest competition/tools/verifier/data/manifest.json \\
-  --submission mine.json --pretty
+  --submission mine.txt --pretty
 ```
 
 ## Run the deliberately invalid submission
 
-[`invalid_submission.json`](invalid_submission.json) preserves the old sample:
+[`invalid_submission.txt`](invalid_submission.txt) preserves the old sample's path:
 on scored challenge `ac-00001`, move 6 conjugates the first relator by `x`
 and move 7 undoes it. The path returns to its initial state, not the target.
 
 ```sh
 PYTHONPATH=competition/tools/verifier python3 -m acms_verify \\
   --manifest competition/tools/verifier/data/manifest.json \\
-  --submission competition/examples/invalid_submission.json --pretty
+  --submission competition/examples/invalid_submission.txt --pretty
 ```
 
 Expected: **exit status 1**, top-level `accepted: true`, and a per-solution
@@ -260,9 +265,9 @@ a mathematically unsuccessful path.
         "ac.jsonl": serialize(problems["ac.jsonl"]),
         "stable_ac.jsonl": serialize(problems["stable_ac.jsonl"]),
         "training_manifest.json": json_text(training_manifest),
-        "sample_submission.json": sample_text,
+        "sample_submission.txt": sample_text,
         "sample_verdict.json": verdict_text,
-        "invalid_submission.json": invalid_text,
+        "invalid_submission.txt": invalid_text,
     }
 
 
@@ -286,6 +291,14 @@ def main(argv=None):
             examples.mkdir(parents=True, exist_ok=True)
             path.write_text(content, encoding="utf-8")
             print("wrote %s" % path.relative_to(REPO))
+    for name in ("sample_submission.json", "invalid_submission.json"):
+        path = examples / name
+        if path.exists():
+            if args.check:
+                stale.append(name + " (obsolete; use .txt)")
+            else:
+                path.unlink()
+                print("removed %s" % path.relative_to(REPO))
     if stale:
         print("stale examples: %s; run python3 build/build_examples.py"
               % ", ".join(stale), file=sys.stderr)

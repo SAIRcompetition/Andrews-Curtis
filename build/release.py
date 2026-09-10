@@ -287,12 +287,15 @@ def check_packaged_examples(comp, env):
     """Run the documented CLI from the exported package and compare its receipt."""
     base = [sys.executable, "-m", "acms_verify"]
     examples = comp / "examples"
+    for name in ("sample_submission.json", "invalid_submission.json"):
+        if (examples / name).exists():
+            raise ValueError("obsolete submission example: " + name + "; use TXT files")
     expected = json.loads((examples / "sample_verdict.json").read_text())
     cases = [
-        (examples / "training_manifest.json", examples / "sample_submission.json", 0, None),
-        (comp / "tools/verifier/data/manifest.json", examples / "sample_submission.json", 1,
+        (examples / "training_manifest.json", examples / "sample_submission.txt", 0, None),
+        (comp / "tools/verifier/data/manifest.json", examples / "sample_submission.txt", 1,
          "E_UNKNOWN_CHALLENGE"),
-        (comp / "tools/verifier/data/manifest.json", examples / "invalid_submission.json", 1,
+        (comp / "tools/verifier/data/manifest.json", examples / "invalid_submission.txt", 1,
          "E_NOT_TARGET"),
     ]
     for manifest_path, submission_path, exit_code, error in cases:

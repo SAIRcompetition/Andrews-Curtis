@@ -160,7 +160,14 @@ class TestPublicSourceExport(unittest.TestCase):
                                      (root / "competition/problems" / name).read_bytes())
                 for name in ("ac.json", "stable_ac.json"):
                     self.assertFalse((out / "competition/problems" / name).exists())
+                for name in ("sample_submission.txt", "invalid_submission.txt", "sample_verdict.json"):
+                    self.assertEqual((out / "competition/examples" / name).read_bytes(),
+                                     (root / "competition/examples" / name).read_bytes())
+                for name in ("sample_submission.json", "invalid_submission.json"):
+                    self.assertFalse((out / "competition/examples" / name).exists())
                 exported = (out / "competition/competition.yaml").read_text()
+                self.assertIn("submission_artifact: submission.txt\n", exported)
+                self.assertIn('submission_format: "Discovery: UTF-8 TXT;', exported)
                 self.assertEqual(exported, release.render_yaml(manifest, state))
                 release.validate_public_state(state, exported, manifest)
                 release.validate_track_structure(exported)

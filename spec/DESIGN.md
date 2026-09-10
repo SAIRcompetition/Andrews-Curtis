@@ -164,13 +164,28 @@ scoring policy, flags and base scores, and replay/submission limits.
 
 ### 4.1 Submission format
 
-A JSON document contains a nonempty `solutions` array. Each entry has
-exactly `challenge_id` and `moves`; optional `method` and `notes` belong to
-the outer document. Contestants supply no version or claimed result fields.
-Duplicate challenge IDs within one document are rejected; matching AC and
-stable IDs are distinct and may be included together. The public
-contract and [submission.py](../competition/tools/verifier/acms_verify/submission.py)
-define structural errors and their precedence.
+A submission is a UTF-8 `submission.txt` file. Each solution occupies one
+line in the form `challenge_id: [move_id, ...]`. The ID is an ASCII letter
+or digit followed by letters, digits, underscores, or hyphens. Spaces
+around the ID, colon, and list entries are allowed. The move list uses
+JSON array syntax; move values are checked by the selected verifier.
+
+Following IGP24's comment convention, the first `#` on a line starts a
+comment. Ignore everything from there to the end of that line, along with
+blank lines and full-line comments. Notes may describe methods, sources,
+links, or expected results, but never supply trusted result fields.
+Comments do not affect replay, hashes, or points. The former JSON wrapper
+and its `method`/`notes` fields are no longer accepted.
+
+At least one solution line is required. Duplicate challenge IDs within
+one file are rejected; matching AC and stable IDs are distinct and may
+be included together. Non-comment text must parse as a solution; do not
+silently skip a malformed line. Preserve solution order after removing
+comments. The public contract and
+[submission.py](../competition/tools/verifier/acms_verify/submission.py)
+define structural errors and their precedence: byte limit, UTF-8 decoding,
+line parsing, solution count, duplicates, then per-solution verification.
+Malformed-line errors include a one-based `line_number`.
 
 ### 4.2 Verifier and receipts
 
@@ -193,12 +208,14 @@ the deadline without changing the original receipt or eligibility.
 ### 4.3 Limits
 
 Current limits cover both problems together within Discovery Track: 100 submissions per team per UTC day, 500 solutions per
-submission, a 4 MiB (4,194,304-byte) body, 100,000 moves per path, 10,000 letters in the
+submission, a 4 MiB (4,194,304-byte) TXT file, 100,000 moves per path, 10,000 letters in the
 reduced relator tuple, and cumulative work of 5,000,000. Work includes the initial
 length and each reduced state after a move. Structural rejection does not
 consume quota. A structurally accepted document counts once even if every
 path fails verification. The public contract governs accounting and error
 precedence; the service must enforce quotas in addition to local replay limits.
+Comments count toward the file byte limit but not the solution count, and
+there is no separate comment-length limit.
 
 These are Discovery acceptance limits. Exceeding them does not prove that a
 presentation has no AC trivialization.

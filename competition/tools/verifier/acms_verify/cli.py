@@ -99,7 +99,8 @@ def main(argv=None):
         description="ACMS reference verifier (move specs %s; verifier %s)"
         % (", ".join(specs.SPEC_ORDER), __version__))
     parser.add_argument("--manifest", help="path to manifest.json")
-    parser.add_argument("--submission", help="path to a submission JSON file")
+    parser.add_argument("--submission", help="path to submission.txt "
+                        "(challenge_id: [moves], one per line; # comments)")
     parser.add_argument("--golden", help="run golden conformance vectors")
     parser.add_argument("--check-hashes", action="store_true",
                         help="recompute and verify all hashes in --manifest")

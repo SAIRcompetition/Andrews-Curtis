@@ -54,8 +54,8 @@ From the repository or unpacked public package root:
 ```sh
 PYTHONPATH=competition/tools/verifier python3 -m acms_verify \
   --manifest competition/tools/verifier/data/manifest.json \
-  --submission mine.json --pretty
+  --submission submission.txt --pretty
 ```
 
-Use the IDs in these problem files and replace `mine.json` with your own
+Use the IDs in these problem files and replace `submission.txt` with your own
 submission. Local verification does not register a submission on SAIR.

@@ -45,7 +45,7 @@ class TestGoldenVectors(unittest.TestCase):
         # Every error code of the §4.2 contract.
         for token in ("spec-mismatch", "bad-move-id", "path-too-long",
                       "length-limit", "work-budget", "not-target",
-                      "malformed", "duplicate", "client-asserted",
+                      "malformed", "duplicate",
                       "unknown-challenge"):
             self.assertIn(token, self.names)
 
@@ -57,8 +57,29 @@ class TestGoldenVectors(unittest.TestCase):
                       "spec-mismatch-ac-version-on-stable-challenge",
                       "spec-mismatch-stable-version-on-ac-challenge",
                       "sub-accept-mixed-tracks",
-                      "sub-stable-solution-with-ac-spec-version"):
+                      "sub-stable-comment-does-not-select-ac-spec"):
             self.assertIn(token, self.names, token)
+
+    def test_txt_submission_contract_is_covered(self):
+        for token in ("sub-accept-comments-and-blank-lines", "sub-accept-crlf-whitespace",
+                      "sub-accept-utf8-bom", "sub-accept-long-unicode-comment",
+                      "sub-malformed-missing-colon", "sub-malformed-missing-id",
+                      "sub-malformed-missing-moves", "sub-malformed-trailing-comma",
+                      "sub-malformed-trailing-text", "sub-malformed-multiline-moves",
+                      "sub-malformed-comments-only", "sub-negative-move-id",
+                      "sub-noninteger-move-id", "sub-bad-move-id-bool",
+                      "sub-bad-move-id-string", "sub-bad-move-id-null",
+                      "sub-too-many-solutions"):
+            self.assertIn(token, self.names, token)
+        for vector in self.doc["submission_vectors"]:
+            self.assertNotEqual(vector["expected"].get("code"), "E_CLIENT_ASSERTED_RESULT")
+
+    def test_builder_reproduces_vectors_from_committed_public_data(self):
+        from build.build_manifest_v2 import build_golden_v3
+
+        regenerated = build_golden_v3(util.load_manifest(), util.load_training(),
+                                       util.load_stable_training())
+        self.assertEqual(regenerated, self.doc)
 
     def test_every_not_applicable_reason_is_exercised(self):
         reasons = {v["expected"].get("reason")

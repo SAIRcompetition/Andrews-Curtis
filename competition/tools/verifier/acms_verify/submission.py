@@ -1,44 +1,30 @@
-"""Submission-layer parsing and verdicts (DESIGN.md §4.1, §4.2, O-5).
+"""Parse TXT submissions and dispatch paths to the official move verifier.
 
-Structural errors (``E_MALFORMED``, ``E_DUPLICATE_CHALLENGE``,
-``E_CLIENT_ASSERTED_RESULT``, body/count limits) reject the whole
-submission and must not count against the daily quota.  Per-path errors
-reject only that solution; the rest are processed normally.
+One record per line: ``challenge_id: [0, 2, 6]``.  Blank lines and all
+text from the first ``#`` to the end of a line are ignored.  Only the
+challenge ID and moves affect verification; comments never affect hashes.
 
-Check priority (DESIGN.md O-5, frozen):
-  body byte limit -> parse -> client-asserted-result scan -> shape
-  -> solutions count -> duplicates -> per-solution verify
-  (path length -> move id -> relator length -> work budget -> target).
+Structural errors reject the whole submission without consuming quota.
+Priority: body byte limit -> UTF-8 decoding -> all line syntax/JSON checks
+-> nonempty/count limits -> duplicate IDs -> per-solution verification.
+The unchanged per-path priority is path length -> move ID -> relator
+length -> work budget -> target (with Stable AC applicability checks).
 """
 
 import json
+import math
+import re
 
 from . import specs
 
-#: Structural limits (DESIGN.md §4.3).  These are the frozen v1
-#: defaults; production overrides them per deployment via the
-#: ``structural_limits`` argument of :func:`process_submission`
-#: (requirements §6: all limits configurable, never hardcoded).
 MAX_BODY_BYTES = 4 * 1024 * 1024
 MAX_SOLUTIONS = 500
-MAX_NOTES_CHARS = 2000
 DEFAULT_STRUCTURAL_LIMITS = {
     "max_body_bytes": MAX_BODY_BYTES,
     "max_solutions": MAX_SOLUTIONS,
-    "max_notes_chars": MAX_NOTES_CHARS,
 }
 
-#: Any of these keys anywhere in a submission triggers
-#: ``E_CLIENT_ASSERTED_RESULT`` for the whole submission (§4.1): the
-#: server accepts no client-claimed results, and such keys' only use is
-#: probing.  Frozen list; part of the API contract.
-FORBIDDEN_RESULT_KEYS = frozenset({
-    "length", "score", "final_state", "peak", "peak_total_relator_length",
-    "work", "ok", "verdict", "verified", "accepted", "result",
-})
-
-_ALLOWED_TOP_KEYS = frozenset({"method", "notes", "solutions"})
-_ALLOWED_SOLUTION_KEYS = frozenset({"challenge_id", "moves"})
+_CHALLENGE_ID = re.compile(r"[A-Za-z0-9][A-Za-z0-9_-]*")
 
 
 def _reject(code, **extra):
@@ -47,21 +33,50 @@ def _reject(code, **extra):
     return out
 
 
-def _find_forbidden_key(node, path):
-    """Scan every dict key in the parsed JSON tree (iterative: immune
-    to deeply nested input, which must yield a verdict, not a crash)."""
-    stack = [(node, path)]
-    while stack:
-        node, path = stack.pop()
-        if isinstance(node, dict):
-            for k, v in node.items():
-                if k in FORBIDDEN_RESULT_KEYS:
-                    return path + "." + k if path else k
-                stack.append((v, (path + "." if path else "") + str(k)))
-        elif isinstance(node, list):
-            for i, v in enumerate(node):
-                stack.append((v, "%s[%d]" % (path, i)))
-    return None
+def _parse_int(value):
+    # Bound decimal conversion on older Python versions too.  This is a
+    # JSON parser safeguard; legitimate move IDs have at most three digits.
+    if len(value.lstrip("-")) > 4300:
+        raise ValueError("integer too long")
+    return int(value)
+
+
+def _parse_float(value):
+    number = float(value)
+    if not math.isfinite(number):
+        raise ValueError("nonfinite number")
+    return number
+
+
+def _reject_constant(value):
+    # The stdlib otherwise accepts NaN/Infinity, which are not JSON values.
+    raise ValueError("non-JSON numeric constant")
+
+
+def _check_nesting(value):
+    """Bound JSON nesting before parsing, ignoring brackets inside strings.
+
+    Limiting nested invalid move values keeps both JSON decoding and later
+    verdict serialization safe, independent of Python's recursion limit.
+    """
+    depth = 0
+    in_string = escaped = False
+    for char in value:
+        if in_string:
+            if escaped:
+                escaped = False
+            elif char == "\\":
+                escaped = True
+            elif char == '"':
+                in_string = False
+        elif char == '"':
+            in_string = True
+        elif char in "[{":
+            depth += 1
+            if depth > 64:
+                raise ValueError("JSON nesting too deep")
+        elif char in "]}":
+            depth -= 1
 
 
 def build_challenge_index(manifest):
@@ -71,85 +86,73 @@ def build_challenge_index(manifest):
 
 def process_submission(raw_bytes, manifest, challenge_index=None,
                        structural_limits=None):
-    """Full pipeline: bytes in, structured verdict out.
+    """Accept UTF-8 TXT bytes (optional BOM; LF or CRLF), returning a verdict.
 
-    Returns either a whole-submission rejection
-    (``{"accepted": False, "code": ..., ...}``) or
-    ``{"accepted": True, "results": [...]}`` with one verdict per
-    solution in input order. Each solution supplies only ``challenge_id``
-    and ``moves``; the official challenge supplies the move-spec version
-    used for replay and certificate hashing.
+    A non-comment line must contain an ID, a colon, and one JSON array on
+    the same line.  Parse errors include the one-based physical line number
+    without echoing the input.  The optional ``structural_limits`` mapping
+    overrides the byte and solution-count limits for a deployment.
+
+    Whole-submission errors return ``accepted: false``.  Otherwise results
+    appear in record order, each using the official challenge's move spec
+    for replay and certificate hashing.  Legacy JSON submissions are not
+    accepted or automatically converted.
     """
-    if challenge_index is None:
-        challenge_index = build_challenge_index(manifest)
-    limits = manifest["limits"]
+    if not isinstance(raw_bytes, (bytes, bytearray)):
+        raise TypeError("raw_bytes must be bytes")
     slim = dict(DEFAULT_STRUCTURAL_LIMITS, **(structural_limits or {}))
     max_body = slim["max_body_bytes"]
     max_solutions = slim["max_solutions"]
-    max_notes = slim["max_notes_chars"]
-
-    if not isinstance(raw_bytes, (bytes, bytearray)):
-        raise TypeError("raw_bytes must be bytes")
     if len(raw_bytes) > max_body:
         return _reject("E_MALFORMED", detail="body_too_large",
                        body_bytes=len(raw_bytes), max_body_bytes=max_body)
-
     try:
-        doc = json.loads(raw_bytes.decode("utf-8"))
-    except (UnicodeDecodeError, json.JSONDecodeError):
-        return _reject("E_MALFORMED", detail="bad_json")
-    except RecursionError:
-        # Pathologically nested JSON is corrupt input, not a server
-        # error: a structural E_MALFORMED like any other parse failure.
-        return _reject("E_MALFORMED", detail="bad_json")
+        text = raw_bytes.decode("utf-8-sig")
+    except UnicodeDecodeError:
+        return _reject("E_MALFORMED", detail="bad_utf8")
 
-    hit = _find_forbidden_key(doc, "")
-    if hit is not None:
-        return _reject("E_CLIENT_ASSERTED_RESULT", key_path=hit)
+    sols = []
+    # Split only on LF: CRLF is handled by strip(), while an unescaped
+    # Unicode line separator inside a JSON string remains part of that string.
+    for line_number, line in enumerate(text.split("\n"), 1):
+        content = line.partition("#")[0].strip()
+        if not content:
+            continue
+        cid, colon, payload = content.partition(":")
+        cid, payload = cid.strip(), payload.strip()
+        if not colon or _CHALLENGE_ID.fullmatch(cid) is None:
+            return _reject("E_MALFORMED", detail="bad_solution_line",
+                           line_number=line_number)
+        if not payload.startswith("["):
+            return _reject("E_MALFORMED", detail="moves_not_array",
+                           line_number=line_number)
+        try:
+            _check_nesting(payload)
+            moves = json.loads(payload, parse_int=_parse_int,
+                               parse_float=_parse_float,
+                               parse_constant=_reject_constant)
+        except (ValueError, RecursionError):
+            return _reject("E_MALFORMED", detail="bad_moves_json",
+                           line_number=line_number)
+        sols.append({"challenge_id": cid, "moves": moves,
+                     "line_number": line_number})
 
-    if not isinstance(doc, dict):
-        return _reject("E_MALFORMED", detail="root_not_object")
-    unknown = set(doc) - _ALLOWED_TOP_KEYS
-    if unknown:
-        return _reject("E_MALFORMED", detail="unknown_key",
-                       key=sorted(unknown)[0])
-    if "method" in doc and not isinstance(doc["method"], str):
-        return _reject("E_MALFORMED", detail="bad_method")
-    if "notes" in doc:
-        if not isinstance(doc["notes"], str):
-            return _reject("E_MALFORMED", detail="bad_notes")
-        if len(doc["notes"]) > max_notes:
-            return _reject("E_MALFORMED", detail="notes_too_long",
-                           notes_chars=len(doc["notes"]),
-                           max_notes_chars=max_notes)
-
-    sols = doc.get("solutions")
-    if not isinstance(sols, list) or not sols:
-        return _reject("E_MALFORMED", detail="bad_solutions")
+    if not sols:
+        return _reject("E_MALFORMED", detail="no_solutions")
     if len(sols) > max_solutions:
         return _reject("E_MALFORMED", detail="too_many_solutions",
                        solutions=len(sols), max_solutions=max_solutions)
-
     seen_ids = set()
-    for i, sol in enumerate(sols):
-        if not isinstance(sol, dict):
-            return _reject("E_MALFORMED", detail="solution_not_object", index=i)
-        missing = _ALLOWED_SOLUTION_KEYS - set(sol)
-        if missing:
-            return _reject("E_MALFORMED", detail="solution_missing_key",
-                           index=i, key=sorted(missing)[0])
-        unknown = set(sol) - _ALLOWED_SOLUTION_KEYS
-        if unknown:
-            return _reject("E_MALFORMED", detail="unknown_key", index=i,
-                           key=sorted(unknown)[0])
-        if not isinstance(sol["challenge_id"], str):
-            return _reject("E_MALFORMED", detail="bad_challenge_id", index=i)
-        if not isinstance(sol["moves"], list):
-            return _reject("E_MALFORMED", detail="moves_not_array", index=i)
+    for index, sol in enumerate(sols):
         if sol["challenge_id"] in seen_ids:
             return _reject("E_DUPLICATE_CHALLENGE",
-                           challenge_id=sol["challenge_id"], index=i)
+                           challenge_id=sol["challenge_id"], index=index,
+                           line_number=sol["line_number"])
         seen_ids.add(sol["challenge_id"])
+
+    if challenge_index is None:
+        challenge_index = build_challenge_index(manifest)
+    limits = manifest["limits"]
 
     results = []
     for sol in sols:

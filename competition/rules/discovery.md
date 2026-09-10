@@ -7,7 +7,7 @@ balanced presentations of the trivial group**. Each problem has its own
 leaderboard. The **424 training presentations are outside both scored
 problem sets** and earn no points.
 
-Each submitted solution contains only `challenge_id` and `moves`.
+Submit a plain text file with one `challenge_id: [moves]` line per solution.
 Start with the [successful training example](#21-submission-format-and-local-example),
 then use this document for the exact moves, verifier contract, scoring,
 and disclosure rules. General participation, team, experimental-status,
@@ -80,7 +80,7 @@ give `(x y, y) → (x, y) → (x) → ()`, reaching the empty presentation.
 
 Use a problem file's exact `challenge_id` and your operation IDs in the
 [submission format](#21-submission-format-and-local-example). Problem files
-are JSONL; a submission is one JSON object containing a `solutions` array.
+are JSONL; submissions are TXT.
 
 ### 1.1 AC problem
 
@@ -203,21 +203,22 @@ shows one submission covering both problems.
 
 ### 2.1 Submission format and local example
 
-A submission document has a nonempty `solutions` array. Each solution
-contains exactly `challenge_id` and `moves`; do not add a move-spec version
-or verifier result. A batch may contain both `ac-` and `sac-` IDs.
-Optional top-level `method` is a string naming the method; optional `notes`
-is a string of at most 2,000 characters.
+Upload a UTF-8 plain text file, `submission.txt`. Each nonempty,
+non-comment line contains one challenge ID, a colon, and a bracketed list
+of comma-separated move IDs. A file may mix `ac-` and `sac-` challenges.
+
+**Submission notes:** use `#` for a full-line comment or a note after a
+solution. Methods, sources, links, and expected results may all go in
+comments; the verifier ignores them. Blank lines are also ignored.
+Everything before `#` must follow the solution format. Keep each solution
+on one line; spaces around the ID, colon, and move IDs are optional.
 
 This is the complete successful **training submission**:
 
-```json
-{
-  "solutions": [
-    { "challenge_id": "ms-train-0160", "moves": [6, 4, 2, 9, 1, 4, 1] },
-    { "challenge_id": "sac-train-0160", "moves": [6, 4, 2, 9, 1, 4, 1, 16, 15] }
-  ]
-}
+```text
+# Known solutions from the published training data
+ms-train-0160: [6, 4, 2, 9, 1, 4, 1] # AC
+sac-train-0160: [6, 4, 2, 9, 1, 4, 1, 16, 15] # Stable AC
 ```
 
 From the development repository or exported public package root, run:
@@ -225,7 +226,7 @@ From the development repository or exported public package root, run:
 ```sh
 PYTHONPATH=competition/tools/verifier python3 -m acms_verify \
   --manifest competition/examples/training_manifest.json \
-  --submission competition/examples/sample_submission.json --pretty
+  --submission competition/examples/sample_submission.txt --pretty
 ```
 
 Expected: exit status **0**, top-level `accepted: true`, and `ok: true`
@@ -234,12 +235,12 @@ complete [expected receipt](../examples/sample_verdict.json) and a separate
 rejection example. Training IDs do not occur in the scored manifest:
 checking this sample against it returns `E_UNKNOWN_CHALLENGE` and exit
 status 1. For scored submissions, use IDs from the official problem files and
-your own move sequences. To check `mine.json` locally:
+your own move sequences. To check `submission.txt` locally:
 
 ```sh
 PYTHONPATH=competition/tools/verifier python3 -m acms_verify \
   --manifest competition/tools/verifier/data/manifest.json \
-  --submission mine.json --pretty
+  --submission submission.txt --pretty
 ```
 
 The [Discovery reference verifier](../tools/verifier/README.md) uses only the
@@ -263,13 +264,12 @@ PYTHONPATH=competition/tools/verifier python3 -m acms_verify \
 
 ### 2.2 Verifier semantics
 
-Deterministic, pure integer arithmetic. For a solution
-`{challenge_id, moves}` verified against limits
+Deterministic, pure integer arithmetic. The parser reads each TXT solution
+line into a challenge ID and move list. Against limits
 `{max_path_length, max_total_relator_length, max_work}`, the server
 looks up the official challenge by id and uses its `move_spec_version`
-for replay and certificate hashing. Each solution must contain exactly
-`challenge_id` and `moves`; optional `method` and `notes` belong to the
-top-level submission document.
+for replay and certificate hashing. Comments do not enter replay or the
+certificate hash; the verifier computes every result itself.
 
 ```
 assert len(moves) <= max_path_length       else E_PATH_TOO_LONG
@@ -292,7 +292,7 @@ The move-ID range is 0–13 for AC and 0–256 for Stable AC. Every AC move
 is applicable at rank 2; Stable AC additionally checks the conditions in
 [§1.2](#12-stable-ac-problem).
 
-JSON type strictness: `1.0` is a float and is **not** a valid move id;
+Move IDs must be integers: `1.0` is a float and is **not** a valid move ID;
 `true`/`false` are booleans, not integers; `"3"` is a string. All are
 rejected with `E_BAD_MOVE_ID` at their index.
 
@@ -310,9 +310,8 @@ daily quota):
 
 | Code | Trigger |
 |---|---|
-| `E_MALFORMED` | body too large, broken/truncated JSON, wrong types, unknown keys, missing solution keys, `moves` not an array, empty/oversized `solutions`, oversized `notes` (`detail` field disambiguates) |
+| `E_MALFORMED` | file too large, invalid UTF-8, malformed solution line or move list, no solutions, or too many solutions; `detail` identifies the cause and line errors include `line_number` |
 | `E_DUPLICATE_CHALLENGE` | same `challenge_id` twice in one submission |
-| `E_CLIENT_ASSERTED_RESULT` | any of the forbidden result keys anywhere in the submission: `length`, `score`, `final_state`, `peak`, `peak_total_relator_length`, `work`, `ok`, `verdict`, `verified`, `accepted`, `result` |
 
 Per-solution rejections (other solutions in the same submission are
 processed normally):
@@ -327,8 +326,8 @@ processed normally):
 | `E_WORK_BUDGET` | cumulative work exceeds `max_work` (carries `move_index`) |
 | `E_NOT_TARGET` | every move legal but endpoint differs from the challenge target: `[[1],[2]]` for AC or `[]` for Stable AC (carries `final_shape`) |
 
-**Check priority (frozen):** body byte limit → JSON parse →
-client-asserted-result scan → structural shape → solutions count →
+**Check priority:** file byte limit → UTF-8 decoding → solution-line parsing
+(ignoring comments and blank lines) → solutions count →
 duplicates → then per solution: challenge lookup → path length → per-move
 id → applicability → relator length → work budget → target. The first
 triggered check is the one reported.
@@ -345,16 +344,16 @@ A batch may mix `ac-` and `sac-` IDs; they are distinct challenges.
 | Limit | v1 value |
 |---|---:|
 | Discovery submissions per team per UTC day (site + API combined) | 100 |
-| `solutions` per submission | 500 |
-| Raw body size | 4 MiB (4,194,304 bytes) |
-| Optional top-level `notes` | 2,000 characters |
+| Solution lines per submission | 500 |
+| Raw TXT file size, including comments | 4 MiB (4,194,304 bytes) |
 | `max_path_length` | 100 000 |
 | `max_total_relator_length` | 10 000 |
 | `max_work` = Σ per-step total relator length | 5 000 000 |
 
 Path limits come from the manifest; structural limits have published
 defaults in the reference parser and are supplied by the platform's
-frozen configuration. A structurally accepted upload counts once toward
+frozen configuration. Comments have no separate character limit and do
+not count as solutions. A structurally accepted upload counts once toward
 the daily quota, even if all its solutions fail verification. Structural
 rejections do not count. Local self-checks do not consume platform quota.
 
@@ -465,7 +464,7 @@ listed on both challenges with its length, team, time, and hash;
 its moves follow the same disclosure rules as other Discovery certificates.
 
 The bridge itself scores nothing. A complete solution derived using a
-bridge may be submitted in the ordinary `{challenge_id, moves}` format
+bridge may be submitted in the ordinary `challenge_id: [moves]` TXT format
 and is verified and scored normally for that challenge, subject to the
 [disclosure and collaboration rules](#7-disclosure-and-collaboration).
 For example, a 10-move path from B to A plus a 40-move solution of A
