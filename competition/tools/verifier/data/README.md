@@ -12,7 +12,7 @@ Release metadata comes from the development repository's `build/competition_stat
 `build/build_manifest_v2.py` synchronizes generated data and metadata.
 `freeze_date` is outside `instance_hash`, so setting the date does not
 change the mathematical instance or certificate hashes. See
-[Discovery rules](../../../rules/discovery.md#5-hashes) for hash semantics.
+[Hash specification](#hash-specification) for hash semantics.
 
 The scored pool is derived from the SAIR dataset release and the full
 MS-1190 open set as described below. The public package excludes the
@@ -66,7 +66,7 @@ participants to recognize instances and their origins.
 | `move_spec_version` | `ac-r2-v1` for `ac-`; `sac-r8-v1` for `sac-`; supplied by the challenge, never the contestant |
 | `scored` | Always `true` — every challenge in the pool is scored |
 | `base_score` | Always `1` |
-| `instance_hash` | Hash over `challenge_id`, generators, both relator lists, `move_spec_version`, `move_spec_hash`; see the [hash specification](../../../rules/discovery.md#5-hashes) |
+| `instance_hash` | Hash over `challenge_id`, generators, both relator lists, `move_spec_version`, `move_spec_hash`; see the [hash specification](#hash-specification) |
 | `freeze_date` | `null` until the official freeze is set; outside `instance_hash` by design |
 
 Pool composition: the 10000-row SAIR competition draw, minus the 89
@@ -76,6 +76,54 @@ missed — so all 550 open MS-1190 instances are scored, no certified one
 is. Within each Discovery problem, no two challenges are the same presentation
 up to relator order, cyclic rotation, and inversion. The other problem repeats
 that pool with its own target and move specification.
+
+## Hash specification
+
+[canon.py](../acms_verify/canon.py) defines all four hashes as
+`"sha256:" + lowercase_hex(SHA256(utf8(canonical_text)))`.
+
+- `move_spec_hash`: canonical JSON of the corresponding specification's
+  `moves` array, with sorted object keys, no whitespace, and ASCII output.
+  Array order is preserved. Explanatory notes are excluded.
+- `instance_hash` and `certificate_hash`: the fixed-key-order templates below,
+  with no whitespace, ASCII only, and shortest-decimal integers (`-1`, never
+  `-01`; no `-0`). Line breaks shown here are illustrative only.
+
+```text
+instance_canon    = {"challenge_id":"<id>","generators":["x","y"],
+                     "initial_relators":[[...],[...]],
+                     "target_relators":<target>,
+                     "move_spec_version":"<ver>","move_spec_hash":"<sha256:...>"}
+certificate_canon = {"challenge_id":"<id>","move_spec_version":"<ver>",
+                     "moves":[m0,m1,...]}
+```
+
+`<target>` is `[[1],[2]]` for AC or `[]` for Stable AC. The matching
+records have distinct IDs, targets, and instance hashes. `<ver>` is the
+official challenge's `move_spec_version`, not a contestant-supplied field.
+Submission comments and formatting do not enter certificate hashes.
+
+`manifest_hash` hashes the canonical JSON of the sorted list of all
+20,230 `instance_hash` strings, using the same JSON convention as
+`move_spec_hash`. The instance template excludes other metadata, including
+`scored`, `base_score`, `status_at_freeze`, `source`, and `freeze_date`.
+The manifest hash identifies the encoded instances, not the complete scoring
+policy or resource limits. Changes to excluded fields leave it unchanged;
+changes to hashed instance fields or the hashed move table change the
+relevant hashes.
+
+Official scoring records must also retain the complete frozen configuration
+(base scores, eligibility, limits, and scoring rules), identified by an
+immutable release commit or archived snapshot. Each scoring run records that
+configuration, the manifest hash, and verifier version. These are organizer
+records, not extra submission fields.
+
+Optional local hash check, from the repository or public package root:
+
+```sh
+PYTHONPATH=competition/tools/verifier python3 -m acms_verify \
+  --manifest competition/tools/verifier/data/manifest.json --check-hashes
+```
 
 ## `ms1190_metadata.csv` columns
 

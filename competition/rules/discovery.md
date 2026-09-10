@@ -9,9 +9,9 @@ problem sets** and earn no points.
 
 Submit a plain text file with one `challenge_id: [moves]` line per solution.
 Start with the [successful training example](#21-submission-format-and-local-example),
-then use this document for the exact moves, verifier contract, scoring,
-and disclosure rules. General participation, team, experimental-status,
-and competition-wide rules are in the [competition overview](overview.md).
+then use this document for the exact moves, verifier contract, and scoring.
+General participation, team, experimental-status, and competition-wide
+rules are in the [competition overview](overview.md).
 
 The announced deadline is **November 30, 2026**; its exact UTC time remains
 to be announced. Eligibility uses the time the server receives the complete
@@ -144,9 +144,8 @@ rank 2; the target is the **empty presentation** `[]`.
 | 29–136 | Remaining right multiplications by another relator or its inverse |
 | 137–256 | Remaining conjugations by a generator letter or its inverse |
 
-All 257 rows are in [stable_move_spec.json](../tools/verifier/data/stable_move_spec.json);
-its `moves` array is hashed as specified in [§5](#5-hashes). The operation
-IDs cover ranks up to 8: 8 inversions, 112 right multiplications, 128 generator-letter
+All 257 rows are in [stable_move_spec.json](../tools/verifier/data/stable_move_spec.json).
+The operation IDs cover ranks up to 8: 8 inversions, 112 right multiplications, 128 generator-letter
 conjugations, 1 stabilization, and 8 destabilizations. Applicability depends
 on the current state. A move may name only existing relators and generators.
 Stabilization requires $k<8$. Destabilization requires the selected relator
@@ -253,15 +252,6 @@ Python standard library. Its command-line exit codes are:
 | 2 | Whole-submission rejection or failing golden vectors |
 | 3 | Usage or input/output error |
 
-Run the published conformance vectors and check the manifest's hashes:
-
-```sh
-PYTHONPATH=competition/tools/verifier python3 -m acms_verify \
-  --golden competition/tools/verifier/data/golden_vectors.json
-PYTHONPATH=competition/tools/verifier python3 -m acms_verify \
-  --manifest competition/tools/verifier/data/manifest.json --check-hashes
-```
-
 ### 2.2 Verifier semantics
 
 Deterministic, pure integer arithmetic. The parser reads each TXT solution
@@ -363,56 +353,7 @@ and their stable extensions have work ≤ 2 162, so
 5 000 000 leaves three orders of magnitude of headroom while bounding
 verification cost.
 
-## 5. Hashes
-
-The `move_spec_hash` is the SHA-256 of canonical JSON (sorted keys,
-no whitespace, ASCII) for the `moves` array in the corresponding move
-specification file. It covers the move table, not its explanatory notes.
-
-Explicit byte templates — fixed key order, no whitespace, ASCII only,
-shortest-decimal integers (`-1` never `-01`, `-0` forbidden):
-
-```
-instance_canon    = {"challenge_id":"<id>","generators":["x","y"],
-                     "initial_relators":[[...],[...]],
-                     "target_relators":<target>,
-                     "move_spec_version":"<ver>","move_spec_hash":"<sha256:...>"}
-certificate_canon = {"challenge_id":"<id>","move_spec_version":"<ver>",
-                     "moves":[m0,m1,...]}
-hash              = "sha256:" + lowercase_hex(SHA256(utf8(canon)))
-```
-
-(Line breaks above are illustrative only; the canonical byte strings
-contain none.)
-
-`<target>` is `[[1],[2]]` for AC or `[]` for Stable AC. The two records
-for a presentation have distinct IDs, targets, and instance hashes.
-The manifest hash covers all 20,230 records. Scored challenge IDs now use
-`ac-` and `sac-`; their instance hashes and the manifest hash have been
-recomputed. Certificate hashes tied to older IDs also differ. The hash
-algorithms, move tables, and presentation words are unchanged.
-
-The `<ver>` in both templates is the official challenge's
-`move_spec_version`. It remains part of the certificate hash but is
-not a contestant-supplied submission field.
-
-`manifest_hash` = SHA-256 of the canonical JSON of the sorted list of
-all `instance_hash` values. `instance_hash` deliberately excludes
-`base_score`, `status_at_freeze`, `source`, and `freeze_date`.
-The manifest hash therefore identifies the encoded instances, not the
-complete scoring policy or resource limits. Changing an excluded field
-does not change this hash. Changing a challenge's encoded mathematical
-data or the hashed move table changes the relevant hashes.
-
-Official scoring must retain the complete frozen configuration, including
-base scores, eligibility, limits, and scoring rules, identified by an
-immutable release commit or an archived configuration snapshot. Each
-scoring run must identify that configuration as well as the manifest and
-verifier version. These are organizer records, not extra contestant fields.
-The base score is fixed at 1 for every scored challenge.
-Submissions are replayed against the official frozen challenges.
-
-## 6. Scoring
+## 5. Scoring
 
 On each challenge, the $k$ teams tied for the shortest verified solution
 **each earn $2^{1-k}$ points**; all others earn 0. One team earns 1 point,
@@ -429,24 +370,3 @@ complete submissions.
 **First Solver** recognizes the earliest submitted verified solution for
 each challenge, regardless of length. A later, shorter solution does not
 take away this record.
-
-## 7. Disclosure and collaboration
-
-Public per challenge during the competition: `status`,
-`current_best_length`, `current_best_solver`, `first_solver`,
-`first_solved_at`, `k_teams`, `base_score`, `certificate_hash`,
-`peak_total_relator_length` (non-scoring). **Not public: move sequences, intermediate states,
-or path statistics other than the explicitly listed length and peak.**
-Teams may download only their own Discovery submissions during the
-competition. The platform must enforce this with a public-field whitelist
-and tests; this repository does not yet supply that production API.
-All valid Discovery move sequences are published after the competition,
-forming a reproducible public benchmark. A `certificate_hash` lets a team
-identify a verified result publicly, for example in a preprint, while its move sequence remains private.
-
-Sharing a specific Discovery certificate across teams is joint work and
-must not be resubmitted as independent results by multiple teams. Discussion
-and properly attributed use of ideas are allowed; they do not permit
-copying a certificate into additional independently scoring teams. The
-[competition overview](overview.md) contains the shared team and anti-cheating
-rules.

@@ -135,7 +135,8 @@ unique IDs, consistent targets, and valid hashes before publication.
 ### 3.2 Instance and certificate identity
 
 [canon.py](../competition/tools/verifier/acms_verify/canon.py) implements the
-public byte templates. An instance hash covers its ID, generators, relators,
+[public byte templates](../competition/tools/verifier/data/README.md#hash-specification).
+An instance hash covers its ID, generators, relators,
 target, and move metadata. A certificate hash covers its challenge ID,
 official move version, and moves. It identifies a path, not authorship,
 receipt time, independent discovery, or competition score.
@@ -313,10 +314,11 @@ tests. A passing formula example alone does not verify event semantics.
 ## 6. Confidentiality, teams, and reuse
 
 Discovery moves and intermediate states remain private during competition.
-Publish only the evaluation contract's allowed fields: lengths, solver
-records, and approved non-scoring statistics. Teams can
-inspect their own submissions. Publish valid move sequences after the competition, following the
-Discovery disclosure rules.
+The platform's public challenge fields are `status`, `current_best_length`,
+`current_best_solver`, `first_solver`, `first_solved_at`, `k_teams`,
+`base_score`, `certificate_hash`, and `peak_total_relator_length`.
+Enforce this allowlist in public API responses; authorize teams to retrieve
+their own submissions. Publish valid move sequences after the competition.
 
 Proof submissions, versions, and supporting materials are public on
 submission, with no private/public toggle. Comments and any recognition

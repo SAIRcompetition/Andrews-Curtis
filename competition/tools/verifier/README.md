@@ -23,7 +23,8 @@ with no separate port.
 | `acms_verify/cli.py` | `acms-verify` command line |
 
 The public [evaluation rules](../../rules/discovery.md) specify move
-semantics, the submission contract, limits, hashes, and error codes.
+semantics, the submission contract, limits, and error codes. Hash details
+are in the [data guide](data/README.md#hash-specification).
 
 ## Problem statements and verifier data
 

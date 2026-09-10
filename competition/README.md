@@ -13,7 +13,7 @@ The competition launches with **Discovery Track on September 11, 2026 at
 | Guide | Contents |
 |---|---|
 | [Overview](rules/overview.md) | Background, both tracks, dates, registration, and common competition rules |
-| [Discovery Track](rules/discovery.md) | Data, moves, submission format, verifier semantics, limits, hashes, and scoring |
+| [Discovery Track](rules/discovery.md) | Data, moves, submission format, verifier semantics, limits, and scoring |
 | [Proof Track](rules/proof.md) | Full conjecture statements, proof/disproof submissions, Lean, public versions, and community peer review |
 
 [Prelaunch](rules/prelaunch.md) contains the same overview for the prelaunch page.
