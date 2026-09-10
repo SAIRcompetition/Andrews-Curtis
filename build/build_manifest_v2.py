@@ -858,7 +858,7 @@ submission_format: "Discovery: JSON; solutions[] of {{challenge_id, moves[]}}; a
 verifier: "Discovery Track: Python, competition/tools/verifier (standard library only), acms-verify {__version__}"
 primary_metric: leaderboard_score
 scoring_unit: team_challenge
-scoring_formula: "V_i * 2^(1-k_i) for teams at the current shortest length, 0 otherwise"
+scoring_formula: "2^(1-k) per team tied at the current shortest accepted length, where k is the number of distinct tied teams; 0 otherwise"
 tracks:
   - id: discovery
     name: Discovery Track

@@ -410,27 +410,27 @@ base scores, eligibility, limits, and scoring rules, identified by an
 immutable release commit or an archived configuration snapshot. Each
 scoring run must identify that configuration as well as the manifest and
 verifier version. These are organizer records, not extra contestant fields.
-The v1 base scores are all 1; any future policy change must be announced
-and separately recorded, never silently substituted into old results.
+The base score is fixed at 1 for every scored challenge.
 Submissions are replayed against the official frozen challenges.
 
 ## 6. Scoring
 
-Per challenge $i$: $V_i$ from the manifest;
-$L_{t,i}$ = team $t$'s minimal accepted length;
-$L^\star_i = \min_t L_{t,i}$;
-$k_i$ = number of teams tied at the shortest accepted length $L^\star_i$;
-$P_{t,i} = V_i\,2^{1-k_i}$ if $L_{t,i}=L^\star_i$, else 0;
-$P_t = \sum_i P_{t,i}$.
+All scored challenges have equal weight. A team earns points on a challenge
+only while it holds or shares the shortest accepted solution. If $k$
+distinct teams share that length, **each earns $2^{1-k}$ points**. All other
+teams earn 0; unsolved challenges award no points. Multiple submissions
+from the same team count only once.
+
+A team's total score is the sum of its points across challenges.
 
 Scores, totals, ranks, First Solver, and solved counters are computed
 **separately for the AC and Stable AC problems**. There is no combined ranking.
 Submission IDs and quota accounting remain shared; an event affects only
 the leaderboard selected by its challenge.
 
-Worked example ($V_i=1$):
+Worked example:
 
-| Stage | A | B | C | D | $L^\star$ | $k$ | Points |
+| Stage | A | B | C | D | Best length | $k$ | Points |
 |---|---:|---:|---:|---:|---:|---:|---|
 | A first solves in 40 | 40 | – | – | – | 40 | 1 | A=1 |
 | B matches 40 | 40 | 40 | – | – | 40 | 2 | A=B=1/2 |
@@ -517,5 +517,5 @@ and is verified and scored normally for that challenge, subject to the
 [disclosure and collaboration rules](#7-disclosure-and-collaboration).
 For example, a 10-move path from B to A plus a 40-move solution of A
 gives a 50-move solution of B; if it is B's first
-accepted solution, it earns B's full base score. Shortest-path scoring
+accepted solution, it earns 1 point on B. Shortest-path scoring
 does not prevent this. A bridge does not merge challenges in v1.

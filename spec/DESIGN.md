@@ -222,10 +222,10 @@ register a submission on SAIR.
 
 ### 5.1 Formula
 
-For challenge `i`, `V_i` is its base score, `L[t,i]` is a team's shortest
-accepted path, `L_best[i]` is the minimum across teams, and `k[i]` counts
-teams attaining that minimum. Such a team receives `V_i * 2^(1-k[i])`;
-other teams receive zero for that challenge. Totals sum only across scored
+Every scored challenge has a fixed base score of 1. If `k` distinct teams
+share its shortest accepted path length, each receives `2^(1-k)` points;
+other teams receive zero for that challenge. Multiple submissions from
+the same team count only once. Totals sum only across scored
 challenges for the selected problem; there is no combined ranking. Unsolved
 challenges contribute zero. `ScoringEngine` takes a `move_spec_version`
 selector and rejects an unselected mixed-spec manifest. Run one engine per
