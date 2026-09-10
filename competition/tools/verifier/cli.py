@@ -1,4 +1,4 @@
-"""``acms-verify`` command line interface (DESIGN.md §4.4).
+"""``verifier`` command line interface (DESIGN.md §4.4).
 
 Exit codes: 0 = all records verified OK or skipped after a success;
 1 = submission accepted but at
@@ -96,8 +96,8 @@ def _cmd_check_hashes(args):
 
 def main(argv=None):
     parser = argparse.ArgumentParser(
-        prog="acms-verify",
-        description="ACMS reference verifier (move specs %s; verifier %s)"
+        prog="verifier",
+        description="Discovery Track verifier (move specs %s; verifier %s)"
         % (", ".join(specs.SPEC_ORDER), __version__))
     parser.add_argument("--manifest", help="path to manifest.json")
     parser.add_argument("--submission", help="path to submission.txt "

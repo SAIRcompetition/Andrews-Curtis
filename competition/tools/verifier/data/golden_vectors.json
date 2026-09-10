@@ -31,7 +31,7 @@
   "max_total_relator_length": 10000,
   "max_work": 5000000
  },
- "note": "Self-contained conformance vectors.  'expected' is a subset: every key it contains must match the verifier output exactly.  Run with: python3 -m acms_verify --golden golden_vectors.json",
+ "note": "Self-contained conformance vectors.  'expected' is a subset: every key it contains must match the verifier output exactly.  From the repository or public package root, run: PYTHONPATH=competition/tools python3 -m verifier --golden competition/tools/verifier/data/golden_vectors.json",
  "challenges": {
   "ms-train-0160": {
    "challenge_id": "ms-train-0160",

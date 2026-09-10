@@ -13,9 +13,9 @@ from pathlib import Path
 
 REPO = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO / "build"))
-sys.path.insert(0, str(REPO / "competition" / "tools" / "verifier"))
+sys.path.insert(0, str(REPO / "competition" / "tools"))
 
-from acms_verify import canon, specs, submission  # noqa: E402
+from verifier import canon, specs, submission  # noqa: E402
 from build_problems import presentation_description, serialize  # noqa: E402
 
 
@@ -202,7 +202,7 @@ From the development repository root **or the unpacked public package root**
 (the directory containing `competition/`), run:
 
 ```sh
-PYTHONPATH=competition/tools/verifier python3 -m acms_verify \\
+PYTHONPATH=competition/tools python3 -m verifier \\
   --manifest competition/examples/training_manifest.json \\
   --submission competition/examples/sample_submission.txt --pretty
 ```
@@ -230,7 +230,7 @@ computes all result fields itself. Do not upload the verdict as a submission.
 You can also check the training manifest's hashes:
 
 ```sh
-PYTHONPATH=competition/tools/verifier python3 -m acms_verify \\
+PYTHONPATH=competition/tools python3 -m verifier \\
   --manifest competition/examples/training_manifest.json --check-hashes
 ```
 
@@ -246,7 +246,7 @@ Use challenge IDs from [`problems/ac.jsonl`](../problems/ac.jsonl) or
 sequences. Verify `mine.txt` against the official verifier data:
 
 ```sh
-PYTHONPATH=competition/tools/verifier python3 -m acms_verify \\
+PYTHONPATH=competition/tools python3 -m verifier \\
   --manifest competition/tools/verifier/data/manifest.json \\
   --submission mine.txt --pretty
 ```
@@ -258,7 +258,7 @@ on scored challenge `ac-00001`, move 6 conjugates the first relator by `x`
 and move 7 undoes it. The path returns to its initial state, not the target.
 
 ```sh
-PYTHONPATH=competition/tools/verifier python3 -m acms_verify \\
+PYTHONPATH=competition/tools python3 -m verifier \\
   --manifest competition/tools/verifier/data/manifest.json \\
   --submission competition/examples/invalid_submission.txt --pretty
 ```

@@ -1,4 +1,4 @@
-# Discovery Track reference verifier (`acms_verify`)
+# Discovery Track verifier
 
 The Python reference verifier checks AC and Stable AC solutions using only
 standard-library dependencies. See the [Discovery guide](../../rules/discovery.md)
@@ -10,7 +10,7 @@ numbered moves, replay, limits, and errors.
 Run the successful training example from the repository or public package root:
 
 ```sh
-PYTHONPATH=competition/tools/verifier python3 -m acms_verify \
+PYTHONPATH=competition/tools python3 -m verifier \
   --manifest competition/examples/training_manifest.json \
   --submission competition/examples/sample_submission.txt --pretty
 ```
@@ -23,7 +23,7 @@ the scored pool; use their training manifest for local checks.
 For a scored problem, use the official manifest and your own TXT file:
 
 ```sh
-PYTHONPATH=competition/tools/verifier python3 -m acms_verify \
+PYTHONPATH=competition/tools python3 -m verifier \
   --manifest competition/tools/verifier/data/manifest.json \
   --submission submission.txt --pretty
 ```
@@ -253,11 +253,11 @@ Run from the repository or public package root:
 
 ```sh
 # Run the published conformance vectors.
-PYTHONPATH=competition/tools/verifier python3 -m acms_verify \
+PYTHONPATH=competition/tools python3 -m verifier \
   --golden competition/tools/verifier/data/golden_vectors.json
 
 # Recompute and check the manifest's hashes.
-PYTHONPATH=competition/tools/verifier python3 -m acms_verify \
+PYTHONPATH=competition/tools python3 -m verifier \
   --manifest competition/tools/verifier/data/manifest.json --check-hashes
 ```
 
@@ -276,10 +276,10 @@ each specification.
 
 | Module | Contents |
 |---|---|
-| `acms_verify/core.py` | AC move table, free reduction, replay |
-| `acms_verify/stable_core.py` | Stable AC move table and variable-rank replay |
-| `acms_verify/specs.py` | Specification dispatch and move-table validation |
-| `acms_verify/canon.py` | Canonical serialization and hashing |
-| `acms_verify/submission.py` | TXT parsing, comments, structural checks, receipts |
-| `acms_verify/golden.py` | Conformance-vector runner |
-| `acms_verify/cli.py` | Command-line interface |
+| `core.py` | AC move table, free reduction, replay |
+| `stable_core.py` | Stable AC move table and variable-rank replay |
+| `specs.py` | Specification dispatch and move-table validation |
+| `canon.py` | Canonical serialization and hashing |
+| `submission.py` | TXT parsing, comments, structural checks, receipts |
+| `golden.py` | Conformance-vector runner |
+| `cli.py` | Command-line interface |

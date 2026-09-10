@@ -1,4 +1,4 @@
-"""Deterministic verifier core for ACMS stable AC, move spec ``sac-r8-v1``.
+"""Deterministic verifier core for Stable AC, move spec ``sac-r8-v1``.
 
 The Stable AC problem in the Discovery Track asks for a *stable* trivialization:
 the same balanced presentations as the AC problem, but the target is
@@ -6,7 +6,7 @@ the EMPTY presentation and the move set additionally allows stabilization
 (add a fresh generator with the relator that names it) and its inverse,
 destabilization, up to rank :data:`MAX_RANK`.
 
-Same engineering contract as :mod:`acms_verify.core` (decision D-10):
+Same engineering contract as :mod:`verifier.core` (decision D-10):
 pure integer arithmetic, standard library only, no floats, no
 concurrency, no randomness.  Words are tuples of nonzero ints with
 ``g`` meaning the generator ``g`` and ``-g`` its inverse; at rank ``k``
@@ -18,7 +18,7 @@ rank; the presentation stays balanced (``k`` generators, ``k``
 relators) after every move.  The target is the empty tuple ``()``.
 
 Frozen semantics.  Move ids must never change once frozen; ids 0..13
-are byte-identical to :data:`acms_verify.core.MOVE_TABLE`, so an
+are byte-identical to :data:`verifier.core.MOVE_TABLE`, so an
 ``ac-r2-v1`` certificate is a legal ``sac-r8-v1`` prefix.
 """
 
@@ -105,7 +105,7 @@ def _build_move_table():
 
 #: The frozen 257-row move table.  This exact structure — id / category /
 #: parameters / inverse — is what ``move_spec_hash`` covers, serialized
-#: with :func:`acms_verify.canon.jcs`.
+#: with :func:`verifier.canon.jcs`.
 MOVE_TABLE = _build_move_table()
 
 #: ``INVERSE_MOVE[m]`` undoes move ``m``, or ``None`` for the two moves
@@ -194,7 +194,7 @@ def _err(code, move_index=None, **extra):
 def verify(challenge, moves, move_spec_version, limits):
     """Replay ``moves`` on a ``sac-r8-v1`` ``challenge`` under ``limits``.
 
-    Mirrors :func:`acms_verify.core.verify` check for check.  The only
+    Mirrors :func:`verifier.core.verify` check for check.  The only
     addition is ``E_MOVE_NOT_APPLICABLE``, raised inside the per-move
     loop immediately after the move-id range check and before the
     relator-length check, carrying ``move``, ``move_index`` and

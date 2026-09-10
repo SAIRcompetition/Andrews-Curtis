@@ -32,10 +32,10 @@ from collections import deque
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parents[2]
-sys.path.insert(0, str(REPO / "competition" / "tools" / "verifier"))
+sys.path.insert(0, str(REPO / "competition" / "tools"))
 sys.path.insert(0, str(REPO / "build"))
 
-from acms_verify import stable_core  # noqa: E402
+from verifier import stable_core  # noqa: E402
 
 TARGET = ()
 

@@ -61,7 +61,7 @@ sac-train-0160: [6, 4, 2, 9, 1, 4, 1, 16, 15] # Stable AC training solution
 From the repository root, run with Python 3:
 
 ```sh
-PYTHONPATH=competition/tools/verifier python3 -m acms_verify \
+PYTHONPATH=competition/tools python3 -m verifier \
   --manifest competition/examples/training_manifest.json \
   --submission competition/examples/sample_submission.txt --pretty
 ```
@@ -73,7 +73,7 @@ For your own solutions, use official `ac-` / `sac-` problem IDs and check
 against the official manifest:
 
 ```sh
-PYTHONPATH=competition/tools/verifier python3 -m acms_verify \
+PYTHONPATH=competition/tools python3 -m verifier \
   --manifest competition/tools/verifier/data/manifest.json \
   --submission submission.txt --pretty
 ```

@@ -4,7 +4,7 @@ counterpart plus the two-move canonicalization suffix."""
 
 import unittest
 
-from acms_verify import canon, core, stable_core
+from verifier import canon, core, stable_core
 from tests import util
 
 #: Aggregate statistics of the 424 stable paths (min, median, max, mean).

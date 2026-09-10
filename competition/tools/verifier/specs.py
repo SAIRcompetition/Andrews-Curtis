@@ -3,9 +3,9 @@
 The Discovery Track covers AC and Stable AC over the same 10,115 presentations:
 
   ``ac-r2-v1``   rank-2 Andrews-Curtis, target the exact ordered pair
-                 (x, y), 14 atomic moves            :mod:`acms_verify.core`
+                 (x, y), 14 atomic moves            :mod:`verifier.core`
   ``sac-r8-v1``  stable Andrews-Curtis, target the empty presentation,
-                 257 atomic moves, rank up to 8     :mod:`acms_verify.stable_core`
+                 257 atomic moves, rank up to 8     :mod:`verifier.stable_core`
 
 A challenge names its spec in ``move_spec_version`` and its
 ``challenge_id`` prefix (``ac-`` / ``sac-``) selects the problem. A

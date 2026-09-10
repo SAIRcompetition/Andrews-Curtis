@@ -89,7 +89,7 @@ python3 -m unittest discover -s tests -t .
 (cd competition/tools/lean && lake build)
 
 # run the successful, unscored training example
-PYTHONPATH=competition/tools/verifier python3 -m acms_verify \
+PYTHONPATH=competition/tools python3 -m verifier \
   --manifest competition/examples/training_manifest.json \
   --submission competition/examples/sample_submission.txt --pretty
 

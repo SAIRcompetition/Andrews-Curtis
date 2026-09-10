@@ -1,4 +1,4 @@
-"""Deterministic verifier core for ACMS, move spec ``ac-r2-v1``.
+"""Deterministic verifier core for AC, move spec ``ac-r2-v1``.
 
 Single authoritative implementation (decision D-10): pure integer
 arithmetic, standard library only, no floats, no concurrency, no
@@ -21,7 +21,7 @@ NUM_MOVES = 14
 
 #: The frozen 14-row move table (DESIGN.md §1.3).  This exact structure —
 #: id / category / parameters / inverse — is what ``move_spec_hash``
-#: covers (§3.3), serialized with :func:`acms_verify.canon.jcs`.
+#: covers (§3.3), serialized with :func:`verifier.canon.jcs`.
 MOVE_TABLE = (
     {"id": 0, "category": "inversion", "relator": 0, "inverse": 0},
     {"id": 1, "category": "inversion", "relator": 1, "inverse": 1},

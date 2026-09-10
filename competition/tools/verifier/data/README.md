@@ -35,7 +35,7 @@ uses `manifest.json` for exact integer-encoded words and verification limits.
 | [move_spec.json](move_spec.json) | Machine-readable `ac-r2-v1`: the 14 frozen moves (the exact rows covered by `move_spec_hash`), letter encoding, and word-normalization conventions |
 | [stable_move_spec.json](stable_move_spec.json) | Machine-readable `sac-r8-v1`: 257 moves, rank cap 8, stabilization/deletion conditions, and canonical finishes to empty |
 | [ms1190_metadata.csv](ms1190_metadata.csv) | The full MS-1190 "denominator": all 1190 instances with `status_at_freeze` ∈ open (550) / uncertified (216) / certified (424). Reference material, **not** the pool listing |
-| [golden_vectors.json](golden_vectors.json) | Conformance vectors for the reference verifier (`python3 -m acms_verify --golden ...`) |
+| [golden_vectors.json](golden_vectors.json) | Conformance vectors for the reference verifier (`python3 -m verifier --golden ...`) |
 
 The 424 training presentations and their AC and Stable AC certificates are
 in [`examples/training_424.json`](../../../examples/training_424.json) and
@@ -79,7 +79,7 @@ that pool with its own target and move specification.
 
 ## Hash specification
 
-[canon.py](../acms_verify/canon.py) defines all four hashes as
+[canon.py](../canon.py) defines all four hashes as
 `"sha256:" + lowercase_hex(SHA256(utf8(canonical_text)))`.
 
 - `move_spec_hash`: canonical JSON of the corresponding specification's
@@ -121,7 +121,7 @@ records, not extra submission fields.
 Optional local hash check, from the repository or public package root:
 
 ```sh
-PYTHONPATH=competition/tools/verifier python3 -m acms_verify \
+PYTHONPATH=competition/tools python3 -m verifier \
   --manifest competition/tools/verifier/data/manifest.json --check-hashes
 ```
 

@@ -45,9 +45,9 @@ import sys
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(REPO / "competition" / "tools" / "verifier"))
+sys.path.insert(0, str(REPO / "competition" / "tools"))
 
-from acms_verify import core  # noqa: E402
+from verifier import core  # noqa: E402
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 

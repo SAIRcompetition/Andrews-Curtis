@@ -3,7 +3,7 @@ aggregate statistics equal the [Verified] table in DESIGN.md §1.5."""
 
 import unittest
 
-from acms_verify import canon, core
+from verifier import canon, core
 from tests import util
 
 

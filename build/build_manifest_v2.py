@@ -54,10 +54,10 @@ from datetime import datetime
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(REPO / "competition" / "tools" / "verifier"))
+sys.path.insert(0, str(REPO / "competition" / "tools"))
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from acms_verify import (  # noqa: E402
+from verifier import (  # noqa: E402
     __version__, canon, core, specs, stable_core)
 
 from build_manifest import (  # noqa: E402
@@ -867,7 +867,7 @@ status: {competition_state['status']}
 task_type: mathematical_discovery
 submission_artifact: submission.txt
 submission_format: "Discovery: UTF-8 TXT; one challenge_id: [comma-separated moves] per line; blank lines and full-line or trailing # comments are ignored; ac- IDs select AC moves 0-13 and sac- IDs select stable AC moves 0-256"
-verifier: "Discovery Track: Python, competition/tools/verifier (standard library only), acms-verify {__version__}"
+verifier: "Discovery Track: Python, competition/tools/verifier (standard library only), verifier {__version__}"
 primary_metric: leaderboard_score
 scoring_unit: team_challenge
 scoring_formula: "2^(1-k) per team tied at the current shortest accepted length, where k is the number of distinct tied teams; 0 otherwise"

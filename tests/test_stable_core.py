@@ -12,7 +12,7 @@ import random
 import unittest
 from collections import deque
 
-from acms_verify import canon, core, stable_core
+from verifier import canon, core, stable_core
 from tests import util
 
 TARGET = ()

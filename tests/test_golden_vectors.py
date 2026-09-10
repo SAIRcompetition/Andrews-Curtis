@@ -4,7 +4,7 @@ artifacts."""
 
 import unittest
 
-from acms_verify import golden, specs
+from verifier import golden, specs
 from tests import util
 
 

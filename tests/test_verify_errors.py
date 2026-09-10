@@ -6,7 +6,7 @@ Every per-move error carries a 0-based ``move_index``.
 import time
 import unittest
 
-from acms_verify import core, stable_core
+from verifier import core, stable_core
 from tests import util
 
 

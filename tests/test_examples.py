@@ -8,7 +8,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from acms_verify import canon, submission
+from verifier import canon, submission
 from tests import util
 from tests.test_problems import read_description
 
@@ -44,13 +44,13 @@ class TestExamples(unittest.TestCase):
         }
 
     def run_cli(self, manifest, submission=None, *, check_hashes=False):
-        args = [sys.executable, "-m", "acms_verify", "--manifest", str(manifest)]
+        args = [sys.executable, "-m", "verifier", "--manifest", str(manifest)]
         if submission is not None:
             args.extend(["--submission", str(submission), "--pretty"])
         if check_hashes:
             args.append("--check-hashes")
         env = dict(os.environ,
-                   PYTHONPATH=str(util.REPO / "competition" / "tools" / "verifier"))
+                   PYTHONPATH=str(util.REPO / "competition" / "tools"))
         result = subprocess.run(args, cwd=util.REPO, env=env,
                                 capture_output=True, text=True, timeout=30)
         self.assertEqual(result.stderr, "")

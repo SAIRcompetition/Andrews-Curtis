@@ -34,10 +34,10 @@ import tempfile
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(REPO / "competition" / "tools" / "verifier"))
+sys.path.insert(0, str(REPO / "competition" / "tools"))
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from acms_verify import canon, specs  # noqa: E402
+from verifier import canon, specs  # noqa: E402
 from build_problems import render_problems, serialize as serialize_problems  # noqa: E402
 from build_manifest_v2 import render_yaml  # noqa: E402
 
@@ -284,7 +284,7 @@ def validate_final_state(state, repo=REPO):
 
 def check_packaged_examples(comp, env):
     """Run the documented CLI from the exported package and compare its receipt."""
-    base = [sys.executable, "-m", "acms_verify"]
+    base = [sys.executable, "-m", "verifier"]
     examples = comp / "examples"
     for name in ("sample_submission.json", "invalid_submission.json"):
         if (examples / name).exists():
@@ -300,7 +300,7 @@ def check_packaged_examples(comp, env):
     for manifest_path, submission_path, exit_code, error in cases:
         result = subprocess.run(base + ["--manifest", str(manifest_path), "--submission",
                                        str(submission_path), "--pretty"],
-                                cwd=comp / "tools/verifier", env=env,
+                                cwd=comp / "tools", env=env,
                                 capture_output=True, text=True)
         if result.returncode != exit_code:
             raise ValueError("packaged example returned unexpected exit code: " + result.stderr)
@@ -311,9 +311,9 @@ def check_packaged_examples(comp, env):
                 raise ValueError("packaged success example disagrees with sample_verdict.json")
         elif not verdict["accepted"] or not all(v.get("code") == error for v in verdict["results"]):
             raise ValueError("packaged negative example did not return " + error)
-    sh(sys.executable, "-m", "acms_verify", "--manifest",
+    sh(sys.executable, "-m", "verifier", "--manifest",
        examples / "training_manifest.json", "--check-hashes",
-       cwd=comp / "tools/verifier", env=env)
+       cwd=comp / "tools", env=env)
     print("OK: packaged success receipt, negative example, and training/scored separation")
 
 
@@ -420,13 +420,13 @@ def export_package(out, preview=False):
            "PYTHONDONTWRITEBYTECODE": "1"}
     verify_lean_statement(comp / "tools/lean")
     print("OK: packaged Lean sources and dependency lock match statement-lock.json")
-    sh(sys.executable, "-m", "acms_verify",
+    sh(sys.executable, "-m", "verifier",
        "--golden", comp / "tools/verifier/data" / "golden_vectors.json",
-       cwd=comp / "tools" / "verifier", env=env)
+       cwd=comp / "tools", env=env)
     check_packaged_examples(comp, env)
-    sh(sys.executable, "-m", "acms_verify",
+    sh(sys.executable, "-m", "verifier",
        "--manifest", comp / "tools/verifier/data" / "manifest.json", "--check-hashes",
-       cwd=comp / "tools" / "verifier", env=env)
+       cwd=comp / "tools", env=env)
 
     # 4. nothing from the internal directories may leak: the package
     # holds exactly {README.md, LICENSE, NOTICE, competition/}, no path

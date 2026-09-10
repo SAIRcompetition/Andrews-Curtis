@@ -12,7 +12,7 @@ import hashlib
 import re
 import unittest
 
-from acms_verify import canon, core, specs
+from verifier import canon, core, specs
 from tests import util
 
 POOL_SIZE = 10115

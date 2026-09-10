@@ -32,9 +32,9 @@ import sys
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(REPO / "competition" / "tools" / "verifier"))
+sys.path.insert(0, str(REPO / "competition" / "tools"))
 
-from acms_verify import canon, core  # noqa: E402
+from verifier import canon, core  # noqa: E402
 
 MANIFEST_VERSION = "acms-ms-v1"
 COMPETITION = "acms"
@@ -513,8 +513,9 @@ def build_golden(manifest, training, move_spec_hash):
         "default_limits": LIMITS,
         "note": ("Self-contained conformance vectors.  'expected' is a "
                  "subset: every key it contains must match the verifier "
-                 "output exactly.  Run with: "
-                 "python3 -m acms_verify --golden golden_vectors.json"),
+                 "output exactly.  From the repository or public package root, run: "
+                 "PYTHONPATH=competition/tools python3 -m verifier "
+                 "--golden competition/tools/verifier/data/golden_vectors.json"),
         "challenges": challenges,
         "verify_vectors": vectors,
         "submission_vectors": submission_vectors,

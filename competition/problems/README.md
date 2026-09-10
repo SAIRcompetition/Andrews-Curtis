@@ -83,7 +83,7 @@ from that manifest, and release checks require them to agree exactly.
 From the repository or unpacked public package root:
 
 ```sh
-PYTHONPATH=competition/tools/verifier python3 -m acms_verify \
+PYTHONPATH=competition/tools python3 -m verifier \
   --manifest competition/tools/verifier/data/manifest.json \
   --submission submission.txt --pretty
 ```

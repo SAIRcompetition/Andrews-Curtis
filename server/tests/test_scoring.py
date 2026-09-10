@@ -23,7 +23,7 @@ def mini_manifest(base_scores):
 
 
 def engine(base_scores={"c1": 1}):
-    return ScoringEngine(mini_manifest(base_scores), "acms-verify 0.1.0")
+    return ScoringEngine(mini_manifest(base_scores), "verifier 0.1.0")
 
 
 class TestBestReplacement(unittest.TestCase):
@@ -145,7 +145,7 @@ class TestScoringRuns(unittest.TestCase):
         self.assertEqual([r["scoring_run_id"] for r in e.scoring_runs], [1, 2])
         for r in e.scoring_runs:
             self.assertEqual(r["manifest_hash"], "sha256:test")
-            self.assertEqual(r["verifier_version"], "acms-verify 0.1.0")
+            self.assertEqual(r["verifier_version"], "verifier 0.1.0")
         # recompute is a pure function of best: replaying gives the
         # same leaderboard.
         e2 = engine()

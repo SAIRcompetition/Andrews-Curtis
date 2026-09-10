@@ -3,7 +3,7 @@
 import json
 from pathlib import Path
 
-from acms_verify import core
+from verifier import core
 
 REPO = Path(__file__).resolve().parents[1]
 VERIFIER_DATA = REPO / "competition" / "tools" / "verifier" / "data"

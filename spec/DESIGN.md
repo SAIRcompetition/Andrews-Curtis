@@ -43,7 +43,7 @@ The authoritative table is [move_spec.json](../competition/tools/verifier/data/m
 Its 14 move IDs describe inversion, right multiplication by the other relator
 or its inverse, and conjugation by one generator letter or its inverse.
 Every move has an inverse in the table. The Python implementation is
-[core.py](../competition/tools/verifier/acms_verify/core.py).
+[core.py](../competition/tools/verifier/core.py).
 
 `ac-r2-v1` is organizer-maintained metadata, not a field contestants select
 or send with a solution. Published move IDs must not be silently reassigned.
@@ -134,7 +134,7 @@ unique IDs, consistent targets, and valid hashes before publication.
 
 ### 3.2 Instance and certificate identity
 
-[canon.py](../competition/tools/verifier/acms_verify/canon.py) implements the
+[canon.py](../competition/tools/verifier/canon.py) implements the
 [public byte templates](../competition/tools/verifier/data/README.md#hash-specification).
 An instance hash covers its ID, generators, relators,
 target, and move metadata. A certificate hash covers its challenge ID,
@@ -178,7 +178,7 @@ one file; matching AC and stable IDs are distinct and may be included
 together. Non-comment text must parse as a solution; do not silently skip
 a malformed line, even after an earlier success for its ID. Preserve file order after removing
 comments. The public contract and
-[submission.py](../competition/tools/verifier/acms_verify/submission.py)
+[submission.py](../competition/tools/verifier/submission.py)
 define structural errors and their precedence: byte limit, UTF-8 decoding,
 all line parsing, solution count, then per-record selection and verification.
 Malformed-line errors include a one-based `line_number`.

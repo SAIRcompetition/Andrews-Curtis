@@ -9,7 +9,7 @@ import itertools
 import unittest
 from collections import deque
 
-from acms_verify import core
+from verifier import core
 
 
 def full_reduce(word):

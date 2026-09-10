@@ -14,7 +14,7 @@ preserve the historical mathematical regression check.
 
 import unittest
 
-from acms_verify import canon, core, specs, stable_core
+from verifier import canon, core, specs, stable_core
 from tests import util
 
 

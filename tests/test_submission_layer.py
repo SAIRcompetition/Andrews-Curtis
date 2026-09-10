@@ -4,7 +4,7 @@ import json
 import unittest
 from unittest.mock import patch
 
-from acms_verify import core, stable_core, submission
+from verifier import core, stable_core, submission
 from tests import util
 
 
