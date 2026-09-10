@@ -419,7 +419,7 @@ Submissions are replayed against the official frozen challenges.
 Per challenge $i$: $V_i$ from the manifest;
 $L_{t,i}$ = team $t$'s minimal accepted length;
 $L^\star_i = \min_t L_{t,i}$;
-$k_i = \#\{t : L_{t,i} = L^\star_i\}$;
+$k_i$ = number of teams tied at the shortest accepted length $L^\star_i$;
 $P_{t,i} = V_i\,2^{1-k_i}$ if $L_{t,i}=L^\star_i$, else 0;
 $P_t = \sum_i P_{t,i}$.
 
