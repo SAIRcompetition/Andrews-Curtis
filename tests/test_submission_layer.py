@@ -2,6 +2,7 @@
 
 import json
 import unittest
+from unittest.mock import patch
 
 from acms_verify import core, stable_core, submission
 from tests import util
@@ -191,11 +192,58 @@ class TestSubmissionLayer(unittest.TestCase):
             nested = [nested]
         json.dumps(self.run_sub(txt(dict(self.sol, moves=[nested]))), allow_nan=False)
 
-    def test_duplicate_ids_reject_the_whole_file_with_record_and_line_indexes(self):
-        raw = "# heading\n\n" + txt(self.sol) + "# separator\n" + txt(dict(self.sol, moves=[]))
-        self.assertEqual(self.run_sub(raw), {
-            "accepted": False, "code": "E_DUPLICATE_CHALLENGE", "counts_against_quota": False,
-            "challenge_id": self.sol["challenge_id"], "index": 1, "line_number": 5})
+    def test_first_verified_duplicate_wins_even_if_later_path_is_shorter(self):
+        for solution in (self.sol, self.stable_sol):
+            with self.subTest(challenge=solution["challenge_id"]):
+                first = dict(solution, moves=[0, 0] + solution["moves"])
+                raw = "# heading\n\n" + txt(first, solution, dict(solution, moves=[True]))
+                with patch.object(submission.specs, "verify_challenge",
+                                  wraps=submission.specs.verify_challenge) as replay:
+                    verdict = self.run_sub(raw)
+                    self.assertEqual(replay.call_count, 1)
+                self.assertTrue(verdict["accepted"])
+                self.assertTrue(verdict["results"][0]["ok"])
+                self.assertEqual(verdict["results"][0]["length"], len(first["moves"]))
+                skipped = {"challenge_id": solution["challenge_id"], "ok": False,
+                           "skipped": True, "reason": "already_verified"}
+                self.assertEqual(verdict["results"][1:], [skipped, skipped])
+                # A new file may still select a shorter solution for this ID.
+                again = self.run_sub(txt(solution))["results"][0]
+                self.assertTrue(again["ok"])
+                self.assertEqual(again["length"], len(solution["moves"]))
+
+    def test_failed_duplicates_can_retry_and_problem_ids_are_independent(self):
+        raw = txt(dict(self.sol, moves=[14]), self.stable_sol,
+                  self.sol, self.stable_sol, self.sol)
+        verdict = self.run_sub(raw)
+        self.assertTrue(verdict["accepted"])
+        self.assertEqual(verdict["results"][0]["code"], "E_BAD_MOVE_ID")
+        self.assertEqual([r["challenge_id"] for r in verdict["results"] if r["ok"]],
+                         [self.stable_sol["challenge_id"], self.sol["challenge_id"]])
+        self.assertTrue(all(r["skipped"] for r in verdict["results"][3:]))
+
+    def test_unknown_duplicates_each_return_their_error(self):
+        verdict = self.run_sub("unknown-1: []\nunknown-1: []")
+        self.assertTrue(verdict["accepted"])
+        self.assertEqual([r["code"] for r in verdict["results"]],
+                         ["E_UNKNOWN_CHALLENGE", "E_UNKNOWN_CHALLENGE"])
+
+    def test_skipped_duplicates_still_count_toward_solution_limit(self):
+        raw = txt(self.sol) * 500
+        verdict = self.run_sub(raw)
+        self.assertTrue(verdict["accepted"])
+        self.assertEqual(len(verdict["results"]), 500)
+        self.assertEqual(sum(r["ok"] for r in verdict["results"]), 1)
+        self.assertTrue(all(r["skipped"] for r in verdict["results"][1:]))
+        self.assertEqual(self.run_sub(raw + txt(self.sol)), {
+            "accepted": False, "code": "E_MALFORMED", "counts_against_quota": False,
+            "detail": "too_many_solutions", "solutions": 501, "max_solutions": 500})
+
+    def test_malformed_duplicate_after_success_still_rejects_whole_file(self):
+        raw = txt(self.sol) + self.sol["challenge_id"] + ": [0,]"
+        with patch.object(submission.specs, "verify_challenge") as replay:
+            self.assert_malformed(raw, "bad_moves_json", 2)
+            replay.assert_not_called()
 
     def test_solution_count_limit_counts_records_not_comments(self):
         records = "".join("unknown-%d: []\n# comment\n\n" % i for i in range(500))
@@ -232,15 +280,17 @@ class TestSubmissionLayer(unittest.TestCase):
         self.assertEqual((limited["code"], limited["detail"], limited["max_body_bytes"]),
                          ("E_MALFORMED", "body_too_large", 10))
 
-    def test_all_line_syntax_precedes_count_duplicates_and_per_path_errors(self):
+    def test_all_line_syntax_precedes_count_and_per_path_errors(self):
         raw = "ac-00001: [14]\nac-00001: []\ninvalid text"
         self.assert_malformed(raw, "bad_solution_line", 3,
                               structural_limits={"max_solutions": 1})
         counted = self.run_sub("ac-00001: [14]\nac-00001: []",
                                structural_limits={"max_solutions": 1})
         self.assertEqual(counted["detail"], "too_many_solutions")
-        self.assertEqual(self.run_sub("ac-00001: [14]\nac-00001: []")["code"],
-                         "E_DUPLICATE_CHALLENGE")
+        verdict = self.run_sub("ac-00001: [14]\nac-00001: []")
+        self.assertTrue(verdict["accepted"])
+        self.assertEqual([r["code"] for r in verdict["results"]],
+                         ["E_BAD_MOVE_ID", "E_NOT_TARGET"])
 
     def test_path_length_still_precedes_invalid_move_values(self):
         manifest = dict(self.mini, limits=dict(self.mini["limits"], max_path_length=1))

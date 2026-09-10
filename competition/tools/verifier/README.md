@@ -38,8 +38,9 @@ format. See [Submit](../../rules/discovery.md#submit).
 
 The challenge supplies its `move_spec_version`: `ac-` IDs use `ac-r2-v1`
 (moves 0–13), and `sac-` IDs use `sac-r8-v1` (moves 0–256). A file may contain
-both; duplicate challenge IDs are rejected. Local verification does not
-register a competition submission.
+both, and challenge IDs may repeat. Only the first successful path for each
+ID in file order is selected; see [Replay and receipts](#replay-and-receipts).
+Local verification does not register a competition submission.
 
 ## Problem data
 
@@ -142,6 +143,20 @@ looks up the official challenge by id and uses its `move_spec_version`
 for replay and certificate hashing. Comments do not enter replay or the
 certificate hash; the verifier computes every result itself.
 
+The complete file must pass byte, UTF-8, line-syntax, and solution-count
+checks before processing begins. Process records in file order. For each
+challenge ID, replay attempts until the first `ok: true`, which alone is
+selected for scoring from this file. Earlier failures do not block later
+attempts. After a success, skip all later records for that ID without replay,
+even if their paths are shorter. Each skipped record returns:
+
+```json
+{"challenge_id": "<id>", "ok": false, "skipped": true, "reason": "already_verified"}
+```
+
+Selection starts afresh in each upload, so a later upload can improve the
+team's best record. For each path being replayed:
+
 ```
 assert len(moves) <= max_path_length       else E_PATH_TOO_LONG
 s    = challenge.initial_relators          # freely reduced, from the manifest
@@ -162,7 +177,7 @@ The move-ID range is 0–13 for AC and 0–256 for Stable AC. Every AC move
 is applicable at rank 2; Stable AC additionally checks the conditions in
 [Stable AC moves](#stable-ac-moves).
 
-Move IDs must be integers: `1.0` is a float and is **not** a valid move ID;
+For a replayed path, move IDs must be integers: `1.0` is a float and is **not** a valid move ID;
 `true`/`false` are booleans, not integers; `"3"` is a string. All are
 rejected with `E_BAD_MOVE_ID` at their index.
 
@@ -173,6 +188,10 @@ enter scoring. A mixed submission keeps its successful solutions even
 when others fail; a structurally accepted document can contain no
 successful solutions.
 
+Skipped rows are not eligible for scoring and do not count as CLI failures.
+An actual failed attempt still gives exit code `1`, even if a later attempt
+for the same challenge succeeds.
+
 ## Limits
 
 The same verification limits apply to both Discovery problems. Upload quotas and
@@ -182,7 +201,7 @@ A batch may mix `ac-` and `sac-` IDs; they are distinct challenges.
 | Limit | v1 value |
 |---|---:|
 | Discovery submissions per team per UTC day (site + API combined) | 40 |
-| Solution lines per submission | 500 |
+| Solution lines per submission, including repeated IDs and skipped lines | 500 |
 | Raw TXT file size, including comments | 10 MB (10,000,000 bytes) |
 | `max_path_length` | 100 000 |
 | `max_total_relator_length` | 10 000 |
@@ -191,7 +210,9 @@ A batch may mix `ac-` and `sac-` IDs; they are distinct challenges.
 Path limits come from the manifest; structural limits have published
 defaults in the reference parser and are supplied by the platform's
 frozen configuration. Comments have no separate character limit and do
-not count as solutions. A structurally accepted upload counts once toward
+not count as solutions. Every solution line counts toward the 500-line limit,
+including repeated IDs and skipped lines. Path verification limits apply to
+records that are replayed. A structurally accepted upload counts once toward
 the daily quota, even if all its solutions fail verification. Structural
 rejections do not count. Local self-checks do not consume platform quota.
 
@@ -203,10 +224,9 @@ daily quota):
 | Code | Trigger |
 |---|---|
 | `E_MALFORMED` | file too large, invalid UTF-8, malformed solution line or move list, no solutions, or too many solutions; `detail` identifies the cause and line errors include `line_number` |
-| `E_DUPLICATE_CHALLENGE` | same `challenge_id` twice in one submission |
 
-Per-solution rejections (other solutions in the same submission are
-processed normally):
+Path verification errors (other attempts in the same submission remain
+eligible for processing):
 
 | Code | Trigger |
 |---|---|
@@ -220,7 +240,7 @@ processed normally):
 
 **Check priority:** file byte limit → UTF-8 decoding → solution-line parsing
 (ignoring comments and blank lines) → solutions count →
-duplicates → then per solution: challenge lookup → path length → per-move
+then per record: skip if this ID already succeeded → challenge lookup → path length → per-move
 id → applicability → relator length → work budget → target. The first
 triggered check is the one reported.
 
@@ -243,8 +263,8 @@ PYTHONPATH=competition/tools/verifier python3 -m acms_verify \
 
 | Exit code | Meaning |
 |---:|---|
-| 0 | All solutions verified successfully |
-| 1 | Structurally accepted submission with at least one rejected solution |
+| 0 | All replayed paths verified successfully; skipped rows are ignored |
+| 1 | Structurally accepted submission with at least one failed attempt |
 | 2 | Whole-submission rejection or failing conformance/hash checks |
 | 3 | Usage or input/output error |
 

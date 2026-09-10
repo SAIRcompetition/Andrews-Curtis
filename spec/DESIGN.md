@@ -173,14 +173,14 @@ links, or expected results, but never supply trusted result fields.
 Comments do not affect replay, hashes, or points. The former JSON wrapper
 and its `method`/`notes` fields are no longer accepted.
 
-At least one solution line is required. Duplicate challenge IDs within
-one file are rejected; matching AC and stable IDs are distinct and may
-be included together. Non-comment text must parse as a solution; do not
-silently skip a malformed line. Preserve solution order after removing
+At least one solution line is required. Challenge IDs may repeat within
+one file; matching AC and stable IDs are distinct and may be included
+together. Non-comment text must parse as a solution; do not silently skip
+a malformed line, even after an earlier success for its ID. Preserve file order after removing
 comments. The public contract and
 [submission.py](../competition/tools/verifier/acms_verify/submission.py)
 define structural errors and their precedence: byte limit, UTF-8 decoding,
-line parsing, solution count, duplicates, then per-solution verification.
+all line parsing, solution count, then per-record selection and verification.
 Malformed-line errors include a one-based `line_number`.
 
 ### 4.2 Verifier and receipts
@@ -191,6 +191,17 @@ and return length, work, and certificate hash. Outer `accepted` means
 structural acceptance of the document; only per-solution `ok: true` is a
 verified solution eligible for scoring. A failed path does not invalidate
 other paths in a structurally valid batch.
+
+After the entire file passes structural checks, process records in file
+order. For each challenge ID, the first path returning `ok: true` is selected
+for scoring from that upload. Earlier path failures do not block later
+attempts. Once selected, later records for that ID are skipped without
+replay, even if shorter. Return one result per record in file order; a skipped
+row is `{challenge_id, ok: false, skipped: true, reason: "already_verified"}`.
+Only `ok: true` results enter scoring. Skipped rows do not count as CLI
+failures, but an actual failed attempt still yields exit code 1 even if a
+later attempt succeeds. Selection resets for each upload; the existing
+best-record scoring across uploads is unchanged.
 
 The server assigns a UTC receipt time and a unique, monotonically increasing
 submission ID to each complete submission. Verification completion time does not determine
@@ -213,7 +224,9 @@ consume quota. A structurally accepted document counts once even if every
 path fails verification. The public contract governs accounting and error
 precedence; the service must enforce quotas in addition to local replay limits.
 Comments count toward the file byte limit but not the solution count, and
-there is no separate comment-length limit.
+there is no separate comment-length limit. Every solution record counts
+toward the 500-record cap, including repeated IDs and skipped records.
+Path verification limits apply to records that are replayed.
 
 These are Discovery acceptance limits. Exceeding them does not prove that a
 presentation has no AC trivialization.
@@ -243,9 +256,9 @@ Discovery problem; it rejects challenges belonging to the other specification.
 Use the UTC `received_at` and unique, monotonically increasing
 `submission_id` assigned to each complete submission (§4.2).
 Replay accepted events in server `(received_at, submission_id)` order,
-never verification completion order. Within a submission, process solutions
-in their original array order and publish the final batch leaderboard
-atomically. Duplicate delivery of an event must not create extra results,
+never verification completion order. Within a submission, process only its
+selected `ok: true` results, in file order, and publish the final batch
+leaderboard atomically. Duplicate delivery of an event must not create extra results,
 quota charges, or priority records.
 
 Recompute the affected leaderboard in full after every accepted solution.
@@ -526,7 +539,8 @@ and enabled platform operations must agree for the track being opened.
    shared quota enforcement, per-solution verification, and separate Discovery
    leaderboards. Mixed batches must not combine AC and Stable AC scores.
 3. Accepted-event replay is independent of completion order; earlier
-   same-length receipts, same-time IDs, duplicates, and batches obey the rules.
+   same-length receipts, same-time IDs, event retries, and batches obey the rules.
+   Repeated challenge IDs select only the first verified path in each file.
 4. Solved counts survive shorter competing solutions. Current-best counts
    and First Solver remain separate and correctly computed.
 5. Historical scoring reproduces from stored events and complete frozen

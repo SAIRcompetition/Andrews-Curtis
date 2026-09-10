@@ -45,9 +45,20 @@ class TestGoldenVectors(unittest.TestCase):
         # Every error code of the §4.2 contract.
         for token in ("spec-mismatch", "bad-move-id", "path-too-long",
                       "length-limit", "work-budget", "not-target",
-                      "malformed", "duplicate",
-                      "unknown-challenge"):
+                      "malformed", "unknown-challenge"):
             self.assertIn(token, self.names)
+
+    def test_same_file_first_valid_selection_is_covered(self):
+        for token in ("sub-duplicate-after-success-skipped",
+                      "sub-duplicate-first-valid-wins-before-shorter",
+                      "sub-duplicate-failures-then-success",
+                      "sub-duplicate-unknown-challenge-retried",
+                      "sub-duplicate-malformed-later-line-rejects-whole-file",
+                      "sub-duplicate-all-records-count-toward-limit",
+                      "sub-duplicate-mixed-problems-select-independently"):
+            self.assertIn(token, self.names, token)
+        for vector in self.doc["submission_vectors"]:
+            self.assertNotEqual(vector["expected"].get("code"), "E_DUPLICATE_CHALLENGE")
 
     def test_stable_track_is_covered(self):
         for token in ("accept-stable-shortest", "accept-stable-median",

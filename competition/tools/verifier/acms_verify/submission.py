@@ -6,7 +6,9 @@ challenge ID and moves affect verification; comments never affect hashes.
 
 Structural errors reject the whole submission without consuming quota.
 Priority: body byte limit -> UTF-8 decoding -> all line syntax/JSON checks
--> nonempty/count limits -> duplicate IDs -> per-solution verification.
+-> nonempty/count limits -> per-solution verification in file order.
+The first verified path for each challenge is selected; later records for
+that challenge are skipped. Failed paths do not block subsequent attempts.
 The unchanged per-path priority is path length -> move ID -> relator
 length -> work budget -> target (with Stable AC applicability checks).
 """
@@ -94,9 +96,11 @@ def process_submission(raw_bytes, manifest, challenge_index=None,
     overrides the byte and solution-count limits for a deployment.
 
     Whole-submission errors return ``accepted: false``.  Otherwise results
-    appear in record order, each using the official challenge's move spec
-    for replay and certificate hashing.  Legacy JSON submissions are not
-    accepted or automatically converted.
+    appear in record order. The first verified path per challenge uses its
+    official move spec for replay and certificate hashing; later records
+    for that challenge return skipped results without replay. This selection
+    is local to this file. Legacy JSON submissions are not accepted or
+    automatically converted.
     """
     if not isinstance(raw_bytes, (bytes, bytearray)):
         raise TypeError("raw_bytes must be bytes")
@@ -142,21 +146,18 @@ def process_submission(raw_bytes, manifest, challenge_index=None,
     if len(sols) > max_solutions:
         return _reject("E_MALFORMED", detail="too_many_solutions",
                        solutions=len(sols), max_solutions=max_solutions)
-    seen_ids = set()
-    for index, sol in enumerate(sols):
-        if sol["challenge_id"] in seen_ids:
-            return _reject("E_DUPLICATE_CHALLENGE",
-                           challenge_id=sol["challenge_id"], index=index,
-                           line_number=sol["line_number"])
-        seen_ids.add(sol["challenge_id"])
-
     if challenge_index is None:
         challenge_index = build_challenge_index(manifest)
     limits = manifest["limits"]
 
     results = []
+    verified_ids = set()
     for sol in sols:
         cid = sol["challenge_id"]
+        if cid in verified_ids:
+            results.append({"challenge_id": cid, "ok": False,
+                            "skipped": True, "reason": "already_verified"})
+            continue
         challenge = challenge_index.get(cid)
         if challenge is None:
             results.append({"challenge_id": cid, "ok": False,
@@ -168,5 +169,7 @@ def process_submission(raw_bytes, manifest, challenge_index=None,
         verdict.pop("peak_total_relator_length", None)
         verdict["challenge_id"] = cid
         results.append(verdict)
+        if verdict["ok"]:
+            verified_ids.add(cid)
 
     return {"accepted": True, "results": results}

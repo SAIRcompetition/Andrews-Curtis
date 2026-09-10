@@ -1,6 +1,7 @@
 """``acms-verify`` command line interface (DESIGN.md §4.4).
 
-Exit codes: 0 = everything verified OK; 1 = submission accepted but at
+Exit codes: 0 = all records verified OK or skipped after a success;
+1 = submission accepted but at
 least one solution rejected; 2 = whole-submission rejection or failing
 golden vectors; 3 = usage / IO error.
 
@@ -38,7 +39,7 @@ def _cmd_submission(args):
     print()
     if not verdict["accepted"]:
         return 2
-    if all(r.get("ok") for r in verdict["results"]):
+    if all(r.get("ok") or r.get("skipped") for r in verdict["results"]):
         return 0
     return 1
 

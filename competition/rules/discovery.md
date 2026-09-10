@@ -42,8 +42,12 @@ inverse letters, such as `x y y^-1` becoming `x`.
 
 Create a UTF-8 `submission.txt`, with one `challenge_id: [moves]` per line.
 Move IDs are comma-separated integers. A file may mix AC and Stable AC;
-each challenge ID appears once. Use `#` for comments on their own line
-or after a solution; comments and blank lines are ignored.
+use `#` for comments on their own line or after a solution. Comments and
+blank lines are ignored.
+
+A challenge ID may repeat. In file order, the **first path that verifies**
+is selected for scoring; failed attempts do not block later attempts.
+After a success, later lines for that ID are skipped, even if shorter.
 
 ### Quick test
 
@@ -82,8 +86,10 @@ other solutions; a format error rejects the whole file.
 
 Upload your file through [SAIR](https://competition.sair.foundation/competitions/acc).
 Local checks do not register a submission. Limits are **40 submissions per
-team per UTC day**, **500 solutions per file**, **10 MB per file**
+team per UTC day**, **500 solution lines per file**, **10 MB per file**
 (10,000,000 bytes, including comments), and **100,000 moves per solution**.
+Repeated IDs and skipped lines count toward the 500-line limit. The whole
+file must pass format and size checks before any path is verified.
 See [verification limits](../tools/verifier/README.md#limits)
 for the verifier's resource limits.
 
@@ -97,6 +103,6 @@ On each challenge, the $k$ teams tied for the shortest verified solution
 **each earn $2^{1-k}$ points**; all others earn 0. One team earns 1 point,
 two tied teams earn ½ each, and three earn ¼ each. Each team counts once.
 
-A shorter verified solution replaces the previous record, and points are
+A shorter selected solution replaces the previous record, and points are
 recalculated. Team totals are summed across challenges, with **separate
-AC and Stable AC leaderboards**.
+AC and Stable AC leaderboards**. Later uploads may improve your team's record.

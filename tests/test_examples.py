@@ -4,7 +4,9 @@ import json
 import os
 import subprocess
 import sys
+import tempfile
 import unittest
+from pathlib import Path
 
 from acms_verify import canon, submission
 from tests import util
@@ -66,6 +68,29 @@ class TestExamples(unittest.TestCase):
         self.assertTrue(all(v["ok"] for v in verdict["results"]))
         for receipt in verdict["results"]:
             self.assertNotIn("peak_total_relator_length", receipt)
+
+    def test_cli_duplicate_skips_succeed_but_real_failures_keep_exit_one(self):
+        sample = (EXAMPLES / "sample_submission.txt").read_text()
+        invalid = "ms-train-0160: [14]\n"
+        cases = (
+            (sample + "\n" + sample, 0, [True, True, False, False], [2, 3]),
+            (invalid + sample + "\n" + sample, 1,
+             [False, True, True, False, False], [3, 4]),
+        )
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "submission.txt"
+            for raw, code, oks, skipped_indexes in cases:
+                with self.subTest(exit_code=code):
+                    path.write_text(raw)
+                    result = self.run_cli(EXAMPLES / "training_manifest.json", path)
+                    self.assertEqual(result.returncode, code, result.stdout)
+                    verdict = json.loads(result.stdout)
+                    self.assertTrue(verdict["accepted"])
+                    self.assertEqual([r["ok"] for r in verdict["results"]], oks)
+                    self.assertEqual([i for i, r in enumerate(verdict["results"])
+                                      if r.get("skipped")], skipped_indexes)
+                    if code == 1:
+                        self.assertEqual(verdict["results"][0]["code"], "E_BAD_MOVE_ID")
 
     def test_training_manifest_matches_published_data_and_has_valid_hashes(self):
         manifest = self.training_manifest

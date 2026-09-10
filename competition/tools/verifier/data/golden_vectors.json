@@ -1458,14 +1458,117 @@
    }
   },
   {
-   "name": "sub-duplicate-challenge",
-   "raw": "ms-train-0160: [6, 4, 2, 9, 1, 4, 1]\n# Duplicate below\nms-train-0160: []\n",
+   "name": "sub-duplicate-after-success-skipped",
+   "raw": "ms-train-0160: [6, 4, 2, 9, 1, 4, 1]\n# These later candidates are not replayed.\nms-train-0160: [14]\nms-train-0160: [true]\n",
+   "expected": {
+    "accepted": true,
+    "results": [
+     {
+      "ok": true,
+      "challenge_id": "ms-train-0160",
+      "certificate_hash": "sha256:80dedf02b91d429b017fb0b3f48e950a9fc5e18363dbdf21c6e27297100c471f"
+     },
+     {
+      "challenge_id": "ms-train-0160",
+      "ok": false,
+      "skipped": true,
+      "reason": "already_verified"
+     },
+     {
+      "challenge_id": "ms-train-0160",
+      "ok": false,
+      "skipped": true,
+      "reason": "already_verified"
+     }
+    ]
+   }
+  },
+  {
+   "name": "sub-duplicate-first-valid-wins-before-shorter",
+   "raw": "ms-train-0160: [0, 0, 6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\n",
+   "expected": {
+    "accepted": true,
+    "results": [
+     {
+      "ok": true,
+      "challenge_id": "ms-train-0160",
+      "length": 9,
+      "certificate_hash": "sha256:f85706a1ff726ab1efb6130d9317156d4786b454b13e6eb068af0ea2512fe5c8"
+     },
+     {
+      "challenge_id": "ms-train-0160",
+      "ok": false,
+      "skipped": true,
+      "reason": "already_verified"
+     }
+    ]
+   }
+  },
+  {
+   "name": "sub-duplicate-failures-then-success",
+   "raw": "ms-train-0160: []\nms-train-0160: [14]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\n",
+   "expected": {
+    "accepted": true,
+    "results": [
+     {
+      "ok": false,
+      "challenge_id": "ms-train-0160",
+      "code": "E_NOT_TARGET"
+     },
+     {
+      "ok": false,
+      "challenge_id": "ms-train-0160",
+      "code": "E_BAD_MOVE_ID",
+      "move_index": 0
+     },
+     {
+      "ok": true,
+      "challenge_id": "ms-train-0160",
+      "certificate_hash": "sha256:80dedf02b91d429b017fb0b3f48e950a9fc5e18363dbdf21c6e27297100c471f"
+     }
+    ]
+   }
+  },
+  {
+   "name": "sub-duplicate-unknown-challenge-retried",
+   "raw": "ac-99999: []\nac-99999: []\n",
+   "expected": {
+    "accepted": true,
+    "results": [
+     {
+      "ok": false,
+      "challenge_id": "ac-99999",
+      "code": "E_UNKNOWN_CHALLENGE"
+     },
+     {
+      "ok": false,
+      "challenge_id": "ac-99999",
+      "code": "E_UNKNOWN_CHALLENGE"
+     }
+    ]
+   }
+  },
+  {
+   "name": "sub-duplicate-malformed-later-line-rejects-whole-file",
+   "raw": "ms-train-0160: [6, 4, 2, 9, 1, 4, 1]\n# A successful earlier path does not bypass parsing.\nms-train-0160: [1,]\n",
    "expected": {
     "accepted": false,
-    "code": "E_DUPLICATE_CHALLENGE",
-    "challenge_id": "ms-train-0160",
-    "index": 1,
-    "line_number": 3
+    "code": "E_MALFORMED",
+    "detail": "bad_moves_json",
+    "line_number": 3,
+    "counts_against_quota": false
+   }
+  },
+  {
+   "name": "sub-duplicate-all-records-count-toward-limit",
+   "raw": "ms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nms-train-0160: [6, 4, 2, 9, 1, 4, 1]\n",
+   "expected": {
+    "accepted": false,
+    "code": "E_MALFORMED",
+    "detail": "too_many_solutions",
+    "solutions": 501,
+    "max_solutions": 500,
+    "counts_against_quota": false
    }
   },
   {
@@ -1585,6 +1688,42 @@
       "ok": true,
       "challenge_id": "sac-train-0160",
       "certificate_hash": "sha256:e94492471688db5cb52971611a3617e75c165d89e3ed51cea9a3f5d96ccbb77e"
+     }
+    ]
+   }
+  },
+  {
+   "name": "sub-duplicate-mixed-problems-select-independently",
+   "raw": "ms-train-0160: [6, 4, 2, 9, 1, 4, 1]\nsac-train-0160: []\nms-train-0160: [14]\nsac-train-0160: [6, 4, 2, 9, 1, 4, 1, 16, 15]\nsac-train-0160: [257]\n",
+   "expected": {
+    "accepted": true,
+    "results": [
+     {
+      "ok": true,
+      "challenge_id": "ms-train-0160",
+      "certificate_hash": "sha256:80dedf02b91d429b017fb0b3f48e950a9fc5e18363dbdf21c6e27297100c471f"
+     },
+     {
+      "ok": false,
+      "challenge_id": "sac-train-0160",
+      "code": "E_NOT_TARGET"
+     },
+     {
+      "ok": false,
+      "challenge_id": "ms-train-0160",
+      "skipped": true,
+      "reason": "already_verified"
+     },
+     {
+      "ok": true,
+      "challenge_id": "sac-train-0160",
+      "certificate_hash": "sha256:e94492471688db5cb52971611a3617e75c165d89e3ed51cea9a3f5d96ccbb77e"
+     },
+     {
+      "ok": false,
+      "challenge_id": "sac-train-0160",
+      "skipped": true,
+      "reason": "already_verified"
      }
     ]
    }

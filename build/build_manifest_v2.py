@@ -747,6 +747,19 @@ def build_golden_v3(manifest, training, stable_training):
          "expected": {"accepted": True, "results": [
              {"ok": True, "challenge_id": short_sac,
               "certificate_hash": sac_hash}]}},
+        {"name": "sub-duplicate-mixed-problems-select-independently",
+         "raw": ac_line + "\n" + short_sac + ": []\n"
+                + short["training_id"] + ": [14]\n" + sac_line + "\n"
+                + short_sac + ": [257]\n",
+         "expected": {"accepted": True, "results": [
+             {"ok": True, "challenge_id": short["training_id"],
+              "certificate_hash": short["certificate_hash"]},
+             {"ok": False, "challenge_id": short_sac, "code": "E_NOT_TARGET"},
+             {"ok": False, "challenge_id": short["training_id"],
+              "skipped": True, "reason": "already_verified"},
+             {"ok": True, "challenge_id": short_sac, "certificate_hash": sac_hash},
+             {"ok": False, "challenge_id": short_sac,
+              "skipped": True, "reason": "already_verified"}]}},
     ]
 
     move_specs = move_spec_headers()

@@ -187,6 +187,14 @@ per line: `challenge_id: [comma-separated moves]`. Blank lines, full-line
 `#` comments, and trailing `#` comments are ignored. Use comments for optional
 notes; they have no separate length limit. The whole file, including comments,
 must be at most 10 MB (10,000,000 bytes), with at most 500 solution lines.
+Repeated IDs and skipped lines count toward that limit. The complete file
+must pass format and size checks before path verification.
+
+A challenge ID may repeat. In file order, select the first path that verifies;
+earlier failed attempts do not block it. After a success, later lines for that
+ID are skipped without replay, even if shorter. Later uploads can improve
+your record. Skipped rows do not cause CLI failure; an actual failed attempt
+still gives exit status 1, even if a later attempt succeeds.
 
 ## Run a successful submission
 

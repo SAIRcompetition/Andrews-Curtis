@@ -384,6 +384,11 @@ def build_golden(manifest, training, move_spec_hash):
     success = {"accepted": True,
                "results": [{"ok": True, "challenge_id": sid,
                             "certificate_hash": short["certificate_hash"]}]}
+    skipped = {"challenge_id": sid, "ok": False, "skipped": True,
+               "reason": "already_verified"}
+    longer_moves = [0, 0] + short["moves"]
+    longer = core.verify(challenges[sid], longer_moves, core.MOVE_SPEC_VERSION, LIMITS)
+    assert longer["ok"] and longer["length"] == short["length"] + 2, longer
     submission_vectors = [
         {"name": "sub-accept-one",
          "raw": line + "\n",
@@ -442,10 +447,38 @@ def build_golden(manifest, training, move_spec_hash):
          "raw": "\n# No solutions\n \t# Still no solutions\n",
          "expected": {"accepted": False, "code": "E_MALFORMED",
                       "detail": "no_solutions"}},
-        {"name": "sub-duplicate-challenge",
-         "raw": line + "\n# Duplicate below\n" + sid + ": []\n",
-         "expected": {"accepted": False, "code": "E_DUPLICATE_CHALLENGE",
-                      "challenge_id": sid, "index": 1, "line_number": 3}},
+        {"name": "sub-duplicate-after-success-skipped",
+         "raw": line + "\n# These later candidates are not replayed.\n"
+                + sid + ": [14]\n" + sid + ": [true]\n",
+         "expected": {"accepted": True,
+                      "results": [success["results"][0], skipped, skipped]}},
+        {"name": "sub-duplicate-first-valid-wins-before-shorter",
+         "raw": sid + ": " + json.dumps(longer_moves) + "\n" + line + "\n",
+         "expected": {"accepted": True, "results": [
+             {"ok": True, "challenge_id": sid, "length": longer["length"],
+              "certificate_hash": longer["certificate_hash"]}, skipped]}},
+        {"name": "sub-duplicate-failures-then-success",
+         "raw": sid + ": []\n" + sid + ": [14]\n" + line + "\n",
+         "expected": {"accepted": True, "results": [
+             {"ok": False, "challenge_id": sid, "code": "E_NOT_TARGET"},
+             {"ok": False, "challenge_id": sid, "code": "E_BAD_MOVE_ID",
+              "move_index": 0}, success["results"][0]]}},
+        {"name": "sub-duplicate-unknown-challenge-retried",
+         "raw": "ac-99999: []\nac-99999: []\n",
+         "expected": {"accepted": True, "results": [
+             {"ok": False, "challenge_id": "ac-99999", "code": "E_UNKNOWN_CHALLENGE"},
+             {"ok": False, "challenge_id": "ac-99999", "code": "E_UNKNOWN_CHALLENGE"}]}},
+        {"name": "sub-duplicate-malformed-later-line-rejects-whole-file",
+         "raw": line + "\n# A successful earlier path does not bypass parsing.\n"
+                + sid + ": [1,]\n",
+         "expected": {"accepted": False, "code": "E_MALFORMED",
+                      "detail": "bad_moves_json", "line_number": 3,
+                      "counts_against_quota": False}},
+        {"name": "sub-duplicate-all-records-count-toward-limit",
+         "raw": (line + "\n") * 501,
+         "expected": {"accepted": False, "code": "E_MALFORMED",
+                      "detail": "too_many_solutions", "solutions": 501,
+                      "max_solutions": 500, "counts_against_quota": False}},
         {"name": "sub-unknown-challenge",
          "raw": "ac-99999: []\ngolden-pump: [14]\n" + line + "\n",
          "expected": {"accepted": True,
