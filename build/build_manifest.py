@@ -414,7 +414,7 @@ def build_golden(manifest, training, move_spec_hash):
                       "key_path": "solutions[0].length"}},
         {"name": "sub-unknown-challenge",
          "raw": json.dumps({"solutions": [
-             dict(sol, challenge_id="ac-v1-99999"),
+             dict(sol, challenge_id="ac-99999"),
              {"challenge_id": "golden-pump", "moves": [14]}, sol]}),
          "expected": {"accepted": True,
                       "results": [{"ok": False,
@@ -430,7 +430,7 @@ def build_golden(manifest, training, move_spec_hash):
                       "detail": "unknown_key", "key": "move_spec_version"}},
         {"name": "sub-too-many-solutions",
          "raw": json.dumps({"solutions": [
-             {"challenge_id": "ac-v1-%05d" % (i + 1),
+             {"challenge_id": "ac-%05d" % (i + 1),
               "moves": []}
              for i in range(501)]}),
          "expected": {"accepted": False, "code": "E_MALFORMED",

@@ -15,7 +15,7 @@
         ]
       ],
       "max_rank": 2,
-      "id_prefix": "ac-v1-"
+      "id_prefix": "ac-"
     },
     {
       "move_spec_version": "sac-r8-v1",
@@ -23,7 +23,7 @@
       "file": "stable_move_spec.json",
       "target_relators": [],
       "max_rank": 8,
-      "id_prefix": "sac-v1-"
+      "id_prefix": "sac-"
     }
   ],
   "manifest_hash": "sha256:653ebc9a4056f300ed5e8bced47a4519c972262c511578282aad9d1f20168a32",

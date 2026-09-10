@@ -4,6 +4,7 @@ Parse the published prose independently; never import its renderer or compare
 against a second rendering of the same source record.
 """
 
+import json
 import re
 import unittest
 
@@ -11,7 +12,7 @@ from tests import util
 
 
 LETTERS = {"x": 1, "x^-1": -1, "y": 2, "y^-1": -2}
-PROBLEMS = (("ac.json", util.AC_PREFIX), ("stable_ac.json", util.STABLE_PREFIX))
+PROBLEMS = (("ac.jsonl", util.AC_PREFIX), ("stable_ac.jsonl", util.STABLE_PREFIX))
 
 
 def read_word(text):
@@ -42,13 +43,24 @@ class TestProblemDescriptions(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.manifest = util.load_manifest()
-        cls.documents = {name: util.load(util.PROBLEMS / name) for name, _ in PROBLEMS}
+        cls.raw_documents = {name: (util.PROBLEMS / name).read_bytes()
+                             for name, _ in PROBLEMS}
+        cls.documents = {
+            name: [json.loads(line) for line in raw.splitlines()]
+            for name, raw in cls.raw_documents.items()
+        }
 
     def test_only_id_and_description_are_published_for_each_problem(self):
         for name, _ in PROBLEMS:
             entries = self.documents[name]
             self.assertIsInstance(entries, list, name)
             self.assertEqual(len(entries), 10115, name)
+            self.assertTrue(self.raw_documents[name].endswith(b"\n"), name)
+            self.assertEqual(
+                self.raw_documents[name],
+                "".join(json.dumps(entry) + "\n" for entry in entries).encode("utf-8"),
+                name,
+            )
             for entry in entries:
                 self.assertIsInstance(entry, dict, name)
                 self.assertEqual(set(entry), {"challenge_id", "description"}, name)
@@ -64,9 +76,9 @@ class TestProblemDescriptions(unittest.TestCase):
             self.assertEqual(len(ids), len(set(ids)), name)
         self.assertEqual(
             [entry["challenge_id"][len(util.AC_PREFIX):]
-             for entry in self.documents["ac.json"]],
+             for entry in self.documents["ac.jsonl"]],
             [entry["challenge_id"][len(util.STABLE_PREFIX):]
-             for entry in self.documents["stable_ac.json"]],
+             for entry in self.documents["stable_ac.jsonl"]],
         )
 
     def test_every_description_decodes_to_its_original_problem(self):

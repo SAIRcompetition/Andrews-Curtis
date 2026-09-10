@@ -205,6 +205,21 @@ class TestSubmissionLayer(unittest.TestCase):
         self.assertTrue(v["accepted"])
         self.assertEqual(v["results"][0]["code"], "E_NOT_TARGET")
 
+    def test_current_ids_dispatch_and_retired_ids_are_unknown(self):
+        """The new IDs select their own move rules without aliasing old IDs."""
+        ids = ("ac-00001", "sac-00001", "ac-v1-00001", "sac-v1-00001")
+        v = self.run_sub({"solutions": [
+            {"challenge_id": cid, "moves": [14]} for cid in ids
+        ]}, manifest=self.manifest)
+        self.assertTrue(v["accepted"])
+        self.assertEqual([r["challenge_id"] for r in v["results"]], list(ids))
+        self.assertEqual([r["code"] for r in v["results"]], [
+            "E_BAD_MOVE_ID", "E_NOT_TARGET", "E_UNKNOWN_CHALLENGE", "E_UNKNOWN_CHALLENGE",
+        ])
+        self.assertEqual(v["results"][0]["move_index"], 0)
+        self.assertEqual(v["results"][1]["final_shape"],
+                         [len(word) for word in self.index["sac-00001"]["initial_relators"]] + [1])
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -82,7 +82,7 @@ def build_examples(manifest, training, stable_training):
     cid = ids[0]
 
     # Preserve the former default sample as an explicit negative example.
-    invalid = {"solutions": [{"challenge_id": "ac-v1-00001", "moves": [6, 7]}]}
+    invalid = {"solutions": [{"challenge_id": "ac-00001", "moves": [6, 7]}]}
     invalid_text = json_text(invalid)
     rejected = submission.process_submission(invalid_text.encode(), manifest)
     if (not rejected.get("accepted")
@@ -94,8 +94,11 @@ def build_examples(manifest, training, stable_training):
 This folder contains **the same 424 training presentations in AC and Stable AC
 versions**. They are **outside the official pool of 10,115 presentations** and
 earn no points. The scored problem statements are in
-[`problems/ac.json`](../problems/ac.json) and
-[`problems/stable_ac.json`](../problems/stable_ac.json).
+[`problems/ac.jsonl`](../problems/ac.jsonl) and
+[`problems/stable_ac.jsonl`](../problems/stable_ac.jsonl). Each uses JSON Lines:
+one object per line containing only `challenge_id` and `description` of the
+initial presentation. The shared targets and moves are in the
+[Discovery rules](../rules/discovery.md).
 
 | File | Contents |
 |---|---|
@@ -164,8 +167,8 @@ and exit status 1.
 
 ## Check a scored submission
 
-Use challenge IDs from [`problems/ac.json`](../problems/ac.json) or
-[`problems/stable_ac.json`](../problems/stable_ac.json) and your own move
+Use challenge IDs from [`problems/ac.jsonl`](../problems/ac.jsonl) or
+[`problems/stable_ac.jsonl`](../problems/stable_ac.jsonl) and your own move
 sequences. Verify `mine.json` against the official verifier data:
 
 ```sh
@@ -177,7 +180,7 @@ PYTHONPATH=competition/tools/verifier python3 -m acms_verify \\
 ## Run the deliberately invalid submission
 
 [`invalid_submission.json`](invalid_submission.json) preserves the old sample:
-on scored challenge `ac-v1-00001`, move 6 conjugates the first relator by `x`
+on scored challenge `ac-00001`, move 6 conjugates the first relator by `x`
 and move 7 undoes it. The path returns to its initial state, not the target.
 
 ```sh

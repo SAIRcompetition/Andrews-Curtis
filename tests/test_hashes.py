@@ -6,8 +6,10 @@ rejected with E_SPEC_MISMATCH.
 
 The byte templates in canon.py are frozen: instance_canon already
 covers target_relators, move_spec_version and move_spec_hash, which is
-exactly why the stable track could be added without perturbing a single
-ac-v1 instance_hash.
+exactly why the stable problem could be added without changing the
+original AC hashes.  Renaming a challenge ID deliberately changes its
+instance hash; test_manifest_data reconstructs the original IDs to
+preserve the historical mathematical regression check.
 """
 
 import unittest
@@ -35,11 +37,11 @@ class TestByteTemplates(unittest.TestCase):
         """The empty target serializes as [] — the same template, no
         special case."""
         got = canon.instance_canon(
-            "sac-v1-00001", ["x", "y"], [[1, 2], [2, 1]], [],
+            "sac-00001", ["x", "y"], [[1, 2], [2, 1]], [],
             "sac-r8-v1", "sha256:0000")
         self.assertEqual(
             got,
-            '{"challenge_id":"sac-v1-00001","generators":["x","y"],'
+            '{"challenge_id":"sac-00001","generators":["x","y"],'
             '"initial_relators":[[1,2],[2,1]],'
             '"target_relators":[],'
             '"move_spec_version":"sac-r8-v1","move_spec_hash":"sha256:0000"}')

@@ -22,9 +22,10 @@ The move tables and published training certificates are frozen.
 ## Files
 
 For the contestant-facing problem lists, see
-[`problems/ac.json`](../../../problems/ac.json) and
-[`problems/stable_ac.json`](../../../problems/stable_ac.json). Each entry
-contains only `challenge_id` and `description`. These lists are generated
+[`problems/ac.jsonl`](../../../problems/ac.jsonl) and
+[`problems/stable_ac.jsonl`](../../../problems/stable_ac.jsonl). Each file
+uses JSON Lines, with one object per line containing only `challenge_id`
+and `description` of the initial presentation. These lists are generated
 from this manifest; release checks reject any disagreement. The verifier
 uses `manifest.json` for exact integer-encoded words and verification limits.
 
@@ -54,11 +55,11 @@ participants to recognize instances and their origins.
 
 | Field | Semantics |
 |---|---|
-| `challenge_id` | `ac-v1-NNNNN` or `sac-v1-NNNNN`, with N from 00001 to 10115; matching suffixes name the same initial presentation. The numbering is a fixed seeded shuffle of the pool: it is deliberately meaningless, so neighbouring ids say nothing about difficulty or origin |
+| `challenge_id` | `ac-NNNNN` or `sac-NNNNN`, with N from 00001 to 10115; matching suffixes name the same initial presentation. The numbering is a fixed seeded shuffle of the pool: it is deliberately meaningless, so neighbouring ids say nothing about difficulty or origin |
 | `generators` | Always `["x", "y"]` |
 | `initial_relators` | The balanced 2-generator presentation, two freely reduced words over `{±1, ±2}` (`1 = x`, `-1 = x^-1`, `2 = y`, `-2 = y^-1`); total length ≤ 40 |
 | `target_relators` | Exact ordered pair `[[1], [2]]` for AC; empty list `[]` for Stable AC |
-| `move_spec_version` | `ac-r2-v1` for `ac-v1-`; `sac-r8-v1` for `sac-v1-`; supplied by the challenge, never the contestant |
+| `move_spec_version` | `ac-r2-v1` for `ac-`; `sac-r8-v1` for `sac-`; supplied by the challenge, never the contestant |
 | `scored` | Always `true` — every challenge in the pool is scored |
 | `base_score` | Always `1` |
 | `instance_hash` | Hash over `challenge_id`, generators, both relator lists, `move_spec_version`, `move_spec_hash`; see the [hash specification](../../../rules/discovery.md#5-hashes) |

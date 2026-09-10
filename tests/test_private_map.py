@@ -1,9 +1,9 @@
 """Organizer-side invariants of build/private/challenge_map_private.tsv.
 
-The map is the only link between a public ``ac-v1-NNNNN`` id and the
+The map is the only link between a public ``ac-NNNNN`` id and the
 private SAIR master id, and it must never be published.  It is keyed by
 the presentation, so it has one row per presentation, not one per
-challenge: ``sac-v1-N`` is the same presentation as ``ac-v1-N`` and is
+challenge: ``sac-N`` is the same presentation as ``ac-N`` and is
 covered by the same row.  It exists only
 after ``build/sync_dataset.py`` + ``build/build_manifest_v2.py`` have
 run against the private release, so the whole module is skipped when it

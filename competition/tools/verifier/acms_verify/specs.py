@@ -8,7 +8,7 @@ The Discovery Track covers AC and Stable AC over the same 10,115 presentations:
                  257 atomic moves, rank up to 8     :mod:`acms_verify.stable_core`
 
 A challenge names its spec in ``move_spec_version`` and its
-``challenge_id`` prefix (``ac-v1-`` / ``sac-v1-``) selects the problem. A
+``challenge_id`` prefix (``ac-`` / ``sac-``) selects the problem. A
 submission contains only ``challenge_id`` and ``moves``; the official
 challenge supplies the spec for verification and certificate hashing.
 
@@ -42,9 +42,9 @@ def _entry(module, target, max_rank, id_prefix, file):
 #: golden header): the AC problem first, the Stable AC problem second.
 SPECS = {
     core.MOVE_SPEC_VERSION: _entry(
-        core, [[1], [2]], 2, "ac-v1-", "move_spec.json"),
+        core, [[1], [2]], 2, "ac-", "move_spec.json"),
     stable_core.MOVE_SPEC_VERSION: _entry(
-        stable_core, [], stable_core.MAX_RANK, "sac-v1-",
+        stable_core, [], stable_core.MAX_RANK, "sac-",
         "stable_move_spec.json"),
 }
 

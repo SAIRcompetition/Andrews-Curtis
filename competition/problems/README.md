@@ -2,18 +2,19 @@
 
 | File | Contents | Target |
 |---|---|---|
-| [ac.json](ac.json) | 10,115 AC problems | The ordered relators `(x, y)`, with the two generators fixed |
-| [stable_ac.json](stable_ac.json) | 10,115 Stable AC problems | The empty presentation, using at most 8 generators |
+| [ac.jsonl](ac.jsonl) | 10,115 AC problems | The ordered relators `(x, y)`, with the two generators fixed |
+| [stable_ac.jsonl](stable_ac.jsonl) | 10,115 Stable AC problems | The empty presentation, using at most 8 generators |
 
 Both files use the same 10,115 initial presentations. Matching ID suffixes
-identify the same initial presentation: `ac-v1-00001` and `sac-v1-00001`, for
+identify the same initial presentation: `ac-00001` and `sac-00001`, for
 example. Each problem is scored separately. The 424 training presentations
 are outside these files; they and the submission examples are in
 [examples/](../examples/README.md).
 
 ## File format
 
-Each file is a JSON array. Every entry has exactly two fields:
+Each file uses **JSON Lines**: one JSON object per line, with no enclosing
+array. Every object has exactly two fields:
 
 - `challenge_id`: the ID to use in your submission.
 - `description`: the initial group presentation.
@@ -25,6 +26,17 @@ In a description, `<x, y | u = 1; v = 1>` denotes the group presentation
 with generators `x, y` and ordered relators `u, v`. Spaces between letters
 mean multiplication in the written order; `x^-1` and `y^-1` are inverses,
 and `1` denotes the empty word. The relator order is significant.
+
+Read a problem file with Python's standard library, from the repository
+or unpacked public package root:
+
+```python
+import json
+
+with open("competition/problems/ac.jsonl", encoding="utf-8") as source:
+    problems = [json.loads(line) for line in source]
+print(problems[0])
+```
 
 Submit only the challenge ID and your list of numbered moves. See the
 [Discovery rules](../rules/discovery.md) for move definitions, limits, and

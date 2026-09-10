@@ -17,13 +17,14 @@ STABLE_TRAINING_PATH = EXAMPLES / "stable_training_424.json"
 GOLDEN_PATH = VERIFIER_DATA / "golden_vectors.json"
 MS1190_PATH = VERIFIER_DATA / "ms1190_metadata.csv"
 PRIVATE_MAP_PATH = REPO / "build" / "private" / "challenge_map_private.tsv"
-#: Digest of the 10115 ac-v1 instance_hash values as they stood BEFORE
-#: the stable track existed.  They must never change again.
+#: Historical digest of the 10115 instance hashes before the stable problem
+#: existed, using the original ac-v1- IDs.  Reconstruct those IDs to check
+#: that the current records still describe the same mathematical problems.
 AC_HASH_SNAPSHOT_PATH = REPO / "tests" / "data" / \
     "ac_v1_instance_hashes_snapshot.json"
 
-AC_PREFIX = "ac-v1-"
-STABLE_PREFIX = "sac-v1-"
+AC_PREFIX = "ac-"
+STABLE_PREFIX = "sac-"
 
 
 def load(path):

@@ -11,15 +11,15 @@ trivializations, so the MS-only builders are imported from
 ``build/build_manifest.py`` unchanged.
 
 The two Discovery problems use the same 10115 presentations, so the
-manifest holds 20230 scored challenges: ``ac-v1-NNNNN`` under
-``ac-r2-v1`` (target the ordered pair (x, y)) and ``sac-v1-NNNNN`` under
+manifest holds 20230 scored challenges: ``ac-NNNNN`` under
+``ac-r2-v1`` (target the ordered pair (x, y)) and ``sac-NNNNN`` under
 ``sac-r8-v1`` (target the empty presentation, stabilization allowed up
-to rank 8).  ``sac-v1-N`` and ``ac-v1-N`` are the same presentation.
+to rank 8).  ``sac-N`` and ``ac-N`` are the same presentation.
 
 Outputs:
 
-  competition/problems/ac.json                         10115 AC descriptions
-  competition/problems/stable_ac.json                  10115 Stable AC descriptions
+  competition/problems/ac.jsonl                         10115 AC descriptions
+  competition/problems/stable_ac.jsonl                  10115 Stable AC descriptions
   competition/tools/verifier/data/manifest.json         20230 scored challenges
   competition/tools/verifier/data/move_spec.json        FROZEN, byte-identity checked
   competition/tools/verifier/data/stable_move_spec.json FROZEN once written
@@ -72,8 +72,8 @@ from sync_dataset import (  # noqa: E402
 MANIFEST_VERSION = "acms-v3"
 COMPETITION = "acms"
 CHALLENGE_ID_SEED = 20260903
-CHALLENGE_ID_FORMAT = "ac-v1-%05d"
-STABLE_CHALLENGE_ID_FORMAT = "sac-v1-%05d"
+CHALLENGE_ID_FORMAT = "ac-%05d"
+STABLE_CHALLENGE_ID_FORMAT = "sac-%05d"
 #: The Stable AC problem's target: the empty presentation.
 STABLE_TARGET = []
 
@@ -95,7 +95,7 @@ CHALLENGE_KEYS = {"challenge_id", "generators", "initial_relators",
 #: can appear legitimately: the manifest is lowercase ASCII JSON whose
 #: only string values are the nine keys above, "x"/"y", "ac-r2-v1" and
 #: "sac-r8-v1", the two move-spec file names, "acms"/"acms-v3",
-#: "sha256:"-prefixed lowercase hex, the ac-v1 / sac-v1 ids and the
+#: "sha256:"-prefixed lowercase hex, the ac / sac ids and the
 #: freeze date.
 BANNED_TOKENS = ("tier", "pool", "family", "provenance", "w_vector",
                  "status_at_freeze", "MS-", "AUTH-", "INTL") + tuple(
@@ -269,7 +269,7 @@ def load_pool(items, training):
 
 
 def assign_ids(rows):
-    """Seeded shuffle of the master-id order, then ac-v1-NNNNN in order."""
+    """Seeded shuffle of the master-id order, then ac-NNNNN in order."""
     assert canon._ID_RE.match(CHALLENGE_ID_FORMAT % 1), CHALLENGE_ID_FORMAT
     ordered = sorted(rows, key=lambda r: r["id"])
     random.Random(CHALLENGE_ID_SEED).shuffle(ordered)
@@ -299,13 +299,12 @@ def challenge_record(challenge_id, initial, target, version, move_spec_hash, fre
 
 
 def build_manifest_v3(rows, competition_state=None):
-    """One record per (presentation, Discovery problem): all ac-v1 then all sac-v1.
+    """One record per presentation and problem: all ac- IDs, then all sac- IDs.
 
-    ``sac-v1-N`` carries the identical generators and initial_relators as
-    ``ac-v1-N``; only the target, the spec version and therefore the
-    instance_hash differ.  The ac-v1 instance_hash template is untouched
-    (canon.instance_canon already covers target + spec version + spec
-    hash), so every ac-v1 hash is byte-identical to the acms-v2 build.
+    Matching numeric suffixes carry identical generators and initial relators.
+    Targets and move specifications distinguish AC from Stable AC. The
+    challenge ID is included in instance_hash, so changing an ID requires
+    recomputing that hash and the enclosing manifest_hash.
     """
     if competition_state is None:
         competition_state = load_competition_state()
@@ -597,11 +596,11 @@ def move_spec_headers():
 
 
 def build_golden_v3(manifest, training, stable_training):
-    """acms-golden-v2: the ac-r2-v1 vectors verbatim, plus the sac-r8-v1 ones.
+    """acms-golden-v2 conformance vectors for both move specifications.
 
-    The AC half is :func:`build_manifest.build_golden` unchanged, so its
-    vectors stay byte-stable; only the header grows a ``move_specs``
-    list and the stable challenges/vectors are appended.
+    The AC half comes from :func:`build_manifest.build_golden`; the header
+    supplies both ``move_specs`` and the stable vectors are appended.
+    Synthetic submission IDs follow the current challenge naming scheme.
     """
     ac_hash = specs.SPECS[core.MOVE_SPEC_VERSION].move_spec_hash
     doc = build_golden(manifest, training, ac_hash)
@@ -855,7 +854,7 @@ organizer: sairmath
 status: {competition_state['status']}
 task_type: mathematical_discovery
 submission_artifact: submission.json
-submission_format: "Discovery: JSON; solutions[] of {{challenge_id, moves[]}}; ac-v1- IDs select AC moves 0-13 and sac-v1- IDs select stable AC moves 0-256"
+submission_format: "Discovery: JSON; solutions[] of {{challenge_id, moves[]}}; ac- IDs select AC moves 0-13 and sac- IDs select stable AC moves 0-256"
 verifier: "Discovery Track: Python, competition/tools/verifier (standard library only), acms-verify {__version__}"
 primary_metric: leaderboard_score
 scoring_unit: team_challenge
@@ -871,14 +870,14 @@ tracks:
     problems:
       - id: ac
         name: AC
-        file: problems/ac.json
-        id_prefix: ac-v1-
+        file: problems/ac.jsonl
+        id_prefix: ac-
         move_spec_version: ac-r2-v1
         target: "The ordered pair (x, y), at fixed rank 2"
       - id: stable_ac
         name: Stable AC
-        file: problems/stable_ac.json
-        id_prefix: sac-v1-
+        file: problems/stable_ac.jsonl
+        id_prefix: sac-
         move_spec_version: sac-r8-v1
         target: "The empty presentation, with current rank at most 8"
   - id: proof

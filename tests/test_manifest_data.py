@@ -12,7 +12,7 @@ import hashlib
 import re
 import unittest
 
-from acms_verify import core, specs
+from acms_verify import canon, core, specs
 from tests import util
 
 POOL_SIZE = 10115
@@ -30,8 +30,8 @@ BANNED_TOKENS = ("family", "tier", "pool", "provenance", "w_vector",
 
 #: Per-track expectations, keyed by challenge-id prefix.
 TRACK_EXPECTATIONS = {
-    "ac-v1-": {"move_spec_version": "ac-r2-v1", "target_relators": [[1], [2]]},
-    "sac-v1-": {"move_spec_version": "sac-r8-v1", "target_relators": []},
+    "ac-": {"move_spec_version": "ac-r2-v1", "target_relators": [[1], [2]]},
+    "sac-": {"move_spec_version": "sac-r8-v1", "target_relators": []},
 }
 
 MS1190_STATUS_COUNTS = {"certified": 424, "uncertified": 216, "open": 550}
@@ -82,7 +82,7 @@ class TestManifestSchema(unittest.TestCase):
                          ["move_spec.json", "stable_move_spec.json"])
         self.assertEqual([e["max_rank"] for e in entries], [2, 8])
         self.assertEqual([e["id_prefix"] for e in entries],
-                         ["ac-v1-", "sac-v1-"])
+                         ["ac-", "sac-"])
         # The singular pre-acms-v3 header fields are gone.
         for gone in ("move_spec_version", "move_spec_hash", "target_relators"):
             self.assertNotIn(gone, self.manifest, gone)
@@ -104,8 +104,8 @@ class TestManifestSchema(unittest.TestCase):
     def test_ids_sequential_unique_and_in_file_order(self):
         ids = [c["challenge_id"] for c in self.challenges]
         self.assertEqual(len(set(ids)), len(ids))
-        expected = (["ac-v1-%05d" % i for i in range(1, POOL_SIZE + 1)]
-                    + ["sac-v1-%05d" % i for i in range(1, POOL_SIZE + 1)])
+        expected = (["ac-%05d" % i for i in range(1, POOL_SIZE + 1)]
+                    + ["sac-%05d" % i for i in range(1, POOL_SIZE + 1)])
         # All ac records, then all sac records, each block in id order,
         # so nothing is inferable from position.
         self.assertEqual(ids, expected)
@@ -117,7 +117,7 @@ class TestManifestSchema(unittest.TestCase):
         self.assertEqual(len(pairs), POOL_SIZE)
         for ac, sac in pairs:
             cid = ac["challenge_id"]
-            self.assertEqual("sac-v1-" + cid[len("ac-v1-"):],
+            self.assertEqual("sac-" + cid[len("ac-"):],
                              sac["challenge_id"])
             self.assertEqual(ac["generators"], sac["generators"], cid)
             self.assertEqual(ac["initial_relators"], sac["initial_relators"],
@@ -126,20 +126,28 @@ class TestManifestSchema(unittest.TestCase):
             self.assertEqual(ac["freeze_date"], sac["freeze_date"], cid)
             self.assertNotEqual(ac["instance_hash"], sac["instance_hash"], cid)
 
-    def test_ac_instance_hashes_are_unchanged_since_before_the_stable_track(self):
-        """The stable track added records; it must not have perturbed a
-        single frozen ac-v1 instance_hash (the pre-change digest is
-        pinned in tests/data/)."""
+    def test_ac_problems_reproduce_the_historical_hashes_under_original_ids(self):
+        """Renaming IDs changes hashes, but not the frozen presentations,
+        targets, or move semantics.  Recreate the original ac-v1- IDs and
+        compare with the unchanged snapshot from before Stable AC existed."""
         snapshot = util.load(util.AC_HASH_SNAPSHOT_PATH)
-        hashes = [c["instance_hash"]
-                  for c in util.challenges_by_prefix(self.manifest,
-                                                     util.AC_PREFIX)]
+        spec_hash = canon.move_spec_hash(core.MOVE_TABLE)
+        hashes = []
+        for c in util.challenges_by_prefix(self.manifest, util.AC_PREFIX):
+            original_id = "ac-v1-" + c["challenge_id"][len(util.AC_PREFIX):]
+            original_hash = canon.instance_hash(
+                original_id, c["generators"], c["initial_relators"],
+                c["target_relators"], c["move_spec_version"], spec_hash)
+            self.assertNotEqual(original_hash, c["instance_hash"], c["challenge_id"])
+            hashes.append(original_hash)
         self.assertEqual(len(hashes), snapshot["count"])
         digest = hashlib.sha256(
             "\n".join(sorted(hashes)).encode("utf-8")).hexdigest()
         self.assertEqual(digest, snapshot["sha256_of_sorted_joined"])
         self.assertEqual(hashes[0], snapshot["first"])
         self.assertEqual(hashes[-1], snapshot["last"])
+        self.assertEqual(canon.manifest_hash(hashes),
+                         snapshot["manifest_hash_before_stable_track"])
 
     def test_limits_frozen_values(self):
         self.assertEqual(self.manifest["limits"],

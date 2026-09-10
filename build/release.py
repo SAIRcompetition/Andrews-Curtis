@@ -191,8 +191,8 @@ def validate_track_structure(yaml_text):
         r"^announced_dates: (.+)$", yaml_text, re.MULTILINE).group(1))
     expected = {
         "discovery": {
-            "ac": {"file": "problems/ac.json", "id_prefix": "ac-v1-", "move_spec_version": "ac-r2-v1"},
-            "stable_ac": {"file": "problems/stable_ac.json", "id_prefix": "sac-v1-", "move_spec_version": "sac-r8-v1"},
+            "ac": {"file": "problems/ac.jsonl", "id_prefix": "ac-", "move_spec_version": "ac-r2-v1"},
+            "stable_ac": {"file": "problems/stable_ac.jsonl", "id_prefix": "sac-", "move_spec_version": "sac-r8-v1"},
         },
         "proof": {
             "ac": {"conjecture": "AC.Conjecture", "claims": "[proof, disproof]"},
@@ -317,6 +317,9 @@ def check_packaged_examples(comp, env):
 
 def validate_problem_files(comp, manifest):
     """Keep the readable problem lists identical to the verifier's mathematical inputs."""
+    for old_name in ("ac.json", "stable_ac.json"):
+        if (comp / "problems" / old_name).exists():
+            raise ValueError("obsolete problem file: " + old_name + "; use JSONL files")
     for name, rows in render_problems(manifest).items():
         path = comp / "problems" / name
         if not path.is_file() or path.read_bytes() != serialize_problems(rows).encode("utf-8"):
@@ -361,8 +364,8 @@ def export_package(out, preview=False):
     for c in manifest["challenges"]:
         prefix, _, number = c["challenge_id"].rpartition("-")
         by_prefix.setdefault(prefix + "-", {})[number] = c
-    assert sorted(by_prefix) == ["ac-v1-", "sac-v1-"], sorted(by_prefix)
-    ac, sac = by_prefix["ac-v1-"], by_prefix["sac-v1-"]
+    assert sorted(by_prefix) == ["ac-", "sac-"], sorted(by_prefix)
+    ac, sac = by_prefix["ac-"], by_prefix["sac-"]
     assert len(ac) == len(sac) == PRESENTATION_COUNT
     assert set(ac) == set(sac)
     for number, a in ac.items():

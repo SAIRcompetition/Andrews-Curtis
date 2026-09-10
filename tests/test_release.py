@@ -46,7 +46,7 @@ class TestReleaseState(unittest.TestCase):
             yaml_text.replace("conjecture: AC.StableConjecture", "conjecture: AC.Conjecture"),
             yaml_text.replace("move_spec_version: sac-r8-v1", "move_spec_version: ac-r2-v1"),
             yaml_text.replace("leaderboards: independent_per_problem", "leaderboards: combined"),
-            yaml_text.replace("file: problems/stable_ac.json", "file: problems/ac.json"),
+            yaml_text.replace("file: problems/stable_ac.jsonl", "file: problems/ac.jsonl"),
             yaml_text.replace("    overview: rules/discovery.md", "    overview: rules/proof.md"),
             yaml_text.replace("    statement: rules/proof.md", "    statement: rules/overview.md"),
             yaml_text.replace("    opens_at:", "    unused_opens_at:", 1),
@@ -80,20 +80,28 @@ class TestReleaseState(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             (root / "problems").mkdir()
-            for name in ("ac.json", "stable_ac.json"):
+            for name in ("ac.jsonl", "stable_ac.jsonl"):
                 shutil.copy2(util.PROBLEMS / name, root / "problems" / name)
-            for name in ("ac.json", "stable_ac.json"):
+            for name in ("ac.jsonl", "stable_ac.jsonl"):
                 path = root / "problems" / name
                 original = path.read_bytes()
-                rows = json.loads(original)
+                rows = [json.loads(line) for line in original.splitlines()]
                 rows[0]["description"] = "Wrong presentation"
-                path.write_text(json.dumps(rows))
+                path.write_text("".join(json.dumps(row) + "\n" for row in rows))
                 with self.subTest(stale=name), self.assertRaisesRegex(ValueError, "differs from manifest"):
                     release.validate_problem_files(root, manifest)
                 path.unlink()
                 with self.subTest(missing=name), self.assertRaisesRegex(ValueError, "differs from manifest"):
                     release.validate_problem_files(root, manifest)
                 path.write_bytes(original)
+
+            for name in ("ac.json", "stable_ac.json"):
+                path = root / "problems" / name
+                path.write_text("[]\n")
+                with self.subTest(obsolete=name), self.assertRaisesRegex(
+                        ValueError, "obsolete problem file"):
+                    release.validate_problem_files(root, manifest)
+                path.unlink()
 
     def test_metadata_drift_is_rejected(self):
         state = dict.fromkeys(release.STATE_FIELDS)
@@ -147,9 +155,11 @@ class TestPublicSourceExport(unittest.TestCase):
                 state = util.load(root / "build/competition_state.json")
                 manifest = util.load(root / "competition/tools/verifier/data/manifest.json")
                 self.assertFalse((out / "competition/challenges").exists())
-                for name in ("ac.json", "stable_ac.json"):
+                for name in ("ac.jsonl", "stable_ac.jsonl"):
                     self.assertEqual((out / "competition/problems" / name).read_bytes(),
                                      (root / "competition/problems" / name).read_bytes())
+                for name in ("ac.json", "stable_ac.json"):
+                    self.assertFalse((out / "competition/problems" / name).exists())
                 exported = (out / "competition/competition.yaml").read_text()
                 self.assertEqual(exported, release.render_yaml(manifest, state))
                 release.validate_public_state(state, exported, manifest)

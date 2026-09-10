@@ -24,16 +24,17 @@ the competition service's verifier determines official Discovery results.
 
 ## 1. Problems and move specifications
 
-The official problem files are [ac.json](../problems/ac.json) and
-[stable_ac.json](../problems/stable_ac.json). Each contains 10,115 entries
-with only `challenge_id` and `description` of the initial presentation.
+The official problem files are [ac.jsonl](../problems/ac.jsonl) and
+[stable_ac.jsonl](../problems/stable_ac.jsonl). Each uses JSON Lines, with
+10,115 objects, one per line, containing only `challenge_id` and `description`
+of the initial presentation.
 The shared targets are listed below. Matching ID suffixes select identical
 initial relators:
 
 | Problem | Challenge IDs | Move specification | Target |
 |---|---|---|---|
-| AC | `ac-v1-00001` through `ac-v1-10115` | `ac-r2-v1`, 14 moves | Exact ordered pair `[[1],[2]]`, at rank 2 |
-| Stable AC | `sac-v1-00001` through `sac-v1-10115` | `sac-r8-v1`, 257 moves | Empty presentation `[]`, with current rank at most 8 |
+| AC | `ac-00001` through `ac-10115` | `ac-r2-v1`, 14 moves | Exact ordered pair `[[1],[2]]`, at rank 2 |
+| Stable AC | `sac-00001` through `sac-10115` | `sac-r8-v1`, 257 moves | Empty presentation `[]`, with current rank at most 8 |
 
 The [problem guide](../problems/README.md) explains the description notation.
 The verifier reads the corresponding encoded words, targets, and limits from
@@ -126,7 +127,7 @@ relators moves. From either `(x,y)` or `(y,x)`, the suffix is `[16,15]`.
 An AC solution followed by `[16,15]` reaches the stable target. It is
 accepted for the Stable AC problem only if the extended path also satisfies
 its limits: the suffix adds two moves and one unit of work. Submit it
-under the corresponding `sac-v1-` ID; points do not transfer between problems.
+under the corresponding `sac-` ID; points do not transfer between problems.
 
 ### 1.3 Data and training
 
@@ -161,7 +162,7 @@ both specifications using a separate, unscored manifest.
 
 A submission document has a nonempty `solutions` array. Each solution
 contains exactly `challenge_id` and `moves`; do not add a move-spec version
-or verifier result. A batch may contain both `ac-v1-` and `sac-v1-` IDs.
+or verifier result. A batch may contain both `ac-` and `sac-` IDs.
 Optional top-level `method` is a string naming the method; optional `notes`
 is a string of at most 2,000 characters.
 
@@ -296,7 +297,7 @@ triggered check is the one reported.
 
 The same path limits apply to both Discovery problems. Upload quotas and
 batch/body limits are shared per team across the entire Discovery Track.
-A batch may mix `ac-v1-` and `sac-v1-` IDs; they are distinct challenges.
+A batch may mix `ac-` and `sac-` IDs; they are distinct challenges.
 
 | Limit | v1 value |
 |---|---:|
@@ -343,8 +344,11 @@ hash              = "sha256:" + lowercase_hex(SHA256(utf8(canon)))
 contain none.)
 
 `<target>` is `[[1],[2]]` for AC or `[]` for Stable AC. The two records
-for a presentation have distinct IDs, targets, and instance hashes. Original
-AC instance hashes are unchanged. The manifest hash covers all 20,230 records.
+for a presentation have distinct IDs, targets, and instance hashes.
+The manifest hash covers all 20,230 records. Scored challenge IDs now use
+`ac-` and `sac-`; their instance hashes and the manifest hash have been
+recomputed. Certificate hashes tied to older IDs also differ. The hash
+algorithms, move tables, and presentation words are unchanged.
 
 The `<ver>` in both templates is the official challenge's
 `move_spec_version`. It remains part of the certificate hash but is

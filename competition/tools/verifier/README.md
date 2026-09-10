@@ -28,9 +28,9 @@ semantics, the submission contract, limits, hashes, and error codes.
 ## Problem statements and verifier data
 
 The official problem statements are
-[AC](../../problems/ac.json) and [Stable AC](../../problems/stable_ac.json):
-two JSON arrays, each with 10,115 entries containing only `challenge_id`
-and `description`, covering the same initial presentations.
+[AC](../../problems/ac.jsonl) and [Stable AC](../../problems/stable_ac.jsonl):
+two JSON Lines files covering the same 10,115 initial presentations.
+Each line is one JSON object containing only `challenge_id` and `description`.
 
 The verifier reads the supporting files in [data/](data/README.md):
 
@@ -49,8 +49,8 @@ the same 424 presentations, all outside the official pool.
 
 Each entry in a submission's `solutions` array contains only
 `challenge_id` and `moves`. The verifier obtains the move-spec version
-from the official challenge for replay and certificate hashing. `ac-v1-`
-IDs use `ac-r2-v1` (0–13); `sac-v1-` IDs use `sac-r8-v1` (0–256).
+from the official challenge for replay and certificate hashing. `ac-`
+IDs use `ac-r2-v1` (0–13); `sac-` IDs use `sac-r8-v1` (0–256).
 One submission may contain both. The rank cap applies only to the
 Stable AC problem in Discovery.
 

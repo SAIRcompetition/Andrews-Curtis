@@ -29,13 +29,13 @@ each track. Discovery launch does not wait for the later Proof launch.
 ## Discovery Track resources
 
 The two problem files contain the AC and Stable AC versions of the **same
-10,115 initial presentations**. Each is a JSON array whose entries contain
-only `challenge_id` and `description`.
+10,115 initial presentations**. Each uses JSON Lines: one JSON object per
+line, containing only `challenge_id` and `description` of the initial presentation.
 
 | File or guide | Contents |
 |---|---|
-| [AC problems](competition/problems/ac.json) | 10,115 AC problem statements |
-| [Stable AC problems](competition/problems/stable_ac.json) | 10,115 Stable AC problem statements |
+| [AC problems](competition/problems/ac.jsonl) | 10,115 AC problem statements |
+| [Stable AC problems](competition/problems/stable_ac.jsonl) | 10,115 Stable AC problem statements |
 | [Examples](competition/examples/README.md) | The same 424 separate training presentations in both versions, plus runnable submissions and receipts |
 | [Discovery verifier](competition/tools/verifier/README.md) | [Discovery Track](competition/rules/discovery.md) replay commands and supporting [data](competition/tools/verifier/data/README.md) |
 

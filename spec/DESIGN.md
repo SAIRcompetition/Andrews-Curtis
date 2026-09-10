@@ -79,16 +79,19 @@ the mathematical presentation.
 
 ## 2. Problem statements, verifier data, and training
 
-The public problem entry points are [ac.json](../competition/problems/ac.json)
-and [stable_ac.json](../competition/problems/stable_ac.json). Each is a JSON
-array of **10,115** records containing only `challenge_id` and `description`.
+The public problem entry points are [ac.jsonl](../competition/problems/ac.jsonl)
+and [stable_ac.jsonl](../competition/problems/stable_ac.jsonl). Each is a
+JSON Lines file with **10,115** objects, one per line, containing only
+`challenge_id` and `description` of the initial presentation.
 They present the two problems over the same initial presentations.
 
 The supporting [manifest](../competition/tools/verifier/data/manifest.json)
 has **20,230 scored
 challenges** over **10,115 presentations**, with `base_score = 1` each.
-`ac-v1-N` and `sac-v1-N` share initial relators, with distinct targets,
-specifications, and hashes. Original AC hashes remain unchanged.
+`ac-N` and `sac-N` share initial relators, with distinct targets,
+specifications, and hashes. Renaming scored challenge IDs changes the
+instance hashes, manifest hash, and any certificate hash tied to an older ID.
+Hash algorithms, move tables, and presentation words are unchanged.
 [training_424.json](../competition/examples/training_424.json) and
 [stable_training_424.json](../competition/examples/stable_training_424.json)
 contain the same **424

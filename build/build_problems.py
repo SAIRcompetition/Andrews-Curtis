@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate the two contestant-facing problem lists from the verifier manifest."""
+"""Generate two contestant-facing JSONL problem files from the verifier manifest."""
 
 import argparse
 import json
@@ -14,8 +14,8 @@ PROBLEMS_DIR = REPO / "competition/problems"
 
 LETTERS = {1: "x", -1: "x^-1", 2: "y", -2: "y^-1"}
 PROBLEM_SPECS = {
-    "ac-r2-v1": ("ac.json", "ac-v1-", [[1], [2]]),
-    "sac-r8-v1": ("stable_ac.json", "sac-v1-", []),
+    "ac-r2-v1": ("ac.jsonl", "ac-", [[1], [2]]),
+    "sac-r8-v1": ("stable_ac.jsonl", "sac-", []),
 }
 
 
@@ -55,7 +55,7 @@ def render_problems(manifest):
     if "challenge_count" in manifest and manifest["challenge_count"] != len(challenges):
         raise ValueError("manifest challenge_count does not match its challenges")
 
-    rendered = {"ac.json": [], "stable_ac.json": []}
+    rendered = {"ac.jsonl": [], "stable_ac.jsonl": []}
     seen = set()
     for challenge in challenges:
         if not isinstance(challenge, dict):
@@ -87,8 +87,8 @@ def render_problems(manifest):
 
 
 def serialize(rows):
-    """Serialize a plain array with one-space indentation and a final newline."""
-    return json.dumps(rows, indent=1) + "\n"
+    """Serialize one problem object per line, with a final newline."""
+    return "".join(json.dumps(row) + "\n" for row in rows)
 
 
 def write_problems(manifest, directory):
@@ -104,7 +104,7 @@ def main(argv=None):
     parser.add_argument("--manifest", type=Path, default=MANIFEST_PATH,
                         help="verifier manifest to read")
     parser.add_argument("--output", type=Path, default=PROBLEMS_DIR,
-                        help="directory for ac.json and stable_ac.json")
+                        help="directory for ac.jsonl and stable_ac.jsonl")
     parser.add_argument("--check", action="store_true",
                         help="fail if either problem list is missing or differs byte for byte")
     args = parser.parse_args(argv)
@@ -121,7 +121,7 @@ def main(argv=None):
             print("OK: problem lists match the verifier manifest")
         else:
             write_problems(manifest, args.output)
-            print("wrote ac.json and stable_ac.json to %s" % args.output)
+            print("wrote ac.jsonl and stable_ac.jsonl to %s" % args.output)
     except (OSError, ValueError) as exc:
         print("Problem generation failed: %s" % exc, file=sys.stderr)
         return 1

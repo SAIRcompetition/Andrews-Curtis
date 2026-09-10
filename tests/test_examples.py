@@ -77,7 +77,7 @@ class TestExamples(unittest.TestCase):
         self.assertEqual(result.returncode, 1, result.stdout)
         self.assertEqual(json.loads(result.stdout), {
             "accepted": True,
-            "results": [{"challenge_id": "ac-v1-00001", "ok": False,
+            "results": [{"challenge_id": "ac-00001", "ok": False,
                          "code": "E_NOT_TARGET", "move_index": None,
                          "final_shape": [9, 18]}],
         })

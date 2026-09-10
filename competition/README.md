@@ -26,11 +26,14 @@ instructions, local verification, and scoring.
 
 | Resource | Contents |
 |---|---|
-| [AC problems](problems/ac.json) | 10,115 problem IDs and descriptions |
-| [Stable AC problems](problems/stable_ac.json) | The same 10,115 initial presentations with Stable AC targets |
+| [AC problems](problems/ac.jsonl) | 10,115 problem IDs and descriptions |
+| [Stable AC problems](problems/stable_ac.jsonl) | The matching 10,115 Stable AC problem IDs and initial presentations |
 | [Training data and examples](examples/README.md) | 424 separate, unscored presentations, runnable submissions, and expected receipts |
 | [Python verifier](tools/verifier/README.md) | Local verification instructions |
 | [Verifier data](tools/verifier/data/README.md) | Manifest, move specifications, and conformance vectors |
+
+Both problem files use JSON Lines, with one object per line containing
+only `challenge_id` and `description` of the initial presentation.
 
 ## Proof Track resources
 

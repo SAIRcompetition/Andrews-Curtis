@@ -177,7 +177,7 @@ class TestScoringRuns(unittest.TestCase):
 
 class TestSeparateDiscoveryTracks(unittest.TestCase):
     def setUp(self):
-        self.manifest = mini_manifest({"ac-v1-00001": 1, "sac-v1-00001": 1})
+        self.manifest = mini_manifest({"ac-00001": 1, "sac-00001": 1})
         for c, version in zip(self.manifest["challenges"],
                               ("ac-r2-v1", "sac-r8-v1")):
             c["move_spec_version"] = version
@@ -191,17 +191,17 @@ class TestSeparateDiscoveryTracks(unittest.TestCase):
     def test_scores_first_solver_and_history_are_separate(self):
         ac = ScoringEngine(self.manifest, "test", "ac-r2-v1")
         stable = ScoringEngine(self.manifest, "test", "sac-r8-v1")
-        ac.record_accepted("A", "ac-v1-00001", 10, "t1", 1)
-        stable.record_accepted("B", "sac-v1-00001", 8, "t2", 2)
-        stable.record_accepted("A", "sac-v1-00001", 8, "t3", 3)
+        ac.record_accepted("A", "ac-00001", 10, "t1", 1)
+        stable.record_accepted("B", "sac-00001", 8, "t2", 2)
+        stable.record_accepted("A", "sac-00001", 8, "t3", 3)
         self.assertEqual(ac.scoring_runs[-1]["leaderboard"][0]["total"], 1)
         self.assertEqual({r["total"] for r in
                           stable.scoring_runs[-1]["leaderboard"]}, {Fraction(1, 2)})
-        self.assertEqual(ac.first_solver["ac-v1-00001"]["team"], "A")
-        self.assertEqual(stable.first_solver["sac-v1-00001"]["team"], "B")
+        self.assertEqual(ac.first_solver["ac-00001"]["team"], "A")
+        self.assertEqual(stable.first_solver["sac-00001"]["team"], "B")
         self.assertEqual(stable.scoring_runs[-1]["move_spec_version"], "sac-r8-v1")
-        for engine_, other_id in ((ac, "sac-v1-00001"),
-                                  (stable, "ac-v1-00001")):
+        for engine_, other_id in ((ac, "sac-00001"),
+                                  (stable, "ac-00001")):
             with self.assertRaises(KeyError):
                 engine_.record_accepted("A", other_id, 1, "t4", 4)
 
