@@ -20,12 +20,11 @@ array. Every object has exactly two fields:
 - `description`: the initial group presentation.
 
 The shared targets and move rules are specified in the
-[Discovery rules](../rules/discovery.md#1-problems-and-move-specifications).
+[Discovery rules](../rules/discovery.md#problems).
 
-See [Reading a problem](../rules/discovery.md#reading-a-problem) for the
+See [Reading a problem](#reading-a-problem) for the
 presentation notation, letter encoding, and a worked example.
-The [424 training problems](../examples/README.md) use the same notation
-and JSONL format.
+The [424 training problems](../examples/README.md) use the same format.
 
 Read a problem file with Python's standard library, from the repository
 or unpacked public package root:
@@ -38,10 +37,42 @@ with open("competition/problems/ac.jsonl", encoding="utf-8") as source:
 print(problems[0])
 ```
 
-Submit only the challenge ID and your list of numbered moves. See the
-[Discovery rules](../rules/discovery.md) for move definitions, limits, and
-scoring, and the [examples guide](../examples/README.md) for a complete
-successful submission and its verifier receipt.
+## Reading a problem
+
+`Presentation: <x, y | u = 1; v = 1>.` specifies generators `x, y`
+and two ordered relators: `r0 = u`, then `r1 = v`. The semicolon separates
+the relations; `1` on the right is the group identity. Only the words on
+the left are encoded as relators.
+
+Read words as products in the written order. Spaces mean multiplication,
+`x^-1` and `y^-1` mean inverses, and `x x x` means three copies of `x`.
+Moves act in the free group: factor order matters, and free reduction
+only cancels adjacent inverse letters, as in `x y y^-1` becoming `x`.
+The defining relations are not extra simplification operations.
+
+The verifier and reference training solutions encode letters as integers:
+
+| Letter | Integer |
+|---|---:|
+| `x` | `1` |
+| `x^-1` | `-1` |
+| `y` | `2` |
+| `y^-1` | `-2` |
+
+The identity word is `[]`; `[1]` is the word `x`. These letter codes are
+distinct from the operation IDs in a submitted move list.
+
+For example, `<x, y | x y = 1; y = 1>` has
+`initial_relators = [[1, 2], [2]]`. This is an illustration, not a scored
+problem. AC move `3` multiplies the first relator by the inverse of the
+second: `(x y, y)` becomes the target `(x, y)`, so its solution is `[3]`.
+For Stable AC, `[3, 16, 15]` gives
+`(x y, y) → (x, y) → (x) → ()`, reaching the empty presentation.
+
+Use the problem's exact `challenge_id` and your operation IDs in the
+[TXT submission format](../rules/discovery.md#submit). Problem files are JSONL;
+submissions are TXT. The [examples guide](../examples/README.md) has a
+complete successful submission and its verifier receipt.
 
 ## Local verification
 

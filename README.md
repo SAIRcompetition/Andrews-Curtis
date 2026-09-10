@@ -12,7 +12,7 @@ covering **AC** and **Stable AC**:
 | Guide | Contents |
 |---|---|
 | [Overview](competition/rules/overview.md) | Background, tracks, dates, registration, and common rules; identical to `prelaunch.md` |
-| [Discovery Track](competition/rules/discovery.md) | The 10,115-presentation pool, moves, examples, verifier contract, and separate AC/Stable AC scoring |
+| [Discovery Track](competition/rules/discovery.md) | Quick start, problems, moves, TXT submissions, and separate AC/Stable AC scoring |
 | [Proof Track](competition/rules/proof.md) | Full mathematical statements, proof/disproof materials, Lean targets, public versions, and community peer review |
 
 Discovery works with explicit finite move sequences. Proof accepts a

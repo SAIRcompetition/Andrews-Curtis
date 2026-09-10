@@ -6,7 +6,7 @@ earn no points. Read them in [`ac.jsonl`](ac.jsonl) and
 [`stable_ac.jsonl`](stable_ac.jsonl), using the same format as the official
 [AC](../problems/ac.jsonl) and [Stable AC](../problems/stable_ac.jsonl) problem files.
 Each line contains only `challenge_id` and `description` of the initial
-presentation. See [Reading a problem](../rules/discovery.md#reading-a-problem)
+presentation. See [Reading a problem](../problems/README.md#reading-a-problem)
 for the notation and integer encoding.
 
 | File | Contents |

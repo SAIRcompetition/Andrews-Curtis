@@ -13,11 +13,11 @@ The competition launches with **Discovery Track on September 11, 2026 at
 | Guide | Contents |
 |---|---|
 | [Overview](rules/overview.md) | Background, both tracks, dates, registration, and common competition rules |
-| [Discovery Track](rules/discovery.md) | Data, moves, submission format, verifier semantics, limits, and scoring |
+| [Discovery Track](rules/discovery.md) | Quick start, problems, moves, TXT submissions, and scoring |
 | [Proof Track](rules/proof.md) | Full conjecture statements, proof/disproof submissions, Lean, public versions, and community peer review |
 
 [Prelaunch](rules/prelaunch.md) contains the same overview for the prelaunch page.
-Each track's guide contains its full rules.
+Start with the guide for your track.
 
 ## Discovery Track resources
 
@@ -34,7 +34,7 @@ instructions, local verification, and scoring.
 
 Both problem files use JSON Lines, with one object per line containing
 only `challenge_id` and `description` of the initial presentation.
-Submit solutions as a [TXT file](rules/discovery.md#21-submission-format-and-local-example),
+Submit solutions as a [TXT file](rules/discovery.md#submit),
 one `challenge_id: [moves]` line per solution, with optional `#` comments.
 
 ## Proof Track resources
