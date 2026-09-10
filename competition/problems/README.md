@@ -16,7 +16,10 @@ are outside these files; they and the submission examples are in
 Each file is a JSON array. Every entry has exactly two fields:
 
 - `challenge_id`: the ID to use in your submission.
-- `description`: the initial group presentation and the goal for that problem.
+- `description`: the initial group presentation.
+
+The shared targets and move rules are specified in the
+[Discovery rules](../rules/discovery.md#1-problems-and-move-specifications).
 
 In a description, `<x, y | u = 1; v = 1>` denotes the group presentation
 with generators `x, y` and ordered relators `u, v`. Spaces between letters

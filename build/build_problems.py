@@ -14,16 +14,8 @@ PROBLEMS_DIR = REPO / "competition/problems"
 
 LETTERS = {1: "x", -1: "x^-1", 2: "y", -2: "y^-1"}
 PROBLEM_SPECS = {
-    "ac-r2-v1": (
-        "ac.json", "ac-v1-", [[1], [2]],
-        "Find a short sequence of AC moves to reach the ordered relators "
-        "(x, y), without adding or removing generators.",
-    ),
-    "sac-r8-v1": (
-        "stable_ac.json", "sac-v1-", [],
-        "Find a short sequence of Stable AC moves to reach the empty "
-        "presentation (no generators or relators), using at most 8 generators.",
-    ),
+    "ac-r2-v1": ("ac.json", "ac-v1-", [[1], [2]]),
+    "sac-r8-v1": ("stable_ac.json", "sac-v1-", []),
 }
 
 
@@ -70,7 +62,7 @@ def render_problems(manifest):
             raise ValueError("each challenge must be an object")
         version = challenge.get("move_spec_version")
         _check_version(version)
-        filename, prefix, target, goal = PROBLEM_SPECS[version]
+        filename, prefix, target = PROBLEM_SPECS[version]
         challenge_id = challenge.get("challenge_id")
         if not isinstance(challenge_id, str) or not re.fullmatch(
                 re.escape(prefix) + r"[0-9]{5}", challenge_id):
@@ -88,8 +80,8 @@ def render_problems(manifest):
         words = [_word(word, challenge_id) for word in relators]
         rendered[filename].append({
             "challenge_id": challenge_id,
-            "description": "Presentation: <x, y | %s = 1; %s = 1>. %s"
-                           % (words[0], words[1], goal),
+            "description": "Presentation: <x, y | %s = 1; %s = 1>."
+                           % (words[0], words[1]),
         })
     return rendered
 

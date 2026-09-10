@@ -25,36 +25,17 @@ def read_word(text):
 
 
 def read_description(description):
-    """Recover the initial relators, target, and permitted generator changes."""
+    """Recover the ordered generators and initial relators from the presentation."""
     presentation = re.fullmatch(
-        r"Presentation: <([^<>|]+) \| (.+) = 1; (.+) = 1>\. (.+)",
+        r"Presentation: <([^<>|]+) \| (.+) = 1; (.+) = 1>\.",
         description)
     if presentation is None:
-        raise ValueError("description does not contain the specified presentation")
-    generators, first, second, task = presentation.groups()
-    result = {
+        raise ValueError("description does not contain only the specified presentation")
+    generators, first, second = presentation.groups()
+    return {
         "generators": generators.split(", "),
         "initial_relators": [read_word(first), read_word(second)],
     }
-    ordinary = re.fullmatch(
-        r"Find a short sequence of AC moves to reach the ordered relators "
-        r"\(([^()]+)\), without adding or removing generators\.", task)
-    if ordinary is not None:
-        result.update(
-            move_spec_version="ac-r2-v1",
-            target_relators=[read_word(word) for word in ordinary.group(1).split(", ")],
-            max_rank=len(result["generators"]),
-            permits_generator_changes=False,
-        )
-        return result
-    stable = re.fullmatch(
-        r"Find a short sequence of Stable AC moves to reach the empty presentation "
-        r"\(no generators or relators\), using at most ([0-9]+) generators\.", task)
-    if stable is not None:
-        result.update(move_spec_version="sac-r8-v1", target_relators=[],
-                      max_rank=int(stable.group(1)), permits_generator_changes=True)
-        return result
-    raise ValueError("description does not state the required target and move constraints")
 
 
 class TestProblemDescriptions(unittest.TestCase):
@@ -90,18 +71,13 @@ class TestProblemDescriptions(unittest.TestCase):
 
     def test_every_description_decodes_to_its_original_problem(self):
         index = {c["challenge_id"]: c for c in self.manifest["challenges"]}
-        spec_headers = {s["move_spec_version"]: s for s in self.manifest["move_specs"]}
         for name, _ in PROBLEMS:
             for entry in self.documents[name]:
                 cid = entry["challenge_id"]
                 challenge = index[cid]
                 parsed = read_description(entry["description"])
-                for key in ("generators", "initial_relators", "target_relators", "move_spec_version"):
+                for key in ("generators", "initial_relators"):
                     self.assertEqual(parsed[key], challenge[key], (cid, key))
-                spec = spec_headers[challenge["move_spec_version"]]
-                self.assertEqual(parsed["max_rank"], spec["max_rank"], cid)
-                self.assertEqual(parsed["permits_generator_changes"],
-                                 challenge["move_spec_version"] == "sac-r8-v1", cid)
 
 
 if __name__ == "__main__":

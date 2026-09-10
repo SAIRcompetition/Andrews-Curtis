@@ -26,8 +26,9 @@ the competition service's verifier determines official Discovery results.
 
 The official problem files are [ac.json](../problems/ac.json) and
 [stable_ac.json](../problems/stable_ac.json). Each contains 10,115 entries
-with only `challenge_id` and `description`: the initial presentation and
-the target to reach. Matching ID suffixes select identical initial relators:
+with only `challenge_id` and `description` of the initial presentation.
+The shared targets are listed below. Matching ID suffixes select identical
+initial relators:
 
 | Problem | Challenge IDs | Move specification | Target |
 |---|---|---|---|

@@ -86,7 +86,7 @@ class TestReleaseState(unittest.TestCase):
                 path = root / "problems" / name
                 original = path.read_bytes()
                 rows = json.loads(original)
-                rows[0]["description"] = "Wrong presentation or target"
+                rows[0]["description"] = "Wrong presentation"
                 path.write_text(json.dumps(rows))
                 with self.subTest(stale=name), self.assertRaisesRegex(ValueError, "differs from manifest"):
                     release.validate_problem_files(root, manifest)
