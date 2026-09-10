@@ -123,11 +123,6 @@ promise that provenance cannot be inferred from public mathematical material.
 An unresolved label records knowledge at the relevant cutoff, not a proof
 of non-reachability. A successful replay certifies a path, not optimality.
 
-A bridge between two presentations receives no direct points. A full
-trivialization derived by composing that bridge with another solution is an
-ordinary Discovery submission and can score for its own challenge. Comparing
-its length to a solution of a different challenge does not prevent this.
-
 ## 3. Manifest, hashes, and reproducibility
 
 ### 3.1 Manifest responsibilities
@@ -220,15 +215,7 @@ there is no separate comment-length limit.
 These are Discovery acceptance limits. Exceeding them does not prove that a
 presentation has no AC trivialization.
 
-### 4.4 Bridge certificates
-
-A bridge names two official challenge IDs and a move list. Replay uses the
-second challenge's initial relators as the exact target. Both challenges
-must have the same move specification. Record a verified
-bridge against both problems, without direct points. A derived full solution
-is scored normally (§2). No automatic merging of challenge scores is implied.
-
-### 4.5 Runnable examples
+### 4.4 Runnable examples
 
 [examples/README.md](../competition/examples/README.md) supplies a complete
 training input, its manifest, a runnable command, a successful receipt, and
@@ -327,7 +314,7 @@ tests. A passing formula example alone does not verify event semantics.
 
 Discovery moves and intermediate states remain private during competition.
 Publish only the evaluation contract's allowed fields: lengths, solver
-records, approved non-scoring statistics, and bridge summaries. Teams can
+records, and approved non-scoring statistics. Teams can
 inspect their own submissions. Publish valid move sequences after the competition, following the
 Discovery disclosure rules.
 
@@ -451,7 +438,6 @@ endpoints until integrated and tested.
 |---|---|
 | Discovery submissions | Durable receipts, quotas, batch verification, and per-solution results |
 | Discovery records | Team-private submissions and approved public challenge/leaderboard summaries |
-| Bridges | Verified records without direct points |
 | Proof submissions | Public immutable versions and their exact supporting materials |
 | Proof discussion | Voluntary community peer review through attributed, version-linked comments and edit history |
 | Proof recognition | Optional assessment of selected claims, with public version-specific reasons, priority, and contribution records |
@@ -514,7 +500,6 @@ sources change; do not distribute an older package as current rules.
 | Ordered replay, best-length receipt handling, solved count | Known gaps requiring correction before launch |
 | Complete immutable scoring configuration record | Missing from the current engine |
 | SAIR adapter, durable receipts, quotas, authorization | Integration outstanding |
-| Bridge service and public/private serialization | Integration outstanding |
 | Public Proof versions, community comments, and selective recognition records | Platform implementation outstanding |
 
 Local tests establish only the behavior they exercise. They do not show
@@ -542,10 +527,7 @@ and enabled platform operations must agree for the track being opened.
    configuration, including scoring flags and base scores.
 6. Public Discovery responses exclude private moves and intermediate states;
    authorized teams can retrieve their own records.
-7. If the optional bridge service is enabled, bridges use exact destination
-   presentations and score zero themselves; derived full solutions receive
-   ordinary Discovery scoring.
-8. Approved Discovery timing, deadline, and data freeze match the public
+7. Approved Discovery timing, deadline, and data freeze match the public
    rules and metadata. A future Proof opening date does not enable its endpoint.
 
 ### 11.2 Proof — September 20, 2026

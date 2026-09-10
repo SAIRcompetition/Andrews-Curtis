@@ -1,4 +1,4 @@
-"""``acms-verify`` command line interface (DESIGN.md §4.5).
+"""``acms-verify`` command line interface (DESIGN.md §4.4).
 
 Exit codes: 0 = everything verified OK; 1 = submission accepted but at
 least one solution rejected; 2 = whole-submission rejection or failing

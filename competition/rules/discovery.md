@@ -435,8 +435,7 @@ take away this record.
 Public per challenge during the competition: `status`,
 `current_best_length`, `current_best_solver`, `first_solver`,
 `first_solved_at`, `k_teams`, `base_score`, `certificate_hash`,
-`peak_total_relator_length` (non-scoring), verified bridges (length,
-team, time, hash). **Not public: move sequences, intermediate states,
+`peak_total_relator_length` (non-scoring). **Not public: move sequences, intermediate states,
 or path statistics other than the explicitly listed length and peak.**
 Teams may download only their own Discovery submissions during the
 competition. The platform must enforce this with a public-field whitelist
@@ -449,25 +448,5 @@ Sharing a specific Discovery certificate across teams is joint work and
 must not be resubmitted as independent results by multiple teams. Discussion
 and properly attributed use of ideas are allowed; they do not permit
 copying a certificate into additional independently scoring teams. The
-[competition overview](overview.md) contains the shared team, anti-cheating,
+[competition overview](overview.md) contains the shared team and anti-cheating
 rules.
-
-## 8. Bridge certificates
-
-The planned Discovery bridge submission accepts
-`{from_challenge_id, to_challenge_id, moves}`. The server determines
-the move-spec version from the official challenges. Both endpoints must
-use the same specification; a mixed pair is rejected with `E_SPEC_MISMATCH`.
-Verified exactly as [§2](#22-verifier-semantics) with the target replaced by
-`to_challenge.initial_relators` (exact ordered). A verified bridge is
-listed on both challenges with its length, team, time, and hash;
-its moves follow the same disclosure rules as other Discovery certificates.
-
-The bridge itself scores nothing. A complete solution derived using a
-bridge may be submitted in the ordinary `challenge_id: [moves]` TXT format
-and is verified and scored normally for that challenge, subject to the
-[disclosure and collaboration rules](#7-disclosure-and-collaboration).
-For example, a 10-move path from B to A plus a 40-move solution of A
-gives a 50-move solution of B; if it is B's first
-accepted solution, it earns 1 point on B. Shortest-path scoring
-does not prevent this. A bridge does not merge challenges in v1.
