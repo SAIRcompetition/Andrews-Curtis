@@ -898,11 +898,13 @@ tracks:
     opens: {json.dumps(competition_state['announced_dates']['prove'])}
     opens_at: {json.dumps(competition_state['prove_submissions_open'])}
     statement: rules/proof.md
-    submission_format: "Conjecture, claim type, and description required; complete argument in description, PDF or paper, GitHub at a fixed commit, or arXiv at a fixed version"
-    visibility: public
-    versions: immutable
-    review: "Community peer review through public versions and comments, including Lean submissions; organizers may assess selected claims for competition recognition"
-    credit: "Earliest eligible complete correct version, with references and contributions recorded; see rules/proof.md#priority-and-credit"
+    objective: "Contribute ideas, partial results, or full proofs/disproofs toward either conjecture"
+    submission_format: "Conjecture, proof/disproof direction, and description required; optional public GitHub repository containing Lean 4 formalization and optional arXiv or paper link"
+    visibility: opt_in
+    sharing: "Explicit consent is required to publish the submission and linked public research record in the SAIR Contributor Network; nonshared submissions remain nonpublic"
+    versions: timestamped_history
+    review: "Shared contributions support voluntary community discussion; no mandatory organizer review or correctness certification"
+    credit: "Cite sources and contributions when building on shared work; see rules/proof.md#sharing-and-credit"
     leaderboard_points: false
     problems:
       - id: ac

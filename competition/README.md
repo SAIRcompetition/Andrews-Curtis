@@ -14,7 +14,7 @@ The competition launches with **Discovery Track on September 11, 2026 at
 |---|---|
 | [Overview](rules/overview.md) | Background, both tracks, dates, registration, and common competition rules |
 | [Discovery Track](rules/discovery.md) | Problems, moves, TXT submissions, local tests, and scoring |
-| [Proof Track](rules/proof.md) | Full conjecture statements, proof/disproof submissions, Lean, public versions, and community peer review |
+| [Proof Track](rules/proof.md) | Research directions, submissions, optional materials, and sharing with credit |
 
 [Prelaunch](rules/prelaunch.md) contains the same overview for the prelaunch page.
 Start with the guide for your track.
@@ -39,8 +39,13 @@ one `challenge_id: [moves]` line per solution, with optional `#` comments.
 
 ## Proof Track resources
 
-Follow the [Proof Track guide](rules/proof.md) for the full conjecture
-statements, submission materials, public versions, and community peer review.
+Proof Track welcomes ideas, partial results, and full proofs or disproofs.
+Choose AC or Stable AC and a proof or disproof direction, and provide a
+description. A public GitHub repository containing Lean 4 formalization and
+arXiv or paper links are optional. See the [Proof Track guide](rules/proof.md).
+
+Sharing is optional: with your consent, SAIR records your submission publicly
+in the Contributor Network, where others can use and build on it with credit.
 
 | Resource | Contents |
 |---|---|
@@ -51,8 +56,8 @@ statements, submission materials, public versions, and community peer review.
 Release packages include generated `competition.yaml` metadata for track
 routes and dates. This file is not tracked in Git and is not needed to run
 the verifier or submit solutions.
-SAIR handles registration, teams, submissions, leaderboards, and public Proof
-versions and comments. This package supplies the data, rules, and reference
+SAIR handles registration, teams, submissions, leaderboards, and opted-in
+Proof contributions. This package supplies the data, rules, and reference
 mathematical checks. The release metadata remains `prelaunch` until the
 submission launch and data-freeze requirements are complete; it does not
 indicate whether registration is open.

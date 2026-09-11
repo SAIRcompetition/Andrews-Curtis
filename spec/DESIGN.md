@@ -3,9 +3,10 @@
 The ACC Challenge is one competition on SAIR with **Discovery Track** (`discovery`)
 and **Proof Track** (`proof`). Each has two problems: **AC** (`ac`) and
 **Stable AC** (`stable_ac`). Discovery rewards short verified paths with
-separate problem leaderboards. Proof accepts proofs or disproofs of either
-full conjecture. Public versions and voluntary community peer review are
-the main Proof workflow.
+separate problem leaderboards. Proof welcomes ideas, partial results, and
+full proofs or disproofs of either conjecture. Sharing is optional: explicit
+consent is required to publish a contribution and its linked public research
+record in the SAIR Contributor Network.
 
 Registration is open on [SAIR](https://competition.sair.foundation/competitions/acc).
 Discovery launches September 11, 2026 at 16:00 UTC; Proof launches September 20.
@@ -16,8 +17,8 @@ separate integration checks; the local tools do not establish their readiness.
 The contestant-facing entry point is [overview.md](../competition/rules/overview.md),
 identical to the prelaunch page. [discovery.md](../competition/rules/discovery.md)
 contains the Discovery task and evaluation contract;
-[proof.md](../competition/rules/proof.md) contains the Proof task, full mathematical
-statements, and public review and version rules.
+[proof.md](../competition/rules/proof.md) contains the Proof problems,
+submission form, and sharing and credit rules.
 This guide records implementation responsibilities and gaps, not a second
 set of competition rules. Earlier designs remain available in Git history.
 
@@ -73,9 +74,9 @@ the latter permits finite sequences of stabilization and deletion without
 any rank bound. Both use genuine presented-group triviality. Discovery's
 rank and operational limits do not restrict these targets.
 
-A formal bridge to Python's finite encoding is not an admission requirement.
-A pool claim must identify its challenge and accurately map its words to
-the mathematical presentation.
+Ideas and partial results need not establish either full conjecture. A
+contribution should explain its scope; when referring to a dataset instance,
+identify the challenge and the mathematical presentation being discussed.
 
 ## 2. Problem statements, verifier data, and training
 
@@ -335,10 +336,11 @@ The platform's public challenge fields are `status`, `current_best_length`,
 Enforce this allowlist in public API responses; authorize teams to retrieve
 their own submissions. Publish valid move sequences after the competition.
 
-Proof submissions, versions, and supporting materials are public on
-submission, with no private/public toggle. Comments and any recognition
-decisions are public when recorded. This does not change Discovery path
-confidentiality.
+Proof sharing requires explicit consent. Without it, do not publish the
+submission, its versions, or a linked research record in public pages, APIs,
+search results, or the SAIR Contributor Network. A supplied GitHub repository
+must itself be public, but that does not authorize publication of the
+submission. Apply the consent decision to each version being published.
 
 The same team identity applies across both tracks and all their problems.
 Each individual or organization may participate in only one team; teams
@@ -347,102 +349,76 @@ cheating, including sockpuppet teams, disqualifies all related teams.
 
 Learning from public work is allowed. Identify borrowed arguments, code,
 certificates, and comments; shared work must not be represented as
-independent discovery. A certificate hash cannot establish independence:
-provenance review remains an organizer responsibility.
+independent discovery. For Discovery certificates, a hash cannot establish
+independence; enforcing the Discovery provenance rules remains an organizer
+responsibility.
 
-## 7. Proof submissions, review, and credit
+## 7. Proof contributions, sharing, and credit
 
-### 7.1 Targets
+### 7.1 Scope
 
-Select `ac` or `stable_ac`. Proof targets are `AC.Conjecture` and
-`AC.StableConjecture`; disproof targets are their negations, equivalently
-`AC.Counterexample` and `AC.StableCounterexample`. All quantify over positive
-finite ranks, with no word/path bound. Stable rank may vary without a cap;
-ordinary rank stays fixed. A counterexample may lie outside the pool.
-Nonconstructive disproofs are eligible: these counterexample targets assert
-existence and do not require an explicit witness.
+Welcome ideas, partial results, and full proofs or disproofs concerning AC
+or Stable AC. Selecting the proof or disproof direction indicates the goal
+of the contribution, not a claim that it already resolves the conjecture.
+Ask authors to explain what they have established and what remains open.
+There are no numeric Proof points or mandatory organizer reviews.
 
-### 7.2 Materials
+The full mathematical targets remain `AC.Conjecture` and
+`AC.StableConjecture`; their negations are equivalent to `AC.Counterexample`
+and `AC.StableCounterexample`. They quantify over every positive finite
+rank without word or path bounds. Ordinary rank stays fixed; stable rank
+may vary without a cap. A full disproof may be nonconstructive: the
+existence propositions do not require an exhibited counterexample.
 
-Identify the conjecture, proof or disproof, authors/team, a description, and a complete
-argument. The description, paper/PDF, GitHub repository containing Lean
-work, arXiv paper, or a combination can carry that argument. Neither PDF
-nor Lean is mandatory; an uploaded PDF must be at most 25 MB, as specified
-in the public rules. Linked formal code identifies a fixed commit;
-arXiv material identifies a specific version. A mutable link alone cannot
-establish the contents of a past submission.
+### 7.2 Submission form
 
-Require a rank and exact presentation only when a submission exhibits a
-concrete counterexample, with a challenge ID if it is a pool instance.
-The submission form must not require these fields for every disproof.
+Require only the selected conjecture (`ac` or `stable_ac`), direction
+(`proof` or `disproof`), and a description. Associate the contribution with
+the submitting author/team. Allow an optional link to a **public GitHub
+repository containing Lean 4 formalization** and an optional **arXiv or
+paper link**. A description alone is sufficient; a complete argument,
+Lean code, fixed commit, or PDF upload is not required. Do not add a
+separate PDF-upload field or mandatory counterexample fields.
 
-### 7.3 Public versions and comments
+### 7.3 Sharing and history
 
-Assign every complete version an immutable server UTC receipt time and a
-globally unique monotonic version ID. Order versions by `(received_at,
-version ID)` without a separate sequence field. Preserve its
-description, authors, change note, attachments, and the exact submitted
-content of linked materials with hashes and fixed external revision IDs.
-Never replace an earlier version with an updated PDF or branch. Comments
-have an author, server timestamp, and identified submission version; retain
-visible edit history when comments can change. Withdrawal marks a record
-as withdrawn without deleting its history or asserting that its argument
-is false. Post-deadline revisions may be published as noncompetitive
-versions; they cannot backfill an earlier version's argument or priority.
+Sharing is opt-in. Obtain explicit consent before publishing the submission
+and its linked public research record in the **SAIR Contributor Network**.
+Without consent, keep the submission and its versions out of public pages,
+APIs, search, and the network. A public external link is not sharing consent.
+Record consent for the version being shared; do not publish later or earlier
+nonshared versions merely because another version was shared.
 
-The interaction is simple: publish a submission and invite voluntary
-community peer review through comments underneath it. Participants may
-examine arguments, raise objections, suggest improvements, and develop
-new versions together. Publication does not assign an organizer reviewer
-or place every submission in a screening or review queue.
+Retain a server UTC timestamp, version ID, description, submitted links,
+and author/team for each version, including early ideas and partial results.
+Record the version relationship and preserve prior content. These records
+show when and how a contribution developed; they are not correctness
+certificates or an adjudicated priority ranking. Repository commits or
+paper versions may help identify sources when available, but are optional.
+A submitted URL records the link at that time, not a frozen copy of its
+future contents.
 
-### 7.4 Selective recognition and decisions
+### 7.4 Discussion and credit
 
-Organizers may select claims for assessment when considering competition
-recognition, using community discussion as evidence. They do not undertake
-to review every submission. A published version may remain without a formal
-assessment.
+Shared contributions invite voluntary community comments and further work.
+Attribute comments to their authors and the relevant submission version.
+When building on another contribution, cite its authors, version or link,
+and explain what was reused or extended. Credit also applies to partial
+ideas, useful observations, code, and substantive feedback. Submission,
+publication, comments, and a successful Lean build do not establish that a
+full proof or disproof is correct. This contribution workflow has no
+mandatory assessment queue, acceptance decisions, or decisions on recognition
+and priority.
 
-For selected claims, `accepted`, `rejected`, `revision_requested`, and
-`retracted` decisions bind to a specific version with a public reason.
-Revisions do not erase earlier records. Correct or retract an accepted claim
-when a substantive flaw is established, preserving its decision history.
-Community discussion helps mathematical progress; comment counts, votes,
-and successful Lean builds do not automatically confer acceptance.
+### 7.5 Optional Lean work
 
-### 7.5 Lean verification
-
-The public project pins the statement, Lean toolchain, and Mathlib revision.
-`lake build` builds the official statement. `lake build Check` optionally
-runs semantic examples, a compiler check, and an axiom audit. Neither that
-auxiliary command nor Lean itself is required for submission. Community
-reviewers can inspect the actual theorem, definitions, scope, dependencies,
-and axioms. A claim selected for recognition needs this scrutiny even when
-it builds successfully. A restricted or different proposition is not the
-official target.
-
-### 7.6 Priority and contributions
-
-When competition recognition is assessed, priority belongs to the earliest
-eligible, non-withdrawn and non-retracted version confirmed to contain a
-complete correct argument. Publication alone does not establish priority or
-promise that a formal assessment will occur.
-Eligibility uses its complete server receipt in the UTC window
-`[track_open, submission_deadline)`; review may finish after the
-deadline. An early placeholder or the time review finishes does not confer
-priority. A material gap repaired in a later eligible version gives
-that completed argument the later version's priority. Cosmetic revisions
-do not erase an earlier complete and correct version's priority.
-
-Authors identify borrowed submission versions, comments, papers, and code,
-and describe their contribution. Credit may recognize original ideas,
-essential completions, and substantive reviewer contributions. When assessing
-recognition, organizers resolve disagreements using public history and evidence, without automatic
-percentage allocations. Competition receipts do not replace scientific
-priority established by earlier public work; an external publication date
-does not replace the server receipt used for competition priority.
-Withdrawn or retracted versions no longer hold competition priority,
-but their historical contributions remain visible.
+The official project pins the conjecture statements, Lean toolchain, and
+Mathlib revision. `lake build` builds the statements; `lake build Check`
+runs optional semantic examples and an axiom audit. Neither Lean nor the
+auxiliary checks are required for submission. Contributors may formalize
+partial results as well as full arguments, stating the theorem and scope
+accurately. A theorem about a restricted proposition does not by itself
+resolve the full conjecture.
 
 ## 8. SAIR platform integration
 
@@ -455,15 +431,15 @@ endpoints until integrated and tested.
 |---|---|
 | Discovery submissions | Durable receipts, quotas, batch verification, and per-solution results |
 | Discovery records | Team-private submissions and approved public challenge/leaderboard summaries |
-| Proof submissions | Public immutable versions and their exact supporting materials |
-| Proof discussion | Voluntary community peer review through attributed, version-linked comments and edit history |
-| Proof recognition | Optional assessment of selected claims, with public version-specific reasons, priority, and contribution records |
+| Proof submissions | Conjecture, proof/disproof direction, required description, and optional public Lean 4 GitHub repository or arXiv/paper link |
+| Proof sharing | Explicit consent before publishing a submission and linked research record in the SAIR Contributor Network; nonshared records excluded from public surfaces |
+| Proof history and discussion | Timestamps, versions, source attribution, and voluntary comments on shared contributions; no correctness certification or numeric points |
 | Replay | Rebuild scoring from immutable events and complete identified configuration |
 
 Route mapping, database design, and authentication plumbing belong to the
 adapter. Distinguish planned contracts from live endpoints. Discovery needs
-an explicit public-field allowlist; publishing Proof material must not expose
-unrelated private Discovery payloads.
+an explicit public-field allowlist. Proof publication must check consent and
+must not expose nonshared versions or unrelated private Discovery payloads.
 
 ## 9. Public release package
 
@@ -519,7 +495,7 @@ sources change; do not distribute an older package as current rules.
 | Ordered replay, best-length receipt handling, solved count | Known gaps requiring correction before launch |
 | Complete immutable scoring configuration record | Missing from the current engine |
 | SAIR adapter, durable receipts, quotas, authorization | Integration outstanding |
-| Public Proof versions, community comments, and selective recognition records | Platform implementation outstanding |
+| Proof contribution form, consent-controlled sharing, version history, and community comments | Platform implementation outstanding |
 
 Local tests establish only the behavior they exercise. They do not show
 that missing platform operations already exist.
@@ -552,12 +528,14 @@ and enabled platform operations must agree for the track being opened.
 
 ### 11.2 Proof — September 20, 2026
 
-1. Publish versions and fixed materials for voluntary community review, with
-   comments and revisions; do not automatically queue every submission for
-   organizer assessment.
-2. Where selected recognition assessments are recorded, they identify the
-   exact version, reasons, full target, prior work, and contributions.
-   Priority distinguishes cosmetic edits from repairs of substantive gaps.
-3. Set the approved Proof UTC opening time in `prove_submissions_open` and
+1. Accept ideas, partial results, and full proofs/disproofs using a conjecture,
+   direction, and description; GitHub Lean 4 and arXiv/paper links are optional.
+2. Publish a submission and its linked research record in the SAIR Contributor
+   Network only with explicit sharing consent. Test that nonshared submissions
+   and versions remain absent from every public surface, even with public links.
+3. Preserve timestamps, version history, and credited sources for contributions
+   at every stage. Shared work supports voluntary comments and reuse with credit;
+   submission does not certify correctness or require an organizer review.
+4. Set the approved Proof UTC opening time in `prove_submissions_open` and
    its track-level `opens_at` before enabling submissions; preserve the
    existing Discovery schedule and data freeze.

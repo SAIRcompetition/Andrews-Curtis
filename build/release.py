@@ -93,8 +93,8 @@ followed by **Proof Track on September 20, 2026**. Both tracks cover
   registration, and common rules. The prelaunch page contains the same overview.
 - [Discovery Track](competition/rules/discovery.md): problems, moves, TXT submissions,
   local tests, and separate AC and Stable AC scoring.
-- [Proof Track](competition/rules/proof.md): full conjecture statements,
-  proof/disproof materials, Lean, public versions, and community peer review.
+- [Proof Track](competition/rules/proof.md): ideas, partial results, and full
+  proofs/disproofs; optional sharing, version history, and credit.
 
 ## Discovery Track resources
 
@@ -111,9 +111,10 @@ followed by **Proof Track on September 20, 2026**. Both tracks cover
 - [Lean guide](competition/tools/lean/README.md): instructions for using the
   definitions and optional checks. Using Lean is optional.
 
-The package contains reference mathematical checks. Official submission
-handling, leaderboard updates, and public Proof versions and comments are
-provided by SAIR. See `competition/competition.yaml` for the recorded
+The package contains reference mathematical checks. SAIR provides submission
+handling, Discovery leaderboards, and Proof contribution records. Publishing
+a Proof submission and its linked research record in the SAIR Contributor
+Network requires explicit sharing consent. See `competition/competition.yaml` for the recorded
 schedule and release metadata. Submission-release status does not indicate
 whether registration is open.
 """

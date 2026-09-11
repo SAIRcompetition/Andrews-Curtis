@@ -4,7 +4,9 @@ This directory serves [Proof Track](../../rules/proof.md).
 [AC.lean](AC.lean) contains the shared official AC and Stable AC definitions;
 using Lean and running the auxiliary `Check` target are optional.
 
-For a Lean submission, import `AC` and identify whether your claim concerns ordinary or stable AC:
+Lean 4 formalizations of ideas and partial results are welcome. Import `AC`
+to use the definitions. The following targets apply to **complete proofs or
+disproofs**; partial work may instead establish lemmas toward either direction.
 
 | Claim | Ordinary AC | Stable AC |
 |---|---|---|
@@ -15,9 +17,9 @@ For a Lean submission, import `AC` and identify whether your claim concerns ordi
 The negation and counterexample targets are equivalent, by
 `AC.not_conjecture_iff_counterexample` and
 `AC.not_stable_conjecture_iff_counterexample`, respectively.
-A rigorous nonconstructive proof of either negation qualifies as a disproof;
-no explicit rank or relator tuple needs to be exhibited. If a submission
-provides a specific counterexample, it must identify its rank and full presentation.
+A rigorous nonconstructive proof of either negation is a complete disproof;
+no explicit rank or relator tuple needs to be exhibited. An explicit
+counterexample argument identifies its rank and full presentation.
 Both conjectures cover every positive finite starting rank. Ordinary AC fixes
 the rank along each path. Stable AC also permits adding an isolated generator
 and its singleton relator, or deleting such a pair, at arbitrary positions.
@@ -26,17 +28,17 @@ Its finite paths have no bounds on intermediate rank, length, or word size.
 `AC.Conjecture.stable` proves that ordinary AC implies stable AC;
 `AC.StableCounterexample.counterexample` proves that a stable counterexample
 also disproves ordinary AC. These implications do not assume either conjecture.
-See the [mathematical statements](../../rules/proof.md#ordinary-ac) for details.
+See the [problems](../../rules/proof.md#problems) for the mathematical statements.
 
-The Proof Track is part of the Andrews–Curtis Conjecture (ACC) Challenge.
-It accepts a proof or disproof with a description and complete argument,
-which may be carried by the description, a PDF or paper, a GitHub
-repository at a fixed commit, or an arXiv paper at a fixed version.
-Submissions and immutable versions are public, with comments for community
-peer review, shared learning, and improvement. Lean arguments are open to
-scrutiny of their statement, scope, and trust boundary. Organizers may assess
-selected claims for competition recognition. See the
-[Proof Track rules](../../rules/proof.md#priority-and-credit) for versions and credit.
+To [submit](../../rules/proof.md#submit), choose AC or Stable AC and a proof
+or disproof direction, and describe your work. These directions include
+unfinished research. A public GitHub repository containing Lean 4
+formalization and arXiv or paper links are optional.
+
+With your consent, your submission is recorded publicly in the SAIR Contributor
+Network for others to use and build on with credit. Refer to specific versions
+and credit the authors of work you use. See
+[Sharing and credit](../../rules/proof.md#sharing-and-credit).
 
 ## Build
 
@@ -58,11 +60,10 @@ Pinned dependencies: Lean `4.29.1`, Mathlib
 
 `lake build` builds only `AC`; a formalization needs only `import AC`.
 Building the official statement does not verify a contestant's theorem.
-Authors should identify the claimed variant and the theorem proving its official
-target, and provide instructions for checking their own source.
+Authors should identify the variant and formalized result, describe its scope,
+and provide instructions for checking their own source.
 To run the auxiliary checks, optionally use `lake build Check`.
 Those checks are not a submission requirement. Source snapshots are
 checked separately at release. The optional checks verify the embedding used
 by stabilization, the equivalence of the standard and empty stable endpoints,
-paths with changing rank, and the allowed axioms. Proof submissions address
-the chosen full conjecture or its negation.
+paths with changing rank, and the allowed axioms.

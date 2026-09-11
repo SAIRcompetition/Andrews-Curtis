@@ -13,11 +13,13 @@ covering **AC** and **Stable AC**:
 |---|---|
 | [Overview](competition/rules/overview.md) | Background, tracks, dates, registration, and common rules; identical to `prelaunch.md` |
 | [Discovery Track](competition/rules/discovery.md) | Problems, moves, TXT submissions, local tests, and separate AC/Stable AC scoring |
-| [Proof Track](competition/rules/proof.md) | Full mathematical statements, proof/disproof materials, Lean targets, public versions, and community peer review |
+| [Proof Track](competition/rules/proof.md) | Research directions, submissions, optional materials, and sharing with credit |
 
-Discovery works with explicit finite move sequences. Proof accepts a
-complete proof or disproof of either full conjecture, written or formalized;
-submissions are public, versioned, and open to community discussion.
+Discovery works with explicit finite move sequences. Proof welcomes ideas,
+partial results, and full proofs or disproofs. Choose AC or Stable AC and a
+proof or disproof direction, then describe your work. With your consent,
+SAIR records it publicly in the Contributor Network for others to use and
+build on with credit.
 
 SAIR hosts registration, teams, submissions, and leaderboards. This
 repository supplies the data, reference mathematical checks, and an internal
@@ -44,8 +46,8 @@ reads `competition/tools/verifier/data/manifest.json` to check submissions.
 
 ## Proof Track resources
 
-The [Proof Track guide](competition/rules/proof.md) contains the full conjecture
-statements, submission instructions, and review rules. The
+The [Proof Track guide](competition/rules/proof.md) describes the conjectures,
+submissions, optional supporting links, and sharing and credit. The
 [Lean guide](competition/tools/lean/README.md) explains how to use the official
 [AC.lean definitions](competition/tools/lean/AC.lean); using Lean is optional.
 
