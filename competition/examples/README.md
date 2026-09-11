@@ -53,7 +53,7 @@ still gives exit status 1, even if a later attempt succeeds.
 
 ## Run a successful submission
 
-From the development repository root **or the unpacked public package root**
+From the repository root **or the unpacked public package root**
 (the directory containing `competition/`), run:
 
 ```sh

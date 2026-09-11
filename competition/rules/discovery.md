@@ -1,6 +1,6 @@
 # Discovery Track
 
-**Submissions open:** September 11, 2026 at 16:00 UTC.
+**Submissions opened:** September 11, 2026 at 16:00 UTC.
 
 **Deadline:** November 30, 2026, end of day [AoE](https://www.ieee802.org/16/aoe.html)
 (Anywhere on Earth, UTC−12).

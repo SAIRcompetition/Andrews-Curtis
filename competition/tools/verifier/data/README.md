@@ -1,15 +1,8 @@
-# Discovery Track verifier data (`acms-v3`) — prelaunch preview
+# Discovery Track verifier data (`acms-v3`)
 
-**The official data freeze is not yet set.** This preview contains
-20,230 challenges: the same **10,115 presentations** in the AC and Stable AC
-problems within Discovery Track. The status is `prelaunch`; Discovery opens at
-16:00 UTC on September 11, 2026. See the
-[Discovery rules](../../../rules/discovery.md) for the schedule and submission window.
-
-Before public launch, the organizers will freeze `manifest.json`,
-`move_spec.json`, and `stable_move_spec.json` in git and publish the commit.
-`freeze_date` is outside `instance_hash`, so setting the date does not
-change the mathematical instance or certificate hashes. See
+This folder contains the official Discovery Track data: **20,230 challenges**
+covering the same **10,115 presentations** in AC and Stable AC. See the
+[Discovery rules](../../../rules/discovery.md) for the submission window and
 [Hash specification](#hash-specification) for hash semantics.
 
 The scored pool is derived from the SAIR dataset release and the full
@@ -65,7 +58,7 @@ participants to recognize instances and their origins.
 | `scored` | Always `true` — every challenge in the pool is scored |
 | `base_score` | Always `1` |
 | `instance_hash` | Hash over `challenge_id`, generators, both relator lists, `move_spec_version`, `move_spec_hash`; see the [hash specification](#hash-specification) |
-| `freeze_date` | `null` until the official freeze is set; outside `instance_hash` by design |
+| `freeze_date` | Freeze-date metadata; `null` means no date is recorded. Outside `instance_hash` by design |
 
 Pool composition: the 10000-row SAIR competition draw, minus the 89
 draw instances that have a public replayable certificate (they are in

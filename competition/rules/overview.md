@@ -2,7 +2,7 @@
 
 A competition to find short trivializations of group presentations and advance research toward proving or disproving the Andrews–Curtis conjecture and its stable version.
 
-The competition launches with **Discovery Track on September 11, 2026 at 16:00 UTC**. **Proof Track opens before September 20, 2026**. [Registration is open on SAIR](https://competition.sair.foundation/competitions/acc).
+The **Discovery Track is live** on [SAIR](https://competition.sair.foundation/competitions/acc). **Proof Track opens before September 20, 2026**.
 
 ## Co-organizers
 
@@ -14,7 +14,6 @@ The ACC Challenge is co-organized by (in alphabetical order by surname):
 
 The co-organizing institutions are [Caltech](https://www.caltech.edu/) and the [SAIR Foundation](https://sair.foundation/).
 
-<!-- logo URLs: re-host under /competition-assets/acms/ at site onboarding -->
 <p align="center">
   <a href="https://www.caltech.edu/"><img src="https://www.caltech.edu/static/core/img/caltech-new-logo.png" alt="Caltech" width="260"></a>
   &nbsp;&nbsp;&nbsp;&nbsp;
@@ -38,8 +37,7 @@ Each track's guide contains its tasks, submission instructions, resources, and p
 
 ## Key Dates
 
-- Registration and team formation open: **September 8, 2026**
-- Discovery Track opens: **September 11, 2026 at 16:00 UTC**
+- Discovery Track launched: **September 11, 2026 at 16:00 UTC**
 - Proof Track opens: **before September 20, 2026**
 - Submission deadline for all tracks: **November 30, 2026 AoE**
 
@@ -49,7 +47,7 @@ Registration and team management take place on [SAIR](https://competition.sair.f
 
 ## Official Repository & Playground
 
-The official repository, SAIR Playground, and submission system will become available at the official launch.
+The [official repository](../../README.md) contains the problems, examples, and verification tools. Use the [SAIR competition page](https://competition.sair.foundation/competitions/acc) for submissions and platform resources.
 
 ## Team Participation and Anti-Cheating Policy
 

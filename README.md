@@ -1,8 +1,8 @@
 # The Andrews–Curtis Conjecture (ACC) Challenge
 
-[Registration is open on SAIR](https://competition.sair.foundation/competitions/acc).
-The competition launches with **Discovery Track on September 11, 2026 at
-16:00 UTC**. **Proof Track opens before September 20, 2026**. The
+The **Discovery Track is live** on
+[SAIR](https://competition.sair.foundation/competitions/acc).
+**Proof Track opens before September 20, 2026**. The
 submission deadline is November 30, 2026 AoE.
 
 The ACC Challenge is co-organized by Caltech and the SAIR Foundation, with
@@ -11,7 +11,7 @@ covering **AC** and **Stable AC**:
 
 | Guide | Contents |
 |---|---|
-| [Overview](competition/rules/overview.md) | Background, tracks, dates, registration, and common rules; identical to `prelaunch.md` |
+| [Overview](competition/rules/overview.md) | Background, tracks, dates, registration, and common rules |
 | [Discovery Track](competition/rules/discovery.md) | Problems, moves, TXT submissions, local tests, and separate AC/Stable AC scoring |
 | [Proof Track](competition/rules/proof.md) | Research directions, submissions, optional materials, and sharing with credit |
 

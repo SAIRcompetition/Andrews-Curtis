@@ -3,9 +3,9 @@
 Co-organized by Caltech and the SAIR Foundation, with Lucas Fagan, Sergei
 Gukov, and Terence Tao.
 
-[Registration is open on SAIR](https://competition.sair.foundation/competitions/acc).
-The competition launches with **Discovery Track on September 11, 2026 at
-16:00 UTC**. **Proof Track opens before September 20, 2026**. Both tracks cover
+The **Discovery Track is live** on
+[SAIR](https://competition.sair.foundation/competitions/acc).
+**Proof Track opens before September 20, 2026**. Both tracks cover
 **AC** and **Stable AC**; the submission deadline is November 30, 2026 AoE.
 
 ## Competition guides
@@ -16,7 +16,6 @@ The competition launches with **Discovery Track on September 11, 2026 at
 | [Discovery Track](rules/discovery.md) | Problems, moves, TXT submissions, local tests, and scoring |
 | [Proof Track](rules/proof.md) | Research directions, submissions, optional materials, and sharing with credit |
 
-[Prelaunch](rules/prelaunch.md) contains the same overview for the prelaunch page.
 Start with the guide for your track.
 
 ## Discovery Track resources
@@ -54,11 +53,6 @@ Contributor Network, where others can use and build on it with credit.
 | [Lean guide](tools/lean/README.md) | Instructions for working with the formal definitions; using Lean is optional |
 | [Check.lean](tools/lean/Check.lean) | Optional checks and semantic examples |
 
-Release packages include generated `competition.yaml` metadata for track
-routes and dates. This file is not tracked in Git and is not needed to run
-the verifier or submit solutions.
 SAIR handles registration, teams, submissions, leaderboards, and published
-Proof contributions. This package supplies the data, rules, and reference
-mathematical checks. The release metadata remains `prelaunch` until the
-submission launch and data-freeze requirements are complete; it does not
-indicate whether registration is open.
+Proof contributions. This repository supplies the data, rules, and reference
+mathematical checks.
