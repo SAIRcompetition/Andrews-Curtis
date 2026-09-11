@@ -45,9 +45,9 @@ Each track's guide contains its tasks, submission instructions, resources, and p
 
 Registration and team management take place on [SAIR](https://competition.sair.foundation/). Participants must have a SAIR account, complete the required profile information, and agree to the SAIR competition terms before registering. They may compete individually or form a team on SAIR.
 
-## Official Repository & Playground
+## Official Repository
 
-The [official repository](../../README.md) contains the problems, examples, and verification tools. Use the [SAIR competition page](https://competition.sair.foundation/competitions/acc) for submissions and platform resources.
+The [official GitHub repository](https://github.com/SAIRcompetition/Andrews-Curtis) contains the problems, examples, and verification tools. Submit through the [SAIR competition page](https://competition.sair.foundation/competitions/acc).
 
 ## Team Participation and Anti-Cheating Policy
 
