@@ -16,8 +16,13 @@ __pycache__/
 *.pyc
 .pytest_cache/
 
-# Lean / Lake build artifacts
+# Lean / Lake generated files
 .lake/
+/competition/tools/lean/lake-manifest.json
+
+# Optional local proof checks
+/competition/tools/lean/Check.lean
+/competition/tools/lean/statement-lock.json
 
 # macOS
 .DS_Store

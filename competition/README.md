@@ -51,7 +51,6 @@ Contributor Network, where others can use and build on it with credit.
 |---|---|
 | [AC.lean](tools/lean/AC.lean) | Official definitions of AC and Stable AC |
 | [Lean guide](tools/lean/README.md) | Instructions for working with the formal definitions; using Lean is optional |
-| [Check.lean](tools/lean/Check.lean) | Optional checks and semantic examples |
 
 SAIR handles registration, teams, submissions, leaderboards, and published
 Proof contributions. This repository supplies the data, rules, and reference

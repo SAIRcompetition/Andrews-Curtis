@@ -2,7 +2,7 @@
 
 This directory serves [Proof Track](../../rules/proof.md).
 [AC.lean](AC.lean) contains the shared official AC and Stable AC definitions;
-using Lean and running the auxiliary `Check` target are optional.
+using Lean is optional.
 
 Lean 4 formalizations of ideas and partial results are welcome. Import `AC`
 to use the definitions. The following targets apply to **complete proofs or
@@ -47,6 +47,7 @@ From the repository root, download dependencies on first use, then build:
 
 ```sh
 cd competition/tools/lean
+MATHLIB_NO_CACHE_ON_UPDATE=1 lake update
 lake exe cache get Mathlib/GroupTheory/PresentedGroup.lean Mathlib/Data/Fin/Tuple/Basic.lean
 lake build
 ```
@@ -57,14 +58,13 @@ Pinned dependencies: Lean `4.29.1`, Mathlib
 | File | Purpose |
 |---|---|
 | [AC.lean](AC.lean) | Both conjectures, counterexamples, and their implication |
-| [Check.lean](Check.lean) | Optional semantic examples, axiom audit, and compiler-hash check |
+| [lakefile.toml](lakefile.toml) | Build target and pinned Mathlib revision |
+| [lean-toolchain](lean-toolchain) | Lean version |
+
+`lake update` generates `lake-manifest.json` from the pinned dependencies.
+The generated manifest and `.lake/` build directory are ignored by Git.
 
 `lake build` builds only `AC`; a formalization needs only `import AC`.
 Building the official statement does not verify a contestant's theorem.
 Authors should identify the variant and formalized result, describe its scope,
 and provide instructions for checking their own source.
-To run the auxiliary checks, optionally use `lake build Check`.
-Those checks are not a submission requirement. Source snapshots are
-checked separately at release. The optional checks verify the embedding used
-by stabilization, the equivalence of the standard and empty stable endpoints,
-paths with changing rank, and the allowed axioms.
