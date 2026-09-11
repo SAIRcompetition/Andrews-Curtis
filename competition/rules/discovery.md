@@ -85,17 +85,27 @@ other solutions; a format error rejects the whole file.
 ### Upload
 
 Upload your file through [SAIR](https://competition.sair.foundation/competitions/acc).
-Local checks do not register a submission. Limits are **40 submissions per
-team per UTC day**, **500 solution lines per file**, **10 MB per file**
-(10,000,000 bytes, including comments), and **100,000 moves per solution**.
-Repeated IDs and skipped lines count toward the 500-line limit. The whole
-file must pass format and size checks before any path is verified.
-See [verification limits](../tools/verifier/README.md#limits)
-for the verifier's resource limits.
-
+Local checks do not register a submission.
 Submissions must arrive complete at or after opening and before the deadline;
 verification may finish later. See the [overview](overview.md) for
 registration and team rules.
+
+### Limits
+
+| Item | Limit |
+|---|---|
+| Moves per solution | **100,000** |
+| Total relator length after each move and free reduction | **10,000 letters** |
+| Sum of initial and per-step reduced total relator lengths (work) | **5,000,000** |
+| Generators at any step, Stable AC only | **8** |
+| Solution lines per file, including repeats and skipped lines | **500** |
+| File size, including comments | **10 MB (10,000,000 bytes)** |
+| Submissions per team per UTC day, AC and Stable AC combined | **40** |
+| Repeated challenge IDs in one file | Allowed; only the **first verified path** is selected |
+
+The whole file must pass format and size checks before any path is verified.
+The daily quota is a platform rule; local verification does not enforce it.
+See the [verifier reference](../tools/verifier/README.md#limits) for details.
 
 ## Scoring
 
