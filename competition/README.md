@@ -44,8 +44,9 @@ Choose AC or Stable AC and a proof or disproof direction, and provide a
 description. A public GitHub repository containing Lean 4 formalization and
 arXiv or paper links are optional. See the [Proof Track guide](rules/proof.md).
 
-Sharing is optional: with your consent, SAIR records your submission publicly
-in the Contributor Network, where others can use and build on it with credit.
+Participation is voluntary. You must check the box agreeing to share before
+submitting. Every Proof submission is automatically published in the SAIR
+Contributor Network, where others can use and build on it with credit.
 
 | Resource | Contents |
 |---|---|
@@ -56,7 +57,7 @@ in the Contributor Network, where others can use and build on it with credit.
 Release packages include generated `competition.yaml` metadata for track
 routes and dates. This file is not tracked in Git and is not needed to run
 the verifier or submit solutions.
-SAIR handles registration, teams, submissions, leaderboards, and opted-in
+SAIR handles registration, teams, submissions, leaderboards, and published
 Proof contributions. This package supplies the data, rules, and reference
 mathematical checks. The release metadata remains `prelaunch` until the
 submission launch and data-freeze requirements are complete; it does not

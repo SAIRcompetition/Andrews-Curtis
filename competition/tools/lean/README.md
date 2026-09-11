@@ -35,9 +35,10 @@ or disproof direction, and describe your work. These directions include
 unfinished research. A public GitHub repository containing Lean 4
 formalization and arXiv or paper links are optional.
 
-With your consent, your submission is recorded publicly in the SAIR Contributor
-Network for others to use and build on with credit. Refer to specific versions
-and credit the authors of work you use. See
+Participation is voluntary; submitting requires agreeing to share. Every
+submission is automatically published in the SAIR Contributor Network for
+others to use and build on with credit. Refer to specific versions and credit
+the authors of work you use. See
 [Sharing and credit](../../rules/proof.md#sharing-and-credit).
 
 ## Build

@@ -94,7 +94,7 @@ followed by **Proof Track on September 20, 2026**. Both tracks cover
 - [Discovery Track](competition/rules/discovery.md): problems, moves, TXT submissions,
   local tests, and separate AC and Stable AC scoring.
 - [Proof Track](competition/rules/proof.md): ideas, partial results, and full
-  proofs/disproofs; optional sharing, version history, and credit.
+  proofs/disproofs; required sharing agreement, version history, and credit.
 
 ## Discovery Track resources
 
@@ -112,9 +112,10 @@ followed by **Proof Track on September 20, 2026**. Both tracks cover
   definitions and optional checks. Using Lean is optional.
 
 The package contains reference mathematical checks. SAIR provides submission
-handling, Discovery leaderboards, and Proof contribution records. Publishing
-a Proof submission and its linked research record in the SAIR Contributor
-Network requires explicit sharing consent. See `competition/competition.yaml` for the recorded
+handling, Discovery leaderboards, and Proof contribution records. Participation
+is voluntary. Proof submission requires an explicit sharing agreement, after
+which the contribution and its linked research record are automatically
+published in the SAIR Contributor Network. See `competition/competition.yaml` for the recorded
 schedule and release metadata. Submission-release status does not indicate
 whether registration is open.
 """

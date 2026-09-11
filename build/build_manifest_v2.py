@@ -899,9 +899,9 @@ tracks:
     opens_at: {json.dumps(competition_state['prove_submissions_open'])}
     statement: rules/proof.md
     objective: "Contribute ideas, partial results, or full proofs/disproofs toward either conjecture"
-    submission_format: "Conjecture, proof/disproof direction, and description required; optional public GitHub repository containing Lean 4 formalization and optional arXiv or paper link"
-    visibility: opt_in
-    sharing: "Explicit consent is required to publish the submission and linked public research record in the SAIR Contributor Network; nonshared submissions remain nonpublic"
+    submission_format: "Conjecture, proof/disproof direction, description, and sharing agreement required; optional public GitHub repository containing Lean 4 formalization and optional arXiv or paper link"
+    visibility: public_on_submission
+    sharing: "Participation is voluntary; require an actively checked sharing agreement before accepting a submission, then automatically publish it and its linked public research record in the SAIR Contributor Network. The checkbox starts unchecked; public links do not supply consent"
     versions: timestamped_history
     review: "Shared contributions support voluntary community discussion; no mandatory organizer review or correctness certification"
     credit: "Cite sources and contributions when building on shared work; see rules/proof.md#sharing-and-credit"

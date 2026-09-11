@@ -32,7 +32,7 @@ The challenge brings together computational search and mathematical work on thes
 The challenge has **two tracks**, each covering **AC** and **Stable AC**:
 
 - [**Discovery Track**](discovery.md): Find short sequences of moves that simplify the published presentations.
-- [**Proof Track**](proof.md): Contribute ideas, partial results, or full proofs or disproofs. Choose whether to share your work through the SAIR Contributor Network for others to build on with credit.
+- [**Proof Track**](proof.md): Contribute ideas, partial results, or full proofs or disproofs. Participation is voluntary; submitting requires agreeing to share. Submissions are automatically published in the SAIR Contributor Network for others to build on with credit.
 
 Each track's guide contains its tasks, submission instructions, resources, and participation rules.
 

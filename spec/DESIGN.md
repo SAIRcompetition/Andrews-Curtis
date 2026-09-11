@@ -4,9 +4,10 @@ The ACC Challenge is one competition on SAIR with **Discovery Track** (`discover
 and **Proof Track** (`proof`). Each has two problems: **AC** (`ac`) and
 **Stable AC** (`stable_ac`). Discovery rewards short verified paths with
 separate problem leaderboards. Proof welcomes ideas, partial results, and
-full proofs or disproofs of either conjecture. Sharing is optional: explicit
-consent is required to publish a contribution and its linked public research
-record in the SAIR Contributor Network.
+full proofs or disproofs of either conjecture. Participation is voluntary;
+submitting requires an explicit sharing agreement. Submitted contributions
+and their linked public research records automatically appear in the SAIR
+Contributor Network.
 
 Registration is open on [SAIR](https://competition.sair.foundation/competitions/acc).
 Discovery launches September 11, 2026 at 16:00 UTC; Proof launches September 20.
@@ -336,11 +337,11 @@ The platform's public challenge fields are `status`, `current_best_length`,
 Enforce this allowlist in public API responses; authorize teams to retrieve
 their own submissions. Publish valid move sequences after the competition.
 
-Proof sharing requires explicit consent. Without it, do not publish the
-submission, its versions, or a linked research record in public pages, APIs,
-search results, or the SAIR Contributor Network. A supplied GitHub repository
-must itself be public, but that does not authorize publication of the
-submission. Apply the consent decision to each version being published.
+Proof contributions are public on submission. Before accepting one, require
+the author to actively check the sharing agreement; leave it unchecked by
+default. Without that agreement, reject the submission without creating an
+accepted or public submission record. A public external link does not supply
+consent. There is no private Proof submission route.
 
 The same team identity applies across both tracks and all their problems.
 Each individual or organization may participate in only one team; teams
@@ -372,22 +373,23 @@ existence propositions do not require an exhibited counterexample.
 
 ### 7.2 Submission form
 
-Require only the selected conjecture (`ac` or `stable_ac`), direction
-(`proof` or `disproof`), and a description. Associate the contribution with
+Require the selected conjecture (`ac` or `stable_ac`), direction
+(`proof` or `disproof`), description, and sharing agreement. Associate the contribution with
 the submitting author/team. Allow an optional link to a **public GitHub
 repository containing Lean 4 formalization** and an optional **arXiv or
-paper link**. A description alone is sufficient; a complete argument,
-Lean code, fixed commit, or PDF upload is not required. Do not add a
-separate PDF-upload field or mandatory counterexample fields.
+paper link**. Links need not identify a fixed commit or version. Do not add
+a separate PDF-upload field or mandatory counterexample fields.
 
 ### 7.3 Sharing and history
 
-Sharing is opt-in. Obtain explicit consent before publishing the submission
-and its linked public research record in the **SAIR Contributor Network**.
-Without consent, keep the submission and its versions out of public pages,
-APIs, search, and the network. A public external link is not sharing consent.
-Record consent for the version being shared; do not publish later or earlier
-nonshared versions merely because another version was shared.
+Participation and submission are fully voluntary. The form requires an
+explicit checkbox agreement to publish the submission and its linked public
+research record in the **SAIR Contributor Network**. The checkbox must start
+unchecked; consent cannot be inferred from a public link or other form data.
+Check this agreement before accepting a submission or updated version.
+Without it, create no accepted or public submission record. Once submitted,
+the contribution is published automatically; no private submission option
+is offered. Retain the sharing agreement with the submitted version.
 
 Retain a server UTC timestamp, version ID, description, submitted links,
 and author/team for each version, including early ideas and partial results.
@@ -431,15 +433,16 @@ endpoints until integrated and tested.
 |---|---|
 | Discovery submissions | Durable receipts, quotas, batch verification, and per-solution results |
 | Discovery records | Team-private submissions and approved public challenge/leaderboard summaries |
-| Proof submissions | Conjecture, proof/disproof direction, required description, and optional public Lean 4 GitHub repository or arXiv/paper link |
-| Proof sharing | Explicit consent before publishing a submission and linked research record in the SAIR Contributor Network; nonshared records excluded from public surfaces |
+| Proof submissions | Conjecture, proof/disproof direction, description, and sharing agreement required; public Lean 4 GitHub repository and arXiv/paper links optional |
+| Proof sharing | Require an actively checked agreement before acceptance, then automatically publish the submission and linked research record in the SAIR Contributor Network |
 | Proof history and discussion | Timestamps, versions, source attribution, and voluntary comments on shared contributions; no correctness certification or numeric points |
 | Replay | Rebuild scoring from immutable events and complete identified configuration |
 
 Route mapping, database design, and authentication plumbing belong to the
 adapter. Distinguish planned contracts from live endpoints. Discovery needs
-an explicit public-field allowlist. Proof publication must check consent and
-must not expose nonshared versions or unrelated private Discovery payloads.
+an explicit public-field allowlist. Proof submissions without a sharing
+agreement must not be accepted or published. Proof publication must not
+expose unrelated private Discovery payloads.
 
 ## 9. Public release package
 
@@ -495,7 +498,7 @@ sources change; do not distribute an older package as current rules.
 | Ordered replay, best-length receipt handling, solved count | Known gaps requiring correction before launch |
 | Complete immutable scoring configuration record | Missing from the current engine |
 | SAIR adapter, durable receipts, quotas, authorization | Integration outstanding |
-| Proof contribution form, consent-controlled sharing, version history, and community comments | Platform implementation outstanding |
+| Proof contribution form, required sharing agreement, automatic publication, version history, and community comments | Platform implementation outstanding |
 
 Local tests establish only the behavior they exercise. They do not show
 that missing platform operations already exist.
@@ -528,11 +531,14 @@ and enabled platform operations must agree for the track being opened.
 
 ### 11.2 Proof — September 20, 2026
 
-1. Accept ideas, partial results, and full proofs/disproofs using a conjecture,
-   direction, and description; GitHub Lean 4 and arXiv/paper links are optional.
-2. Publish a submission and its linked research record in the SAIR Contributor
-   Network only with explicit sharing consent. Test that nonshared submissions
-   and versions remain absent from every public surface, even with public links.
+1. Accept voluntary ideas, partial results, and full proofs/disproofs using a
+   conjecture, direction, description, and sharing agreement; GitHub Lean 4 and
+   arXiv/paper links are optional.
+2. Require the sharing checkbox before acceptance, then automatically publish
+   the submission and its linked research record in the SAIR Contributor
+   Network. Test that an unchecked agreement rejects submission without an
+   accepted or public record, even when supplied links are public. The checkbox
+   must not be prechecked and no private submission route may bypass it.
 3. Preserve timestamps, version history, and credited sources for contributions
    at every stage. Shared work supports voluntary comments and reuse with credit;
    submission does not certify correctness or require an organizer review.
