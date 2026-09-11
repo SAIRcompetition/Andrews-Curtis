@@ -1,7 +1,11 @@
-# release export (regenerate with: python3 build/release.py)
-dist/
+# Track only the public competition tree and root documentation.
+/*
+!/.gitignore
+!/LICENSE
+!/README.md
+!/competition/
 
-# Generated competition metadata (release.py regenerates it in the package)
+# Generated competition metadata
 /competition/competition.yaml
 
 # Python

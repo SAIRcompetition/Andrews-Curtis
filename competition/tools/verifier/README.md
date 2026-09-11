@@ -268,10 +268,6 @@ PYTHONPATH=competition/tools python3 -m verifier \
 | 2 | Whole-submission rejection or failing conformance/hash checks |
 | 3 | Usage or input/output error |
 
-The development repository also provides `python3 -m unittest discover -s tests -t .`
-for replay, parsing, limits, errors, hashes, and all 424 training paths under
-each specification.
-
 ## Layout
 
 | Module | Contents |

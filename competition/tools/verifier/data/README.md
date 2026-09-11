@@ -8,8 +8,6 @@ problems within Discovery Track. The status is `prelaunch`; Discovery opens at
 
 Before public launch, the organizers will freeze `manifest.json`,
 `move_spec.json`, and `stable_move_spec.json` in git and publish the commit.
-Release metadata comes from the development repository's `build/competition_state.json`;
-`build/build_manifest_v2.py` synchronizes generated data and metadata.
 `freeze_date` is outside `instance_hash`, so setting the date does not
 change the mathematical instance or certificate hashes. See
 [Hash specification](#hash-specification) for hash semantics.
