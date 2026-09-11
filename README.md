@@ -2,7 +2,7 @@
 
 [Registration is open on SAIR](https://competition.sair.foundation/competitions/acc).
 The competition launches with **Discovery Track on September 11, 2026 at
-16:00 UTC**, followed by **Proof Track on September 20, 2026**. The
+16:00 UTC**. **Proof Track opens before September 20, 2026**. The
 submission deadline is November 30, 2026 AoE.
 
 The ACC Challenge is co-organized by Caltech and the SAIR Foundation, with
