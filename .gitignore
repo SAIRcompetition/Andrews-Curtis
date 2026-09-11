@@ -5,6 +5,9 @@
 !/README.md
 !/competition/
 
+# Local attribution copy (published attribution is in README.md)
+/competition/NOTICE
+
 # Generated competition metadata
 /competition/competition.yaml
 

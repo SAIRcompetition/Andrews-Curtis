@@ -66,5 +66,9 @@ official submissions.
 
 ## License
 
-Licensed under [Apache 2.0](LICENSE). See [NOTICE](competition/NOTICE)
-for attribution.
+Copyright 2026 sairmath.
+
+Licensed under [Apache 2.0](LICENSE).
+
+MS-1190 presentation set: Shehper et al. 2025; instance status per
+Fagan et al., "The Two-Hump Problem", ICML 2026.
