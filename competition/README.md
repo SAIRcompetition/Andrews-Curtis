@@ -3,9 +3,9 @@
 Co-organized by Caltech and the SAIR Foundation, with Lucas Fagan, Sergei
 Gukov, and Terence Tao.
 
-The **Discovery Track is live** on
+The **Discovery and Proof Tracks are live** on
 [SAIR](https://competition.sair.foundation/competitions/acc).
-**Proof Track opens before September 20, 2026**. Both tracks cover
+Both tracks launched on **September 11, 2026** and cover
 **AC** and **Stable AC**; the submission deadline is November 30, 2026 AoE.
 
 ## Competition guides

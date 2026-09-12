@@ -2,7 +2,7 @@
 
 A competition to find short trivializations of group presentations and advance research toward proving or disproving the Andrews–Curtis conjecture and its stable version.
 
-The **Discovery Track is live** on [SAIR](https://competition.sair.foundation/competitions/acc). **Proof Track opens before September 20, 2026**.
+The **Discovery and Proof Tracks are live** on [SAIR](https://competition.sair.foundation/competitions/acc).
 
 ## Co-organizers
 
@@ -38,7 +38,7 @@ Each track's guide contains its tasks, submission instructions, resources, and p
 ## Key Dates
 
 - Discovery Track launched: **September 11, 2026 at 16:00 UTC**
-- Proof Track opens: **before September 20, 2026**
+- Proof Track launched: **September 11, 2026**
 - Submission deadline for all tracks: **November 30, 2026 AoE**
 
 ## Registration & Teams

@@ -1,6 +1,6 @@
 # Proof Track
 
-**Submissions open:** before September 20, 2026.
+**Submissions opened:** September 11, 2026.
 
 **Deadline:** November 30, 2026 AoE.
 
