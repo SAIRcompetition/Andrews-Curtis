@@ -40,8 +40,10 @@ one `challenge_id: [moves]` line per solution, with optional `#` comments.
 
 Proof Track welcomes ideas, partial results, and full proofs or disproofs.
 Choose AC or Stable AC and a proof or disproof direction, and provide a
-description. A public GitHub repository containing Lean 4 formalization and
-arXiv or paper links are optional. See the [Proof Track guide](rules/proof.md).
+description identifying any work by others that you use and how you use it.
+A public GitHub repository containing Lean 4 formalization and arXiv or paper
+links are optional. A GitHub link must include the **full commit hash** for
+the submitted version. See the [Proof Track guide](rules/proof.md).
 
 Participation is voluntary. You must check the box agreeing to share before
 submitting. Every Proof submission is automatically published in the SAIR

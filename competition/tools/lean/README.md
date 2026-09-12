@@ -31,14 +31,16 @@ also disproves ordinary AC. These implications do not assume either conjecture.
 See the [problems](../../rules/proof.md#problems) for the mathematical statements.
 
 To [submit](../../rules/proof.md#submit), choose AC or Stable AC and a proof
-or disproof direction, and describe your work. These directions include
-unfinished research. A public GitHub repository containing Lean 4
-formalization and arXiv or paper links are optional.
+or disproof direction, and describe your work. Cite any work by others that
+you use in the description and explain how you use it. These directions
+include unfinished research. A public GitHub repository containing Lean 4
+formalization and arXiv or paper links are optional. If you provide a GitHub
+link, you must also provide the **full commit hash** for the submitted version.
 
 Participation is voluntary; submitting requires agreeing to share. Every
 submission is automatically published in the SAIR Contributor Network for
-others to use and build on with credit. Refer to specific versions and credit
-the authors of work you use. See
+others to use and build on with credit. Keep citations and any GitHub commit
+hash accurate when submitting an updated version. See
 [Sharing and credit](../../rules/proof.md#sharing-and-credit).
 
 ## Build

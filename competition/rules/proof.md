@@ -30,8 +30,9 @@ Submit through [SAIR](https://competition.sair.foundation/competitions/acc):
 |---|---|
 | Conjecture | Choose **AC** or **Stable AC** |
 | Direction | Choose **proof** or **disproof** |
-| Description | **Required.** Explain your solution, partial result, or idea, including what is established and what remains open |
+| Description | **Required.** Explain your solution, partial result, or idea, what is established, and what remains open. Cite any work by others that you use and explain how you use it |
 | Public GitHub repository link | Optional; for a **Lean 4 formalization** |
+| Git commit hash | **Required with a GitHub link.** Provide the full commit hash identifying the submitted version in that repository |
 | arXiv or paper link | Optional; for a write-up or supporting material |
 | Sharing agreement | **Required.** Check the box agreeing to share your submission publicly in the SAIR Contributor Network |
 
@@ -46,8 +47,11 @@ SAIR Contributor Network**, with contributor information, a timestamp,
 and version history. Others can discuss your work, use your results, and
 build on them in further research.
 
-When building on another contribution, acknowledge its authors and link to
-the work you used. Describe your own additions when submitting a follow-up.
+In your submission description, cite any work by others that you use,
+including papers, repositories, submissions, or comments. Name the authors
+and the work, add links where available, and explain what you use and what
+you contribute. Keep these references and any GitHub commit hash accurate
+when submitting an updated version.
 
 Shared ideas and results are open to community peer review; being recorded
 does not certify mathematical correctness.

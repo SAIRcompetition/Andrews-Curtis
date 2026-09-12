@@ -17,8 +17,9 @@ covering **AC** and **Stable AC**:
 
 Discovery works with explicit finite move sequences. Proof welcomes ideas,
 partial results, and full proofs or disproofs. Choose AC or Stable AC and a
-proof or disproof direction, then describe your work. Participation is
-voluntary; submitting requires agreeing to share. Every Proof submission is
+proof or disproof direction, then describe your work and cite any work by
+others that you use. Participation is voluntary; submitting requires
+agreeing to share. Every Proof submission is
 automatically published in the SAIR Contributor Network for others to use
 and build on with credit.
 
@@ -45,8 +46,9 @@ reads `competition/tools/verifier/data/manifest.json` to check submissions.
 ## Proof Track resources
 
 The [Proof Track guide](competition/rules/proof.md) describes the conjectures,
-submissions, optional supporting links, and sharing and credit. The
-[Lean guide](competition/tools/lean/README.md) explains how to use the official
+submissions, optional supporting links, and sharing and credit. If you
+provide a GitHub link, include the full commit hash for the submitted version.
+The [Lean guide](competition/tools/lean/README.md) explains how to use the official
 [AC.lean definitions](competition/tools/lean/AC.lean); using Lean is optional.
 
 ## Quick test
